@@ -76,6 +76,10 @@ const isNavItemActive = (navItem) => route.path === navItem.path;
 </template>
 
 <style lang="sass" scoped>
+@import 'bootstrap/scss/bootstrap'
+@import '@/assets/sass/style'
+@import '@/assets/sass/variables'
+
 .shadow-bottom
   box-shadow: 0 0.125rem 1rem rgba(0, 0, 0, 0.075) !important
 

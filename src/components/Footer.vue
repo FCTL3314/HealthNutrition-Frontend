@@ -1,9 +1,4 @@
-<script setup>
-
-</script>
-
 <template>
-  <div class="min-vh-100"></div>
   <footer id="footer" class="bg-white shadow-top">
     <div class="container text-center py-4">
       <h3 class="text-main">About</h3>
@@ -28,6 +23,9 @@
 </template>
 
 <style lang="sass" scoped>
+@import '@/assets/sass/style'
+@import '@/assets/sass/variables'
+
 .project-ref
   color: $color-main
   text-decoration: none
