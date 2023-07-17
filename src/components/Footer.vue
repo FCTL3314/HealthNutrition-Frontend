@@ -27,11 +27,12 @@
 @import '@/assets/sass/variables'
 
 .project-ref
-  color: $color-main
+  font-weight: 600
+  color: $color-main-light
   text-decoration: none
 
 .project-ref:hover
-  color: $color-main-light
+  color: $color-main-lighter
   text-decoration: underline
 
 .shadow-top

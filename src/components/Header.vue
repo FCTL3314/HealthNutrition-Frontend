@@ -86,11 +86,11 @@ const isNavItemActive = (navItem) => route.path === navItem.path;
 .logo
   @extend .text-main
   font-size: 18px
-  transition-duration: 0.2s
+  transition-duration: 0.3s
   cursor: default
 
 .logo:hover
-  color: $color-main-light !important
+  color: $color-main-lighter !important
 
 .nav-underline .nav-link.active
   color: $primary !important
@@ -104,17 +104,17 @@ const isNavItemActive = (navItem) => route.path === navItem.path;
   color: $primary !important
 
 .sign-up-btn
-  font-size: 14px
+  font-size: 0.88em
   font-weight: bold
   padding: .8em 2em
   border-radius: 1.9em
   transition: 0.1s
 
 .sign-up-btn:hover
-  background-color: $white !important
-  color: $primary !important
-  outline: 0.1rem solid $primary !important
-  transform: scale(1.035)
+  background-color: $white
+  color: $primary
+  outline: 0.0002em solid $primary
+  transform: scale(1.01)
 
 @media (width < map-get($grid-breakpoints, lg))
   ul.nav:not(:last-child)
