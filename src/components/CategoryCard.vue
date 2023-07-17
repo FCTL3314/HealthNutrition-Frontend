@@ -77,7 +77,7 @@ defineProps({
 </template>
 
 <style lang="sass" scoped>
-@import '@/assets/sass/style'
+@import '@/assets/sass/main'
 @import 'bootstrap/scss/bootstrap'
 
 .card

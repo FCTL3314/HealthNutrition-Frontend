@@ -77,7 +77,7 @@ const isNavItemActive = (navItem) => route.path === navItem.path;
 
 <style lang="sass" scoped>
 @import 'bootstrap/scss/bootstrap'
-@import '@/assets/sass/style'
+@import '@/assets/sass/main'
 @import '@/assets/sass/variables'
 
 .shadow-bottom
@@ -100,7 +100,7 @@ const isNavItemActive = (navItem) => route.path === navItem.path;
 
 .nav-link-action:hover,
 .nav-link-action:focus
-  transform: scale(1.05)
+  transform: scale(1.065)
   color: $primary !important
 
 .sign-up-btn
@@ -108,10 +108,13 @@ const isNavItemActive = (navItem) => route.path === navItem.path;
   font-weight: bold
   padding: .8em 2em
   border-radius: 1.9em
-  transition: transform 30ms
+  transition: 0.1s
 
 .sign-up-btn:hover
-  transform: scale(1.025)
+  background-color: $white !important
+  color: $primary !important
+  outline: 0.1rem solid $primary !important
+  transform: scale(1.035)
 
 @media (width < map-get($grid-breakpoints, lg))
   ul.nav:not(:last-child)

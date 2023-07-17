@@ -23,7 +23,7 @@
 </template>
 
 <style lang="sass" scoped>
-@import '@/assets/sass/style'
+@import '@/assets/sass/main'
 @import '@/assets/sass/variables'
 
 .project-ref
