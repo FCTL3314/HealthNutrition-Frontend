@@ -4,7 +4,7 @@
       width="24"
       height="24"
       fill="currentColor"
-      class="bi bi-shop"
+      class="bi bi-shop mb-1"
       viewBox="0 0 16 16"
   >
     <path

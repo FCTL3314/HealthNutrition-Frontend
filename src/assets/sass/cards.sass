@@ -1,0 +1,20 @@
+@import 'bootstrap/scss/bootstrap'
+
+.card
+  transition-duration: 0.3s
+
+  &-img-scale
+    border-top-left-radius: $card-inner-border-radius
+    border-top-right-radius: $card-inner-border-radius
+    overflow: hidden
+
+  &-img-top
+    transition: 0.4s
+
+.card:hover .card-img-top
+  transform: scale(1.05)
+
+.list-group-item
+  &-centered
+    display: flex
+    align-items: center

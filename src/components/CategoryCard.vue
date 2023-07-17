@@ -9,7 +9,7 @@ defineProps({
     type: String,
     required: true,
   },
-  linkURL: {
+  link: {
     type: String,
     required: true,
   },
@@ -38,7 +38,7 @@ defineProps({
 
 <template>
   <div class="card h-100">
-    <a :href="linkURL">
+    <a :href="link">
       <div class="card-img-scale">
         <img
             :src="imageURL"
@@ -49,26 +49,26 @@ defineProps({
     </a>
     <div class="card-body">
       <h5 class="card-title text-main text-truncate">
-        <a class="link-main fw-semibold" :href="linkURL">
+        <a class="link-main fw-semibold" :href="link">
           {{ name }}
         </a>
       </h5>
       <p class="card-text">{{ description }}</p>
     </div>
     <ul class="list-group list-group-flush">
-      <li v-if="averagePrice" class="list-group-item text-warning d-flex align-items-center">
+      <li v-if="averagePrice" class="text-warning list-group-item list-group-item-centered">
         <dollar/>
         <span class="ms-1 fw-semibold">Average: {{ averagePrice }}$</span>
       </li>
-      <li v-if="lowestPrice" class="list-group-item text-success d-flex align-items-center">
+      <li v-if="lowestPrice" class="text-success list-group-item list-group-item-centered">
         <PatchCheck/>
         <span class="ms-1 fw-semibold">Lowest: {{ lowestPrice }}$</span>
       </li>
-      <li v-if="highestPrice" class="list-group-item text-danger d-flex align-items-center">
+      <li v-if="highestPrice" class="text-danger list-group-item list-group-item-centered">
         <PatchExclamation/>
         <span class="ms-1 fw-semibold">Highest: {{ highestPrice }}$</span>
       </li>
-      <li v-if="storesCount" class="list-group-item d-flex align-items-center text-primary">
+      <li v-if="storesCount" class="text-primary list-group-item list-group-item-centered">
         <shop/>
         <span class="ms-1 fw-semibold">Stores: {{ storesCount }}</span>
       </li>
@@ -78,19 +78,6 @@ defineProps({
 
 <style lang="sass" scoped>
 @import '@/assets/sass/main'
+@import '@/assets/sass/cards'
 @import 'bootstrap/scss/bootstrap'
-
-.card
-  transition-duration: 0.3s
-
-  &-img-scale
-    border-top-left-radius: $card-inner-border-radius
-    border-top-right-radius: $card-inner-border-radius
-    overflow: hidden
-
-  &-img-top
-    transition: 0.4s
-
-.card:hover .card-img-top
-  transform: scale(1.05)
 </style>
