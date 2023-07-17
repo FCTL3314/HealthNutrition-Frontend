@@ -5,20 +5,20 @@ const route = useRoute();
 
 const navItems = [
   {
-    path: '/',
     name: 'Categories',
+    path: '/',
   },
   {
-    path: '/comparisons',
     name: 'My Comparisons',
+    path: '/comparisons',
   },
   {
-    path: 'https://github.com/FCTL3314/StoreTracker',
     name: 'GitHub',
+    path: 'https://github.com/FCTL3314/StoreTracker',
   },
   {
-    path: '#about',
     name: 'About',
+    path: '#footer',
   },
 ];
 
@@ -26,7 +26,7 @@ const isNavItemActive = (navItem) => route.path === navItem.path;
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-lg sticky-top shadow-sm p-3">
+  <nav class="navbar navbar-expand-lg sticky-top shadow-bottom bg-white p-3">
     <div class="container-fluid px-4">
     <span class="logo navbar-brand d-flex align-items-center mb-1">
       <img
@@ -49,16 +49,16 @@ const isNavItemActive = (navItem) => route.path === navItem.path;
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="nav nav-underline me-auto">
           <li
-              v-for="(item, index) in navItems"
+              v-for="(navItem, index) in navItems"
               :key="index"
               class="nav-item"
           >
             <a
                 class="nav-link nav-link-action"
-                :class="isNavItemActive(item) ? 'active' : 'link-dark'"
-                :href="item.path"
+                :class="isNavItemActive(navItem) ? 'active' : 'link-dark'"
+                :href="navItem.path"
             >
-              {{ item.name }}
+              {{ navItem.name }}
             </a>
           </li>
         </ul>
@@ -73,10 +73,12 @@ const isNavItemActive = (navItem) => route.path === navItem.path;
       </div>
     </div>
   </nav>
-
 </template>
 
 <style lang="sass" scoped>
+.shadow-bottom
+  box-shadow: 0 0.125rem 1rem rgba(0, 0, 0, 0.075) !important
+
 .logo
   @extend .text-main
   font-size: 18px
@@ -102,7 +104,7 @@ const isNavItemActive = (navItem) => route.path === navItem.path;
   font-weight: bold
   padding: .8em 2em
   border-radius: 1.9em
-  transition: transform 0.1s
+  transition: transform 30ms
 
 .sign-up-btn:hover
   transform: scale(1.025)
