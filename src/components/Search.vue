@@ -17,7 +17,11 @@ const searchQuery = ref('');
 
 <template>
   <div class="search-wrapper text-center mx-auto py-4">
-    <slot></slot>
+    <h1 class="text-main">StoreTracker</h1>
+    <p class="fs-4">
+      Discover unbeatable deals and unlock the power of price comparison across global leading retailers on our
+      platform!
+    </p>
     <form role="search" action="#" method="GET">
       <div class="row">
         <div class="search-input col-lg-9">
