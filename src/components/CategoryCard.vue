@@ -1,8 +1,8 @@
 <script setup>
-import Dollar from '@/components/icons/Dollar.vue'
-import PatchCheck from '@/components/icons/PatchCheck.vue'
-import PatchExclamation from '@/components/icons/PatchExclamation.vue'
-import Shop from '@/components/icons/Shop.vue'
+import Dollar from '@/components/icons/Dollar.vue';
+import PatchCheck from '@/components/icons/PatchCheck.vue';
+import PatchExclamation from '@/components/icons/PatchExclamation.vue';
+import Shop from '@/components/icons/Shop.vue';
 
 defineProps({
   imageURL: {
@@ -33,7 +33,7 @@ defineProps({
   storesCount: {
     type: Number,
   },
-})
+});
 </script>
 
 <template>

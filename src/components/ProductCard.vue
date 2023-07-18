@@ -1,10 +1,10 @@
 <script setup>
-import {computed} from 'vue'
-import PinAngle from '@/components/icons/PinAngle.vue'
-import PatchCheck from '@/components/icons/PatchCheck.vue'
-import PatchExclamation from '@/components/icons/PatchExclamation.vue'
-import Dollar from '@/components/icons/Dollar.vue'
-import Shop from '@/components/icons/Shop.vue'
+import {computed} from 'vue';
+import PinAngle from '@/components/icons/PinAngle.vue';
+import PatchCheck from '@/components/icons/PatchCheck.vue';
+import PatchExclamation from '@/components/icons/PatchExclamation.vue';
+import Dollar from '@/components/icons/Dollar.vue';
+import Shop from '@/components/icons/Shop.vue';
 
 const props = defineProps({
   imageURL: {
@@ -47,12 +47,12 @@ const props = defineProps({
     type: Number,
     required: true,
   },
-})
+});
 
-const priceDifference = computed(() => (props.categoryAveragePrice - props.price).toFixed(2))
-const isPriceProfitable = computed(() => priceDifference.value > 0)
-const isMostExpansiveProduct = computed(() => props.categoryHighestPrice === props.price)
-const isCheapestProduct = computed(() => props.categoryLowestPrice === props.price)
+const priceDifference = computed(() => (props.categoryAveragePrice - props.price).toFixed(2));
+const isPriceProfitable = computed(() => priceDifference.value > 0);
+const isMostExpansiveProduct = computed(() => props.categoryHighestPrice === props.price);
+const isCheapestProduct = computed(() => props.categoryLowestPrice === props.price);
 </script>
 
 <template>

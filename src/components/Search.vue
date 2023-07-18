@@ -1,5 +1,5 @@
 <script setup>
-import {ref} from 'vue'
+import {ref} from 'vue';
 
 const searchTypes = [
   {
@@ -10,9 +10,9 @@ const searchTypes = [
     label: 'Product',
     value: 'product',
   },
-]
-const selectedSearchType = ref('product_type')
-const searchQuery = ref('')
+];
+const selectedSearchType = ref('product_type');
+const searchQuery = ref('');
 </script>
 
 <template>
