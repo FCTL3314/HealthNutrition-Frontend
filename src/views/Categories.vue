@@ -1,5 +1,6 @@
 <script setup>
 import {ref, onMounted} from 'vue';
+import api from '@/api/index'
 import constants from '@/constants'
 import Content from '@/components/Content.vue';
 import Search from '@/components/Search.vue';
@@ -8,37 +9,23 @@ import CategoryCard from '@/components/cards/CategoryCard.vue';
 import CategoryCardPlaceholder from '@/components/cards/CategoryCardPlaceholder.vue';
 
 const categories = ref([]);
-
-const fetchCategories = async () => {
+// TODO: Remove timeout before production
+const loadCategories = async () => setTimeout(async () => {
   try {
-    const response = await fetch('http://127.0.0.1:8000/api/v1/products/product-types/', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-    });
-
-    categories.value = await response.json();
+    categories.value = (await api.products.categories()).data;
   } catch (error) {
     console.error(error);
   }
-};
+}, 400);
 
 onMounted(() => {
-  fetchCategories();
+  loadCategories();
 });
 </script>
 
 <template>
   <content>
-    <search>
-      <h1 class="text-main">StoreTracker</h1>
-      <p class="fs-4">
-        Discover unbeatable deals and unlock the power of price comparison across global leading retailers on our
-        platform!
-      </p>
-    </search>
+    <search/>
     <hr class="m-0">
     <card-list
         title="Discover Popular Product Categories"
@@ -72,7 +59,3 @@ onMounted(() => {
     </card-list>
   </content>
 </template>
-
-<style scoped lang="sass">
-@import '@/assets/sass/main'
-</style>
