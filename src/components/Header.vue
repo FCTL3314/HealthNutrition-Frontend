@@ -31,7 +31,7 @@ const isNavItemActive = (navItem) => route.path === navItem.path;
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-lg sticky-top shadow-bottom bg-white p-3">
+  <nav class="navbar navbar-expand-xl sticky-top shadow-bottom bg-white p-3">
     <div class="container-fluid px-4">
     <span class="logo navbar-brand d-flex align-items-center mb-1">
       <img
@@ -121,7 +121,7 @@ const isNavItemActive = (navItem) => route.path === navItem.path;
   outline: 0.0002em solid $primary
   transform: scale(1.01)
 
-@media (width < map-get($grid-breakpoints, lg))
+@media (width < map-get($grid-breakpoints, xl))
   ul.nav:not(:last-child)
     margin-bottom: 20px
 
