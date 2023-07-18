@@ -1,3 +1,10 @@
+<script setup>
+import constants from '@/constants'
+
+const currentDate = new Date()
+const currentYear = currentDate.getFullYear()
+</script>
+
 <template>
   <footer id="footer" class="bg-white shadow-top">
     <div class="container text-center py-4">
@@ -9,9 +16,9 @@
       </p>
       <hr class="divider border-2">
       <small>
-        Copyright &copy; 2022 - 2023
+        Copyright &copy; 2022 - {{ currentYear }}
         <a
-            href="https://github.com/FCTL3314/ShopTracker"
+            :href="constants.frontendRepositoryURL"
             class="project-ref text-main-light"
             target="_blank"
         >

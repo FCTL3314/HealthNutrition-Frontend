@@ -1,19 +1,17 @@
 <template>
   <div class="card h-100">
-    <div class="card-img-scale">
-      <svg
-          class="bd-placeholder-img card-img-top"
-          width="100%"
-          height="260"
-          xmlns="http://www.w3.org/2000/svg"
-          role="img"
-          aria-label="Placeholder"
-          preserveAspectRatio="xMidYMid slice"
-          focusable="false"
-      >
-        <rect width="100%" height="100%" fill="#868e96"></rect>
-      </svg>
-    </div>
+    <svg
+        class="bd-placeholder-img card-img-top"
+        width="100%"
+        height="260"
+        xmlns="http://www.w3.org/2000/svg"
+        role="img"
+        aria-label="Placeholder"
+        preserveAspectRatio="xMidYMid slice"
+        focusable="false"
+    >
+      <rect width="100%" height="100%" fill="#868e96"></rect>
+    </svg>
     <div class="card-body">
       <h5 class="h5 card-title placeholder-glow">
         <span class="placeholder placeholder-lg col-6 bg-primary"></span>
@@ -36,3 +34,8 @@
     </div>
   </div>
 </template>
+
+<style lang="sass" scoped>
+svg.card-img-top
+  cursor: wait
+</style>

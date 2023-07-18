@@ -12,18 +12,20 @@ defineProps({
 </script>
 
 <template>
-  <div class="row justify-content-center">
-    <div class="text-center py-3">
-      <h2 class="text-main">
-        {{ title }}
-      </h2>
-      <p class="fs-4">
-        {{ description }}
-      </p>
+  <div class="py-4">
+    <div class="row justify-content-center">
+      <div class="text-center py-3">
+        <h2 class="text-main">
+          {{ title }}
+        </h2>
+        <p class="fs-4">
+          {{ description }}
+        </p>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <slot></slot>
+    <div class="row">
+      <slot></slot>
+    </div>
   </div>
 </template>
 

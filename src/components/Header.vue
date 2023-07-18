@@ -1,5 +1,6 @@
 <script setup>
-import { useRoute } from 'vue-router';
+import {useRoute} from 'vue-router';
+import constants from '@/constants'
 
 const route = useRoute();
 
@@ -13,8 +14,12 @@ const navItems = [
     path: '/comparisons',
   },
   {
-    name: 'GitHub',
-    path: 'https://github.com/FCTL3314/StoreTracker',
+    name: 'Frontend Repository',
+    path: constants.frontendRepositoryURL,
+  },
+  {
+    name: 'Backend Repository',
+    path: constants.backendRepositoryURL,
   },
   {
     name: 'About',
