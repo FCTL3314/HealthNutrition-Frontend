@@ -7,27 +7,15 @@ const route = useRoute();
 const navItems = [
   {
     name: 'Categories',
-    path: '/',
+    routeName: 'categories',
   },
   {
     name: 'My Comparisons',
-    path: '/comparisons',
-  },
-  {
-    name: 'Frontend Repository',
-    path: constants.frontendRepositoryURL,
-  },
-  {
-    name: 'Backend Repository',
-    path: constants.backendRepositoryURL,
-  },
-  {
-    name: 'About',
-    path: '#footer',
+    routeName: '',
   },
 ];
 
-const isNavItemActive = (navItem) => route.path === navItem.path;
+const isNavItemActive = (navItem) => route.name === navItem.routeName;
 </script>
 
 <template>
@@ -58,12 +46,31 @@ const isNavItemActive = (navItem) => route.path === navItem.path;
               :key="index"
               class="nav-item"
           >
-            <a
+            <router-link
                 class="nav-link nav-link-action"
                 :class="isNavItemActive(navItem) ? 'active' : 'link-dark'"
-                :href="navItem.path"
+                :to="{name: navItem.routeName}"
             >
               {{ navItem.name }}
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <a
+                :href="constants.frontendRepositoryURL"
+                class="nav-link nav-link-action link-dark">
+              Frontend Repository
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+                :href="constants.backendRepositoryURL"
+                class="nav-link nav-link-action link-dark">
+              Backend Repository
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#footer" class="nav-link nav-link-action link-dark">
+              About
             </a>
           </li>
         </ul>
