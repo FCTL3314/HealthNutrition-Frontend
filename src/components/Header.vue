@@ -1,6 +1,7 @@
 <script setup>
 import {useRoute} from 'vue-router';
 import constants from '@/constants'
+import scrollToBottom from "@/utils/scroll";
 
 const route = useRoute();
 
@@ -69,9 +70,9 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
             </a>
           </li>
           <li class="nav-item">
-            <a href="#footer" class="nav-link nav-link-action link-dark">
+            <button type="button" @click="scrollToBottom" class="nav-link nav-link-action link-dark">
               About
-            </a>
+            </button>
           </li>
         </ul>
         <ul class="nav nav-underline align-items-center">
