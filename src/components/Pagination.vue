@@ -32,7 +32,7 @@ const pages = computed(() => {
       i++
   ) {
     range.push({
-      name: i,
+      number: i,
       isDisabled: i === props.currentPage,
     });
   }
@@ -95,9 +95,9 @@ const onClickLastPage = () => {
             type="button"
             class="page-link"
             :class="{disabled: page.isDisabled}"
-            @click="onClickPage(page.name)"
+            @click="onClickPage(page.number)"
         >
-          {{ page.name }}
+          {{ page.number }}
         </button>
       </li>
       <li class="page-item">
@@ -126,5 +126,8 @@ const onClickLastPage = () => {
 
 <style lang="sass" scoped>
 .page-link:focus
+  box-shadow: unset
+
+.page-link:focus:not(.disabled)
   background-color: unset
 </style>

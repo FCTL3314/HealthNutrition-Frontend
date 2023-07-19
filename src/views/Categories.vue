@@ -1,7 +1,7 @@
 <script setup>
-import {ref, onMounted} from 'vue';
 import api from '@/api/index'
-import constants from '@/constants'
+import {ref, onMounted} from 'vue';
+import {useRoute, useRouter} from 'vue-router';
 import calculateTotalPages from '@/utils/pagination'
 import Search from '@/components/Search.vue';
 import CardList from '@/components/cards/CardList.vue';
@@ -9,30 +9,35 @@ import CategoryCard from '@/components/cards/CategoryCard.vue';
 import CategoryCardPlaceholder from '@/components/cards/CategoryCardPlaceholder.vue';
 import Pagination from '@/components/Pagination.vue';
 
-const currentPage = ref(1);
-const totalPages = ref(0);
 const categories = ref(null);
+
+const route = useRoute();
+const router = useRouter();
+
+const currentPage = ref(parseInt(route.query.page || 1));
+const totalPages = ref(0);
 
 const loadCategories = async () => {
   try {
     const response = (await api.products.categories(currentPage.value)).data;
-    categories.value = response;
-
-    totalPages.value = calculateTotalPages(response.count, constants.categoriesPaginateBy);
+    categories.value = response.results;
+    totalPages.value = calculateTotalPages(response.count, response.results.length);
   } catch (error) {
-    console.error(error);
+    const statusCode = error.request.status
+    console.error(`An error with status code ${statusCode} occurred while request data from the server.`);
   }
 };
 
-const dividerRef = ref(null);
+const cardListRef = ref(null);
 
-const onPageChange = async (page) => {
-  currentPage.value = page
-  await loadCategories()
+async function onPageChange(page) {
+  currentPage.value = page;
+  await router.replace({query: {...route.query, page}});
+  await loadCategories();
   window.scrollTo({
-    top: dividerRef.value.offsetTop + 1,
+    top: cardListRef.value.$el.offsetTop,
     behavior: 'smooth',
-  })
+  });
 }
 
 onMounted(() => {
@@ -42,14 +47,15 @@ onMounted(() => {
 
 <template>
   <search/>
-  <hr ref="dividerRef" class="m-0">
+  <hr class="m-0">
   <card-list
+      ref="cardListRef"
       title="Discover Popular Product Categories"
       description="Explore our curated list of popular product categories, sorted be their popularity among users."
   >
     <div
         v-if="categories"
-        v-for="(category, index) in categories.results"
+        v-for="(category, index) in categories"
         :key="index"
         class="col-lg-4 col-md-6 mb-3"
     >
@@ -66,7 +72,7 @@ onMounted(() => {
     </div>
     <div
         v-else
-        v-for="_ in constants.categoriesPaginateBy"
+        v-for="_ in 9"
         :key="_"
         class="col-lg-4 col-md-6 mb-3"
     >
