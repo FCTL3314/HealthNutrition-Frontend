@@ -19,10 +19,6 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  link: {
-    type: String,
-    required: true,
-  },
   storeName: {
     type: String,
     required: true,
@@ -45,6 +41,10 @@ const props = defineProps({
   },
   categoryLowestPrice: {
     type: Number,
+    required: true,
+  },
+  link: {
+    type: String,
     required: true,
   },
 });

@@ -17,7 +17,7 @@ const router = useRouter();
 const currentPage = ref(parseInt(route.query.page || 1));
 const totalPages = ref(0);
 
-const loadCategories = async () => {
+const loadCategories = async () => setTimeout( async () => {
   try {
     const response = (await api.products.categories(currentPage.value)).data;
     categories.value = response.results;
@@ -26,7 +26,7 @@ const loadCategories = async () => {
     const statusCode = error.request.status
     console.error(`An error with status code ${statusCode} occurred while request data from the server.`);
   }
-};
+}, 400);
 
 const cardListRef = ref(null);
 
@@ -61,7 +61,7 @@ onMounted(() => {
     >
       <category-card
           :image-u-r-l="category.image"
-          link="#"
+          :slug="category.slug"
           :name="category.name"
           :description="category.description"
           :average-price="category.product_price_avg"

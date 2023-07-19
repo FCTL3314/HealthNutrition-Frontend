@@ -4,12 +4,8 @@ import PatchCheck from '@/components/icons/PatchCheck.vue';
 import PatchExclamation from '@/components/icons/PatchExclamation.vue';
 import Shop from '@/components/icons/Shop.vue';
 
-defineProps({
+const props = defineProps({
   imageURL: {
-    type: String,
-    required: true,
-  },
-  link: {
     type: String,
     required: true,
   },
@@ -33,12 +29,19 @@ defineProps({
   storesCount: {
     type: Number,
   },
+  slug: {
+    type: String,
+    required: true,
+  },
 });
+
+const productRouterLink = {name: 'products', params: {categorySlug: props.slug}}
+
 </script>
 
 <template>
   <div class="card h-100">
-    <a :href="link">
+    <router-link :to="productRouterLink">
       <div class="card-img-scale">
         <img
             :src="imageURL"
@@ -46,12 +49,12 @@ defineProps({
             alt="category-image"
         >
       </div>
-    </a>
+    </router-link>
     <div class="card-body">
       <h5 class="card-title text-main text-truncate">
-        <a class="link-main fw-semibold" :href="link">
+        <router-link class="link-main fw-semibold" :to="productRouterLink">
           {{ name }}
-        </a>
+        </router-link>
       </h5>
       <p class="card-text">{{ description }}</p>
     </div>
