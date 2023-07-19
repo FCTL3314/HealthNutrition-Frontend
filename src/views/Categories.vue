@@ -2,20 +2,38 @@
 import {ref, onMounted} from 'vue';
 import api from '@/api/index'
 import constants from '@/constants'
+import calculateTotalPages from '@/utils/pagination'
 import Search from '@/components/Search.vue';
-import CardList from '@/components/CardList.vue';
+import CardList from '@/components/cards/CardList.vue';
 import CategoryCard from '@/components/cards/CategoryCard.vue';
 import CategoryCardPlaceholder from '@/components/cards/CategoryCardPlaceholder.vue';
+import Pagination from '@/components/Pagination.vue';
 
-const categories = ref([]);
-// TODO: Remove timeout before production
-const loadCategories = async () => setTimeout(async () => {
+const currentPage = ref(1);
+const totalPages = ref(0);
+const categories = ref(null);
+
+const loadCategories = async () => {
   try {
-    categories.value = (await api.products.categories()).data;
+    const response = (await api.products.categories(currentPage.value)).data;
+    categories.value = response;
+
+    totalPages.value = calculateTotalPages(response.count, constants.categoriesPaginateBy);
   } catch (error) {
     console.error(error);
   }
-}, 400);
+};
+
+const dividerRef = ref(null);
+
+const onPageChange = async (page) => {
+  currentPage.value = page
+  await loadCategories()
+  window.scrollTo({
+    top: dividerRef.value.offsetTop + 1,
+    behavior: 'smooth',
+  })
+}
 
 onMounted(() => {
   loadCategories();
@@ -24,13 +42,13 @@ onMounted(() => {
 
 <template>
   <search/>
-  <hr class="m-0">
+  <hr ref="dividerRef" class="m-0">
   <card-list
       title="Discover Popular Product Categories"
       description="Explore our curated list of popular product categories, sorted be their popularity among users."
   >
     <div
-        v-if="categories.count"
+        v-if="categories"
         v-for="(category, index) in categories.results"
         :key="index"
         class="col-lg-4 col-md-6 mb-3"
@@ -55,4 +73,9 @@ onMounted(() => {
       <category-card-placeholder/>
     </div>
   </card-list>
+  <pagination
+      :total-pages="totalPages"
+      :current-page="currentPage"
+      @pagechanged="onPageChange"
+  />
 </template>
