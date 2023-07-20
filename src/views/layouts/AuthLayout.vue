@@ -8,6 +8,10 @@
   </div>
 </template>
 
-<style scoped lang="sass">
+<style lang="sass">
+@import '@/assets/sass/variables'
 
+.form-title
+  color: $color-main
+  font-weight: 600
 </style>

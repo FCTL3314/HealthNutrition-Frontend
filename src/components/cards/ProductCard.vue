@@ -101,7 +101,7 @@ const isCheapestProduct = computed(() => props.categoryLowestPrice === props.pri
       </li>
       <li class="text-primary list-group-item list-group-item-centered">
         <shop/>
-        <a class="ms-1 text-important" :href="storeLink">
+        <a class="ms-1 link link-store" :href="storeLink">
           {{ storeName }}
         </a>
       </li>
@@ -120,4 +120,9 @@ const isCheapestProduct = computed(() => props.categoryLowestPrice === props.pri
     align-items: center
     border: 0
     padding: 0
+
+.link
+  &-store
+    font-size: 14px
+    font-weight: bold
 </style>

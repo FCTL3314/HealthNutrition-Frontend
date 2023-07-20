@@ -1,7 +1,7 @@
 <script setup>
 import {useRoute} from 'vue-router';
 import constants from '@/constants'
-import scrollToBottom from "@/utils/scroll";
+import {scrollToBottom} from "@/utils";
 
 const route = useRoute();
 
@@ -58,14 +58,18 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
           <li class="nav-item">
             <a
                 :href="constants.frontendRepositoryURL"
-                class="nav-link nav-link-action link-dark">
+                class="nav-link nav-link-action link-dark"
+                target="_blank"
+            >
               Frontend Repository
             </a>
           </li>
           <li class="nav-item">
             <a
                 :href="constants.backendRepositoryURL"
-                class="nav-link nav-link-action link-dark">
+                class="nav-link nav-link-action link-dark"
+                target="_blank"
+            >
               Backend Repository
             </a>
           </li>
