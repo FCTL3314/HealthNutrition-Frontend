@@ -35,13 +35,13 @@ const props = defineProps({
   },
 });
 
-const productRouterLink = {name: 'products', params: {categorySlug: props.slug}}
+const productsRouterLink = {name: 'products', params: {categorySlug: props.slug}}
 
 </script>
 
 <template>
   <div class="card h-100">
-    <router-link :to="productRouterLink">
+    <router-link :to="productsRouterLink">
       <div class="card-img-scale">
         <img
             :src="imageURL"
@@ -52,7 +52,7 @@ const productRouterLink = {name: 'products', params: {categorySlug: props.slug}}
     </router-link>
     <div class="card-body">
       <h5 class="card-title text-main text-truncate">
-        <router-link class="link-main fw-semibold" :to="productRouterLink">
+        <router-link class="link-main fw-semibold" :to="productsRouterLink">
           {{ name }}
         </router-link>
       </h5>
