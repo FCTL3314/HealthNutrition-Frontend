@@ -2,8 +2,8 @@
 import api from '@/api/index'
 import {ref, onMounted} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
-import calculateTotalPages from '@/utils/pagination'
-import createTitle from '@/utils/title';
+import {calculateTotalPages} from '@/utils'
+import {createTitle} from '@/utils';
 import Search from '@/components/Search.vue';
 import CardList from '@/components/cards/CardList.vue';
 import ProductCard from '@/components/cards/ProductCard.vue';

@@ -1,5 +1,5 @@
 import {createRouter, createWebHistory} from 'vue-router';
-import createTitle from '@/utils/title';
+import {createTitle} from '@/utils';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,7 +30,7 @@ const router = createRouter({
           path: 'login/',
           component: () => import("@/views/LogIn.vue"),
           meta: {
-            title: 'LogIn',
+            title: 'Log In',
           },
         },
         {
@@ -38,7 +38,7 @@ const router = createRouter({
           path: 'registration/',
           component: () => import("@/views/Registration.vue"),
           meta: {
-            title: 'SignUp',
+            title: 'Sign Up',
           },
         },
       ],

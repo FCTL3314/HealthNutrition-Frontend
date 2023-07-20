@@ -2,7 +2,7 @@
 import api from '@/api/index'
 import {ref, onMounted} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
-import calculateTotalPages from '@/utils/pagination'
+import {calculateTotalPages} from '@/utils'
 import Search from '@/components/Search.vue';
 import CardList from '@/components/cards/CardList.vue';
 import CategoryCard from '@/components/cards/CategoryCard.vue';
