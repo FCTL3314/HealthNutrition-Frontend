@@ -1,7 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import constants from '@/constants';
-import Categories from "@/views/Categories.vue";
-import Products from "@/views/Products.vue";
+import createTitle from '@/utils/title';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,7 +7,7 @@ const router = createRouter({
     {
       name: 'categories',
       path: '/',
-      component: Categories,
+      component: () => import("@/views/Categories.vue"),
       meta: {
         title: 'Categories',
       },
@@ -17,7 +15,7 @@ const router = createRouter({
     {
       name: 'products',
       path: '/products/:categorySlug/',
-      component: Products,
+      component: () => import("@/views/Products.vue"),
       meta: {
         title: 'Products',
       },
@@ -26,7 +24,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  document.title = `${to.meta.title} | ${constants.titleEnding}`;
+  document.title = createTitle(to.meta.title);
   next();
 });
 

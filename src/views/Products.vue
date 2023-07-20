@@ -3,11 +3,14 @@ import api from '@/api/index'
 import {ref, onMounted} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import calculateTotalPages from '@/utils/pagination'
+import createTitle from '@/utils/title';
 import Search from '@/components/Search.vue';
 import CardList from '@/components/cards/CardList.vue';
 import ProductCard from '@/components/cards/ProductCard.vue';
 import ProductCardPlaceholder from '@/components/cards/ProductCardPlaceholder.vue';
 import Pagination from '@/components/Pagination.vue';
+
+const isCategoryLoaded = ref(true);
 
 const category = ref(null);
 const products = ref(null);
@@ -22,11 +25,12 @@ async function loadCategory() {
   try {
     category.value = (await api.products.category(route.params.categorySlug)).data;
   } catch (error) {
+    isCategoryLoaded.value = false;
     console.error(error);
   }
 }
 
-const loadProducts = async () => setTimeout( async () => {
+const loadProducts = async () => setTimeout(async () => {
   try {
     const response = (await api.products.products(currentPage.value, route.params.categorySlug)).data;
     products.value = response.results;
@@ -52,7 +56,10 @@ async function onPageChange(page) {
 
 onMounted(async () => {
   await loadCategory();
-  await loadProducts();
+  if (isCategoryLoaded.value) {
+    document.title = createTitle(category.value.name);
+    await loadProducts();
+  }
 });
 </script>
 
@@ -60,6 +67,7 @@ onMounted(async () => {
   <search/>
   <hr class="m-0">
   <card-list
+      v-if="isCategoryLoaded"
       ref="cardListRef"
       :title="`Products in the category ${category ? category.name : 'Loading...'}`"
       description="Discover a wide range of products available in the selected category."
@@ -78,7 +86,7 @@ onMounted(async () => {
           :store-name="product.store.name"
           :store-link="product.store.url"
           :price="product.price"
-					:category-average-price="category.product_price_avg"
+          :category-average-price="category.product_price_avg"
           :category-highest-price="category.product_price_max"
           :category-lowest-price="category.product_price_min"
       />
@@ -92,7 +100,17 @@ onMounted(async () => {
       <product-card-placeholder/>
     </div>
   </card-list>
+  <div v-else class="text-center">
+    <img
+        class="mb-4 mt-2"
+        src="@/assets/icons/magnifying-glass.svg"
+        alt="magnifying-glass"
+        width="100"
+        height="100">
+    <h4>Looks like we couldn't find what you're looking for.</h4>
+  </div>
   <pagination
+      v-if="isCategoryLoaded"
       :total-pages="totalPages"
       :current-page="currentPage"
       @pagechanged="onPageChange"
