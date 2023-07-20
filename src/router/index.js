@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import {createRouter, createWebHistory} from 'vue-router';
 import createTitle from '@/utils/title';
 
 const router = createRouter({
@@ -19,6 +19,29 @@ const router = createRouter({
       meta: {
         title: 'Products',
       },
+    },
+    {
+      name: 'users',
+      path: '/users/',
+      component: () => import("@/views/layouts/AuthLayout.vue"),
+      children: [
+        {
+          name: 'login',
+          path: 'login/',
+          component: () => import("@/views/LogIn.vue"),
+          meta: {
+            title: 'LogIn',
+          },
+        },
+        {
+          name: 'registration',
+          path: 'registration/',
+          component: () => import("@/views/Registration.vue"),
+          meta: {
+            title: 'SignUp',
+          },
+        },
+      ],
     },
   ],
 });

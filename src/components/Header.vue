@@ -77,10 +77,21 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
         </ul>
         <ul class="nav nav-underline align-items-center">
           <li class="nav-item">
-            <a href="#" class="nav-link nav-link-action">Log In</a>
+            <router-link
+                :to="{name: 'login'}"
+                class="nav-link nav-link-action"
+                :class="isNavItemActive({routeName: 'login'}) ? 'active' : 'link-dark'"
+            >
+              Log In
+            </router-link>
           </li>
           <li class="nav-item">
-            <a href="#" class="btn btn-primary sign-up-btn">Sign Up</a>
+            <router-link
+                :to="{name: 'registration'}"
+                class="btn btn-sign-up"
+            >
+              Sign Up
+            </router-link>
           </li>
         </ul>
       </div>
@@ -116,18 +127,20 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
   transform: scale(1.065)
   color: $primary !important
 
-.sign-up-btn
-  font-size: 0.88em
-  font-weight: bold
-  padding: .8em 2em
-  border-radius: 1.9em
-  transition: 0.1s
+.btn
+  &-sign-up
+    @extend .btn-primary
+    font-size: 0.88em
+    font-weight: bold
+    padding: .8em 2em
+    border-radius: 1.9em
+    transition: 0.1s
 
-.sign-up-btn:hover
-  background-color: $white
-  color: $primary
-  outline: 0.0002em solid $primary
-  transform: scale(1.01)
+  &-sign-up:hover
+    background-color: $white
+    color: $primary
+    outline: 0.0002em solid $primary
+    transform: scale(1.01)
 
 @media (width < map-get($grid-breakpoints, xl))
   ul.nav:not(:last-child)
