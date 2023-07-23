@@ -1,8 +1,10 @@
 <script setup>
 import {reactive} from 'vue';
 import {useVuelidate} from '@vuelidate/core';
-import {minLength, maxLength, alphaNum, required, helpers} from '@vuelidate/validators';
+import {alphaNum, maxLength, minLength, required} from '@vuelidate/validators';
 import FormErrorsFeedback from '@/components/FormErrorsFeedback.vue';
+import {getValidationClass} from "@/utils";
+import {UsernameValidator, PasswordValidator} from "@/validators";
 
 
 const formData = reactive({
@@ -11,16 +13,10 @@ const formData = reactive({
   rememberMe: false,
 });
 
-const alphaNumAndSpecialCharacters = helpers.regex(/^[a-z\d.@\-_+]*$/i);
-const containsLetter = (value) => /[a-z]/i.test(value);
-
 const rules = {
   username: {
     required,
-    alphaNumAndCharacters: helpers.withMessage(
-        'Usernames may contain only alphanumeric and _ @ + . - characters',
-        alphaNumAndSpecialCharacters,
-    ),
+    UsernameValidator,
     minLength: minLength(4),
     maxLength: maxLength(32),
   },
@@ -29,27 +25,11 @@ const rules = {
     alphaNum,
     minLength: minLength(8),
     maxLength: maxLength(32),
-    containsLetter: helpers.withMessage(
-        'This password does not have to be completely numeric',
-        containsLetter,
-    ),
+    PasswordValidator,
   },
 };
 
 const v$ = useVuelidate(rules, formData)
-
-function getValidationClass(field) {
-  let validationClass = '';
-  if (field.$dirty) {
-    if (field.$errors.length) {
-      validationClass = 'is-invalid';
-    } else {
-      validationClass = 'is-valid';
-    }
-  }
-  return validationClass;
-}
-
 </script>
 
 <template>

@@ -14,3 +14,15 @@ export const scrollToBottom = () => {
 export function createTitle(title) {
   return `${title} | ${constants.titleEnding}`
 }
+
+export function getValidationClass(field) {
+  let validationClass = '';
+  if (field.$dirty) {
+    if (field.$errors.length) {
+      validationClass = 'is-invalid';
+    } else {
+      validationClass = 'is-valid';
+    }
+  }
+  return validationClass;
+}
