@@ -1,7 +1,7 @@
 <script setup>
 import {reactive} from 'vue';
 import {useVuelidate} from '@vuelidate/core';
-import {minLength, maxLength, required} from '@vuelidate/validators';
+import {minLength, maxLength, alphaNum, required, helpers} from '@vuelidate/validators';
 import FormErrorsFeedback from '@/components/FormErrorsFeedback.vue';
 
 
@@ -11,18 +11,30 @@ const formData = reactive({
   rememberMe: false,
 });
 
+const alphaNumAndSpecialCharacters = helpers.regex(/^[a-z\d.@\-_+]*$/i);
+const containsLetter = (value) => /[a-z]/i.test(value);
+
 const rules = {
   username: {
     required,
+    alphaNumAndCharacters: helpers.withMessage(
+        'Usernames may contain only alphanumeric and _ @ + . - characters',
+        alphaNumAndSpecialCharacters,
+    ),
     minLength: minLength(4),
     maxLength: maxLength(32),
   },
   password: {
     required,
-    minLength: minLength(6),
+    alphaNum,
+    minLength: minLength(8),
     maxLength: maxLength(32),
+    containsLetter: helpers.withMessage(
+        'This password does not have to be completely numeric',
+        containsLetter,
+    ),
   },
-}
+};
 
 const v$ = useVuelidate(rules, formData)
 
