@@ -7,7 +7,7 @@ const router = createRouter({
     {
       name: 'categories',
       path: '/',
-      component: () => import("@/views/Categories.vue"),
+      component: () => import('@/views/Categories.vue'),
       meta: {
         title: 'Categories',
       },
@@ -15,7 +15,7 @@ const router = createRouter({
     {
       name: 'products',
       path: '/products/:categorySlug/',
-      component: () => import("@/views/Products.vue"),
+      component: () => import('@/views/Products.vue'),
       meta: {
         title: 'Products',
       },
@@ -23,12 +23,12 @@ const router = createRouter({
     {
       name: 'users',
       path: '/users/',
-      component: () => import("@/views/layouts/AuthLayout.vue"),
+      component: () => import('@/views/layouts/AuthLayout.vue'),
       children: [
         {
           name: 'login',
           path: 'login/',
-          component: () => import("@/views/LogIn.vue"),
+          component: () => import('@/views/LogIn.vue'),
           meta: {
             title: 'Log In',
           },
@@ -36,18 +36,27 @@ const router = createRouter({
         {
           name: 'registration',
           path: 'registration/',
-          component: () => import("@/views/Registration.vue"),
+          component: () => import('@/views/Registration.vue'),
           meta: {
             title: 'Sign Up',
           },
         },
       ],
     },
+    {
+      path: '/:pathMatch(.*)',
+      name: 'notFound',
+      component: () => import('@/views/NotFound.vue'),
+    },
   ],
 });
 
 router.beforeEach((to, from, next) => {
-  document.title = createTitle(to.meta.title);
+  if (to.name === 'notFound') {
+    document.title = createTitle('Not Found');
+  } else {
+    document.title = createTitle(to.meta.title);
+  }
   next();
 });
 
