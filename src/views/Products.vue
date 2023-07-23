@@ -99,6 +99,12 @@ onMounted(async () => {
     >
       <product-card-placeholder/>
     </div>
+    <pagination
+        v-if="isCategoryLoaded"
+        :total-pages="totalPages"
+        :current-page="currentPage"
+        @pagechanged="onPageChange"
+    />
   </card-list>
   <div v-else class="text-center">
     <img
@@ -109,10 +115,4 @@ onMounted(async () => {
         height="100">
     <h4>Looks like we couldn't find what you're looking for.</h4>
   </div>
-  <pagination
-      v-if="isCategoryLoaded"
-      :total-pages="totalPages"
-      :current-page="currentPage"
-      @pagechanged="onPageChange"
-  />
 </template>

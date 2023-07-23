@@ -6,7 +6,7 @@
   <div class="container rounded-4 col-lg-5 col-md-8 shadow-lg">
     <form class="py-2 px-1" action="" method="post">
       <div class="mb-4">
-        <h2 class="text-center mt-2">Sign Up</h2>
+        <h2 class="form-title text-center mt-2">Sign Up</h2>
       </div>
       <hr>
       <div class="mb-4">
@@ -52,7 +52,7 @@
       </div>
       <hr>
       <div class="text-center">
-        <button type="submit" class="btn btn-outline-primary">Submit</button>
+        <button type="submit" class="btn btn-outline-primary">Sign Up</button>
       </div>
       <div class="text-center mt-2">
         <p>

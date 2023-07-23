@@ -69,7 +69,7 @@ const onClickLastPage = () => {
 
 <template>
   <nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-center">
+    <ul class="pagination justify-content-center m-0">
       <li class="page-item">
         <button
             type="button"

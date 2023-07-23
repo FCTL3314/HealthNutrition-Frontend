@@ -78,10 +78,10 @@ onMounted(() => {
     >
       <category-card-placeholder/>
     </div>
+    <pagination
+        :total-pages="totalPages"
+        :current-page="currentPage"
+        @pagechanged="onPageChange"
+    />
   </card-list>
-  <pagination
-      :total-pages="totalPages"
-      :current-page="currentPage"
-      @pagechanged="onPageChange"
-  />
 </template>
