@@ -50,7 +50,7 @@ const props = defineProps({
 });
 
 const priceDifference = computed(() => (props.categoryAveragePrice - props.price).toFixed(2));
-const isPriceProfitable = computed(() => priceDifference.value > 0);
+const isPriceProfitable = computed(() => priceDifference.value >= 0);
 const isMostExpansiveProduct = computed(() => props.categoryHighestPrice === props.price);
 const isCheapestProduct = computed(() => props.categoryLowestPrice === props.price);
 </script>
@@ -101,7 +101,11 @@ const isCheapestProduct = computed(() => props.categoryLowestPrice === props.pri
       </li>
       <li class="text-primary list-group-item list-group-item-centered">
         <shop/>
-        <a class="ms-1 link link-store" :href="storeLink">
+        <a
+            class="ms-1 link link-store"
+           :href="storeLink"
+            target="_blank"
+        >
           {{ storeName }}
         </a>
       </li>
