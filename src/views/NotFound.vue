@@ -7,7 +7,7 @@
         src="@/assets/icons/magnifying-glass.svg"
         alt="magnifying-glass"
     >
-    <h4>Looks like we couldn't find what you're looking for. </h4>
+    <h4>Looks like we couldn't find what you're looking for.</h4>
   </div>
 </template>
 

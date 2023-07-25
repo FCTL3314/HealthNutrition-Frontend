@@ -81,15 +81,15 @@ const isCheapestProduct = computed(() => props.categoryLowestPrice === props.pri
       </div>
     </div>
     <ul class="list-group list-group-flush">
-      <li v-if="isCheapestProduct" class="text-success list-group-item list-group-item-centered">
+      <li v-if="isCheapestProduct" class="text-success list-group-item inline-icon-text">
         <patch-check/>
         <span class="ms-1 fw-semibold">Lowest Price</span>
       </li>
-      <li v-if="isMostExpansiveProduct" class="text-danger list-group-item list-group-item-centered">
+      <li v-if="isMostExpansiveProduct" class="text-danger list-group-item inline-icon-text">
         <patch-exclamation/>
         <span class="ms-1 fw-semibold">Highest Price</span>
       </li>
-      <li class="text-warning list-group-item list-group-item-centered">
+      <li class="text-warning list-group-item inline-icon-text">
         <dollar/>
         <span class="fw-semibold">{{ price }}$</span>
         <span
@@ -115,7 +115,6 @@ const isCheapestProduct = computed(() => props.categoryLowestPrice === props.pri
 
 <style lang="sass" scoped>
 @import '@/assets/sass/main'
-@import '@/assets/sass/cards'
 @import 'bootstrap/scss/bootstrap'
 
 .btn

@@ -23,8 +23,7 @@ const loadCategories = async () => setTimeout( async () => {
     categories.value = response.results;
     totalPages.value = calculateTotalPages(response.count, response.results.length);
   } catch (error) {
-    const statusCode = error.request.status
-    console.error(`An error with status code ${statusCode} occurred while request data from the server.`);
+    console.error(error);
   }
 }, 400);
 

@@ -59,19 +59,19 @@ const productsRouterLink = {name: 'products', params: {categorySlug: props.slug}
       <p class="card-text">{{ description }}</p>
     </div>
     <ul class="list-group list-group-flush">
-      <li v-if="averagePrice" class="text-warning list-group-item list-group-item-centered">
+      <li v-if="averagePrice" class="text-warning list-group-item inline-icon-text">
         <dollar/>
         <span class="ms-1 fw-semibold">Average: {{ averagePrice }}$</span>
       </li>
-      <li v-if="lowestPrice" class="text-success list-group-item list-group-item-centered">
+      <li v-if="lowestPrice" class="text-success list-group-item inline-icon-text">
         <PatchCheck/>
         <span class="ms-1 fw-semibold">Lowest: {{ lowestPrice }}$</span>
       </li>
-      <li v-if="highestPrice" class="text-danger list-group-item list-group-item-centered">
+      <li v-if="highestPrice" class="text-danger list-group-item inline-icon-text">
         <PatchExclamation/>
         <span class="ms-1 fw-semibold">Highest: {{ highestPrice }}$</span>
       </li>
-      <li v-if="storesCount" class="text-primary list-group-item list-group-item-centered">
+      <li v-if="storesCount" class="text-primary list-group-item inline-icon-text">
         <shop/>
         <span class="ms-1 fw-semibold">Stores: {{ storesCount }}</span>
       </li>
@@ -81,6 +81,5 @@ const productsRouterLink = {name: 'products', params: {categorySlug: props.slug}
 
 <style lang="sass" scoped>
 @import '@/assets/sass/main'
-@import '@/assets/sass/cards'
 @import 'bootstrap/scss/bootstrap'
 </style>

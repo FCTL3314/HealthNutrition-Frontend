@@ -1,11 +1,17 @@
 <script setup>
+import api from '@/api/index'
 import {reactive} from 'vue';
+import {useRouter} from 'vue-router';
 import {useVuelidate} from '@vuelidate/core';
+import {useStore} from 'vuex';
 import {alphaNum, maxLength, minLength, required} from '@vuelidate/validators';
 import FormErrorsFeedback from '@/components/FormErrorsFeedback.vue';
 import {getValidationClass} from "@/utils";
 import {UsernameValidator, PasswordValidator} from "@/validators";
 
+
+const router = useRouter();
+const store = useStore();
 
 const formData = reactive({
   username: '',
@@ -30,13 +36,57 @@ const rules = {
 };
 
 const v$ = useVuelidate(rules, formData)
+
+const serverErrors = reactive([])
+
+const resetForm = () => {
+  formData.username = '';
+  formData.password = '';
+  v$.value.$reset();
+}
+
+const login = async () => {
+  try {
+    const response = await api.users.logIn({
+      username: formData.username,
+      password: formData.password,
+    });
+    const user = await api.users.me();
+    await store.dispatch('user', user.data);
+    await store.dispatch('token', response.data.access);
+
+    await router.push({name: 'categories'})
+  } catch (error) {
+    if (error.response.status === 401) {
+      serverErrors.push('Invalid username or password.')
+    } else {
+      serverErrors.push('Unknown error.')
+    }
+    resetForm()
+    console.error(error.response.data);
+  }
+}
 </script>
 
 <template>
   <div class="container rounded-4 col-lg-4 col-md-7 col-sm-8 shadow-lg">
-    <form class="py-2 px-1" action="" method="post">
+    <form @submit.prevent="login" class="py-2 px-1">
       <div class="mb-4">
         <h2 class="form-title text-center mt-2">Log In</h2>
+      </div>
+      <div
+          v-if="serverErrors.length"
+          class="alert alert-warning"
+          role="alert"
+      >
+        <ul class="error-list">
+          <li
+              v-for="(message, index) in serverErrors"
+              :key="index"
+          >
+            {{ message }}
+          </li>
+        </ul>
       </div>
       <hr>
       <div class="mb-4">
@@ -64,11 +114,12 @@ const v$ = useVuelidate(rules, formData)
       <div class="d-flex">
         <div class="form-check me-auto">
           <input
+              id="remember-me"
               v-model="formData.rememberMe"
               type="checkbox"
               class="form-check-input"
           >
-          <label class="form-check-label">
+          <label for="remember-me" class="form-check-label">
             Remember me
           </label>
         </div>
@@ -103,4 +154,5 @@ const v$ = useVuelidate(rules, formData)
 
 <style scoped lang="sass">
 @import '@/assets/sass/main'
+@import '@/assets/sass/forms'
 </style>

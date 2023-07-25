@@ -10,7 +10,7 @@ import ProductCard from '@/components/cards/ProductCard.vue';
 import ProductCardPlaceholder from '@/components/cards/ProductCardPlaceholder.vue';
 import Pagination from '@/components/Pagination.vue';
 
-const isCategoryLoaded = ref(true);
+const isCategoryLoaded = ref(false);
 
 const category = ref(null);
 const products = ref(null);
@@ -24,8 +24,8 @@ const totalPages = ref(0);
 async function loadCategory() {
   try {
     category.value = (await api.products.category(route.params.categorySlug)).data;
+    isCategoryLoaded.value = true;
   } catch (error) {
-    isCategoryLoaded.value = false;
     console.error(error);
   }
 }

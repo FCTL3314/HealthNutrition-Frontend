@@ -1,9 +1,19 @@
 <script setup>
+import {computed} from 'vue';
 import {useRoute} from 'vue-router';
+import {useStore} from 'vuex';
 import constants from '@/constants'
 import {scrollToBottom} from "@/utils";
+import House from '@/components/icons/House.vue'
+import Pen from '@/components/icons/Pen.vue'
+import Gear from '@/components/icons/Gear.vue'
+import DoorOpen from '@/components/icons/DoorOpen.vue'
 
 const route = useRoute();
+const store = useStore();
+
+const isLoggedIn = computed(() => store.getters.isLoggedIn)
+const user = computed(() => store.getters.user)
 
 const navItems = [
   {
@@ -79,7 +89,62 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
             </button>
           </li>
         </ul>
-        <ul class="nav nav-underline align-items-center">
+        <div v-if="isLoggedIn" class="dropdown">
+          <a
+              class="dropdown-toggle link-dark text-decoration-none"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+          >
+            <span>{{ user.username }}</span>
+            <img
+                class="rounded-circle object-fit-cover mb-1 ms-1"
+                :src="user.image || '/src/assets/images/default_user.png'"
+                alt="user-image"
+                width="36"
+                height="36"
+            >
+          </a>
+          <ul class="dropdown-menu dropdown-menu-md-end dropdown-menu-sm-start">
+            <li>
+              <p class="text-center m-0">Menubar</p>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a href="#" class="dropdown-item inline-icon-text">
+                <house/>
+                <span class="ps-1">Profile</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="dropdown-item inline-icon-text">
+                <pen/>
+                <span class="ps-1">Settings & Privacy</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a href="#" class="dropdown-item inline-icon-text">
+                <gear/>
+                <span class="ps-1">Administration</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a href="#" class="dropdown-item inline-icon-text text-danger">
+                <door-open/>
+                <span class="ps-1">Logout</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <ul v-else class="nav nav-underline align-items-center">
           <li class="nav-item">
             <router-link
                 :to="{name: 'login'}"
