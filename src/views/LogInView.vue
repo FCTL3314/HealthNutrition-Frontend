@@ -40,8 +40,6 @@ const v$ = useVuelidate(rules, formData)
 const serverErrors = reactive([])
 
 const resetForm = () => {
-  formData.username = '';
-  formData.password = '';
   v$.value.$reset();
 }
 

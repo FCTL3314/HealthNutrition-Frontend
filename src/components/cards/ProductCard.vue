@@ -1,10 +1,10 @@
 <script setup>
 import {computed} from 'vue';
-import PinAngle from '@/components/icons/PinAngle.vue';
-import PatchCheck from '@/components/icons/PatchCheck.vue';
-import PatchExclamation from '@/components/icons/PatchExclamation.vue';
-import Dollar from '@/components/icons/Dollar.vue';
-import Shop from '@/components/icons/Shop.vue';
+import PinAngleIcon from '@/components/icons/PinAngleIcon.vue';
+import PatchCheckIcon from '@/components/icons/PatchCheckIcon.vue';
+import PatchExclamationIcon from '@/components/icons/PatchExclamationIcon.vue';
+import DollarIcon from '@/components/icons/DollarIcon.vue';
+import ShopIcon from '@/components/icons/ShopIcon.vue';
 
 const props = defineProps({
   imageURL: {
@@ -75,22 +75,22 @@ const isCheapestProduct = computed(() => props.categoryLowestPrice === props.pri
       <p class="card-text">{{ description }}</p>
       <div class="d-flex align-items-center mt-auto">
         <button type="button" class="text-primary btn btn-add-to-compare">
-          <pin-angle/>
+          <pin-angle-icon/>
           <span class="ms-1">Add to Compare</span>
         </button>
       </div>
     </div>
     <ul class="list-group list-group-flush">
       <li v-if="isCheapestProduct" class="text-success list-group-item inline-icon-text">
-        <patch-check/>
+        <patch-check-icon/>
         <span class="ms-1 fw-semibold">Lowest Price</span>
       </li>
       <li v-if="isMostExpansiveProduct" class="text-danger list-group-item inline-icon-text">
-        <patch-exclamation/>
+        <patch-exclamation-icon/>
         <span class="ms-1 fw-semibold">Highest Price</span>
       </li>
       <li class="text-warning list-group-item inline-icon-text">
-        <dollar/>
+        <dollar-icon/>
         <span class="fw-semibold">{{ price }}$</span>
         <span
             class="text-success fw-semibold"
@@ -100,7 +100,7 @@ const isCheapestProduct = computed(() => props.categoryLowestPrice === props.pri
         </span>
       </li>
       <li class="text-primary list-group-item list-group-item-centered">
-        <shop/>
+        <shop-icon/>
         <a
             class="ms-1 link link-store"
            :href="storeLink"
@@ -115,6 +115,7 @@ const isCheapestProduct = computed(() => props.categoryLowestPrice === props.pri
 
 <style lang="sass" scoped>
 @import '@/assets/sass/main'
+@import '@/assets/sass/cards'
 @import 'bootstrap/scss/bootstrap'
 
 .btn

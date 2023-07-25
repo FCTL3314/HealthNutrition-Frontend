@@ -1,8 +1,8 @@
 <script setup>
-import Dollar from '@/components/icons/Dollar.vue';
-import PatchCheck from '@/components/icons/PatchCheck.vue';
-import PatchExclamation from '@/components/icons/PatchExclamation.vue';
-import Shop from '@/components/icons/Shop.vue';
+import DollarIcon from '@/components/icons/DollarIcon.vue';
+import PatchCheckIcon from '@/components/icons/PatchCheckIcon.vue';
+import PatchExclamationIcon from '@/components/icons/PatchExclamationIcon.vue';
+import ShopIcon from '@/components/icons/ShopIcon.vue';
 
 const props = defineProps({
   imageURL: {
@@ -60,19 +60,19 @@ const productsRouterLink = {name: 'products', params: {categorySlug: props.slug}
     </div>
     <ul class="list-group list-group-flush">
       <li v-if="averagePrice" class="text-warning list-group-item inline-icon-text">
-        <dollar/>
+        <dollar-icon/>
         <span class="ms-1 fw-semibold">Average: {{ averagePrice }}$</span>
       </li>
       <li v-if="lowestPrice" class="text-success list-group-item inline-icon-text">
-        <PatchCheck/>
+        <patch-check-icon/>
         <span class="ms-1 fw-semibold">Lowest: {{ lowestPrice }}$</span>
       </li>
       <li v-if="highestPrice" class="text-danger list-group-item inline-icon-text">
-        <PatchExclamation/>
+        <patch-exclamation-icon/>
         <span class="ms-1 fw-semibold">Highest: {{ highestPrice }}$</span>
       </li>
       <li v-if="storesCount" class="text-primary list-group-item inline-icon-text">
-        <shop/>
+        <shop-icon/>
         <span class="ms-1 fw-semibold">Stores: {{ storesCount }}</span>
       </li>
     </ul>
@@ -81,5 +81,6 @@ const productsRouterLink = {name: 'products', params: {categorySlug: props.slug}
 
 <style lang="sass" scoped>
 @import '@/assets/sass/main'
+@import '@/assets/sass/cards'
 @import 'bootstrap/scss/bootstrap'
 </style>

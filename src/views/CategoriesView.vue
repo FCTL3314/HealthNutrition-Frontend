@@ -3,7 +3,7 @@ import api from '@/api/index'
 import {ref, onMounted} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import {calculateTotalPages} from '@/utils'
-import Search from '@/components/Search.vue';
+import SearchSection from '@/components/SearchSection.vue';
 import CardList from '@/components/cards/CardList.vue';
 import CategoryCard from '@/components/cards/CategoryCard.vue';
 import CategoryCardPlaceholder from '@/components/cards/CategoryCardPlaceholder.vue';
@@ -45,7 +45,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <search/>
+  <search-section/>
   <hr class="m-0">
   <card-list
       ref="cardListRef"

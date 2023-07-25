@@ -90,7 +90,11 @@ const onClickLastPage = () => {
           <span aria-hidden="true">&laquo;</span>
         </button>
       </li>
-      <li v-for="page in pages" class="page-item">
+      <li
+          v-for="(page, index) in pages"
+          :key="index"
+          class="page-item"
+      >
         <button
             type="button"
             class="page-link"

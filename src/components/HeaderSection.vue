@@ -4,10 +4,10 @@ import {useRoute} from 'vue-router';
 import {useStore} from 'vuex';
 import constants from '@/constants'
 import {scrollToBottom} from "@/utils";
-import House from '@/components/icons/House.vue'
-import Pen from '@/components/icons/Pen.vue'
-import Gear from '@/components/icons/Gear.vue'
-import DoorOpen from '@/components/icons/DoorOpen.vue'
+import HouseIcon from '@/components/icons/HouseIcon.vue'
+import PenIcon from '@/components/icons/PenIcon.vue'
+import GearIcon from '@/components/icons/GearIcon.vue'
+import DoorOpenIcon from '@/components/icons/DoorOpenIcon.vue'
 
 const route = useRoute();
 const store = useStore();
@@ -114,13 +114,13 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
             </li>
             <li>
               <a href="#" class="dropdown-item inline-icon-text">
-                <house/>
+                <house-icon/>
                 <span class="ps-1">Profile</span>
               </a>
             </li>
             <li>
               <a href="#" class="dropdown-item inline-icon-text">
-                <pen/>
+                <pen-icon/>
                 <span class="ps-1">Settings & Privacy</span>
               </a>
             </li>
@@ -129,7 +129,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
             </li>
             <li>
               <a href="#" class="dropdown-item inline-icon-text">
-                <gear/>
+                <gear-icon/>
                 <span class="ps-1">Administration</span>
               </a>
             </li>
@@ -138,7 +138,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
             </li>
             <li>
               <a href="#" class="dropdown-item inline-icon-text text-danger">
-                <door-open/>
+                <door-open-icon/>
                 <span class="ps-1">Logout</span>
               </a>
             </li>

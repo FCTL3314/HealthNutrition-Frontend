@@ -7,7 +7,7 @@ const router = createRouter({
     {
       name: 'categories',
       path: '/',
-      component: () => import('@/views/Categories.vue'),
+      component: () => import('@/views/CategoriesView.vue'),
       meta: {
         title: 'Categories',
       },
@@ -15,7 +15,7 @@ const router = createRouter({
     {
       name: 'products',
       path: '/products/:categorySlug/',
-      component: () => import('@/views/Products.vue'),
+      component: () => import('@/views/ProductsView.vue'),
       meta: {
         title: 'Products',
       },
@@ -28,7 +28,7 @@ const router = createRouter({
         {
           name: 'login',
           path: 'login/',
-          component: () => import('@/views/LogIn.vue'),
+          component: () => import('@/views/LogInView.vue'),
           meta: {
             title: 'Log In',
           },
@@ -36,7 +36,7 @@ const router = createRouter({
         {
           name: 'registration',
           path: 'registration/',
-          component: () => import('@/views/Registration.vue'),
+          component: () => import('@/views/RegistrationView.vue'),
           meta: {
             title: 'Sign Up',
           },
@@ -46,7 +46,7 @@ const router = createRouter({
     {
       path: '/:pathMatch(.*)',
       name: 'notFound',
-      component: () => import('@/views/NotFound.vue'),
+      component: () => import('@/views/NotFoundView.vue'),
     },
   ],
 });

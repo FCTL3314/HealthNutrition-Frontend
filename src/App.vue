@@ -1,14 +1,14 @@
 <script setup>
 import {RouterView} from 'vue-router';
-import Content from '@/components/Content.vue';
-import Header from '@/components/Header.vue';
-import Footer from '@/components/Footer.vue';
+import ContentWrapper from '@/components/ContentWrapper.vue';
+import HeaderSection from '@/components/HeaderSection.vue';
+import FooterSection from '@/components/FooterSection.vue';
 </script>
 
 <template>
-  <Header/>
-  <content>
+  <header-section/>
+  <content-wrapper>
     <RouterView/>
-  </content>
-  <Footer/>
+  </content-wrapper>
+  <footer-section/>
 </template>

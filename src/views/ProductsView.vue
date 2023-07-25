@@ -4,7 +4,7 @@ import {ref, onMounted} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import {calculateTotalPages} from '@/utils'
 import {createTitle} from '@/utils';
-import Search from '@/components/Search.vue';
+import SearchSection from '@/components/SearchSection.vue';
 import CardList from '@/components/cards/CardList.vue';
 import ProductCard from '@/components/cards/ProductCard.vue';
 import ProductCardPlaceholder from '@/components/cards/ProductCardPlaceholder.vue';
@@ -64,7 +64,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <search/>
+  <search-section/>
   <hr class="m-0">
   <card-list
       v-if="isCategoryLoaded"
