@@ -16,3 +16,7 @@ export function getAuthHeaders() {
     ? {Authorization: `Bearer ${accessToken}`}
     : {Authorization: ''};
 }
+
+export function getAuthStorage() {
+  return JSON.parse(localStorage.getItem('rememberMe')) ? localStorage : sessionStorage;
+}

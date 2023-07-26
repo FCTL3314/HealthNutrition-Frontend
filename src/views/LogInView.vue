@@ -8,6 +8,7 @@ import {alphaNum, maxLength, minLength, required} from '@vuelidate/validators';
 import FormErrorsFeedback from '@/components/FormErrorsFeedback.vue';
 import {getValidationClass} from "@/utils";
 import {UsernameValidator, PasswordValidator} from "@/validators";
+import {getAuthStorage} from "@/services/auth";
 
 
 const router = useRouter();
@@ -40,15 +41,19 @@ const v$ = useVuelidate(rules, formData)
 const serverErrorMessages = reactive([])
 
 async function storeUserData(data) {
+  localStorage.setItem('rememberMe', JSON.stringify(formData.rememberMe));
+
+  const storage = getAuthStorage();
+
   store.commit('auth/setAccessToken', data.access);
-  localStorage.setItem('accessToken', data.access);
+  storage.setItem('accessToken', data.access);
 
   store.commit('auth/setRefreshToken', data.refresh);
-  localStorage.setItem('refreshToken', data.refresh);
+  storage.setItem('refreshToken', data.refresh);
 
   const user = (await api.users.me()).data;
   store.commit('auth/setUser', user);
-  localStorage.setItem('user', JSON.stringify(user));
+  storage.setItem('user', JSON.stringify(user));
 }
 
 function handleServerError(statusCode) {
