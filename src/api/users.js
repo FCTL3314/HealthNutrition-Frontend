@@ -1,4 +1,4 @@
-import authHeaders from '@/services/auth-headers'
+import {getAuthHeaders} from '@/services/auth'
 
 
 export default function (instance) {
@@ -11,7 +11,7 @@ export default function (instance) {
     },
     me() {
       return instance.get('users/me/', {
-        headers: authHeaders(),
+        headers: getAuthHeaders(),
       });
     }
   };

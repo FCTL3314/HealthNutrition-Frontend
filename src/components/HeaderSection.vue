@@ -1,28 +1,20 @@
 <script setup>
-import {ref} from 'vue';
+import {computed} from 'vue';
 import {useRoute} from 'vue-router';
 import {useStore} from 'vuex';
-import constants from '@/constants'
+import {FRONTEND_REPOSITORY_URL, BACKEND_REPOSITORY_URL, DJANGO_ADMIN_URL} from '@/constants'
 import {scrollToBottom} from "@/utils";
 import HouseIcon from '@/components/icons/HouseIcon.vue';
 import PenIcon from '@/components/icons/PenIcon.vue';
 import GearIcon from '@/components/icons/GearIcon.vue';
 import DoorOpenIcon from '@/components/icons/DoorOpenIcon.vue';
-import router from "@/router";
+import {logout} from '@/services/auth'
 
 const route = useRoute();
 const store = useStore();
 
-const loggedIn = ref(!!store.getters['auth/accessToken'])
-const user = ref(store.getters['auth/user'])
-
-function logout() {
-  store.commit('auth/removeAccessToken');
-  store.commit('auth/removeRefreshToken')
-  localStorage.removeItem('accessToken');
-  localStorage.removeItem('refreshToken');
-  router.push({name: 'login'})
-}
+const loggedIn = computed(() => !!store.getters['auth/accessToken']);
+const user = computed(() => store.getters['auth/user']);
 
 const navItems = [
   {
@@ -76,7 +68,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
           </li>
           <li class="nav-item">
             <a
-                :href="constants.FRONTEND_REPOSITORY_URL"
+                :href="FRONTEND_REPOSITORY_URL"
                 class="nav-link nav-link-action link-dark"
                 target="_blank"
             >
@@ -85,7 +77,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
           </li>
           <li class="nav-item">
             <a
-                :href="constants.BACKEND_REPOSITORY_URL"
+                :href="BACKEND_REPOSITORY_URL"
                 class="nav-link nav-link-action link-dark"
                 target="_blank"
             >
@@ -98,7 +90,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
             </button>
           </li>
         </ul>
-        <div v-if="loggedIn && user" class="dropdown">
+        <div v-if="loggedIn" class="dropdown">
           <a
               class="dropdown-toggle link-dark text-decoration-none"
               role="button"
@@ -138,7 +130,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
             </li>
             <li v-if="user.is_staff">
               <a
-                  :href="constants.DJANGO_ADMIN_URL"
+                  :href="DJANGO_ADMIN_URL"
                   class="dropdown-item inline-icon-text"
                   target="_blank"
               >

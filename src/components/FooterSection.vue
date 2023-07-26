@@ -1,5 +1,5 @@
 <script setup>
-import constants from '@/constants'
+import {FRONTEND_REPOSITORY_URL} from '@/constants'
 
 const currentDate = new Date()
 const currentYear = currentDate.getFullYear()
@@ -18,7 +18,7 @@ const currentYear = currentDate.getFullYear()
       <small>
         Copyright &copy; 2022 - {{ currentYear }}
         <a
-            :href="constants.FRONTEND_REPOSITORY_URL"
+            :href="FRONTEND_REPOSITORY_URL"
             class="project-ref text-main-light"
             target="_blank"
         >

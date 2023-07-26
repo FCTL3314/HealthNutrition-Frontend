@@ -1,4 +1,4 @@
-import constants from '@/constants/index';
+import {TITLE_ENDING} from '@/constants';
 
 export function calculateTotalPages(objectsCount, paginateBy) {
   return Math.ceil(objectsCount / paginateBy)
@@ -12,7 +12,7 @@ export const scrollToBottom = () => {
 }
 
 export function createTitle(title) {
-  return `${title} | ${constants.TITLE_ENDING}`
+  return `${title} | ${TITLE_ENDING}`
 }
 
 export function getValidationClass(field) {

@@ -17,20 +17,6 @@ const auth = {
     }
   },
   mutations: {
-    initialize(state) {
-      const accessToken = localStorage.getItem('accessToken')
-      const refreshToken = localStorage.getItem('refreshToken')
-      const user = JSON.parse(localStorage.getItem('user'))
-      if (user) {
-        state.user = user;
-      }
-      if (accessToken) {
-        state.accessToken = accessToken;
-      }
-      if (refreshToken) {
-        state.refreshToken = refreshToken;
-      }
-    },
     setUser(state, user) {
       state.user = user;
     },

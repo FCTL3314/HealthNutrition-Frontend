@@ -37,33 +37,43 @@ const rules = {
 
 const v$ = useVuelidate(rules, formData)
 
-const serverErrors = reactive([])
+const serverErrorMessages = reactive([])
+
+async function storeUserData(data) {
+  store.commit('auth/setAccessToken', data.access);
+  localStorage.setItem('accessToken', data.access);
+
+  store.commit('auth/setRefreshToken', data.refresh);
+  localStorage.setItem('refreshToken', data.refresh);
+
+  const user = (await api.users.me()).data;
+  store.commit('auth/setUser', user);
+  localStorage.setItem('user', JSON.stringify(user));
+}
+
+function handleServerError(statusCode) {
+  if (statusCode === 401) {
+    serverErrorMessages.push('Invalid username or password.')
+  } else {
+    serverErrorMessages.push('Unknown error, please try again later.')
+  }
+}
 
 const resetForm = () => {
   v$.value.$reset();
 }
 
 const login = async () => {
-  serverErrors.length = 0;
+  serverErrorMessages.length = 0;
   try {
     const response = await api.users.obtainToken({
       username: formData.username,
       password: formData.password,
     });
-    store.commit('auth/setAccessToken', response.data.access)
-    store.commit('auth/setRefreshToken', response.data.refresh)
-    const user = (await api.users.me()).data;
-    store.commit('auth/setAccessToken', user)
-    localStorage.setItem('accessToken', response.data.access)
-    localStorage.setItem('refreshToken', response.data.refresh)
-    localStorage.setItem('user', JSON.stringify(user))
+    await storeUserData(response.data)
     await router.push({name: 'categories'})
   } catch (error) {
-    if (error.response.status === 401) {
-      serverErrors.push('Invalid username or password.')
-    } else {
-      serverErrors.push('Unknown error.')
-    }
+    handleServerError(error.response.status)
     resetForm()
     console.error(error.response.data);
   }
@@ -77,13 +87,13 @@ const login = async () => {
         <h2 class="form-title text-center mt-2">Log In</h2>
       </div>
       <div
-          v-if="serverErrors.length"
+          v-if="serverErrorMessages.length"
           class="alert alert-warning"
           role="alert"
       >
         <ul class="error-list">
           <li
-              v-for="(message, index) in serverErrors"
+              v-for="(message, index) in serverErrorMessages"
               :key="index"
           >
             {{ message }}
