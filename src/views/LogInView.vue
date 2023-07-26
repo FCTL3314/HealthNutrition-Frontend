@@ -44,15 +44,16 @@ const resetForm = () => {
 }
 
 const login = async () => {
+  serverErrors.length = 0;
   try {
-    const response = await api.users.logIn({
+    const response = await api.users.obtainToken({
       username: formData.username,
       password: formData.password,
     });
-    const user = await api.users.me();
-    await store.dispatch('user', user.data);
-    await store.dispatch('token', response.data.access);
-
+    store.commit('auth/setAccessToken', response.data.access)
+    store.commit('auth/setRefreshToken', response.data.refresh)
+    localStorage.setItem('accessToken', response.data.access)
+    localStorage.setItem('refreshToken', response.data.refresh)
     await router.push({name: 'categories'})
   } catch (error) {
     if (error.response.status === 401) {

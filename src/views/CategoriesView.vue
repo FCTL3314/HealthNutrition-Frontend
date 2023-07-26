@@ -7,7 +7,7 @@ import SearchSection from '@/components/SearchSection.vue';
 import CardList from '@/components/cards/CardList.vue';
 import CategoryCard from '@/components/cards/CategoryCard.vue';
 import CategoryCardPlaceholder from '@/components/cards/CategoryCardPlaceholder.vue';
-import Pagination from '@/components/Pagination.vue';
+import PaginationSection from '@/components/PaginationSection.vue';
 
 const categories = ref(null);
 
@@ -77,7 +77,7 @@ onMounted(() => {
     >
       <category-card-placeholder/>
     </div>
-    <pagination
+    <pagination-section
         :total-pages="totalPages"
         :current-page="currentPage"
         @pagechanged="onPageChange"

@@ -1,5 +1,6 @@
 <script setup>
-import {computed} from 'vue';
+import api from '@/api/index'
+import {ref, computed, onMounted} from 'vue';
 import {useRoute} from 'vue-router';
 import {useStore} from 'vuex';
 import constants from '@/constants'
@@ -8,12 +9,33 @@ import HouseIcon from '@/components/icons/HouseIcon.vue'
 import PenIcon from '@/components/icons/PenIcon.vue'
 import GearIcon from '@/components/icons/GearIcon.vue'
 import DoorOpenIcon from '@/components/icons/DoorOpenIcon.vue'
+import router from "@/router";
 
 const route = useRoute();
 const store = useStore();
 
-const isLoggedIn = computed(() => store.getters.isLoggedIn)
-const user = computed(() => store.getters.user)
+const loggedIn = computed(() => !!store.getters["auth/accessToken"])
+const user = ref(null);
+
+async function loadUser() {
+  try {
+    user.value = (await api.users.me()).data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+onMounted(async () => {
+  await loadUser()
+})
+
+function logout() {
+  store.commit('auth/removeAccessToken');
+  store.commit('auth/removeRefreshToken')
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
+  router.push({name: 'login'})
+}
 
 const navItems = [
   {
@@ -89,7 +111,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
             </button>
           </li>
         </ul>
-        <div v-if="isLoggedIn" class="dropdown">
+        <div v-if="loggedIn && user" class="dropdown">
           <a
               class="dropdown-toggle link-dark text-decoration-none"
               role="button"
@@ -137,10 +159,10 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
               <hr class="dropdown-divider">
             </li>
             <li>
-              <a href="#" class="dropdown-item inline-icon-text text-danger">
+              <button @click="logout" class="dropdown-item inline-icon-text text-danger">
                 <door-open-icon/>
                 <span class="ps-1">Logout</span>
-              </a>
+              </button>
             </li>
           </ul>
         </div>

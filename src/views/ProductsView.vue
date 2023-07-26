@@ -8,7 +8,7 @@ import SearchSection from '@/components/SearchSection.vue';
 import CardList from '@/components/cards/CardList.vue';
 import ProductCard from '@/components/cards/ProductCard.vue';
 import ProductCardPlaceholder from '@/components/cards/ProductCardPlaceholder.vue';
-import Pagination from '@/components/Pagination.vue';
+import PaginationSection from '@/components/PaginationSection.vue';
 
 const isCategoryLoaded = ref(false);
 
@@ -99,7 +99,7 @@ onMounted(async () => {
     >
       <product-card-placeholder/>
     </div>
-    <pagination
+    <pagination-section
         v-if="isCategoryLoaded"
         :total-pages="totalPages"
         :current-page="currentPage"
