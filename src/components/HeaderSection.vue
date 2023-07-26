@@ -1,33 +1,20 @@
 <script setup>
-import api from '@/api/index'
-import {ref, computed, onMounted} from 'vue';
+import {ref} from 'vue';
 import {useRoute} from 'vue-router';
 import {useStore} from 'vuex';
 import constants from '@/constants'
 import {scrollToBottom} from "@/utils";
-import HouseIcon from '@/components/icons/HouseIcon.vue'
-import PenIcon from '@/components/icons/PenIcon.vue'
-import GearIcon from '@/components/icons/GearIcon.vue'
-import DoorOpenIcon from '@/components/icons/DoorOpenIcon.vue'
+import HouseIcon from '@/components/icons/HouseIcon.vue';
+import PenIcon from '@/components/icons/PenIcon.vue';
+import GearIcon from '@/components/icons/GearIcon.vue';
+import DoorOpenIcon from '@/components/icons/DoorOpenIcon.vue';
 import router from "@/router";
 
 const route = useRoute();
 const store = useStore();
 
-const loggedIn = computed(() => !!store.getters["auth/accessToken"])
-const user = ref(null);
-
-async function loadUser() {
-  try {
-    user.value = (await api.users.me()).data;
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-onMounted(async () => {
-  await loadUser()
-})
+const loggedIn = ref(!!store.getters['auth/accessToken'])
+const user = ref(store.getters['auth/user'])
 
 function logout() {
   store.commit('auth/removeAccessToken');

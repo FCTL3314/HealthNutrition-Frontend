@@ -9,7 +9,7 @@ import FooterSection from '@/components/FooterSection.vue';
 const store = useStore()
 
 onBeforeMount(() => {
-  store.commit('auth/initializeTokens')
+  store.commit('auth/initialize')
 })
 
 </script>

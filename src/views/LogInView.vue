@@ -52,8 +52,11 @@ const login = async () => {
     });
     store.commit('auth/setAccessToken', response.data.access)
     store.commit('auth/setRefreshToken', response.data.refresh)
+    const user = (await api.users.me()).data;
+    store.commit('auth/setAccessToken', user)
     localStorage.setItem('accessToken', response.data.access)
     localStorage.setItem('refreshToken', response.data.refresh)
+    localStorage.setItem('user', JSON.stringify(user))
     await router.push({name: 'categories'})
   } catch (error) {
     if (error.response.status === 401) {
