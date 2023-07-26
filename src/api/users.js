@@ -1,13 +1,17 @@
+import authHeaders from '@/services/auth-headers'
+
+
 export default function (instance) {
   return {
-    logIn(payload) {
+    obtainToken(payload) {
       return instance.post('token/', payload);
+    },
+    refreshToken(payload) {
+      return instance.post('token/refresh/', payload);
     },
     me() {
       return instance.get('users/me/', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-        },
+        headers: authHeaders(),
       });
     }
   };
