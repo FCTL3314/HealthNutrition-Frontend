@@ -2,7 +2,7 @@ import axios from 'axios';
 import constants from '@/constants'
 
 const instance = axios.create({
-  baseURL: constants.baseAPI,
+  baseURL: constants.BASE_API,
   withCredentials: true,
   headers: {
     accept: 'application/json',

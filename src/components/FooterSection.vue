@@ -18,7 +18,7 @@ const currentYear = currentDate.getFullYear()
       <small>
         Copyright &copy; 2022 - {{ currentYear }}
         <a
-            :href="constants.frontendRepositoryURL"
+            :href="constants.FRONTEND_REPOSITORY_URL"
             class="project-ref text-main-light"
             target="_blank"
         >

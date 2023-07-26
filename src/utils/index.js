@@ -12,7 +12,7 @@ export const scrollToBottom = () => {
 }
 
 export function createTitle(title) {
-  return `${title} | ${constants.titleEnding}`
+  return `${title} | ${constants.TITLE_ENDING}`
 }
 
 export function getValidationClass(field) {

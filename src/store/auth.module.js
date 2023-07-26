@@ -13,7 +13,7 @@ const auth = {
     }
   },
   mutations: {
-    initializeStore(state) {
+    initializeTokens(state) {
       const accessToken = localStorage.getItem('accessToken')
       const refreshToken = localStorage.getItem('refreshToken')
       if (accessToken) {
@@ -21,6 +21,7 @@ const auth = {
         state.refreshToken = refreshToken;
       } else {
         state.accessToken = '';
+        state.refreshToken = '';
       }
     },
     setAccessToken(state, access) {

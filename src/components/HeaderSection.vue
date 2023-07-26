@@ -89,7 +89,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
           </li>
           <li class="nav-item">
             <a
-                :href="constants.frontendRepositoryURL"
+                :href="constants.FRONTEND_REPOSITORY_URL"
                 class="nav-link nav-link-action link-dark"
                 target="_blank"
             >
@@ -98,7 +98,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
           </li>
           <li class="nav-item">
             <a
-                :href="constants.backendRepositoryURL"
+                :href="constants.BACKEND_REPOSITORY_URL"
                 class="nav-link nav-link-action link-dark"
                 target="_blank"
             >
@@ -149,8 +149,12 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
             <li>
               <hr class="dropdown-divider">
             </li>
-            <li>
-              <a href="#" class="dropdown-item inline-icon-text">
+            <li v-if="user.is_staff">
+              <a
+                  :href="constants.DJANGO_ADMIN_URL"
+                  class="dropdown-item inline-icon-text"
+                  target="_blank"
+              >
                 <gear-icon/>
                 <span class="ps-1">Administration</span>
               </a>
