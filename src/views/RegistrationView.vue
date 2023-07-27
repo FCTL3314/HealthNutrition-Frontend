@@ -1,10 +1,13 @@
 <script setup>
-import {reactive, computed} from 'vue';
+import api from '@/api/index';
+import {computed, reactive} from 'vue';
 import {useVuelidate} from '@vuelidate/core';
-import {alphaNum, maxLength, minLength, email, required, sameAs, helpers} from '@vuelidate/validators';
-import FormErrorsFeedback from '@/components/FormErrorsFeedback.vue';
-import {getValidationClass} from "@/utils";
-import {UsernameValidator, PasswordValidator} from "@/validators";
+import {alphaNum, email, helpers, maxLength, minLength, required, sameAs} from '@vuelidate/validators';
+import FormErrorsFeedback from '@/components/forms/FormErrorsFeedback.vue';
+import {getResponseMessages, getValidationClass, resetForm} from "@/utils";
+import {PasswordValidator, UsernameValidator} from "@/validators";
+import router from "@/router";
+import FormFlushMessages from '@/components/forms/FormFlushMessages.vue'
 
 
 const formData = reactive({
@@ -46,14 +49,42 @@ const rules = {
 };
 
 const v$ = useVuelidate(rules, formData)
+
+const serverErrorMessages = reactive([]);
+
+function handleServerError(statusCode, response) {
+  if (statusCode === 400) {
+    serverErrorMessages.push(...getResponseMessages(response))
+  } else {
+    serverErrorMessages.push('Unknown error, please try again later.')
+  }
+}
+
+
+const register = async () => {
+  serverErrorMessages.length = 0;
+  try {
+    await api.users.register({
+      username: formData.username,
+      email: formData.email,
+      password: formData.password,
+    });
+    await router.push({name: 'login'});
+  } catch (error) {
+    handleServerError(error.request.status, error.request.response);
+    resetForm(v$.value);
+    console.log(error.request);
+  }
+}
 </script>
 
 <template>
   <div class="container rounded-4 col-lg-5 col-md-8 shadow-lg">
-    <form class="py-2 px-1" action="" method="post">
+    <form @submit.prevent="register" class="py-2 px-1">
       <div class="mb-4">
         <h2 class="form-title text-center mt-2">Sign Up</h2>
       </div>
+      <form-flush-messages :error-messages="serverErrorMessages"/>
       <hr>
       <div class="mb-4">
         <label class="form-label">Username</label>
@@ -123,7 +154,3 @@ const v$ = useVuelidate(rules, formData)
     </form>
   </div>
 </template>
-
-<style scoped lang="sass">
-
-</style>

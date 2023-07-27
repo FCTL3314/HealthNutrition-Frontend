@@ -1,4 +1,5 @@
 import {TITLE_ENDING} from '@/constants';
+import {capitalize} from "vue";
 
 export function calculateTotalPages(objectsCount, paginateBy) {
   return Math.ceil(objectsCount / paginateBy)
@@ -40,4 +41,19 @@ export function isTokenExpired(token) {
   const expirationDate = new Date(payload.exp * 1000);
   const currentDate = new Date()
   return currentDate >= expirationDate;
+}
+
+export const resetForm = (validator) => {
+  validator.$reset();
+}
+
+export function getResponseMessages(response) {
+  const parsedResponse = JSON.parse(response);
+  let messages = [];
+  for (const key in parsedResponse) {
+    for (const message of parsedResponse[key]) {
+      messages.push(capitalize(message));
+    }
+  }
+  return messages;
 }

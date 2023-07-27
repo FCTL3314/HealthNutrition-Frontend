@@ -6,6 +6,9 @@ export default function (instance) {
     refreshToken(payload) {
       return instance.post('token/refresh/', payload);
     },
+    register(payload) {
+      return instance.post('users/', payload);
+    },
     me() {
       return instance.get('users/me/');
     }
