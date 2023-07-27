@@ -26,3 +26,18 @@ export function getValidationClass(field) {
   }
   return validationClass;
 }
+
+export function isTokenExpired(token) {
+  const tokenParts = token.split('.');
+  if (tokenParts.length !== 3) {
+    throw new Error('Invalid JWT token format');
+  }
+  const payload = JSON.parse(atob(tokenParts[1]));
+  if (!payload || !payload.exp) {
+    throw new Error('Invalid JWT token');
+  }
+
+  const expirationDate = new Date(payload.exp * 1000);
+  const currentDate = new Date()
+  return currentDate >= expirationDate;
+}

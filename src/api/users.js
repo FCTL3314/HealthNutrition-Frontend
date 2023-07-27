@@ -1,6 +1,3 @@
-import {getAuthHeaders} from '@/services/auth'
-
-
 export default function (instance) {
   return {
     obtainToken(payload) {
@@ -10,9 +7,7 @@ export default function (instance) {
       return instance.post('token/refresh/', payload);
     },
     me() {
-      return instance.get('users/me/', {
-        headers: getAuthHeaders(),
-      });
+      return instance.get('users/me/');
     }
   };
 }
