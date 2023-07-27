@@ -5,10 +5,11 @@ import {useRouter} from 'vue-router';
 import {useVuelidate} from '@vuelidate/core';
 import {useStore} from 'vuex';
 import {alphaNum, maxLength, minLength, required} from '@vuelidate/validators';
-import FormErrorsFeedback from '@/components/FormErrorsFeedback.vue';
-import {getValidationClass} from "@/utils";
-import {UsernameValidator, PasswordValidator} from "@/validators";
-import {getAuthStorage} from "@/services/auth";
+import FormErrorsFeedback from '@/components/forms/FormErrorsFeedback.vue';
+import {getValidationClass, resetForm} from "@/utils";
+import {PasswordValidator, UsernameValidator} from "@/validators";
+import {authStorage} from "@/services/auth";
+import FormFlushMessages from '@/components/forms/FormFlushMessages.vue'
 
 
 const router = useRouter();
@@ -43,17 +44,15 @@ const serverErrorMessages = reactive([])
 async function storeUserData(data) {
   localStorage.setItem('rememberMe', JSON.stringify(formData.rememberMe));
 
-  const storage = getAuthStorage();
-
   store.commit('auth/setAccessToken', data.access);
-  storage.setItem('accessToken', data.access);
+  authStorage().setItem('accessToken', data.access);
 
   store.commit('auth/setRefreshToken', data.refresh);
-  storage.setItem('refreshToken', data.refresh);
+  authStorage().setItem('refreshToken', data.refresh);
 
   const user = (await api.users.me()).data;
   store.commit('auth/setUser', user);
-  storage.setItem('user', JSON.stringify(user));
+  authStorage().setItem('user', JSON.stringify(user));
 }
 
 function handleServerError(statusCode) {
@@ -62,10 +61,6 @@ function handleServerError(statusCode) {
   } else {
     serverErrorMessages.push('Unknown error, please try again later.')
   }
-}
-
-const resetForm = () => {
-  v$.value.$reset();
 }
 
 const login = async () => {
@@ -79,8 +74,8 @@ const login = async () => {
     await router.push({name: 'categories'})
   } catch (error) {
     handleServerError(error.response.status)
-    resetForm()
-    console.error(error.response.data);
+    resetForm(v$.value)
+    console.error(error.request);
   }
 }
 </script>
@@ -91,20 +86,7 @@ const login = async () => {
       <div class="mb-4">
         <h2 class="form-title text-center mt-2">Log In</h2>
       </div>
-      <div
-          v-if="serverErrorMessages.length"
-          class="alert alert-warning"
-          role="alert"
-      >
-        <ul class="error-list">
-          <li
-              v-for="(message, index) in serverErrorMessages"
-              :key="index"
-          >
-            {{ message }}
-          </li>
-        </ul>
-      </div>
+      <form-flush-messages :error-messages="serverErrorMessages"/>
       <hr>
       <div class="mb-4">
         <label class="form-label">Username</label>
@@ -168,8 +150,3 @@ const login = async () => {
     </form>
   </div>
 </template>
-
-<style scoped lang="sass">
-@import '@/assets/sass/main'
-@import '@/assets/sass/forms'
-</style>

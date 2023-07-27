@@ -1,16 +1,14 @@
 import instance from '@/api/instance';
 import api from '@/api/index';
-import {getAuthStorage} from "@/services/auth";
+import {authStorage} from "@/services/auth";
 import {isTokenExpired} from '@/utils';
 import {logout} from '@/services/auth';
 
 
 const setup = (store) => {
-  const storage = getAuthStorage()
-
   instance.interceptors.request.use(
     (config) => {
-      const token = storage.getItem('accessToken');
+      const token = authStorage().getItem('accessToken');
       if (token) {
         config.headers["Authorization"] = `Bearer ${token}`;
       }
@@ -29,9 +27,9 @@ const setup = (store) => {
       if (error.response.status === 401 && !originalConfig._retry) {
         error.config._retry = true;
 
-        const refreshToken = storage.getItem('refreshToken');
+        const refreshToken = authStorage().getItem('refreshToken');
 
-        if (!isTokenExpired(refreshToken)) {
+        if (refreshToken && !isTokenExpired(refreshToken)) {
           try {
             const res = await api.users.refreshToken({
               refresh: refreshToken,
@@ -39,14 +37,14 @@ const setup = (store) => {
             const accessToken = res.data.access;
 
             store.commit('auth/setAccessToken', accessToken);
-            storage.setItem('accessToken', accessToken);
+            authStorage().setItem('accessToken', accessToken);
 
             return instance(originalConfig);
           } catch (_error) {
             return Promise.reject(_error);
           }
         } else {
-          await logout()
+          await logout();
         }
       }
     }
