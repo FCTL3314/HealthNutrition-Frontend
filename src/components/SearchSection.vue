@@ -16,7 +16,7 @@ const searchQuery = ref('');
 </script>
 
 <template>
-  <div class="search-wrapper text-center mx-auto py-4">
+  <div class="search-wrapper text-center mx-auto">
     <h1 class="text-main">StoreTracker</h1>
     <p class="fs-4">
       Discover unbeatable deals and unlock the power of price comparison across global leading retailers on our

@@ -45,9 +45,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <search-section/>
+  <search-section class="pt-4 pb-3"/>
   <hr class="m-0">
   <card-list
+      class="py-3"
       ref="cardListRef"
       title="Discover Popular Product Categories"
       description="Explore our curated list of popular product categories, sorted be their popularity among users."

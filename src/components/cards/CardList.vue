@@ -12,7 +12,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="py-4">
+  <div>
     <div class="row justify-content-center">
       <div class="text-center py-3">
         <h2 class="text-main">
