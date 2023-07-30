@@ -128,19 +128,21 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
             <li>
               <hr class="dropdown-divider">
             </li>
-            <li v-if="user.is_staff">
-              <a
-                  :href="DJANGO_ADMIN_URL"
-                  class="dropdown-item inline-icon-text"
-                  target="_blank"
-              >
-                <gear-icon/>
-                <span class="ps-1">Administration</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
+            <template v-if="user.is_staff">
+              <li>
+                <a
+                    :href="DJANGO_ADMIN_URL"
+                    class="dropdown-item inline-icon-text"
+                    target="_blank"
+                >
+                  <gear-icon/>
+                  <span class="ps-1">Administration</span>
+                </a>
+              </li>
+              <li v-if="user.is_staff">
+                <hr class="dropdown-divider">
+              </li>
+            </template>
             <li>
               <button @click="logout" class="dropdown-item inline-icon-text text-danger">
                 <door-open-icon/>
@@ -179,7 +181,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
 @import '@/assets/sass/variables'
 
 .shadow-bottom
-  box-shadow: 0 0.125rem 1rem rgba(0, 0, 0, 0.075) !important
+  box-shadow: 0 0.025rem 1rem rgba(0, 0, 0, 0.075) !important
 
 .logo
   @extend .text-main

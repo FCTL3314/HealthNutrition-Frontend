@@ -43,5 +43,5 @@ const currentYear = currentDate.getFullYear()
   text-decoration: underline
 
 .shadow-top
-  box-shadow: 0 -0.125rem 1rem rgba(0, 0, 0, 0.075) !important
+  box-shadow: 0 -0.025rem 1rem rgba(0, 0, 0, 0.075) !important
 </style>
