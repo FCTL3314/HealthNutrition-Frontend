@@ -64,11 +64,12 @@ onMounted(async () => {
 </script>
 
 <template>
-  <search-section/>
+  <search-section class="pt-4 pb-3"/>
   <hr class="m-0">
   <card-list
       v-if="isCategoryLoaded"
       ref="cardListRef"
+      class="py-3"
       :title="`Products in the category ${category ? category.name : 'Loading...'}`"
       description="Discover a wide range of products available in the selected category."
   >

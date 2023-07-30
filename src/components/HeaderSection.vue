@@ -8,7 +8,7 @@ import HouseIcon from '@/components/icons/HouseIcon.vue';
 import PenIcon from '@/components/icons/PenIcon.vue';
 import GearIcon from '@/components/icons/GearIcon.vue';
 import DoorOpenIcon from '@/components/icons/DoorOpenIcon.vue';
-import {logout} from '@/services/auth'
+import {logoutWithFlush} from '@/services/auth'
 
 const route = useRoute();
 const store = useStore();
@@ -144,7 +144,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
               </li>
             </template>
             <li>
-              <button @click="logout" class="dropdown-item inline-icon-text text-danger">
+              <button @click="logoutWithFlush" class="dropdown-item inline-icon-text text-danger">
                 <door-open-icon/>
                 <span class="ps-1">Logout</span>
               </button>

@@ -1,6 +1,6 @@
 import store from '@/store/index';
 import router from '@/router';
-import toaster from '@/plugins/toaster'
+import toaster from "@/plugins/toaster";
 
 export async function logout() {
   store.commit('auth/removeAccessToken');
@@ -8,7 +8,11 @@ export async function logout() {
   authStorage().removeItem('accessToken');
   authStorage().removeItem('refreshToken');
   await router.push({name: 'login'});
-  toaster.success("You have successfully logged out.")
+}
+
+export async function logoutWithFlush() {
+  await logout()
+  toaster.success('You have successfully logged out.')
 }
 
 export function authStorage() {
