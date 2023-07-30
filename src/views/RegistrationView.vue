@@ -7,6 +7,7 @@ import FormErrorsFeedback from '@/components/forms/FormErrorsFeedback.vue';
 import {getResponseMessages, getValidationClass, resetForm} from "@/utils";
 import {PasswordValidator, UsernameValidator} from "@/validators";
 import router from "@/router";
+import toaster from '@/plugins/toaster';
 import FormFlushMessages from '@/components/forms/FormFlushMessages.vue'
 
 
@@ -70,6 +71,7 @@ const register = async () => {
       password: formData.password,
     });
     await router.push({name: 'login'});
+    toaster.success('You have successfully registered!')
   } catch (error) {
     handleServerError(error.request.status, error.request.response);
     resetForm(v$.value);
@@ -154,3 +156,8 @@ const register = async () => {
     </form>
   </div>
 </template>
+
+
+<style lang=sass>
+@import '@/assets/sass/main'
+</style>

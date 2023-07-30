@@ -8,6 +8,7 @@ import {alphaNum, maxLength, minLength, required} from '@vuelidate/validators';
 import FormErrorsFeedback from '@/components/forms/FormErrorsFeedback.vue';
 import {getValidationClass, resetForm} from "@/utils";
 import {PasswordValidator, UsernameValidator} from "@/validators";
+import toaster from '@/plugins/toaster';
 import {authStorage} from "@/services/auth";
 import FormFlushMessages from '@/components/forms/FormFlushMessages.vue'
 
@@ -72,6 +73,7 @@ const login = async () => {
     });
     await storeUserData(response.data)
     await router.push({name: 'categories'})
+    toaster.success('You have successfully login!')
   } catch (error) {
     handleServerError(error.response.status)
     resetForm(v$.value)
@@ -150,3 +152,7 @@ const login = async () => {
     </form>
   </div>
 </template>
+
+<style lang="sass">
+@import '@/assets/sass/main'
+</style>
