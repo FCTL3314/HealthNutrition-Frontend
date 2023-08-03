@@ -3,7 +3,7 @@ import {computed} from 'vue';
 import {useRoute} from 'vue-router';
 import {useStore} from 'vuex';
 import {FRONTEND_REPOSITORY_URL, BACKEND_REPOSITORY_URL, DJANGO_ADMIN_URL} from '@/constants'
-import {scrollToBottom} from "@/utils";
+import {getUserImage, scrollToBottom} from "@/utils";
 import HouseIcon from '@/components/icons/HouseIcon.vue';
 import PenIcon from '@/components/icons/PenIcon.vue';
 import GearIcon from '@/components/icons/GearIcon.vue';
@@ -100,7 +100,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
             <span>{{ user.username }}</span>
             <img
                 class="rounded-circle object-fit-cover mb-1 ms-1"
-                :src="user.image || '/src/assets/images/default_user.png'"
+                :src="getUserImage(user)"
                 alt="user-image"
                 width="36"
                 height="36"
@@ -114,10 +114,13 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
               <hr class="dropdown-divider">
             </li>
             <li>
-              <a href="#" class="dropdown-item inline-icon-text">
+              <router-link
+                  :to="{name: 'profile', params: {userSlug: user.slug}}"
+                  class="dropdown-item inline-icon-text"
+              >
                 <house-icon/>
                 <span class="ps-1">Profile</span>
-              </a>
+              </router-link>
             </li>
             <li>
               <a href="#" class="dropdown-item inline-icon-text">

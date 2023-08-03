@@ -5,7 +5,7 @@ const IsProfitable = Math.random() >= 0.5;
 <template>
   <div class="card h-100">
     <svg
-        class="bd-placeholder-img"
+        class="bd-placeholder-img card-img-scale"
         width="100%"
         height="260"
         xmlns="http://www.w3.org/2000/svg"

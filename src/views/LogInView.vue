@@ -77,7 +77,7 @@ const login = async () => {
   } catch (error) {
     handleServerError(error.response.status)
     resetForm(v$.value)
-    console.error(error.request);
+    console.error(error.response);
   }
 }
 </script>

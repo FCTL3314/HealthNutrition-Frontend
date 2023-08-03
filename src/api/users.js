@@ -11,6 +11,9 @@ export default function (instance) {
     },
     me() {
       return instance.get('users/me/');
-    }
+    },
+    specificUser(userSlug) {
+      return instance.get(`users/${userSlug}/`);
+    },
   };
 }

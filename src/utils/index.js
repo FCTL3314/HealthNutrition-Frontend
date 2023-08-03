@@ -57,3 +57,7 @@ export function getResponseMessages(response) {
   }
   return messages;
 }
+
+export function getUserImage(user) {
+  return user.image || '/src/assets/images/default_user.png'
+}

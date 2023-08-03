@@ -43,10 +43,10 @@ const loadProducts = async () => setTimeout(async () => {
 const cardListRef = ref(null);
 
 async function onPageChange(page) {
-  await loadProducts()
-
+  products.value = null;
   currentPage.value = page;
   await router.replace({query: {...route.query, page}});
+  await loadProducts()
 
   window.scrollTo({
     top: cardListRef.value.$el.offsetTop,

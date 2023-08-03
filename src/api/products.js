@@ -11,7 +11,7 @@ export default function (instance) {
       });
     },
     products(page = 1, categorySlug) {
-      return instance.get('products/products/', {
+      return instance.get('products/', {
         params: {
           page: page,
           product_type_slug: categorySlug,

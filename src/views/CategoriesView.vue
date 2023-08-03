@@ -23,13 +23,14 @@ const loadCategories = async () => setTimeout( async () => {
     categories.value = response.results;
     totalPages.value = calculateTotalPages(response.count, response.results.length);
   } catch (error) {
-    console.error(error);
+    console.error(error.response);
   }
 }, 400);
 
 const cardListRef = ref(null);
 
 async function onPageChange(page) {
+  categories.value = null;
   currentPage.value = page;
   await router.replace({query: {...route.query, page}});
   await loadCategories();

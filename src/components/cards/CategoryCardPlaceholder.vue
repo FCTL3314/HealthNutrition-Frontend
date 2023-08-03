@@ -1,5 +1,5 @@
 <template>
-  <div class="card h-100">
+  <div class="card h-100 card-img-scale">
     <svg
         class="bd-placeholder-img"
         width="100%"
