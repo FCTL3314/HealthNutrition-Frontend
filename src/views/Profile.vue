@@ -1,8 +1,9 @@
 <script setup>
-import {onMounted, ref} from 'vue';
+import {computed, onMounted, ref} from 'vue';
 import {onBeforeRouteUpdate, useRoute, useRouter} from 'vue-router';
 import store from '@/store/index';
 import api from '@/api/index';
+import moment from 'moment';
 import {getUserImage} from "@/utils";
 
 const route = useRoute();
@@ -10,8 +11,10 @@ const router = useRouter();
 
 
 let user = ref(null);
+const storeUser = store.getters['auth/user'];
+const isCurrentUser = computed(() => storeUser.slug === route.params.userSlug)
 
-const loadUser = async (userSlug = route.params.userSlug) => {
+const loadUser = async (userSlug) => {
   try {
     const response = await api.users.specificUser(userSlug);
     user.value = response.data;
@@ -20,17 +23,20 @@ const loadUser = async (userSlug = route.params.userSlug) => {
   }
 }
 
-onMounted(async () => {
-  const storeUser = store.getters['auth/user'];
-  if (storeUser.slug !== route.params.userSlug) {
-    await loadUser();
-  } else {
+const loadUserHandler = async (userSlug) => {
+  if (storeUser.slug === userSlug) {
     user.value = storeUser;
+  } else {
+    await loadUser(userSlug);
   }
+}
+
+onMounted(async () => {
+  await loadUserHandler(route.params.userSlug);
 })
 
 onBeforeRouteUpdate(async (to, from, next) => {
-  await loadUser(to.params.userSlug);
+  await loadUserHandler(to.params.userSlug);
   next()
 })
 </script>
@@ -48,8 +54,6 @@ onBeforeRouteUpdate(async (to, from, next) => {
               height="208"
               alt="user_image">
           <h1 class="my-3 text-truncate">{{ user.username }}</h1>
-          <p>Want to change your information?</p>
-          <a class="text-main-light" href="#">Edit profile</a>
         </div>
       </div>
 
@@ -64,7 +68,7 @@ onBeforeRouteUpdate(async (to, from, next) => {
                 <h4 class="mb-4 fw-semibold">Username</h4>
                 <h4 class="text-main-light text-truncate ps-1">{{ user.username }}</h4>
               </li>
-              <li class="col-6 profile-list-item">
+              <li v-if="isCurrentUser" class="col-6 profile-list-item">
                 <div class="d-flex mb-4 align-items-start">
                   <h4 class="mb-0 me-1 fw-semibold">Email</h4>
                   <span>[<small class="text-main-light">Private</small>]</span>
@@ -73,7 +77,7 @@ onBeforeRouteUpdate(async (to, from, next) => {
               </li>
               <li class="col-6 profile-list-item">
                 <h3 class="mb-4 fw-semibold">Member since</h3>
-                <h4 class="text-main-light text-truncate ps-1">{{ user.date_joined }}</h4>
+                <h4 class="text-main-light text-truncate ps-1">{{ moment(user.date_joined).format('LLL') }}</h4>
               </li>
             </ul>
           </div>
@@ -111,6 +115,8 @@ onBeforeRouteUpdate(async (to, from, next) => {
 </template>
 
 <style scoped lang="sass">
+@import '@/assets/sass/main.sass'
+
 .profile-list-item:nth-of-type(3)
   margin-top: 50px
 </style>

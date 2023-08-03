@@ -23,23 +23,29 @@ const router = createRouter({
     {
       name: 'users',
       path: '/users/',
-      component: () => import('@/views/layouts/AuthLayout.vue'),
       children: [
         {
-          name: 'login',
-          path: 'login/',
-          component: () => import('@/views/LogInView.vue'),
-          meta: {
-            title: 'Log In',
-          },
-        },
-        {
-          name: 'registration',
-          path: 'registration/',
-          component: () => import('@/views/RegistrationView.vue'),
-          meta: {
-            title: 'Sign Up',
-          },
+          name: 'auth',
+          path: 'auth/',
+          component: () => import('@/views/layouts/AuthLayout.vue'),
+          children: [
+            {
+              name: 'login',
+              path: 'login/',
+              component: () => import('@/views/LogInView.vue'),
+              meta: {
+                title: 'Log In',
+              },
+            },
+            {
+              name: 'registration',
+              path: 'registration/',
+              component: () => import('@/views/RegistrationView.vue'),
+              meta: {
+                title: 'Sign Up',
+              },
+            },
+          ]
         },
         {
           name: 'profile',
