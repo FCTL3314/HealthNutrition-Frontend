@@ -43,8 +43,8 @@ const props = defineProps({
     type: Number,
     required: true,
   },
-  link: {
-    type: String,
+  route: {
+    type: Object,
     required: true,
   },
 });
@@ -57,7 +57,7 @@ const isCheapestProduct = computed(() => props.categoryLowestPrice === props.pri
 
 <template>
   <div class="card h-100">
-    <a :href="link">
+    <router-link :to="route">
       <div class="card-img-scale">
         <img
             :src="imageURL"
@@ -65,12 +65,12 @@ const isCheapestProduct = computed(() => props.categoryLowestPrice === props.pri
             alt="product-image"
         >
       </div>
-    </a>
+    </router-link>
     <div class="card-body">
       <h5 class="card-title text-main text-truncate">
-        <a class="link-main fw-semibold" :href="link">
+        <router-link class="link-main fw-semibold" :to="route">
           {{ name }}
-        </a>
+        </router-link>
       </h5>
       <p class="card-text">{{ description }}</p>
       <div class="d-flex align-items-center mt-auto">

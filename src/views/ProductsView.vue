@@ -30,15 +30,17 @@ async function loadCategory() {
   }
 }
 
-const loadProducts = async () => setTimeout(async () => {
-  try {
-    const response = (await api.products.products(currentPage.value, route.params.categorySlug)).data;
-    products.value = response.results;
-    totalPages.value = calculateTotalPages(response.count, response.results.length);
-  } catch (error) {
-    console.error(error);
-  }
-}, 400);
+async function loadProducts() {
+  setTimeout(async () => {
+    try {
+      const response = (await api.products.products(currentPage.value, route.params.categorySlug)).data;
+      products.value = response.results;
+      totalPages.value = calculateTotalPages(response.count, response.results.length);
+    } catch (error) {
+      console.error(error);
+    }
+  }, 400)
+}
 
 const cardListRef = ref(null);
 
@@ -81,7 +83,7 @@ onMounted(async () => {
     >
       <product-card
           :image-u-r-l="product.image"
-          link="#"
+          :route="{name: 'product', params: {categorySlug: category.slug, productSlug: product.slug}}"
           :name="product.name"
           :description="product.card_description"
           :store-name="product.store.name"

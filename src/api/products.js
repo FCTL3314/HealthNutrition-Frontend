@@ -18,5 +18,8 @@ export default function (instance) {
         },
       });
     },
+    product(productSlug) {
+      return instance.get(`products/${productSlug}/`);
+    },
   };
 }

@@ -17,15 +17,17 @@ const router = useRouter();
 const currentPage = ref(parseInt(route.query.page || 1));
 const totalPages = ref(0);
 
-const loadCategories = async () => setTimeout( async () => {
-  try {
-    const response = (await api.products.categories(currentPage.value)).data;
-    categories.value = response.results;
-    totalPages.value = calculateTotalPages(response.count, response.results.length);
-  } catch (error) {
-    console.error(error.response);
-  }
-}, 400);
+async function loadCategories() {
+  setTimeout(async () => {
+    try {
+      const response = (await api.products.categories(currentPage.value)).data;
+      categories.value = response.results;
+      totalPages.value = calculateTotalPages(response.count, response.results.length);
+    } catch (error) {
+      console.error(error.response);
+    }
+  }, 400)
+}
 
 const cardListRef = ref(null);
 
@@ -40,8 +42,8 @@ async function onPageChange(page) {
   });
 }
 
-onMounted(() => {
-  loadCategories();
+onMounted(async () => {
+  await loadCategories();
 });
 </script>
 
