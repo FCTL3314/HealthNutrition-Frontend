@@ -4,7 +4,7 @@ import {onMounted, ref} from "vue";
 import api from "@/api";
 import {useRoute} from "vue-router";
 import moment from 'moment';
-import CommentsSection from "@/components/CommentsSection.vue";
+import ProductCommentsSection from "@/components/ProductCommentsSection.vue";
 
 
 const route = useRoute()
@@ -52,7 +52,11 @@ onMounted(async () => {
         <li class="list-group-item bg-light">
           <span class="fs-5">
             <span class="fw-semibold">Store: </span>
-              <a class="link-main text-decoration-underline" href="#">
+            <a
+                class="link-main text-decoration-underline"
+                :href="product.store.url"
+                target="_blank"
+            >
               <span>{{ product.store.name }}</span>
             </a>
           </span>
@@ -77,7 +81,7 @@ onMounted(async () => {
     <hr>
     <div class="row">
       <div class="col-12">
-        <comments-section/>
+        <product-comments-section/>
       </div>
     </div>
   </div>
