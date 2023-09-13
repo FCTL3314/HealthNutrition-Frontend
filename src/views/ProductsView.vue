@@ -1,19 +1,19 @@
 <script setup>
 import api from '@/api/index'
-import {ref, onMounted} from 'vue';
+import {onMounted, ref} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
-import {calculateTotalPages} from '@/utils'
-import {createTitle} from '@/utils';
+import {calculateTotalPages, createTitle} from '@/utils'
 import SearchSection from '@/components/SearchSection.vue';
 import CardList from '@/components/cards/CardList.vue';
 import ProductCard from '@/components/cards/ProductCard.vue';
 import ProductCardPlaceholder from '@/components/cards/ProductCardPlaceholder.vue';
 import PaginationSection from '@/components/PaginationSection.vue';
 
-const isCategoryLoaded = ref(false);
-
 const category = ref(null);
+const isCategoryLoading = ref(false);
+
 const products = ref(null);
+const isProductsLoading = ref(false);
 
 const route = useRoute();
 const router = useRouter();
@@ -22,33 +22,43 @@ const currentPage = ref(parseInt(route.query.page || 1));
 const totalPages = ref(0);
 
 async function loadCategory() {
+  isCategoryLoading.value = true;
   try {
-    category.value = (await api.products.category(route.params.categorySlug)).data;
-    isCategoryLoaded.value = true;
+    return (await api.products.category(route.params.categorySlug)).data;
   } catch (error) {
     console.error(error);
+  } finally {
+    isCategoryLoading.value = false;
   }
 }
 
+async function updateCategory() {
+  category.value = await loadCategory()
+}
+
 async function loadProducts() {
-  setTimeout(async () => {
-    try {
-      const response = (await api.products.products(currentPage.value, route.params.categorySlug)).data;
-      products.value = response.results;
-      totalPages.value = calculateTotalPages(response.count, response.results.length);
-    } catch (error) {
-      console.error(error);
-    }
-  }, 400)
+  isProductsLoading.value = true;
+  try {
+    return (await api.products.products(currentPage.value, route.params.categorySlug)).data;
+  } catch (error) {
+    console.error(error);
+  } finally {
+    isProductsLoading.value = false;
+  }
+}
+
+async function updateProducts() {
+  const data = await loadProducts()
+  products.value = data.results;
+  totalPages.value = calculateTotalPages(data.count, data.results.length);
 }
 
 const cardListRef = ref(null);
 
 async function onPageChange(page) {
-  products.value = null;
   currentPage.value = page;
   await router.replace({query: {...route.query, page}});
-  await loadProducts()
+  await updateProducts();
 
   window.scrollTo({
     top: cardListRef.value.$el.offsetTop,
@@ -57,11 +67,11 @@ async function onPageChange(page) {
 }
 
 onMounted(async () => {
-  await loadCategory();
-  if (isCategoryLoaded.value) {
-    document.title = createTitle(category.value.name);
-    await loadProducts();
-  }
+  await updateCategory()
+      .then(async () => {
+        await updateProducts();
+        document.title = createTitle(category.value.name);
+      });
 });
 </script>
 
@@ -69,31 +79,37 @@ onMounted(async () => {
   <search-section class="pt-4 pb-3"/>
   <hr class="m-0">
   <card-list
-      v-if="isCategoryLoaded"
+      v-if="!isCategoryLoading"
       ref="cardListRef"
       class="py-3"
       :title="`Products in the category ${category ? category.name : 'Loading...'}`"
       description="Discover a wide range of products available in the selected category."
   >
-    <div
-        v-if="products"
-        v-for="(product, index) in products"
-        :key="index"
-        class="col-lg-4 col-md-6 mb-3"
-    >
-      <product-card
-          :image-u-r-l="product.image"
-          :route="{name: 'product', params: {categorySlug: category.slug, productSlug: product.slug}}"
-          :name="product.name"
-          :description="product.card_description"
-          :store-name="product.store.name"
-          :store-link="product.store.url"
-          :price="product.price"
-          :category-average-price="category.product_price_avg"
-          :category-highest-price="category.product_price_max"
-          :category-lowest-price="category.product_price_min"
+    <template v-if="!isProductsLoading">
+      <div
+          v-for="(product, index) in products"
+          :key="index"
+          class="col-lg-4 col-md-6 mb-3"
+      >
+        <product-card
+            :image-u-r-l="product.image"
+            :route="{name: 'product', params: {categorySlug: category.slug, productSlug: product.slug}}"
+            :name="product.name"
+            :description="product.card_description"
+            :store-name="product.store.name"
+            :store-link="product.store.url"
+            :price="product.price"
+            :category-average-price="category.product_price_avg"
+            :category-highest-price="category.product_price_max"
+            :category-lowest-price="category.product_price_min"
+        />
+      </div>
+      <pagination-section
+          :total-pages="totalPages"
+          :current-page="currentPage"
+          @page-changed="onPageChange"
       />
-    </div>
+    </template>
     <div
         v-else
         v-for="_ in 9"
@@ -102,12 +118,6 @@ onMounted(async () => {
     >
       <product-card-placeholder/>
     </div>
-    <pagination-section
-        v-if="isCategoryLoaded"
-        :total-pages="totalPages"
-        :current-page="currentPage"
-        @page-changed="onPageChange"
-    />
   </card-list>
   <div v-else class="text-center">
     <img

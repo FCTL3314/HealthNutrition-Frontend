@@ -5,6 +5,7 @@ import api from "@/api";
 import {useRoute} from "vue-router";
 import moment from 'moment';
 import CommentsSection from "@/components/CommentsSection.vue";
+import {createTitle} from "@/utils";
 
 
 const route = useRoute()
@@ -24,8 +25,7 @@ async function loadProduct() {
     return (await api.products.product(route.params.productSlug)).data;
   } catch (error) {
     console.error(error.response);
-  }
-  finally {
+  } finally {
     isProductLoaded.value = false;
   }
 }
@@ -54,7 +54,10 @@ async function updateComments(page = 1) {
 
 onMounted(async () => {
   await updateProduct()
-      .then(async () => await updateComments())
+      .then(async () => {
+        await updateComments()
+        document.title = createTitle(product.value.name);
+      });
 })
 </script>
 
