@@ -1,6 +1,6 @@
 <script setup>
 import api from '@/api/index'
-import {ref, onMounted} from 'vue';
+import {onMounted, ref} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import {calculateTotalPages} from '@/utils'
 import SearchSection from '@/components/SearchSection.vue';
@@ -16,17 +16,24 @@ const router = useRouter();
 
 const currentPage = ref(parseInt(route.query.page || 1));
 const totalPages = ref(0);
+const isCategoriesLoading = ref(false);
 
 async function loadCategories() {
-  setTimeout(async () => {
-    try {
-      const response = (await api.products.categories(currentPage.value)).data;
-      categories.value = response.results;
-      totalPages.value = calculateTotalPages(response.count, response.results.length);
-    } catch (error) {
-      console.error(error.response);
-    }
-  }, 400)
+  isCategoriesLoading.value = true;
+  try {
+    return (await api.products.categories(currentPage.value)).data;
+  } catch (error) {
+    console.error(error.response);
+  }
+  finally {
+    isCategoriesLoading.value = false;
+  }
+}
+
+async function updateCategories() {
+  const response = await loadCategories();
+  categories.value = response.results;
+  totalPages.value = calculateTotalPages(response.count, response.results.length);
 }
 
 const cardListRef = ref(null);
@@ -35,7 +42,7 @@ async function onPageChange(page) {
   categories.value = null;
   currentPage.value = page;
   await router.replace({query: {...route.query, page}});
-  await loadCategories();
+  await updateCategories();
   window.scrollTo({
     top: cardListRef.value.$el.offsetTop,
     behavior: 'smooth',
@@ -43,7 +50,7 @@ async function onPageChange(page) {
 }
 
 onMounted(async () => {
-  await loadCategories();
+  await updateCategories();
 });
 </script>
 
@@ -57,7 +64,7 @@ onMounted(async () => {
       description="Explore our curated list of popular product categories, sorted be their popularity among users."
   >
     <div
-        v-if="categories"
+        v-if="!isCategoriesLoading"
         v-for="(category, index) in categories"
         :key="index"
         class="col-lg-4 col-md-6 mb-3"
@@ -84,7 +91,7 @@ onMounted(async () => {
     <pagination-section
         :total-pages="totalPages"
         :current-page="currentPage"
-        @pagechanged="onPageChange"
+        @page-changed="onPageChange"
     />
   </card-list>
 </template>

@@ -106,7 +106,7 @@ onMounted(async () => {
         v-if="isCategoryLoaded"
         :total-pages="totalPages"
         :current-page="currentPage"
-        @pagechanged="onPageChange"
+        @page-changed="onPageChange"
     />
   </card-list>
   <div v-else class="text-center">
