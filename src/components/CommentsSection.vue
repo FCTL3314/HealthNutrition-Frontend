@@ -1,48 +1,43 @@
 <script setup>
-import {computed, onMounted, ref} from 'vue';
+import {computed} from 'vue';
 import store from '@/store';
 import {getUserImage} from '@/utils';
 import CaretDownIcon from '@/components/icons/CaretDownIcon.vue';
 import CommentBlock from '@/components/CommentBlock.vue';
 import {useRouter} from "vue-router";
-import api from "@/api";
 
 const router = useRouter()
 
+defineProps({
+  comments: {
+    type: Object,
+    required: true,
+  },
+  commentsCount: {
+    type: Number,
+    required: true
+  },
+  isCommentsLoading: {
+    type: Boolean,
+    required: true,
+  },
+  hasMoreComments: {
+    type: Boolean,
+    required: true,
+  },
+})
+
+let currentPage = 1;
+
+const emits = defineEmits(["showMoreComments"]);
+
+const onClickShowMoreComments = () => {
+  currentPage++
+  emits("showMoreComments", currentPage);
+}
+
 const loggedIn = computed(() => !!store.getters['auth/accessToken']);
 const user = computed(() => store.getters['auth/user']);
-
-const comments = ref([]);
-const commentsCount = ref(0);
-const hasMoreComment = ref(false);
-const currentPage = ref(1);
-
-const isCommentsLoading = ref(false);
-
-async function loadComments() {
-  setTimeout(async () => {
-    try {
-      const response = (await api.comments.product_comments(1, currentPage.value)).data;
-      comments.value.push(...response.results);
-      commentsCount.value = response.count;
-      hasMoreComment.value = response.next !== null;
-      currentPage.value++;
-      isCommentsLoading.value = false;
-    } catch (error) {
-      console.error(error);
-    }
-  }, 400)
-}
-
-async function loadMoreComments() {
-  isCommentsLoading.value = true;
-  await loadComments();
-}
-
-onMounted(async () => {
-  isCommentsLoading.value = true;
-  await loadComments();
-})
 </script>
 
 <template>
@@ -108,13 +103,10 @@ onMounted(async () => {
       <h4>Looks like no one has left a comment yet, be the first!</h4>
     </div>
   </div>
-  <div
-      v-if="hasMoreComment"
-      @click="loadMoreComments"
-      class="text-center list-group"
-  >
+  <div v-if="hasMoreComments" class="text-center list-group">
     <button
         v-if="!isCommentsLoading"
+        @click="onClickShowMoreComments"
         type="button"
         class="list-group-item list-group-item-action text-primary"
     >

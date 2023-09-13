@@ -4,24 +4,57 @@ import {onMounted, ref} from "vue";
 import api from "@/api";
 import {useRoute} from "vue-router";
 import moment from 'moment';
-import ProductCommentsSection from "@/components/ProductCommentsSection.vue";
+import CommentsSection from "@/components/CommentsSection.vue";
 
 
 const route = useRoute()
 
 const product = ref(null);
+const isProductLoaded = ref(false);
+
+const comments = ref([]);
+const commentsCount = ref(0);
+const hasMoreComment = ref(false);
+const isCommentsLoading = ref(false);
 
 
 async function loadProduct() {
+  isProductLoaded.value = true;
   try {
     return (await api.products.product(route.params.productSlug)).data;
   } catch (error) {
     console.error(error.response);
   }
+  finally {
+    isProductLoaded.value = false;
+  }
+}
+
+async function updateProduct() {
+  product.value = await loadProduct();
+}
+
+async function loadComments(page = 1) {
+  isCommentsLoading.value = true;
+  try {
+    return (await api.comments.product_comments(product.value.id, page)).data;
+  } catch (error) {
+    console.error(error);
+  } finally {
+    isCommentsLoading.value = false;
+  }
+}
+
+async function updateComments(page = 1) {
+  const response = await loadComments(page);
+  comments.value.push(...response.results);
+  commentsCount.value = response.count;
+  hasMoreComment.value = response.next !== null;
 }
 
 onMounted(async () => {
-  product.value = await loadProduct();
+  await updateProduct()
+      .then(async () => await updateComments())
 })
 </script>
 
@@ -81,7 +114,13 @@ onMounted(async () => {
     <hr>
     <div class="row">
       <div class="col-12">
-        <product-comments-section/>
+        <comments-section
+            :comments="comments"
+            :comments-count="commentsCount"
+            :is-comments-loading="isCommentsLoading"
+            :has-more-comments="hasMoreComment"
+            @show-more-comments="updateComments"
+        />
       </div>
     </div>
   </div>
