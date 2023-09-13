@@ -1,13 +1,12 @@
 <script setup>
 import {computed, onMounted, ref} from 'vue';
-import {onBeforeRouteUpdate, useRoute, useRouter} from 'vue-router';
+import {onBeforeRouteUpdate, useRoute} from 'vue-router';
 import store from '@/store/index';
 import api from '@/api/index';
 import moment from 'moment';
 import {getUserImage} from "@/utils";
 
 const route = useRoute();
-const router = useRouter();
 
 
 let user = ref(null);

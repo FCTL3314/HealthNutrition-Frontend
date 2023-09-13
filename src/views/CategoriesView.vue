@@ -24,8 +24,7 @@ async function loadCategories() {
     return (await api.products.categories(currentPage.value)).data;
   } catch (error) {
     console.error(error.response);
-  }
-  finally {
+  } finally {
     isCategoriesLoading.value = false;
   }
 }
@@ -63,23 +62,29 @@ onMounted(async () => {
       title="Discover Popular Product Categories"
       description="Explore our curated list of popular product categories, sorted be their popularity among users."
   >
-    <div
-        v-if="!isCategoriesLoading"
-        v-for="(category, index) in categories"
-        :key="index"
-        class="col-lg-4 col-md-6 mb-3"
-    >
-      <category-card
-          :image-u-r-l="category.image"
-          :slug="category.slug"
-          :name="category.name"
-          :description="category.description"
-          :average-price="category.product_price_avg"
-          :lowest-price="category.product_price_min"
-          :highest-price="category.product_price_max"
-          :stores-count="category.product_stores_count"
+    <template v-if="!isCategoriesLoading">
+      <div
+          v-for="(category, index) in categories"
+          :key="index"
+          class="col-lg-4 col-md-6 mb-3"
+      >
+        <category-card
+            :image-u-r-l="category.image"
+            :slug="category.slug"
+            :name="category.name"
+            :description="category.description"
+            :average-price="category.product_price_avg"
+            :lowest-price="category.product_price_min"
+            :highest-price="category.product_price_max"
+            :stores-count="category.product_stores_count"
+        />
+      </div>
+      <pagination-section
+          :total-pages="totalPages"
+          :current-page="currentPage"
+          @page-changed="onPageChange"
       />
-    </div>
+    </template>
     <div
         v-else
         v-for="_ in 9"
@@ -88,10 +93,5 @@ onMounted(async () => {
     >
       <category-card-placeholder/>
     </div>
-    <pagination-section
-        :total-pages="totalPages"
-        :current-page="currentPage"
-        @page-changed="onPageChange"
-    />
   </card-list>
 </template>

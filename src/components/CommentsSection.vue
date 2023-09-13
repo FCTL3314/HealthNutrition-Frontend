@@ -4,9 +4,6 @@ import store from '@/store';
 import {getUserImage} from '@/utils';
 import CaretDownIcon from '@/components/icons/CaretDownIcon.vue';
 import CommentBlock from '@/components/CommentBlock.vue';
-import {useRouter} from "vue-router";
-
-const router = useRouter()
 
 defineProps({
   comments: {

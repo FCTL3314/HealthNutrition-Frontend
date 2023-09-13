@@ -58,7 +58,7 @@ const router = createRouter({
         {
           name: 'profile',
           path: 'profile/:userSlug/',
-          component: () => import('@/views/Profile.vue'),
+          component: () => import('@/views/ProfileView.vue'),
           meta: {
             title: 'Profile',
           },
