@@ -1,8 +1,8 @@
 <script setup>
 import api from '@/api/index'
-import {onMounted, ref, computed} from 'vue';
+import {computed, onMounted, ref} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
-import {calculateTotalPages, setParams, createTitle, scrollToElement} from '@/utils'
+import {calculateTotalPages, createTitle, scrollToElement, setParams} from '@/utils'
 import SearchSection from '@/components/SearchSection.vue';
 import CardList from '@/components/cards/CardList.vue';
 import ProductCard from '@/components/cards/ProductCard.vue';
@@ -71,6 +71,10 @@ async function onPageChange(page) {
   await updateProducts();
 }
 
+function createProductRoute(productSlug) {
+  return {name: 'product', params: {categorySlug: category.slug, productSlug: productSlug}}
+}
+
 onMounted(async () => {
   await updateCategory()
       .then(async () => {
@@ -97,7 +101,7 @@ onMounted(async () => {
       >
         <product-card
             :image-u-r-l="product.image"
-            :route="{name: 'product', params: {categorySlug: category.slug, productSlug: product.slug}}"
+            :route="createProductRoute(product.slug)"
             :name="product.name"
             :description="product.card_description"
             :store-name="product.store.name"

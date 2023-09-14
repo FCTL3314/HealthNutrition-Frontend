@@ -9,7 +9,7 @@ import CategoryCard from '@/components/cards/CategoryCard.vue';
 import CategoryCardPlaceholder from '@/components/cards/CategoryCardPlaceholder.vue';
 import PaginationSection from '@/components/PaginationSection.vue';
 
-const categories = ref(null);
+const categories = ref([]);
 
 const route = useRoute();
 const router = useRouter();

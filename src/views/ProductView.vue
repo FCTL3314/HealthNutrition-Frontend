@@ -1,5 +1,4 @@
 <script setup>
-
 import {onMounted, ref} from "vue";
 import api from "@/api";
 import {useRoute} from "vue-router";
@@ -17,6 +16,7 @@ const comments = ref([]);
 const commentsCount = ref(0);
 const hasMoreComment = ref(false);
 const isCommentsLoading = ref(false);
+const isAddingComment = ref(false);
 
 
 async function loadProduct() {
@@ -50,6 +50,22 @@ async function updateComments(page = 1) {
   comments.value.push(...response.results);
   commentsCount.value = response.count;
   hasMoreComment.value = response.next !== null;
+}
+
+async function createComment(text) {
+  isAddingComment.value = true;
+  try {
+    return (await api.comments.product_comment_add(product.value.id, text)).data;
+  } catch (error) {
+    console.error(error);
+  } finally {
+    isAddingComment.value = false;
+  }
+}
+
+async function AddCommentToTop(comment) {
+  comments.value.unshift(comment);
+  commentsCount.value++;
 }
 
 onMounted(async () => {
@@ -122,7 +138,9 @@ onMounted(async () => {
             :comments-count="commentsCount"
             :is-comments-loading="isCommentsLoading"
             :has-more-comments="hasMoreComment"
+            :is-adding-comment="isAddingComment"
             @show-more-comments="updateComments"
+            @add-comment="async (text) => AddCommentToTop(await createComment(text))"
         />
       </div>
     </div>

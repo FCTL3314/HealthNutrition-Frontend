@@ -1,5 +1,5 @@
 <script setup>
-import {computed} from 'vue';
+import {computed, ref} from 'vue';
 import store from '@/store';
 import {getUserImage} from '@/utils';
 import CaretDownIcon from '@/components/icons/CaretDownIcon.vue';
@@ -22,17 +22,27 @@ defineProps({
     type: Boolean,
     required: true,
   },
+  isAddingComment: {
+    type: Boolean,
+    required: true,
+  }
 })
+
+const commentText = ref("");
 
 let currentPage = 1;
 
-const emits = defineEmits(["showMoreComments"]);
+const emits = defineEmits(["showMoreComments", "addComment"]);
 
 const onClickShowMoreComments = () => {
   currentPage++
   emits("showMoreComments", currentPage);
 }
 
+const onClickAddComment = () => {
+  emits("addComment", commentText.value);
+  commentText.value = "";
+}
 const loggedIn = computed(() => !!store.getters['auth/accessToken']);
 const user = computed(() => store.getters['auth/user']);
 </script>
@@ -48,9 +58,10 @@ const user = computed(() => store.getters['auth/user']);
          width="40"
          height="40"
     >
-    <form id="add-comment-form" class="w-100">
+    <form @submit.prevent="onClickAddComment" id="add-comment-form" class="w-100">
         <div class="input-group">
           <input
+              v-model="commentText"
               class="form-control"
               placeholder="Add a comment..."
               maxlength="516"
@@ -59,11 +70,11 @@ const user = computed(() => store.getters['auth/user']);
           >
           <button
               class="btn btn-outline-success"
-              :class="{disabled: !loggedIn}"
+              :class="{disabled: !loggedIn || isAddingComment}"
               type="submit"
               id="comment-submit"
           >
-            Comment
+            {{ isAddingComment ? "Loading..." : "Comment" }}
           </button>
         </div>
         <p v-if="!loggedIn">
@@ -91,7 +102,7 @@ const user = computed(() => store.getters['auth/user']);
       <span class="visually-hidden">Loading...</span>
     </span>
     </div>
-    <div v-if="commentsCount === 0 && !isCommentsLoading" class="container text-center mb-5">
+    <div v-if="comments.length === 0 && !isCommentsLoading" class="container text-center mb-5">
       <img class="mb-4" src="@/assets/icons/comment.svg" alt="comment" width="125" height="125">
       <h4>Looks like no one has left a comment yet, be the first!</h4>
     </div>

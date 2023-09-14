@@ -3,6 +3,7 @@ import DollarIcon from '@/components/icons/DollarIcon.vue';
 import PatchCheckIcon from '@/components/icons/PatchCheckIcon.vue';
 import PatchExclamationIcon from '@/components/icons/PatchExclamationIcon.vue';
 import ShopIcon from '@/components/icons/ShopIcon.vue';
+import {computed} from "vue";
 
 const props = defineProps({
   imageURL: {
@@ -35,7 +36,9 @@ const props = defineProps({
   },
 });
 
-const productsRouterLink = {name: 'products', params: {categorySlug: props.slug}}
+const productsRouterLink = computed(() => {
+  return {name: 'products', params: {categorySlug: props.slug}}
+})
 
 </script>
 
