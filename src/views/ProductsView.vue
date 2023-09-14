@@ -1,8 +1,8 @@
 <script setup>
 import api from '@/api/index'
-import {onMounted, ref} from 'vue';
+import {onMounted, ref, computed} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
-import {calculateTotalPages, createTitle} from '@/utils'
+import {calculateTotalPages, setParams, createTitle} from '@/utils'
 import SearchSection from '@/components/SearchSection.vue';
 import CardList from '@/components/cards/CardList.vue';
 import ProductCard from '@/components/cards/ProductCard.vue';
@@ -12,8 +12,16 @@ import PaginationSection from '@/components/PaginationSection.vue';
 const category = ref(null);
 const isCategoryLoading = ref(false);
 
-const products = ref(null);
+const products = ref([]);
 const isProductsLoading = ref(false);
+
+const isDataLoaded = computed(() => {
+  return !isCategoryLoading.value && !isProductsLoading.value;
+})
+
+const isProductsExists = computed(() => {
+  return products.value.length > 0;
+})
 
 const route = useRoute();
 const router = useRouter();
@@ -55,15 +63,18 @@ async function updateProducts() {
 
 const cardListRef = ref(null);
 
-async function onPageChange(page) {
-  currentPage.value = page;
-  await router.replace({query: {...route.query, page}});
-  await updateProducts();
-
+function scrollToCardList() {
   window.scrollTo({
     top: cardListRef.value.$el.offsetTop,
     behavior: 'smooth',
   });
+}
+
+async function onPageChange(page) {
+  currentPage.value = page;
+  await setParams(router, route, {page: page});
+  scrollToCardList();
+  await updateProducts();
 }
 
 onMounted(async () => {
@@ -79,13 +90,12 @@ onMounted(async () => {
   <search-section class="pt-4 pb-3"/>
   <hr class="m-0">
   <card-list
-      v-if="!isCategoryLoading"
       ref="cardListRef"
       class="py-3"
       :title="`Products in the category ${category ? category.name : 'Loading...'}`"
       description="Discover a wide range of products available in the selected category."
   >
-    <template v-if="!isProductsLoading">
+    <template v-if="isDataLoaded && isProductsExists">
       <div
           v-for="(product, index) in products"
           :key="index"
@@ -111,7 +121,7 @@ onMounted(async () => {
       />
     </template>
     <div
-        v-else
+        v-else-if="!isDataLoaded"
         v-for="_ in 9"
         :key="_"
         class="col-lg-4 col-md-6 mb-3"
@@ -119,7 +129,7 @@ onMounted(async () => {
       <product-card-placeholder/>
     </div>
   </card-list>
-  <div v-else class="text-center">
+  <div v-if="isDataLoaded && !isProductsExists" class="text-center">
     <img
         class="mb-4 mt-2"
         src="@/assets/icons/magnifying-glass.svg"
