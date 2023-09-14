@@ -1,6 +1,6 @@
 <script setup>
 import api from '@/api/index'
-import {reactive} from 'vue';
+import {reactive, ref} from 'vue';
 import {useRouter} from 'vue-router';
 import {useVuelidate} from '@vuelidate/core';
 import {useStore} from 'vuex';
@@ -15,6 +15,8 @@ import FormFlushMessages from '@/components/forms/FormFlushMessages.vue'
 
 const router = useRouter();
 const store = useStore();
+
+const isLoginResponseWaiting = ref(false);
 
 const formData = reactive({
   username: '',
@@ -65,6 +67,7 @@ function handleServerError(statusCode) {
 }
 
 const login = async () => {
+  isLoginResponseWaiting.value = true;
   serverErrorMessages.length = 0;
   try {
     const response = await api.users.obtainToken({
@@ -78,6 +81,8 @@ const login = async () => {
     handleServerError(error.response.status)
     resetForm(v$.value)
     console.error(error.response);
+  } finally {
+    isLoginResponseWaiting.value = false;
   }
 }
 </script>
@@ -133,9 +138,9 @@ const login = async () => {
         <button
             type="submit"
             class="btn btn-outline-primary"
-            :class="{disabled: v$.$invalid}"
+            :class="{disabled: v$.$invalid || isLoginResponseWaiting}"
         >
-          Log In
+          {{ isLoginResponseWaiting ? "Loading..." : "Log In" }}
         </button>
       </div>
       <div class="text-center mt-2">

@@ -1,6 +1,6 @@
 <script setup>
 import api from '@/api/index';
-import {computed, reactive} from 'vue';
+import {computed, reactive, ref} from 'vue';
 import {useVuelidate} from '@vuelidate/core';
 import {alphaNum, email, helpers, maxLength, minLength, required, sameAs} from '@vuelidate/validators';
 import FormErrorsFeedback from '@/components/forms/FormErrorsFeedback.vue';
@@ -10,6 +10,8 @@ import router from "@/router";
 import toaster from '@/plugins/toaster';
 import FormFlushMessages from '@/components/forms/FormFlushMessages.vue'
 
+
+const isSignUpResponseWaiting = ref(false);
 
 const formData = reactive({
   username: '',
@@ -63,6 +65,7 @@ function handleServerError(statusCode, response) {
 
 
 const register = async () => {
+  isSignUpResponseWaiting.value = true;
   serverErrorMessages.length = 0;
   try {
     await api.users.register({
@@ -70,12 +73,14 @@ const register = async () => {
       email: formData.email,
       password: formData.password,
     });
-    await router.push({name: 'login'});
+    await router.push({name: 'logIn'});
     toaster.success('You have successfully registered!')
   } catch (error) {
     handleServerError(error.request.status, error.request.response);
     resetForm(v$.value);
     console.log(error.request);
+  } finally {
+    isSignUpResponseWaiting.value = false;
   }
 }
 </script>
@@ -137,16 +142,16 @@ const register = async () => {
         <button
             type="submit"
             class="btn btn-outline-primary"
-            :class="{disabled: v$.$invalid}"
+            :class="{disabled: v$.$invalid || isSignUpResponseWaiting}"
         >
-          Sign Up
+          {{ isSignUpResponseWaiting ? "Loading..." : "Sign Up" }}
         </button>
       </div>
       <div class="text-center mt-2">
         <p>
           <span class="my-0 pe-1">Already registered ?</span>
           <router-link
-              :to="{name: 'login'}"
+              :to="{name: 'logIn'}"
               class="link-primary text-decoration-none"
           >
             Login to your account

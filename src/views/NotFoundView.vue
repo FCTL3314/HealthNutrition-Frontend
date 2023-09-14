@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center pt-5">
+  <div class="text-center pt-4">
     <h1 class="text-main">404 Not Found</h1>
     <hr>
     <img

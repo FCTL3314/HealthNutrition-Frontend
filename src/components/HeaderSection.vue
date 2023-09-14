@@ -157,9 +157,9 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
         <ul v-else class="nav nav-underline align-items-center">
           <li class="nav-item">
             <router-link
-                :to="{name: 'login'}"
+                :to="{name: 'logIn'}"
                 class="nav-link nav-link-action"
-                :class="isNavItemActive({routeName: 'login'}) ? 'active' : 'link-dark'"
+                :class="isNavItemActive({routeName: 'logIn'}) ? 'active' : 'link-dark'"
             >
               Log In
             </router-link>
