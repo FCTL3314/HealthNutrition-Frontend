@@ -2,7 +2,7 @@
 import api from '@/api/index'
 import {onMounted, ref} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
-import {calculateTotalPages, setParams} from '@/utils'
+import {calculateTotalPages, scrollToElement, setParams} from '@/utils'
 import SearchSection from '@/components/SearchSection.vue';
 import CardList from '@/components/cards/CardList.vue';
 import CategoryCard from '@/components/cards/CategoryCard.vue';
@@ -37,17 +37,10 @@ async function updateCategories() {
 
 const cardListRef = ref(null);
 
-function scrollToCardList() {
-  window.scrollTo({
-    top: cardListRef.value.$el.offsetTop,
-    behavior: 'smooth',
-  });
-}
-
 async function onPageChange(page) {
   currentPage.value = page;
   await setParams(router, route, {page: page});
-  scrollToCardList();
+  scrollToElement(cardListRef.value);
   await updateCategories();
 }
 

@@ -5,14 +5,21 @@ export function calculateTotalPages(objectsCount, paginateBy) {
   return Math.ceil(objectsCount / paginateBy)
 }
 
-export const scrollToTop = (behavior='smooth') => {
+export function scrollToTop(behavior = 'smooth') {
   window.scrollTo({
     top: 0,
     behavior: behavior,
   });
 }
 
-export const scrollToBottom = () => {
+export function scrollToElement(element, behavior = 'smooth') {
+  window.scrollTo({
+    top: element.$el.offsetTop,
+    behavior: behavior,
+  });
+}
+
+export function scrollToBottom() {
   window.scrollTo({
     top: document.body.scrollHeight,
     behavior: 'smooth',
@@ -50,7 +57,7 @@ export function isTokenExpired(token) {
   return currentDate >= expirationDate;
 }
 
-export const resetForm = (validator) => {
+export function resetForm(validator) {
   validator.$reset();
 }
 
@@ -69,7 +76,7 @@ export function getUserImage(user) {
   return user.image || '/src/assets/images/default_user.png'
 }
 
-export async function setParams(router, route, params, savePosition=true) {
+export async function setParams(router, route, params, savePosition = true) {
   const _params = {...params}
   if (savePosition) {
     _params.save_position = "true"

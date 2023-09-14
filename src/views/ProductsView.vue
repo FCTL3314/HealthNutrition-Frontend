@@ -2,12 +2,13 @@
 import api from '@/api/index'
 import {onMounted, ref, computed} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
-import {calculateTotalPages, setParams, createTitle} from '@/utils'
+import {calculateTotalPages, setParams, createTitle, scrollToElement} from '@/utils'
 import SearchSection from '@/components/SearchSection.vue';
 import CardList from '@/components/cards/CardList.vue';
 import ProductCard from '@/components/cards/ProductCard.vue';
 import ProductCardPlaceholder from '@/components/cards/ProductCardPlaceholder.vue';
 import PaginationSection from '@/components/PaginationSection.vue';
+import NotFoundSection from '@/components/NotFoundSection.vue';
 
 const category = ref(null);
 const isCategoryLoading = ref(false);
@@ -57,23 +58,16 @@ async function loadProducts() {
 
 async function updateProducts() {
   const data = await loadProducts()
-  products.value = data.results;
+  // products.value = data.results;
   totalPages.value = calculateTotalPages(data.count, data.results.length);
 }
 
 const cardListRef = ref(null);
 
-function scrollToCardList() {
-  window.scrollTo({
-    top: cardListRef.value.$el.offsetTop,
-    behavior: 'smooth',
-  });
-}
-
 async function onPageChange(page) {
   currentPage.value = page;
   await setParams(router, route, {page: page});
-  scrollToCardList();
+  scrollToElement(cardListRef.value);
   await updateProducts();
 }
 
@@ -129,13 +123,5 @@ onMounted(async () => {
       <product-card-placeholder/>
     </div>
   </card-list>
-  <div v-if="isDataLoaded && !isProductsExists" class="text-center">
-    <img
-        class="mb-4 mt-2"
-        src="@/assets/icons/magnifying-glass.svg"
-        alt="magnifying-glass"
-        width="100"
-        height="100">
-    <h4>Looks like we couldn't find what you're looking for.</h4>
-  </div>
+  <not-found-section v-if="isDataLoaded && !isProductsExists"/>
 </template>
