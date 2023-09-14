@@ -5,10 +5,10 @@ export function calculateTotalPages(objectsCount, paginateBy) {
   return Math.ceil(objectsCount / paginateBy)
 }
 
-export const scrollToTop = () => {
+export const scrollToTop = (behavior='smooth') => {
   window.scrollTo({
     top: 0,
-    behavior: 'smooth',
+    behavior: behavior,
   });
 }
 
@@ -67,4 +67,12 @@ export function getResponseMessages(response) {
 
 export function getUserImage(user) {
   return user.image || '/src/assets/images/default_user.png'
+}
+
+export async function setParams(router, route, params, savePosition=true) {
+  const _params = {...params}
+  if (savePosition) {
+    _params.save_position = "true"
+  }
+  await router.replace({query: {...route.query, ..._params}});
 }

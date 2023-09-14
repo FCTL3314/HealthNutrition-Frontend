@@ -1,8 +1,13 @@
 import {createRouter, createWebHistory} from 'vue-router';
-import {createTitle} from '@/utils';
+import {createTitle, scrollToTop} from '@/utils';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  scrollBehavior(to) {
+    if (!(to.query.save_position === "true")) {
+      scrollToTop('instant')
+    }
+  },
   routes: [
     {
       name: 'categories',
@@ -38,7 +43,7 @@ const router = createRouter({
           component: () => import('@/views/layouts/AuthLayout.vue'),
           children: [
             {
-              name: 'login',
+              name: 'logIn',
               path: 'login/',
               component: () => import('@/views/LogInView.vue'),
               meta: {
@@ -48,7 +53,7 @@ const router = createRouter({
             {
               name: 'registration',
               path: 'registration/',
-              component: () => import('@/views/RegistrationView.vue'),
+              component: () => import('@/views/SignUpView.vue'),
               meta: {
                 title: 'Sign Up',
               },
@@ -69,16 +74,15 @@ const router = createRouter({
       path: '/:pathMatch(.*)',
       name: 'notFound',
       component: () => import('@/views/NotFoundView.vue'),
+      meta: {
+        title: 'Not Found'
+      }
     },
   ],
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.name === 'notFound') {
-    document.title = createTitle('Not Found');
-  } else {
-    document.title = createTitle(to.meta.title);
-  }
+  document.title = createTitle(to.meta.title);
   next();
 });
 
