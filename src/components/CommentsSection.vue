@@ -49,33 +49,29 @@ const user = computed(() => store.getters['auth/user']);
          height="40"
     >
     <form id="add-comment-form" class="w-100">
-      <div v-if="loggedIn" class="input-group">
-        <input
-            class="form-control"
-            placeholder="Add a comment..."
-            maxlength="516"
-            type="text"
-        >
-        <button class="btn btn-outline-success" type="submit" id="comment-submit">Comment</button>
-      </div>
-      <template v-else>
         <div class="input-group">
           <input
               class="form-control"
               placeholder="Add a comment..."
               maxlength="516"
               type="text"
-              disabled=""
+              :disabled="!loggedIn"
           >
-          <button class="btn btn-outline-success" type="submit" id="comment-submit" disabled="">Comment</button>
+          <button
+              class="btn btn-outline-success"
+              :class="{disabled: !loggedIn}"
+              type="submit"
+              id="comment-submit"
+          >
+            Comment
+          </button>
         </div>
-        <p>
-          <router-link class="link-main" :to="{name: 'login'}">Log In</router-link>
+        <p v-if="!loggedIn">
+          <router-link class="link-main" :to="{name: 'logIn'}">Log In</router-link>
           or
           <router-link class="link-main" :to="{name: 'registration'}">Sign Up</router-link>
           to leave comments.
         </p>
-      </template>
     </form>
   </div>
   <div id="comments-wrp" class="container">

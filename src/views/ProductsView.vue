@@ -58,7 +58,7 @@ async function loadProducts() {
 
 async function updateProducts() {
   const data = await loadProducts()
-  // products.value = data.results;
+  products.value = data.results;
   totalPages.value = calculateTotalPages(data.count, data.results.length);
 }
 
