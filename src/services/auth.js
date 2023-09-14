@@ -7,7 +7,7 @@ export async function logout() {
   store.commit('auth/removeRefreshToken')
   authStorage().removeItem('accessToken');
   authStorage().removeItem('refreshToken');
-  await router.push({name: 'login'});
+  await router.push({name: 'logIn'});
 }
 
 export async function logoutWithFlush() {

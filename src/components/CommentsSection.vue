@@ -51,7 +51,7 @@ const user = computed(() => store.getters['auth/user']);
   <div class="mb-3">
     <h3>{{ commentsCount }} {{ commentsCount === 1 ? 'Comment' : 'Comments' }}</h3>
   </div>
-  <div class="d-flex mb-3">
+  <div class="d-flex">
     <img class="me-3 rounded-circle object-fit-cover"
          :src="getUserImage(user)"
          alt="author-image"
@@ -66,6 +66,7 @@ const user = computed(() => store.getters['auth/user']);
               placeholder="Add a comment..."
               maxlength="516"
               type="text"
+              required
               :disabled="!loggedIn"
           >
           <button
@@ -85,7 +86,7 @@ const user = computed(() => store.getters['auth/user']);
         </p>
     </form>
   </div>
-  <div id="comments-wrp" class="container">
+  <div id="comments-wrp" class="container my-3">
     <comment-block
         v-for="(comment, index) in comments"
         :key="index"
@@ -102,7 +103,7 @@ const user = computed(() => store.getters['auth/user']);
       <span class="visually-hidden">Loading...</span>
     </span>
     </div>
-    <div v-if="comments.length === 0 && !isCommentsLoading" class="container text-center mb-5">
+    <div v-if="comments.length === 0 && !isCommentsLoading" class="container text-center">
       <img class="mb-4" src="@/assets/icons/comment.svg" alt="comment" width="125" height="125">
       <h4>Looks like no one has left a comment yet, be the first!</h4>
     </div>

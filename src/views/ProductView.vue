@@ -6,7 +6,6 @@ import moment from 'moment';
 import CommentsSection from "@/components/CommentsSection.vue";
 import {createTitle} from "@/utils";
 
-
 const route = useRoute()
 
 const product = ref(null);
