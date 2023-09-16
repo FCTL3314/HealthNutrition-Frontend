@@ -3,7 +3,8 @@ import {computed, ref} from 'vue';
 import store from '@/store';
 import {getUserImage} from '@/utils';
 import CaretDownIcon from '@/components/icons/CaretDownIcon.vue';
-import CommentBlock from '@/components/CommentBlock.vue';
+import CommentBlock from '@/components/comments/CommentBlock.vue';
+import CommentBlockPlaceholder from '@/components/comments/CommentBlockPlaceholder.vue';
 
 defineProps({
   comments: {
@@ -95,14 +96,11 @@ const user = computed(() => store.getters['auth/user']);
         :created_at="comment.created_at"
         :edited="comment.edited"
     />
-    <div v-if="isCommentsLoading" class="text-center">
-    <span
-        class="spinner-border text-primary"
-        role="status"
-    >
-      <span class="visually-hidden">Loading...</span>
-    </span>
-    </div>
+    <comment-block-placeholder
+        v-if="isCommentsLoading"
+        v-for="_ in 3"
+        :key="_"
+    />
     <div v-if="comments.length === 0 && !isCommentsLoading" class="container text-center">
       <img class="mb-4" src="@/assets/icons/comment.svg" alt="comment" width="125" height="125">
       <h4>Looks like no one has left a comment yet, be the first!</h4>

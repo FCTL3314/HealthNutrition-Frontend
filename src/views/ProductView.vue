@@ -3,7 +3,7 @@ import {onMounted, ref} from "vue";
 import api from "@/api";
 import {useRoute} from "vue-router";
 import moment from 'moment';
-import CommentsSection from "@/components/CommentsSection.vue";
+import CommentsSection from "@/components/comments/CommentsSection.vue";
 import {createTitle} from "@/utils";
 
 const route = useRoute()
