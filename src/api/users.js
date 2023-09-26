@@ -12,6 +12,9 @@ export default function (instance) {
     me() {
       return instance.get('users/me/');
     },
+    update(payload) {
+      return instance.patch('users/me/', payload);
+    },
     specificUser(userSlug) {
       return instance.get(`users/${userSlug}/`);
     },
