@@ -1,4 +1,5 @@
 export const TITLE_ENDING = 'StoreTracker'
+export const BASE_BACKEND_URL = 'http://127.0.0.1:8000/'
 export const BASE_API_URL = 'http://127.0.0.1:8000/api/v1/'
 export const FRONTEND_REPOSITORY_URL = 'https://github.com/FCTL3314/StoreTracker-Frontend'
 export const BACKEND_REPOSITORY_URL = 'https://github.com/FCTL3314/StoreTracker-Backend'
