@@ -1,4 +1,4 @@
-import {TITLE_ENDING} from '@/constants';
+import {BASE_BACKEND_URL, TITLE_ENDING} from '@/constants';
 import {capitalize} from "vue";
 
 export function calculateTotalPages(objectsCount, paginateBy) {
@@ -74,6 +74,10 @@ export function getResponseMessages(response) {
 
 export function getUserImage(user) {
   return user.image || '/src/assets/images/default_user.png'
+}
+
+export function getImageFullPath(url) {
+  return BASE_BACKEND_URL + url;
 }
 
 export async function setParams(router, route, params, savePosition = true) {

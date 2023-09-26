@@ -4,7 +4,7 @@ import api from "@/api";
 import {useRoute} from "vue-router";
 import moment from 'moment';
 import CommentsSection from "@/components/comments/CommentsSection.vue";
-import {createTitle} from "@/utils";
+import {getImageFullPath, createTitle} from "@/utils";
 
 const route = useRoute()
 
@@ -83,7 +83,7 @@ onMounted(async () => {
           width="332"
           height="332"
           class="img-fluid mb-2"
-          :src="product.image"
+          :src="getImageFullPath(product.image)"
           alt="product-logo"
       >
       <h2 class="text-main">{{ product.name }}</h2>
