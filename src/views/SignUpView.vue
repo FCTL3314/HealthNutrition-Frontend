@@ -4,7 +4,7 @@ import {computed, reactive, ref} from 'vue';
 import {useVuelidate} from '@vuelidate/core';
 import {alphaNum, email, helpers, maxLength, minLength, required, sameAs} from '@vuelidate/validators';
 import FormErrorsFeedback from '@/components/forms/FormErrorsFeedback.vue';
-import {getResponseMessages, getValidationClass, resetForm} from "@/utils";
+import {appendErrors, getValidationClass, resetForm} from "@/utils";
 import {PasswordValidator, UsernameValidator} from "@/validators";
 import router from "@/router";
 import toaster from '@/plugins/toaster';
@@ -55,16 +55,18 @@ const v$ = useVuelidate(rules, formData)
 
 const serverErrorMessages = reactive([]);
 
-function handleServerError(statusCode, response) {
-  if (statusCode === 400) {
-    serverErrorMessages.push(...getResponseMessages(response))
-  } else {
-    serverErrorMessages.push('Unknown error, please try again later.')
-  }
+async function handleAfterSignUpActions() {
+  await router.push({name: 'logIn'});
+  toaster.success('You have successfully registered!');
 }
 
+function handleErrorActions(error) {
+  appendErrors(serverErrorMessages, error.request.status, error.request.response);
+  resetForm(v$.value);
+  console.log(error.request);
+}
 
-const register = async () => {
+const signUp = async () => {
   isSignUpResponseWaiting.value = true;
   serverErrorMessages.length = 0;
   try {
@@ -73,12 +75,9 @@ const register = async () => {
       email: formData.email,
       password: formData.password,
     });
-    await router.push({name: 'logIn'});
-    toaster.success('You have successfully registered!')
+    await handleAfterSignUpActions();
   } catch (error) {
-    handleServerError(error.request.status, error.request.response);
-    resetForm(v$.value);
-    console.log(error.request);
+    handleErrorActions(error);
   } finally {
     isSignUpResponseWaiting.value = false;
   }
@@ -87,7 +86,7 @@ const register = async () => {
 
 <template>
   <div class="container rounded-4 col-lg-5 col-md-8 shadow-lg">
-    <form @submit.prevent="register" class="py-2 px-1">
+    <form @submit.prevent="signUp" class="py-2 px-1">
       <div class="mb-4">
         <h2 class="form-title text-center mt-2">Sign Up</h2>
       </div>

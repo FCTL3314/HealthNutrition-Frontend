@@ -2,7 +2,7 @@
 import {computed} from 'vue';
 import {useRoute} from 'vue-router';
 import {useStore} from 'vuex';
-import {FRONTEND_REPOSITORY_URL, BACKEND_REPOSITORY_URL, DJANGO_ADMIN_URL} from '@/constants'
+import {BACKEND_REPOSITORY_URL, DJANGO_ADMIN_URL, FRONTEND_REPOSITORY_URL} from '@/constants'
 import {getUserImage, scrollToBottom} from "@/utils";
 import HouseIcon from '@/components/icons/HouseIcon.vue';
 import PenIcon from '@/components/icons/PenIcon.vue';
@@ -123,10 +123,13 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
               </router-link>
             </li>
             <li>
-              <a href="#" class="dropdown-item inline-icon-text">
+              <router-link
+                  :to="{name: 'accountSettingsTab'}"
+                  class="dropdown-item inline-icon-text"
+              >
                 <pen-icon/>
                 <span class="ps-1">Settings & Privacy</span>
-              </a>
+              </router-link>
             </li>
             <li>
               <hr class="dropdown-divider">

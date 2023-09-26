@@ -72,6 +72,20 @@ export function getResponseMessages(response) {
   return messages;
 }
 
+export function getResponseErrors(statusCode, response) {
+  let errors = [];
+  if (statusCode === 400) {
+    errors.push(...getResponseMessages(response));
+  } else {
+    errors.push('Unknown error, please try again later.');
+  }
+  return errors;
+}
+
+export function appendErrors(arr, statusCode, response) {
+  arr.push(...getResponseErrors(statusCode, response));
+}
+
 export function getUserImage(user) {
   return user.image || '/src/assets/images/default_user.png'
 }

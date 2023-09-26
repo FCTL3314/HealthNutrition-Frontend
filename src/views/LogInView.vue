@@ -6,7 +6,7 @@ import {useVuelidate} from '@vuelidate/core';
 import {useStore} from 'vuex';
 import {alphaNum, maxLength, minLength, required} from '@vuelidate/validators';
 import FormErrorsFeedback from '@/components/forms/FormErrorsFeedback.vue';
-import {getValidationClass, resetForm} from "@/utils";
+import {getResponseErrors, getValidationClass, resetForm} from "@/utils";
 import {PasswordValidator, UsernameValidator} from "@/validators";
 import toaster from '@/plugins/toaster';
 import {authStorage} from "@/services/auth";
@@ -42,8 +42,6 @@ const rules = {
 
 const v$ = useVuelidate(rules, formData)
 
-const serverErrorMessages = reactive([])
-
 async function storeUserData(data) {
   localStorage.setItem('rememberMe', JSON.stringify(formData.rememberMe));
 
@@ -58,15 +56,17 @@ async function storeUserData(data) {
   authStorage().setItem('user', JSON.stringify(user));
 }
 
-function handleServerError(statusCode) {
+const serverErrorMessages = reactive([])
+
+function handleLogInError(statusCode) {
   if (statusCode === 401) {
     serverErrorMessages.push('Invalid username or password.')
   } else {
-    serverErrorMessages.push('Unknown error, please try again later.')
+    serverErrorMessages.push(...getResponseErrors(statusCode));
   }
 }
 
-const login = async () => {
+const logIn = async () => {
   isLoginResponseWaiting.value = true;
   serverErrorMessages.length = 0;
   try {
@@ -78,7 +78,7 @@ const login = async () => {
     await router.push({name: 'categories'})
     toaster.success('You have successfully login!')
   } catch (error) {
-    handleServerError(error.response.status)
+    handleLogInError(error.response.status)
     resetForm(v$.value)
     console.error(error.response);
   } finally {
@@ -89,7 +89,7 @@ const login = async () => {
 
 <template>
   <div class="container rounded-4 col-lg-4 col-md-7 col-sm-8 shadow-lg">
-    <form @submit.prevent="login" class="py-2 px-1">
+    <form @submit.prevent="logIn" class="py-2 px-1">
       <div class="mb-4">
         <h2 class="form-title text-center mt-2">Log In</h2>
       </div>
