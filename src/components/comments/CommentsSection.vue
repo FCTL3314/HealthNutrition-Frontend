@@ -29,6 +29,9 @@ defineProps({
   }
 })
 
+const user = computed(() => store.getters['auth/user']);
+const loggedIn = computed(() => !!store.getters['auth/accessToken']);
+
 const commentText = ref("");
 
 let currentPage = 1;
@@ -44,8 +47,6 @@ const onClickAddComment = () => {
   emits("addComment", commentText.value);
   commentText.value = "";
 }
-const loggedIn = computed(() => !!store.getters['auth/accessToken']);
-const user = computed(() => store.getters['auth/user']);
 </script>
 
 <template>
@@ -101,7 +102,7 @@ const user = computed(() => store.getters['auth/user']);
         v-for="_ in 3"
         :key="_"
     />
-    <div v-if="comments.length === 0 && !isCommentsLoading" class="container text-center">
+    <div v-else-if="comments.length === 0" class="container text-center">
       <img class="mb-4" src="@/assets/icons/comment.svg" alt="comment" width="125" height="125">
       <h4>Looks like no one has left a comment yet, be the first!</h4>
     </div>

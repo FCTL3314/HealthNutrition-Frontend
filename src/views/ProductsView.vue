@@ -72,7 +72,7 @@ async function onPageChange(page) {
 }
 
 function createProductRoute(productSlug) {
-  return {name: 'product', params: {categorySlug: category.slug, productSlug: productSlug}}
+  return {name: 'product', params: {categorySlug: category.value.slug, productSlug: productSlug}}
 }
 
 onMounted(async () => {

@@ -87,7 +87,7 @@ export function appendErrors(arr, statusCode, response) {
 }
 
 export function getUserImage(user) {
-  return user.image || '/src/assets/images/default_user.png'
+  return user?.image || '/src/assets/images/default_user.png'
 }
 
 export function getImageFullPath(url) {
