@@ -1,8 +1,8 @@
 # 📖 Table of contents
 
 [![Node.js](https://img.shields.io/badge/Node.js-18.18.0-3E863D?style=flat-square)](https://nodejs.org/en)
-[![Vue.js](https://img.shields.io/badge/Vue.js-3.3.4-3FB984?style=flat-square)](https://www.python.org/)
-[![Linter](https://img.shields.io/badge/ESLint-8.50.0-453ABC?style=flat-square)](https://black.readthedocs.io/en/stable/)
+[![Vue.js](https://img.shields.io/badge/Vue.js-3.3.4-3FB984?style=flat-square)]([https://www.python.org/](https://vuejs.org/))
+[![Linter](https://img.shields.io/badge/ESLint-8.50.0-453ABC?style=flat-square)]([https://black.readthedocs.io/en/stable/](https://eslint.org/))
 
 <ul>
   <li>
