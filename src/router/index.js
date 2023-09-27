@@ -1,5 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router';
 import {createTitle, scrollToTop} from '@/utils';
+import store from '@/store/index'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -58,7 +59,22 @@ const router = createRouter({
                 title: 'Sign Up',
               },
             },
-          ]
+          ],
+        },
+        {
+          name: 'settings',
+          path: 'settings/',
+          component: () => import('@/views/layouts/SettingsLayout.vue'),
+          children: [
+            {
+              name: 'accountSettingsTab',
+              path: 'account/',
+              component: () => import('@/components/settings/AccountTab.vue'),
+              meta: {
+                title: "Account Settings"
+              }
+            }
+          ],
         },
         {
           name: 'profile',
@@ -83,7 +99,12 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   document.title = createTitle(to.meta.title);
-  next();
+  const loggedIn = !!store.getters['auth/accessToken'];
+  if (to.name === 'settings' && !loggedIn) {
+    next({name: 'logIn'})
+  } else {
+    next();
+  }
 });
 
 export default router;
