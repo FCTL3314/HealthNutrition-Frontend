@@ -13,7 +13,11 @@ export default function (instance) {
       return instance.get('users/me/');
     },
     update(payload) {
-      return instance.patch('users/me/', payload);
+      return instance.patch('users/me/', payload, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        }
+      });
     },
     specificUser(userSlug) {
       return instance.get(`users/${userSlug}/`);
