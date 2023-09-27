@@ -1,3 +1,27 @@
+# 📖 Table of contents
+
+[![Node.js](https://img.shields.io/badge/Node.js-18.18.0-3E863D?style=flat-square)](https://nodejs.org/en)
+[![Vue.js](https://img.shields.io/badge/Vue.js-3.3.4-3FB984?style=flat-square)](https://www.python.org/)
+[![Linter](https://img.shields.io/badge/ESLint-8.50.0-453ABC?style=flat-square)](https://black.readthedocs.io/en/stable/)
+
+<ul>
+  <li>
+    <b>
+      <a href="#-description">Description</a>
+    </b>
+  </li>
+  <li>
+    <b>
+      <a href="#-demonstration">Demonstration</a>
+    </b>
+  </li>
+  <li>
+    <b>
+      <a href="#-local-installation">Local installation</a>
+    </b>
+  </li>
+</ul>
+
 <details open><summary><h1>📃 Description</h1></summary>
 
 The <b>frontend part of StoreTracker project</b> that complements the backend by providing the Vue.js-based user interface that allows users to interact with the price comparison platform.
@@ -63,6 +87,20 @@ Together, the <b>backend</b> and <b>frontend</b>, collaborate to create a <b>com
 
 ![firefox_4HtesbsbBG](https://github.com/FCTL3314/StoreTracker/assets/97694131/7e404765-9adf-4505-b8d2-302eb7952e53)
 ![firefox_IRjbXLaWtk](https://github.com/FCTL3314/StoreTracker/assets/97694131/99094345-4b41-4acc-b5c4-247e17031c0b)
+
+</details>
+
+<details><summary><h1>🔥 Features</h1></summary>
+
+* **REST API**
+* **Domain Driven Development**
+* **JWT Authentication**
+* **Postponed Tasks / Celery**
+* **Authentication / Authorization**
+* **Profile editing**
+* **Email sending**
+* **Documentation**
+* **Tests (PyTest)**
 
 </details>
 
