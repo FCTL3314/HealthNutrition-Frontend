@@ -73,7 +73,23 @@ const router = createRouter({
               meta: {
                 title: "Account Settings"
               }
-            }
+            },
+            {
+              name: 'emailSettingsTab',
+              path: 'email/',
+              component: () => import('@/components/settings/EmailTab.vue'),
+              meta: {
+                title: "Email Settings"
+              },
+            },
+            {
+              name: 'passwordSettingsTab',
+              path: 'password/',
+              component: () => import('@/components/settings/EmailTab.vue'),
+              meta: {
+                title: "Password Settings"
+              }
+            },
           ],
         },
         {

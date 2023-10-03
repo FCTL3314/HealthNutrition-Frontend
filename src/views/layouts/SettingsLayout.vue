@@ -7,7 +7,9 @@ import HouseFillIcon from '@/components/icons/HouseFillIcon.vue';
 import EnvelopeFillIcon from "@/components/icons/EnvelopeFillIcon.vue";
 import KeyFillIcon from "@/components/icons/KeyFillIcon.vue";
 import DoorOpenIcon from "@/components/icons/DoorOpenIcon.vue";
+import {useRoute} from "vue-router";
 
+const route = useRoute();
 const store = useStore();
 const user = computed(() => store.getters['auth/user']);
 
@@ -28,6 +30,9 @@ const settingsTabs = [
     icon: KeyFillIcon,
   },
 ];
+
+
+const isSettingsTabActive = (settingTab) => route.name === settingTab.routeName;
 </script>
 
 <template>
@@ -47,15 +52,16 @@ const settingsTabs = [
       </div>
       <hr>
       <div class="list-group rounded-top-2 rounded-bottom-2 ">
-        <a
+        <router-link
             class="list-group-item list-group-item-action"
-            href="#"
+            :class="{'list-group-item-primary pe-none': isSettingsTabActive(settingsTab)}"
+            :to="{name: settingsTab.routeName}"
             v-for="(settingsTab, index) in settingsTabs"
             :key="index"
         >
           <component class="me-2" :is="settingsTab.icon"/>
           <span>{{ settingsTab.name }}</span>
-        </a>
+        </router-link>
       </div>
       <hr>
       <div class="text-center inline-icon-text justify-content-center">
