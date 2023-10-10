@@ -4,12 +4,12 @@ import api from "@/api";
 import {useRoute} from "vue-router";
 import moment from 'moment';
 import CommentsSection from "@/components/comments/CommentsSection.vue";
-import {getImageFullPath, createTitle} from "@/utils";
+import {createTitle, getImageFullPath} from "@/utils";
 
 const route = useRoute()
 
+const isProductLoading = ref(false);
 const product = ref(null);
-const isProductLoaded = ref(false);
 
 const comments = ref([]);
 const commentsCount = ref(0);
@@ -19,13 +19,13 @@ const isAddingComment = ref(false);
 
 
 async function loadProduct() {
-  isProductLoaded.value = true;
+  isProductLoading.value = true;
   try {
     return (await api.products.product(route.params.productSlug)).data;
   } catch (error) {
     console.error(error.response);
   } finally {
-    isProductLoaded.value = false;
+    isProductLoading.value = false;
   }
 }
 

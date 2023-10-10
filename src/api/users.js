@@ -19,6 +19,9 @@ export default function (instance) {
         }
       });
     },
+    changeEmail(payload) {
+      return instance.post('users/change-email/', payload);
+    },
     specificUser(userSlug) {
       return instance.get(`users/${userSlug}/`);
     },

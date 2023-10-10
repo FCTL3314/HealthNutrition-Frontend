@@ -2,14 +2,13 @@
 import {computed, reactive, ref} from "vue";
 import {useStore} from "vuex";
 import {useVuelidate} from "@vuelidate/core";
-import {alphaNum, email, maxLength, minLength, required} from "@vuelidate/validators";
-import {PasswordValidator} from "@/validators";
-import {appendErrors, getValidationClass, resetForm} from "@/utils";
+import {email, required} from "@vuelidate/validators";
+import {passwordValidators} from "@/validators";
+import {appendResponseErrors, getValidationClass, resetForm} from "@/utils";
 import api from "@/api";
-import toaster from "@/plugins/toaster";
-import {authStorage} from "@/services/auth";
 import FormErrorsFeedback from "@/components/forms/FormErrorsFeedback.vue";
 import BaseTab from "@/components/settings/BaseTab.vue";
+import {afterUpdateActions} from "@/services/userUpdate"
 
 const store = useStore();
 const user = computed(() => store.getters['auth/user']);
@@ -26,41 +25,28 @@ const rules = {
     required,
     email,
   },
-  password: {
-    required,
-    alphaNum,
-    minLength: minLength(8),
-    maxLength: maxLength(32),
-    PasswordValidator,
-  },
+  password: passwordValidators,
 };
 
 const v$ = useVuelidate(rules, formData);
 
 const serverErrorMessages = reactive([]);
 
-async function handleAfterUpdateActions(updatedUser) {
-  store.commit('auth/setUser', updatedUser);
-  authStorage().setItem('user', JSON.stringify(updatedUser));
-  toaster.success('Your account data has been successfully updated!')
-}
-
-function handleErrorActions(error) {
-  appendErrors(serverErrorMessages, error.request.status, error.request.response);
-  console.log(error.request);
-}
-
 async function update() {
   isUpdateResponseWaiting.value = true;
   serverErrorMessages.length = 0;
   try {
-    const response = await api.users.update({
-      newEmail: formData.newEmail,
+    const response = await api.users.changeEmail({
+      new_email: formData.newEmail,
       password: formData.password,
     });
-    await handleAfterUpdateActions(response.data)
+    await afterUpdateActions(
+        response.data,
+        'Your email has been successfully changed.',
+    )
   } catch (error) {
-    handleErrorActions(error)
+    appendResponseErrors(serverErrorMessages, error.request.response);
+    console.log(error.request);
   } finally {
     resetForm(v$.value);
     isUpdateResponseWaiting.value = false;

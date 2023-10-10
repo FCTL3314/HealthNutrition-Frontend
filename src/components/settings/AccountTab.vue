@@ -3,14 +3,13 @@ import {computed, reactive, ref} from "vue";
 import {useStore} from "vuex";
 import {useVuelidate} from "@vuelidate/core";
 import {maxLength, minLength} from "@vuelidate/validators";
-import {UsernameValidator} from "@/validators";
-import {appendErrors, getValidationClass, resetForm} from "@/utils";
+import {usernameValidators} from "@/validators";
+import {appendResponseErrors, getValidationClass, resetForm} from "@/utils";
 import FormErrorsFeedback from "@/components/forms/FormErrorsFeedback.vue";
 import api from "@/api";
-import toaster from "@/plugins/toaster";
-import {authStorage} from "@/services/auth";
 import {ALLOWED_IMAGE_EXTENSIONS} from "@/constants";
 import BaseTab from "@/components/settings/BaseTab.vue";
+import {afterUpdateActions} from "@/services/userUpdate";
 
 const store = useStore();
 const user = computed(() => store.getters['auth/user']);
@@ -26,11 +25,7 @@ const formData = reactive({
 });
 
 const rules = {
-  username: {
-    UsernameValidator,
-    minLength: minLength(4),
-    maxLength: maxLength(32),
-  },
+  username: usernameValidators,
   firstName: {
     minLength: minLength(1),
     maxLength: maxLength(150),
@@ -39,7 +34,6 @@ const rules = {
     minLength: minLength(1),
     maxLength: maxLength(150),
   },
-  image: {}, // TODO: File Size
   about: {
     minLength: minLength(1),
     maxLength: maxLength(516),
@@ -48,20 +42,9 @@ const rules = {
 
 const v$ = useVuelidate(rules, formData);
 
-const handleImageFieldChange = (event) => formData.image = event.target.files[0]
+const handleImageFieldChange = (event) => formData.image = event.target.files[0];
 
 const serverErrorMessages = reactive([]);
-
-async function handleAfterUpdateActions(updatedUser) {
-  store.commit('auth/setUser', updatedUser);
-  authStorage().setItem('user', JSON.stringify(updatedUser));
-  toaster.success('Your account data has been successfully updated!')
-}
-
-function handleErrorActions(error) {
-  appendErrors(serverErrorMessages, error.request.status, error.request.response);
-  console.log(error.request);
-}
 
 async function update() {
   isUpdateResponseWaiting.value = true;
@@ -74,9 +57,13 @@ async function update() {
       image: formData.image,
       about: formData.about,
     });
-    await handleAfterUpdateActions(response.data)
+    await afterUpdateActions(
+        response.data,
+        'Your account data has been successfully updated.',
+    );
   } catch (error) {
-    handleErrorActions(error)
+    appendResponseErrors(serverErrorMessages, error.request.response);
+    console.log(error.request);
   } finally {
     resetForm(v$.value);
     isUpdateResponseWaiting.value = false;

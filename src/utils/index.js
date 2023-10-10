@@ -61,37 +61,50 @@ export function resetForm(validator) {
   validator.$reset();
 }
 
+export function getResponseDetail(response) {
+  const parsedResponse = JSON.parse(response);
+  if ('detail' in parsedResponse) {
+    return capitalize(parsedResponse['detail']);
+  }
+}
+
 export function getResponseMessages(response) {
   const parsedResponse = JSON.parse(response);
   let messages = [];
-  for (const key in parsedResponse) {
-    for (const message of parsedResponse[key]) {
+  if ('messages' in parsedResponse) {
+    for (const message of parsedResponse['messages']) {
       messages.push(capitalize(message));
     }
   }
   return messages;
 }
 
-export function getResponseErrors(statusCode, response) {
-  let errors = [];
-  if (statusCode === 400) {
-    errors.push(...getResponseMessages(response));
-  } else {
-    errors.push('Unknown error, please try again later.');
+export function appendResponseErrors(arr, response) {
+  const detail = getResponseDetail(response);
+  const messages = getResponseMessages(response);
+
+  if (detail) {
+    arr.push(detail);
   }
-  return errors;
+
+  if (messages) {
+    arr.push(...messages);
+  }
 }
 
-export function appendErrors(arr, statusCode, response) {
-  arr.push(...getResponseErrors(statusCode, response));
-}
-
-export function getUserImage(user) {
-  return user?.image || '/src/assets/images/default_user.png'
+export function appendResponseFieldErrors(arr, response) {
+  const parsedResponse = JSON.parse(response);
+  for (const key in parsedResponse) {
+    arr.push(...parsedResponse[key]);
+  }
 }
 
 export function getImageFullPath(url) {
   return BASE_BACKEND_URL + url;
+}
+
+export function getUserImage(user) {
+  return user?.image || '/src/assets/images/default_user.png'
 }
 
 export async function setParams(router, route, params, savePosition = true) {
