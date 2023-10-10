@@ -4,13 +4,14 @@ import {reactive, ref} from 'vue';
 import {useRouter} from 'vue-router';
 import {useVuelidate} from '@vuelidate/core';
 import {useStore} from 'vuex';
-import {alphaNum, maxLength, minLength, required} from '@vuelidate/validators';
+import {required} from '@vuelidate/validators';
 import FormErrorsFeedback from '@/components/forms/FormErrorsFeedback.vue';
-import {getResponseErrors, getValidationClass, resetForm} from "@/utils";
-import {PasswordValidator, UsernameValidator} from "@/validators";
+import {appendResponseErrors, getValidationClass, resetForm} from "@/utils";
+import {passwordValidators, usernameValidators} from "@/validators";
 import toaster from '@/plugins/toaster';
 import {authStorage} from "@/services/auth";
 import FormFlushMessages from '@/components/forms/FormFlushMessages.vue'
+import SubmitButton from "@/components/submitButton.vue";
 
 
 const router = useRouter();
@@ -26,18 +27,10 @@ const formData = reactive({
 
 const rules = {
   username: {
+    ...usernameValidators,
     required,
-    UsernameValidator,
-    minLength: minLength(4),
-    maxLength: maxLength(32),
   },
-  password: {
-    required,
-    alphaNum,
-    minLength: minLength(8),
-    maxLength: maxLength(32),
-    PasswordValidator,
-  },
+  password: passwordValidators,
 };
 
 const v$ = useVuelidate(rules, formData)
@@ -58,14 +51,6 @@ async function storeUserData(data) {
 
 const serverErrorMessages = reactive([])
 
-function handleLogInError(statusCode) {
-  if (statusCode === 401) {
-    serverErrorMessages.push('Invalid username or password.')
-  } else {
-    serverErrorMessages.push(...getResponseErrors(statusCode));
-  }
-}
-
 const logIn = async () => {
   isLoginResponseWaiting.value = true;
   serverErrorMessages.length = 0;
@@ -78,7 +63,7 @@ const logIn = async () => {
     await router.push({name: 'categories'})
     toaster.success('You have successfully login!')
   } catch (error) {
-    handleLogInError(error.response.status)
+    appendResponseErrors(serverErrorMessages, error.request.response)
     resetForm(v$.value)
     console.error(error.response);
   } finally {
@@ -135,13 +120,12 @@ const logIn = async () => {
       </div>
       <hr>
       <div class="text-center">
-        <button
-            type="submit"
-            class="btn btn-outline-primary"
-            :class="{disabled: v$.$invalid || isLoginResponseWaiting}"
-        >
-          {{ isLoginResponseWaiting ? "Loading..." : "Log In" }}
-        </button>
+        <submit-button
+            title="Log In"
+            :is-response-waiting="isLoginResponseWaiting"
+            :vuelidate-data="v$"
+            column-width="4"
+        />
       </div>
       <div class="text-center mt-2">
         <p>

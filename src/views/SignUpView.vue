@@ -2,13 +2,14 @@
 import api from '@/api/index';
 import {computed, reactive, ref} from 'vue';
 import {useVuelidate} from '@vuelidate/core';
-import {alphaNum, email, helpers, maxLength, minLength, required, sameAs} from '@vuelidate/validators';
+import {email, helpers, required, sameAs} from '@vuelidate/validators';
 import FormErrorsFeedback from '@/components/forms/FormErrorsFeedback.vue';
-import {appendErrors, getValidationClass, resetForm} from "@/utils";
-import {PasswordValidator, UsernameValidator} from "@/validators";
+import {appendResponseFieldErrors, getValidationClass, resetForm} from "@/utils";
+import {passwordValidators, usernameValidators} from "@/validators";
 import router from "@/router";
 import toaster from '@/plugins/toaster';
 import FormFlushMessages from '@/components/forms/FormFlushMessages.vue'
+import SubmitButton from "@/components/submitButton.vue";
 
 
 const isSignUpResponseWaiting = ref(false);
@@ -22,30 +23,18 @@ const formData = reactive({
 
 const rules = {
   username: {
+    ...usernameValidators,
     required,
-    UsernameValidator,
-    minLength: minLength(4),
-    maxLength: maxLength(32),
   },
   email: {
     required,
     email,
   },
-  password: {
-    required,
-    alphaNum,
-    minLength: minLength(8),
-    maxLength: maxLength(32),
-    PasswordValidator,
-  },
+  password: passwordValidators,
   password_confirmation: {
-    required,
-    alphaNum,
-    minLength: minLength(8),
-    maxLength: maxLength(32),
-    PasswordValidator,
+    ...passwordValidators,
     sameAs: helpers.withMessage(
-        "The two password fields didn’t match",
+        "The two password fields don’t match",
         sameAs(computed(() => formData.password)),
     ),
   },
@@ -61,7 +50,7 @@ async function handleAfterSignUpActions() {
 }
 
 function handleErrorActions(error) {
-  appendErrors(serverErrorMessages, error.request.status, error.request.response);
+  appendResponseFieldErrors(serverErrorMessages, error.request.response);
   resetForm(v$.value);
   console.log(error.request);
 }
@@ -138,13 +127,12 @@ const signUp = async () => {
       </div>
       <hr>
       <div class="text-center">
-        <button
-            type="submit"
-            class="btn btn-outline-primary"
-            :class="{disabled: v$.$invalid || isSignUpResponseWaiting}"
-        >
-          {{ isSignUpResponseWaiting ? "Loading..." : "Sign Up" }}
-        </button>
+        <submit-button
+            title="Sign Up"
+            :is-response-waiting="isSignUpResponseWaiting"
+            :vuelidate-data="v$"
+            column-width="4"
+        />
       </div>
       <div class="text-center mt-2">
         <p>

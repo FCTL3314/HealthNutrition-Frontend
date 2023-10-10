@@ -2,6 +2,7 @@
 import {computed} from "vue";
 import {useStore} from "vuex";
 import FormFlushMessages from "@/components/forms/FormFlushMessages.vue";
+import SubmitButton from "@/components/submitButton.vue";
 
 defineProps({
   formSubmitCallback: {
@@ -37,13 +38,11 @@ const user = computed(() => store.getters['auth/user']);
       <form @submit.prevent="formSubmitCallback">
         <slot></slot>
         <div class="row justify-content-center">
-          <button
-              class="btn btn-outline-primary col-3"
-              :class="{disabled: vuelidateData.$invalid || isUpdateResponseWaiting}"
-              type="submit"
-          >
-            {{ isUpdateResponseWaiting ? "Loading..." : "Update" }}
-          </button>
+          <submit-button
+              title="Update"
+              :is-response-waiting="isUpdateResponseWaiting"
+              :vuelidate-data="vuelidateData"
+          />
         </div>
       </form>
     </div>
