@@ -1,10 +1,10 @@
 <script setup>
 defineProps({
-  title: {
+  text: {
     type: String,
     default: 'Submit',
   },
-  loadingTitle: {
+  loadingText: {
     type: String,
     default: 'Loading...',
   },
@@ -34,12 +34,8 @@ defineProps({
           role="status"
           aria-hidden="true"
       />
-      <span>{{ loadingTitle }}</span>
+      <span>{{ loadingText }}</span>
     </template>
-    <span v-else>{{ title }}</span>
+    <span v-else>{{ text }}</span>
   </button>
 </template>
-
-<style scoped lang="sass">
-
-</style>

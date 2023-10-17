@@ -5,8 +5,8 @@ import {useRoute, useRouter} from 'vue-router';
 import {calculateTotalPages, createTitle, scrollToElement, setParams} from '@/utils'
 import SearchSection from '@/components/SearchSection.vue';
 import CardList from '@/components/cards/CardList.vue';
-import ProductCard from '@/components/cards/ProductCard.vue';
-import ProductCardPlaceholder from '@/components/cards/ProductCardPlaceholder.vue';
+import ProductCard from '@/components/cards/product/ProductCard.vue';
+import ProductCardPlaceholder from '@/components/cards/product/ProductCardPlaceholder.vue';
 import PaginationSection from '@/components/PaginationSection.vue';
 import NotFoundSection from '@/components/NotFoundSection.vue';
 

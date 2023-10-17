@@ -39,7 +39,7 @@ const user = computed(() => store.getters['auth/user']);
         <slot></slot>
         <div class="row justify-content-center">
           <submit-button
-              title="Update"
+              text="Update"
               :is-response-waiting="isUpdateResponseWaiting"
               :vuelidate-data="vuelidateData"
           />

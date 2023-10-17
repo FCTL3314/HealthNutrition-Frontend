@@ -121,7 +121,7 @@ const logIn = async () => {
       <hr>
       <div class="text-center">
         <submit-button
-            title="Log In"
+            text="Log In"
             :is-response-waiting="isLoginResponseWaiting"
             :vuelidate-data="v$"
             column-width="4"

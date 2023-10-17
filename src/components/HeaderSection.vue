@@ -2,7 +2,7 @@
 import {computed} from 'vue';
 import {useRoute} from 'vue-router';
 import {useStore} from 'vuex';
-import {BACKEND_REPOSITORY_URL, DJANGO_ADMIN_URL, FRONTEND_REPOSITORY_URL} from '@/constants'
+import {BACKEND_REPOSITORY_URL, BACKEND_ADMIN_URL, FRONTEND_REPOSITORY_URL} from '@/constants'
 import {getUserImage, scrollToBottom} from "@/utils";
 import HouseIcon from '@/components/icons/HouseIcon.vue';
 import PenIcon from '@/components/icons/PenIcon.vue';
@@ -137,7 +137,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
             <template v-if="user.is_staff">
               <li>
                 <a
-                    :href="DJANGO_ADMIN_URL"
+                    :href="BACKEND_ADMIN_URL"
                     class="dropdown-item inline-icon-text"
                     target="_blank"
                 >

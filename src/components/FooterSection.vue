@@ -2,7 +2,6 @@
 import {FRONTEND_REPOSITORY_URL} from '@/constants'
 
 const currentDate = new Date()
-const currentYear = currentDate.getFullYear()
 </script>
 
 <template>
@@ -16,7 +15,7 @@ const currentYear = currentDate.getFullYear()
       </p>
       <hr class="divider border-2">
       <small>
-        Copyright &copy; 2022 - {{ currentYear }}
+        Copyright &copy; 2022 - {{ currentDate.getFullYear() }}
         <a
             :href="FRONTEND_REPOSITORY_URL"
             class="project-ref text-main-light"
