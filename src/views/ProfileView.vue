@@ -2,7 +2,7 @@
 import {computed, onMounted, ref} from 'vue';
 import {onBeforeRouteUpdate, useRoute} from 'vue-router';
 import store from '@/store/index';
-import api from '@/api/index';
+import api from '@/services/api/index';
 import moment from 'moment';
 import {getUserImage} from "@/utils";
 

@@ -4,9 +4,9 @@ import {useStore} from "vuex";
 import {useVuelidate} from "@vuelidate/core";
 import {maxLength, minLength} from "@vuelidate/validators";
 import {usernameValidators} from "@/validators";
-import {appendResponseErrors, getValidationClass, resetForm} from "@/utils";
+import {appendResponseErrorMessages, getValidationClass} from "@/utils";
 import FormErrorsFeedback from "@/components/forms/FormErrorsFeedback.vue";
-import api from "@/api";
+import api from "@/services/api";
 import {ALLOWED_IMAGE_EXTENSIONS} from "@/constants";
 import BaseTab from "@/components/settings/BaseTab.vue";
 import {afterUpdateActions} from "@/services/userUpdate";
@@ -62,10 +62,10 @@ async function update() {
         'Your account data has been successfully updated.',
     );
   } catch (error) {
-    appendResponseErrors(serverErrorMessages, error.request.response);
+    appendResponseErrorMessages(serverErrorMessages, error.request.response);
     console.log(error.request);
   } finally {
-    resetForm(v$.value);
+    v$.value.$reset();
     isUpdateResponseWaiting.value = false;
   }
 }

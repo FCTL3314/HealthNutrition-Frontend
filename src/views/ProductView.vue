@@ -1,6 +1,6 @@
 <script setup>
 import {onMounted, ref} from "vue";
-import api from "@/api";
+import api from "@/services/api";
 import {useRoute} from "vue-router";
 import moment from 'moment';
 import CommentsSection from "@/components/comments/CommentsSection.vue";

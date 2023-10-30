@@ -4,8 +4,8 @@ import {useStore} from "vuex";
 import {useVuelidate} from "@vuelidate/core";
 import {email, required} from "@vuelidate/validators";
 import {passwordValidators} from "@/validators";
-import {appendResponseErrors, getValidationClass, resetForm} from "@/utils";
-import api from "@/api";
+import {appendResponseErrorMessages, getValidationClass} from "@/utils";
+import api from "@/services/api";
 import FormErrorsFeedback from "@/components/forms/FormErrorsFeedback.vue";
 import BaseTab from "@/components/settings/BaseTab.vue";
 import {afterUpdateActions} from "@/services/userUpdate"
@@ -45,10 +45,10 @@ async function update() {
         'Your email has been successfully changed.',
     )
   } catch (error) {
-    appendResponseErrors(serverErrorMessages, error.request.response);
+    appendResponseErrorMessages(serverErrorMessages, error.request.response);
     console.log(error.request);
   } finally {
-    resetForm(v$.value);
+    v$.value.$reset();
     isUpdateResponseWaiting.value = false;
   }
 }

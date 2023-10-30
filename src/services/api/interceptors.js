@@ -1,5 +1,5 @@
-import instance from '@/api/instance';
-import api from '@/api/index';
+import instance from '@/services/api/instance';
+import api from '@/services/api/index';
 import {authStorage} from "@/services/auth";
 import {isTokenExpired} from '@/utils';
 import {logout} from '@/services/auth';

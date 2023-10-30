@@ -1,10 +1,10 @@
 <script setup>
-import api from '@/api/index';
+import api from '@/services/api/index';
 import {computed, reactive, ref} from 'vue';
 import {useVuelidate} from '@vuelidate/core';
 import {email, helpers, required, sameAs} from '@vuelidate/validators';
 import FormErrorsFeedback from '@/components/forms/FormErrorsFeedback.vue';
-import {appendResponseFieldErrors, getValidationClass, resetForm} from "@/utils";
+import {getValidationClass, handleAuthError} from "@/utils";
 import {passwordValidators, usernameValidators} from "@/validators";
 import router from "@/router";
 import toaster from '@/plugins/toaster';
@@ -49,12 +49,6 @@ async function handleAfterSignUpActions() {
   toaster.success('You have successfully registered!');
 }
 
-function handleErrorActions(error) {
-  appendResponseFieldErrors(serverErrorMessages, error.request.response);
-  resetForm(v$.value);
-  console.log(error.request);
-}
-
 const signUp = async () => {
   isSignUpResponseWaiting.value = true;
   serverErrorMessages.length = 0;
@@ -66,7 +60,7 @@ const signUp = async () => {
     });
     await handleAfterSignUpActions();
   } catch (error) {
-    handleErrorActions(error);
+    handleAuthError(error, serverErrorMessages, v$);
   } finally {
     isSignUpResponseWaiting.value = false;
   }

@@ -1,12 +1,12 @@
 <script setup>
-import api from '@/api/index'
+import api from '@/services/api/index'
 import {reactive, ref} from 'vue';
 import {useRouter} from 'vue-router';
 import {useVuelidate} from '@vuelidate/core';
 import {useStore} from 'vuex';
 import {required} from '@vuelidate/validators';
 import FormErrorsFeedback from '@/components/forms/FormErrorsFeedback.vue';
-import {appendResponseErrors, getValidationClass, resetForm} from "@/utils";
+import {getValidationClass, handleAuthError} from "@/utils";
 import {passwordValidators, usernameValidators} from "@/validators";
 import toaster from '@/plugins/toaster';
 import {authStorage} from "@/services/auth";
@@ -63,9 +63,7 @@ const logIn = async () => {
     await router.push({name: 'categories'})
     toaster.success('You have successfully login!')
   } catch (error) {
-    appendResponseErrors(serverErrorMessages, error.request.response)
-    resetForm(v$.value)
-    console.error(error.response);
+    handleAuthError(error, serverErrorMessages, v$);
   } finally {
     isLoginResponseWaiting.value = false;
   }

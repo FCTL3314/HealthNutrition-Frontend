@@ -1,5 +1,5 @@
 <script setup>
-import api from '@/api/index'
+import api from '@/services/api/index'
 import {computed, onMounted, ref} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import {calculateTotalPages, createTitle, scrollToElement, setParams} from '@/utils'

@@ -57,10 +57,6 @@ export function isTokenExpired(token) {
   return currentDate >= expirationDate;
 }
 
-export function resetForm(validator) {
-  validator.$reset();
-}
-
 export function getResponseDetail(response) {
   const parsedResponse = JSON.parse(response);
   if ('detail' in parsedResponse) {
@@ -79,7 +75,7 @@ export function getResponseMessages(response) {
   return messages;
 }
 
-export function appendResponseErrors(arr, response) {
+export function appendResponseErrorMessages(arr, response) {
   const detail = getResponseDetail(response);
   const messages = getResponseMessages(response);
 
@@ -108,9 +104,15 @@ export function getUserImage(user) {
 }
 
 export async function setParams(router, route, params, savePosition = true) {
-  const _params = {...params}
+  const _params = {...params};
   if (savePosition) {
-    _params.save_position = "true"
+    _params.save_position = "true";
   }
   await router.replace({query: {...route.query, ..._params}});
+}
+
+export function handleAuthError(error, errorsArr, v$) {
+  appendResponseErrorMessages(errorsArr, error.request.response);
+  v$.value.$reset();
+  console.error(error.response);
 }

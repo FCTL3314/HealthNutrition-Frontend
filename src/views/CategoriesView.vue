@@ -1,18 +1,19 @@
 <script setup>
-import api from '@/api/index'
+import api from '@/services/api/index'
 import {onMounted, ref} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
-import {calculateTotalPages, scrollToElement, setParams} from '@/utils'
+import {calculateTotalPages, scrollToElement, setParams} from '@/utils';
 import SearchSection from '@/components/SearchSection.vue';
 import CardList from '@/components/cards/CardList.vue';
 import CategoryCard from '@/components/cards/category/CategoryCard.vue';
 import CategoryCardPlaceholder from '@/components/cards/category/CategoryCardPlaceholder.vue';
 import PaginationSection from '@/components/PaginationSection.vue';
 
-const categories = ref([]);
 
 const route = useRoute();
 const router = useRouter();
+
+const categories = ref([]);
 
 const currentPage = ref(parseInt(route.query.page || 1));
 const totalPages = ref(0);
