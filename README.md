@@ -90,20 +90,6 @@ Together, the <b>backend</b> and <b>frontend</b>, collaborate to create a <b>com
 
 </details>
 
-<details><summary><h1>🔥 Features</h1></summary>
-
-* **REST API**
-* **Domain Driven Development**
-* **JWT Authentication**
-* **Postponed Tasks / Celery**
-* **Authentication / Authorization**
-* **Profile editing**
-* **Email sending**
-* **Documentation**
-* **Tests (PyTest)**
-
-</details>
-
 <details><summary><h1>💽 Local installation</h1></summary>
 
 1. #### Clone or download the repository.
