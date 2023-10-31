@@ -1,6 +1,7 @@
 import {createRouter, createWebHistory} from 'vue-router';
 import {createTitle, scrollToTop} from '@/utils';
 import store from '@/store/index'
+import {isAuthenticatedOnlyRedirectRequired, isGuestsOnlyRedirectRequired} from "@/router/utils";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -42,6 +43,9 @@ const router = createRouter({
           name: 'auth',
           path: 'auth/',
           component: () => import('@/views/layouts/AuthLayout.vue'),
+          meta: {
+            guestsOnly: true,
+          },
           children: [
             {
               name: 'logIn',
@@ -52,8 +56,8 @@ const router = createRouter({
               },
             },
             {
-              name: 'registration',
-              path: 'registration/',
+              name: 'signUp',
+              path: 'sign-up/',
               component: () => import('@/views/SignUpView.vue'),
               meta: {
                 title: 'Sign Up',
@@ -65,13 +69,16 @@ const router = createRouter({
           name: 'settings',
           path: 'settings/',
           component: () => import('@/views/layouts/SettingsLayout.vue'),
+          meta: {
+            authenticatedOnly: true,
+          },
           children: [
             {
               name: 'accountSettingsTab',
               path: 'account/',
               component: () => import('@/components/settings/AccountTab.vue'),
               meta: {
-                title: "Account Settings"
+                title: "Account Settings",
               }
             },
             {
@@ -79,7 +86,7 @@ const router = createRouter({
               path: 'email/',
               component: () => import('@/components/settings/EmailTab.vue'),
               meta: {
-                title: "Email Settings"
+                title: "Email Settings",
               },
             },
             {
@@ -87,7 +94,7 @@ const router = createRouter({
               path: 'password/',
               component: () => import('@/components/settings/EmailTab.vue'),
               meta: {
-                title: "Password Settings"
+                title: "Password Settings",
               }
             },
           ],
@@ -114,13 +121,22 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  document.title = createTitle(to.meta.title);
-  const loggedIn = !!store.getters['auth/accessToken'];
-  if (to.name === 'settings' && !loggedIn) {
-    next({name: 'logIn'})
-  } else {
-    next();
+  const user = store.getters['auth/user'];
+  const title = to.meta.title;
+  if (title) {
+    document.title = createTitle(title);
   }
+  if (isAuthenticatedOnlyRedirectRequired(to, user)) {
+    console.log("Redirecting to the log in page...");
+    next({name: 'logIn'});
+    return;
+  }
+  if (isGuestsOnlyRedirectRequired(to, user)) {
+    console.log("Redirecting to the user's profile page...");
+    next({name: 'profile', params: {userSlug: user.slug}});
+    return;
+  }
+  next();
 });
 
 export default router;

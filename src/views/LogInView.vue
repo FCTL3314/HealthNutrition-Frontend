@@ -17,7 +17,7 @@ import SubmitButton from "@/components/submitButton.vue";
 const router = useRouter();
 const store = useStore();
 
-const isLoginResponseWaiting = ref(false);
+const isLogInResponseWaiting = ref(false);
 
 const formData = reactive({
   username: '',
@@ -52,7 +52,7 @@ async function storeUserData(data) {
 const serverErrorMessages = reactive([])
 
 const logIn = async () => {
-  isLoginResponseWaiting.value = true;
+  isLogInResponseWaiting.value = true;
   serverErrorMessages.length = 0;
   try {
     const response = await api.users.obtainToken({
@@ -65,7 +65,7 @@ const logIn = async () => {
   } catch (error) {
     handleAuthError(error, serverErrorMessages, v$);
   } finally {
-    isLoginResponseWaiting.value = false;
+    isLogInResponseWaiting.value = false;
   }
 }
 </script>
@@ -120,7 +120,7 @@ const logIn = async () => {
       <div class="text-center">
         <submit-button
             text="Log In"
-            :is-response-waiting="isLoginResponseWaiting"
+            :is-response-waiting="isLogInResponseWaiting"
             :vuelidate-data="v$"
             column-width="4"
         />
@@ -129,7 +129,7 @@ const logIn = async () => {
         <p>
           <span class="my-0 pe-1">Not registered ?</span>
           <router-link
-              :to="{name: 'registration'}"
+              :to="{name: 'signUp'}"
               class="link-primary text-decoration-none"
           >
             Create an account

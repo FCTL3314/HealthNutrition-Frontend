@@ -11,6 +11,7 @@ import {useRoute} from "vue-router";
 
 const route = useRoute();
 const store = useStore();
+
 const user = computed(() => store.getters['auth/user']);
 
 const settingsTabs = [

@@ -168,7 +168,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
           </li>
           <li class="nav-item">
             <router-link
-                :to="{name: 'registration'}"
+                :to="{name: 'signUp'}"
                 class="btn btn-sign-up"
             >
               Sign Up

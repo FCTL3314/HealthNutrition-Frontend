@@ -83,7 +83,7 @@ const onClickAddComment = () => {
         <p v-if="!loggedIn">
           <router-link class="link-main" :to="{name: 'logIn'}">Log In</router-link>
           or
-          <router-link class="link-main" :to="{name: 'registration'}">Sign Up</router-link>
+          <router-link class="link-main" :to="{name: 'signUp'}">Sign Up</router-link>
           to leave comments.
         </p>
     </form>
