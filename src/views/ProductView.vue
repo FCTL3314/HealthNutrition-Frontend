@@ -5,6 +5,8 @@ import {useRoute} from "vue-router";
 import moment from 'moment';
 import CommentsSection from "@/components/comments/CommentsSection.vue";
 import {createTitle, getImageFullPath} from "@/utils";
+import CommentsForm from "@/components/comments/CommentsForm.vue";
+
 
 const route = useRoute()
 
@@ -132,14 +134,16 @@ onMounted(async () => {
     <hr>
     <div class="row">
       <div class="col-12">
+        <comments-form
+            :is-adding-comment="isAddingComment"
+            :comments-count="commentsCount"
+            @add-comment="async (text) => AddCommentToTop(await createComment(text))"
+        />
         <comments-section
             :comments="comments"
-            :comments-count="commentsCount"
             :is-comments-loading="isCommentsLoading"
             :has-more-comments="hasMoreComment"
-            :is-adding-comment="isAddingComment"
             @show-more-comments="updateComments"
-            @add-comment="async (text) => AddCommentToTop(await createComment(text))"
         />
       </div>
     </div>
