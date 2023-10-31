@@ -13,7 +13,6 @@ import {logoutWithFlush} from '@/services/auth'
 const route = useRoute();
 const store = useStore();
 
-const loggedIn = computed(() => !!store.getters['auth/accessToken']);
 const user = computed(() => store.getters['auth/user']);
 
 const navItems = [
@@ -90,7 +89,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
             </button>
           </li>
         </ul>
-        <div v-if="loggedIn" class="dropdown">
+        <div v-if="user" class="dropdown">
           <a
               class="dropdown-toggle link-dark text-decoration-none"
               role="button"
