@@ -16,8 +16,8 @@ defineProps({
     type: Object,
   },
   columnWidth: {
-    type: Number,
-    default: 3,
+    type: String,
+    default: "3",
   },
 })
 </script>
