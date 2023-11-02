@@ -1,33 +1,32 @@
 export default function (instance) {
   return {
-    product_comments(product_id, page) {
-      return instance.get(`comments/product/`, {
-        params: {
-          product_id: product_id,
-          page: page,
-        }
-      });
+    ALLOWED_CONTENT_TYPES: ['product', 'store'],
+    comments(objectId, contentType, page, parentId = null) {
+      if (!this.ALLOWED_CONTENT_TYPES.includes(contentType)) {
+        throw new Error(
+          `content_type must be one of the following options: ${allowed_content_types.join(', ')}.`
+        );
+      }
+      const params = {
+        object_id: objectId,
+        content_type: contentType,
+        page,
+      }
+      if (parentId !== null) {
+        params.parent_id = parentId;
+      }
+      return instance.get(`comments/`, {params: params});
     },
-    product_comment_add(product_id, text) {
-      return instance.post(`comments/product/`, {
-        product_id,
+    comment_add(objectId, contentType, text, parentId = null) {
+      const params = {
+        object_id: objectId,
+        content_type: contentType,
         text,
-      });
-    },
-    product_comment_remove(comment_id) {
-      return instance.get(`comments/product/${comment_id}/`);
-    },
-    store_comments() {
-      return instance.get(`comments/store/`);
-    },
-    store_comment_add(store_id, text) {
-      return instance.get(`comments/store/`, {
-        store_id,
-        text,
-      });
-    },
-    store_comment_remove(comment_id) {
-      return instance.get(`comments/store/${comment_id}/`);
+      }
+      if (parentId !== null) {
+        params.parent_id = parentId;
+      }
+      return instance.post(`comments/`, params);
     },
   };
 }
