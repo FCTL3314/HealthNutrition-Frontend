@@ -1,20 +1,21 @@
 @import 'variables'
 
 .comment-wrp
-  display: flex
-  align-items: start
   margin-bottom: 16px
 
 .comment-wrp:last-child
   margin-bottom: 0
 
+.commend-body
+  display: flex
+  align-items: flex-start
+
 .comment-author-name
   font-size: 20px
-  margin: 0 4px 0 0
+  margin: 0 .4em 0 0
   text-decoration: none
 
 .btn
-
   &-comment
     color: $color-main-lighter
     font-weight: 600
@@ -22,7 +23,12 @@
     border-radius: 2em
 
   &-comment:hover
-    background: rgba(123, 179, 255, 0.5)
+    background: $color-main-transparent-bg
 
   &-comment:active
     color: $color-main-lighter
+
+.replies
+  margin: 0 0 0 56px
+  display: flex
+  align-items: center
