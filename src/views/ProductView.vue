@@ -38,7 +38,7 @@ async function updateProduct() {
 async function loadComments(page = 1) {
   isCommentsLoading.value = true;
   try {
-    return (await api.comments.product_comments(product.value.id, page)).data;
+    return (await api.comments.comments(product.value.id, 'product', page)).data;
   } catch (error) {
     console.error(error);
   } finally {
@@ -56,7 +56,7 @@ async function updateComments(page = 1) {
 async function createComment(text) {
   isAddingComment.value = true;
   try {
-    return (await api.comments.product_comment_add(product.value.id, text)).data;
+    return (await api.comments.comment_add(product.value.id, 'product', text)).data;
   } catch (error) {
     console.error(error);
   } finally {
@@ -148,8 +148,19 @@ onMounted(async () => {
       </div>
     </div>
   </div>
+  <div v-else class="loading-spinner-wrp">
+    <div class="spinner-border" role="status" style="width: 3rem; height: 3rem;">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="fs-4 text-main-light">Loading...</p>
+  </div>
 </template>
 
 <style lang="sass">
 @import "@/assets/sass/main"
+
+.loading-spinner-wrp
+  text-align: center
+  padding: 6em 0 0 0
+  color: $color-main-light
 </style>

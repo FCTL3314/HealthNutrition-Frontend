@@ -39,9 +39,9 @@ const onClickShowMoreComments = () => {
         :key="index"
         :text="comment.text"
         :author="comment.author"
-        :created_at="comment.created_at"
-        :has_replies="comment.has_replies"
-        :replies_count="comment.replies_count"
+        :created-at="comment.created_at"
+        :has-replies="comment.has_replies"
+        :replies-count="comment.replies_count"
         :edited="comment.edited"
     />
     <comment-block-placeholder
