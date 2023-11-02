@@ -14,15 +14,15 @@ defineProps({
     type: Object,
     required: true,
   },
-  created_at: {
+  createdAt: {
     type: String,
     required: true,
   },
-  has_replies: {
+  hasReplies: {
     type: Boolean,
     required: true,
   },
-  replies_count: {
+  repliesCount: {
     type: Number,
     required: true,
   },
@@ -41,39 +41,41 @@ function toggleReplies() {
 
 <template>
   <div class="comment-wrp">
-    <router-link :to="{name: 'profile', params: {userSlug: author.slug}}">
-      <img class="me-3 rounded-circle object-fit-cover"
-           :src="getUserImage(author)"
-           alt="user-image"
-           width="40"
-           height="40"
-      >
-    </router-link>
-    <div>
-      <router-link
-          class="link link-dark comment-author-name"
-          :to="{name: 'profile', params: {userSlug: author.slug}}"
-      >
-        {{ author.username }}
+    <div class="commend-body">
+      <router-link :to="{name: 'profile', params: {userSlug: author.slug}}">
+        <img class="me-3 rounded-circle object-fit-cover"
+             :src="getUserImage(author)"
+             alt="user-image"
+             width="40"
+             height="40"
+        >
       </router-link>
-      <span class="text-body-secondary">
-          <span>{{ moment(created_at).fromNow() }}</span>
+      <div id="text-wrp">
+        <router-link
+            class="link link-dark comment-author-name"
+            :to="{name: 'profile', params: {userSlug: author.slug}}"
+        >
+          {{ author.username }}
+        </router-link>
+        <span class="text-body-secondary">
+          <span>{{ moment(createdAt).fromNow() }}</span>
           <span class="ms-1" v-if="edited">(edited)</span>
         </span>
-      <p class="text-break mb-0">{{ text }}</p>
-
-
-      <div class="d-flex align-items-center text-main-light">
+        <p class="text-break mb-0">{{ text }}</p>
+      </div>
+    </div>
+    <div class="replies text-main-light">
+      <div id="replies-buttons">
         <button
-            @click="has_replies && toggleReplies()"
+            @click="hasReplies && toggleReplies()"
             class="btn btn-comment"
         >
-          <template v-if="has_replies">
+          <template v-if="hasReplies">
             <caret-up-fill-icon v-if="isRepliesOpened"/>
             <caret-down-fill-icon v-else/>
           </template>
           <span class="ms-1">
-            {{ replies_count }} Replies
+            {{ repliesCount }} Replies
           </span>
         </button>
         <span class="mx-1">&middot;</span>
@@ -81,8 +83,6 @@ function toggleReplies() {
           Reply
         </button>
       </div>
-
-
     </div>
   </div>
 </template>
