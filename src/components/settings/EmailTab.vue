@@ -8,10 +8,11 @@ import {appendResponseErrorMessages, getValidationClass} from "@/utils";
 import api from "@/services/api";
 import FormErrorsFeedback from "@/components/forms/FormErrorsFeedback.vue";
 import BaseTab from "@/components/settings/BaseTab.vue";
-import {afterUpdateActions} from "@/services/userUpdate"
+import {afterUpdateActions} from "@/services/userUpdate";
+
 
 const store = useStore();
-const user = computed(() => store.getters['auth/user']);
+const user = computed(() => store.getters["auth/user"]);
 
 const isUpdateResponseWaiting = ref(false);
 

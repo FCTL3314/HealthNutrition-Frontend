@@ -1,6 +1,5 @@
 <script setup>
-import NotFoundSection from '@/components/NotFoundSection.vue';
-
+import NotFoundSection from "@/components/NotFoundSection.vue";
 </script>
 
 <template>

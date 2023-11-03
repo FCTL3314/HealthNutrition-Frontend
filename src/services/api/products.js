@@ -1,25 +1,25 @@
 export default function (instance) {
-  return {
-    category(slug) {
-      return instance.get(`products/product-types/${slug}/`);
-    },
-    categories(page = 1) {
-      return instance.get('products/product-types/', {
-        params: {
-          page: page,
+    return {
+        category(slug) {
+            return instance.get(`products/product-types/${slug}/`);
         },
-      });
-    },
-    products(page = 1, categorySlug) {
-      return instance.get('products/', {
-        params: {
-          page: page,
-          product_type_slug: categorySlug,
+        categories(page = 1) {
+            return instance.get("products/product-types/", {
+                params: {
+                    page: page,
+                },
+            });
         },
-      });
-    },
-    product(productSlug) {
-      return instance.get(`products/${productSlug}/`);
-    },
-  };
+        products(page = 1, categorySlug) {
+            return instance.get("products/", {
+                params: {
+                    page: page,
+                    product_type_slug: categorySlug,
+                },
+            });
+        },
+        product(productSlug) {
+            return instance.get(`products/${productSlug}/`);
+        },
+    };
 }

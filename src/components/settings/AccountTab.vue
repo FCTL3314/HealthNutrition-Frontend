@@ -11,8 +11,9 @@ import {ALLOWED_IMAGE_EXTENSIONS} from "@/constants";
 import BaseTab from "@/components/settings/BaseTab.vue";
 import {afterUpdateActions} from "@/services/userUpdate";
 
+
 const store = useStore();
-const user = computed(() => store.getters['auth/user']);
+const user = computed(() => store.getters["auth/user"]);
 
 const isUpdateResponseWaiting = ref(false);
 

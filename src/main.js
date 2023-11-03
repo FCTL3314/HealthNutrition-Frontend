@@ -1,16 +1,16 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.min';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.min";
 
-import {createApp} from 'vue';
-import App from '@/App.vue';
-import router from '@/router';
-import store from '@/store';
-import setupInterceptors from '@/services/api/interceptors';
+import App from "@/App.vue";
+import {createApp} from "vue";
+import router from "@/router";
+import setupInterceptors from "@/services/api/interceptors";
+import store from "@/store";
 
 const app = createApp(App);
 
 app.use(router);
 app.use(store);
-setupInterceptors(store)
+setupInterceptors(store);
 
-app.mount('#app');
+app.mount("#app");

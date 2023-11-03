@@ -1,7 +1,3 @@
-<script setup>
-
-</script>
-
 <template>
   <div class="comment-wrp">
     <svg

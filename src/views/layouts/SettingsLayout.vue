@@ -3,11 +3,12 @@ import {computed} from "vue";
 import {getUserImage} from "@/utils";
 import {logoutWithFlush} from "@/services/auth";
 import {useStore} from "vuex";
-import HouseFillIcon from '@/components/icons/HouseFillIcon.vue';
+import HouseFillIcon from "@/components/icons/HouseFillIcon.vue";
 import EnvelopeFillIcon from "@/components/icons/EnvelopeFillIcon.vue";
 import KeyFillIcon from "@/components/icons/KeyFillIcon.vue";
 import DoorOpenIcon from "@/components/icons/DoorOpenIcon.vue";
 import {useRoute} from "vue-router";
+
 
 const route = useRoute();
 const store = useStore();
@@ -16,22 +17,21 @@ const user = computed(() => store.getters['auth/user']);
 
 const settingsTabs = [
   {
-    name: 'Account',
-    routeName: 'accountSettingsTab',
+    name: "Account",
+    routeName: "accountSettingsTab",
     icon: HouseFillIcon,
   },
   {
-    name: 'Email',
-    routeName: 'emailSettingsTab',
+    name: "Email",
+    routeName: "emailSettingsTab",
     icon: EnvelopeFillIcon,
   },
   {
-    name: 'Password',
-    routeName: 'passwordSettingsTab',
+    name: "Password",
+    routeName: "passwordSettingsTab",
     icon: KeyFillIcon,
   },
 ];
-
 
 const isSettingsTabActive = (settingTab) => route.name === settingTab.routeName;
 </script>

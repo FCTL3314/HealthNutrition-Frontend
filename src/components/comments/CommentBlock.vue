@@ -1,6 +1,6 @@
 <script setup>
-import {getUserImage} from '@/utils';
-import moment from 'moment';
+import {getUserImage} from "@/utils";
+import moment from "moment";
 import CaretDownFillIcon from "@/components/icons/CaretDownFillIcon.vue";
 import {ref} from "vue";
 import CaretUpFillIcon from "@/components/icons/CaretUpFillIcon.vue";

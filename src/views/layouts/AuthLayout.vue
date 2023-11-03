@@ -1,7 +1,3 @@
-<script setup>
-
-</script>
-
 <template>
   <div class="pt-5">
     <router-view/>
@@ -9,7 +5,7 @@
 </template>
 
 <style lang="sass">
-@import '@/assets/sass/variables'
+@import "@/assets/sass/variables"
 
 .form-title
   color: $color-main

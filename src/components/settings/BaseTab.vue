@@ -4,6 +4,7 @@ import {useStore} from "vuex";
 import FormFlushMessages from "@/components/forms/FormFlushMessages.vue";
 import SubmitButton from "@/components/submitButton.vue";
 
+
 defineProps({
   formSubmitCallback: {
     type: Function,
@@ -24,7 +25,7 @@ defineProps({
 })
 
 const store = useStore();
-const user = computed(() => store.getters['auth/user']);
+const user = computed(() => store.getters["auth/user"]);
 </script>
 
 <template>

@@ -1,5 +1,6 @@
 <script setup>
-const IsProfitable = Math.random() >= 0.5;
+const isProfitable = Math.random() >= 0.5;
+const bgPriceColorClass = isProfitable ? "bg-success" : "bg-danger"
 </script>
 
 <template>
@@ -32,9 +33,9 @@ const IsProfitable = Math.random() >= 0.5;
       </p>
       <p class="card-text placeholder-glow">
         <span class="placeholder col-9 bg-primary"></span>
-        <span class="placeholder col-7" :class="IsProfitable ? 'bg-success' : 'bg-danger'"></span>
+        <span class="placeholder col-7" :class="bgPriceColorClass"></span>
         <span class="placeholder col-6 bg-warning"></span>
-        <span class="placeholder col-2" :class="IsProfitable ? 'bg-success' : 'bg-danger'"></span>
+        <span class="placeholder col-2" :class="bgPriceColorClass"></span>
         <span class="placeholder col-6 bg-primary"></span>
       </p>
     </div>

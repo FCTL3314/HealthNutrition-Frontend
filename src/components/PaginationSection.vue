@@ -1,5 +1,5 @@
 <script setup>
-import {computed} from 'vue';
+import {computed} from "vue";
 
 
 const props = defineProps({
@@ -27,13 +27,13 @@ const startPage = computed(() => {
 const pages = computed(() => {
   const range = [];
   for (
-      let i = startPage.value;
-      i <= Math.min(startPage.value + props.maxVisibleButtons - 1, props.totalPages);
-      i++
+      let pageNum = startPage.value;
+      pageNum <= Math.min(startPage.value + props.maxVisibleButtons - 1, props.totalPages);
+      pageNum++
   ) {
     range.push({
-      number: i,
-      isDisabled: i === props.currentPage,
+      number: pageNum,
+      isDisabled: pageNum === props.currentPage,
     });
   }
 
@@ -43,28 +43,27 @@ const pages = computed(() => {
 const isInFirstPage = computed(() => props.currentPage === 1);
 const isInLastPage = computed(() => props.currentPage === props.totalPages);
 
-const emits = defineEmits(['pageChanged'])
+const emits = defineEmits(["pageChanged"])
 
 const onClickFirstPage = () => {
-  emits('pageChanged', 1);
+  emits("pageChanged", 1);
 };
 
 const onClickPreviousPage = () => {
-  emits('pageChanged', props.currentPage - 1);
+  emits("pageChanged", props.currentPage - 1);
 };
 
 const onClickPage = (page) => {
-  emits('pageChanged', page);
+  emits("pageChanged", page);
 };
 
 const onClickNextPage = () => {
-  emits('pageChanged', props.currentPage + 1);
+  emits("pageChanged", props.currentPage + 1);
 };
 
 const onClickLastPage = () => {
-  emits('pageChanged', props.totalPages);
+  emits("pageChanged", props.totalPages);
 };
-
 </script>
 
 <template>

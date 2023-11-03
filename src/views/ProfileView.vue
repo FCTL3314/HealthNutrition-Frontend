@@ -1,16 +1,16 @@
 <script setup>
-import {computed, onMounted, ref} from 'vue';
-import {onBeforeRouteUpdate, useRoute} from 'vue-router';
-import store from '@/store/index';
-import api from '@/services/api/index';
-import moment from 'moment';
+import {computed, onMounted, ref} from "vue";
+import {onBeforeRouteUpdate, useRoute} from "vue-router";
+import store from "@/store/index";
+import api from "@/services/api/index";
+import moment from "moment";
 import {getUserImage} from "@/utils";
+
 
 const route = useRoute();
 
-
 let user = ref(null);
-const storeUser = store.getters['auth/user'];
+const storeUser = store.getters["auth/user"];
 const isCurrentUser = computed(() => storeUser.slug === route.params.userSlug)
 
 const loadUser = async (userSlug) => {

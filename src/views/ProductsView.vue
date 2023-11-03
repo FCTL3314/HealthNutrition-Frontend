@@ -1,14 +1,18 @@
 <script setup>
-import api from '@/services/api/index'
-import {computed, onMounted, ref} from 'vue';
-import {useRoute, useRouter} from 'vue-router';
-import {calculateTotalPages, createTitle, scrollToElement, setParams} from '@/utils'
-import SearchSection from '@/components/SearchSection.vue';
-import CardList from '@/components/cards/CardList.vue';
-import ProductCard from '@/components/cards/product/ProductCard.vue';
-import ProductCardPlaceholder from '@/components/cards/product/ProductCardPlaceholder.vue';
-import PaginationSection from '@/components/PaginationSection.vue';
-import NotFoundSection from '@/components/NotFoundSection.vue';
+import api from "@/services/api/index"
+import {computed, onMounted, ref} from "vue";
+import {useRoute, useRouter} from "vue-router";
+import {calculateTotalPages, createTitle, scrollToElement, setParams} from "@/utils";
+import SearchSection from "@/components/SearchSection.vue";
+import CardList from "@/components/cards/CardList.vue";
+import ProductCard from "@/components/cards/product/ProductCard.vue";
+import ProductCardPlaceholder from "@/components/cards/product/ProductCardPlaceholder.vue";
+import PaginationSection from "@/components/PaginationSection.vue";
+import NotFoundSection from "@/components/NotFoundSection.vue";
+
+
+const route = useRoute();
+const router = useRouter();
 
 const category = ref(null);
 const isCategoryLoading = ref(false);
@@ -19,13 +23,9 @@ const isProductsLoading = ref(false);
 const isDataLoaded = computed(() => {
   return !isCategoryLoading.value && !isProductsLoading.value;
 })
-
 const isProductsExists = computed(() => {
   return products.value.length > 0;
 })
-
-const route = useRoute();
-const router = useRouter();
 
 const currentPage = ref(parseInt(route.query.page || 1));
 const totalPages = ref(0);

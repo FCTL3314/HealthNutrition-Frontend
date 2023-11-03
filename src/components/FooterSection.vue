@@ -1,5 +1,6 @@
 <script setup>
-import {FRONTEND_REPOSITORY_URL} from '@/constants'
+import {FRONTEND_REPOSITORY_URL} from "@/constants";
+
 
 const currentDate = new Date()
 </script>

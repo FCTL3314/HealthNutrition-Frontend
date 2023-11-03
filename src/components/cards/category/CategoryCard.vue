@@ -1,9 +1,9 @@
 <script setup>
-import DollarIcon from '@/components/icons/DollarIcon.vue';
-import PatchCheckIcon from '@/components/icons/PatchCheckIcon.vue';
-import PatchExclamationIcon from '@/components/icons/PatchExclamationIcon.vue';
-import ShopIcon from '@/components/icons/ShopIcon.vue';
 import {computed} from "vue";
+import DollarIcon from "@/components/icons/DollarIcon.vue";
+import PatchCheckIcon from "@/components/icons/PatchCheckIcon.vue";
+import PatchExclamationIcon from "@/components/icons/PatchExclamationIcon.vue";
+import ShopIcon from "@/components/icons/ShopIcon.vue";
 
 const props = defineProps({
   imageURL: {
@@ -36,15 +36,14 @@ const props = defineProps({
   },
 });
 
-const productsRouterLink = computed(() => {
+const productsRoute = computed(() => {
   return {name: 'products', params: {categorySlug: props.slug}}
 })
-
 </script>
 
 <template>
   <div class="card h-100">
-    <router-link :to="productsRouterLink">
+    <router-link :to="productsRoute">
       <div class="card-img-scale">
         <img
             :src="imageURL"
@@ -55,7 +54,7 @@ const productsRouterLink = computed(() => {
     </router-link>
     <div class="card-body">
       <h5 class="card-title text-main text-truncate">
-        <router-link class="link-main fw-semibold" :to="productsRouterLink">
+        <router-link class="link-main fw-semibold" :to="productsRoute">
           {{ name }}
         </router-link>
       </h5>

@@ -1,18 +1,19 @@
 <script setup>
-import {ref} from 'vue';
+import {ref} from "vue";
+
 
 const searchTypes = [
   {
-    label: 'Category',
-    value: 'product_type',
+    label: "Category",
+    value: "product_type",
   },
   {
-    label: 'Product',
-    value: 'product',
+    label: "Product",
+    value: "product",
   },
 ];
-const selectedSearchType = ref('product_type');
-const searchQuery = ref('');
+const selectedSearchType = ref("product_type");
+const searchQuery = ref("");
 </script>
 
 <template>

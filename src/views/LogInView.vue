@@ -1,16 +1,16 @@
 <script setup>
-import api from '@/services/api/index'
-import {reactive, ref} from 'vue';
-import {useRouter} from 'vue-router';
-import {useVuelidate} from '@vuelidate/core';
-import {useStore} from 'vuex';
-import {required} from '@vuelidate/validators';
-import FormErrorsFeedback from '@/components/forms/FormErrorsFeedback.vue';
+import api from "@/services/api/index";
+import {reactive, ref} from "vue";
+import {useRouter} from "vue-router";
+import {useVuelidate} from "@vuelidate/core";
+import {useStore} from "vuex";
+import {required} from "@vuelidate/validators";
+import FormErrorsFeedback from "@/components/forms/FormErrorsFeedback.vue";
 import {getValidationClass, handleAuthError} from "@/utils";
 import {passwordValidators, usernameValidators} from "@/validators";
-import toaster from '@/plugins/toaster';
+import toaster from "@/plugins/toaster";
 import {authStorage} from "@/services/auth";
-import FormFlushMessages from '@/components/forms/FormFlushMessages.vue'
+import FormFlushMessages from "@/components/forms/FormFlushMessages.vue";
 import SubmitButton from "@/components/submitButton.vue";
 
 
@@ -18,6 +18,7 @@ const router = useRouter();
 const store = useStore();
 
 const isLogInResponseWaiting = ref(false);
+const serverErrorMessages = reactive([])
 
 const formData = reactive({
   username: '',
@@ -36,20 +37,19 @@ const rules = {
 const v$ = useVuelidate(rules, formData)
 
 async function storeUserData(data) {
+
   localStorage.setItem('rememberMe', JSON.stringify(formData.rememberMe));
-
   store.commit('auth/setAccessToken', data.access);
+
   authStorage().setItem('accessToken', data.access);
-
   store.commit('auth/setRefreshToken', data.refresh);
-  authStorage().setItem('refreshToken', data.refresh);
 
+  authStorage().setItem('refreshToken', data.refresh);
   const user = (await api.users.me()).data;
   store.commit('auth/setUser', user);
   authStorage().setItem('user', JSON.stringify(user));
-}
 
-const serverErrorMessages = reactive([])
+}
 
 const logIn = async () => {
   isLogInResponseWaiting.value = true;

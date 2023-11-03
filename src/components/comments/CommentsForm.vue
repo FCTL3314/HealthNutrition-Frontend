@@ -1,7 +1,7 @@
 <script setup>
-import {computed, ref} from 'vue';
-import store from '@/store';
-import {getUserImage} from '@/utils';
+import {computed, ref} from "vue";
+import store from "@/store";
+import {getUserImage} from "@/utils";
 
 defineProps({
   commentsCount: {
@@ -14,7 +14,7 @@ defineProps({
   },
 })
 
-const user = computed(() => store.getters['auth/user']);
+const user = computed(() => store.getters["auth/user"]);
 
 const commentText = ref("");
 

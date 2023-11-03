@@ -2,11 +2,11 @@
 defineProps({
   text: {
     type: String,
-    default: 'Submit',
+    default: "Submit",
   },
   loadingText: {
     type: String,
-    default: 'Loading...',
+    default: "Loading...",
   },
   isResponseWaiting: {
     type: Boolean,

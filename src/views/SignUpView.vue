@@ -1,24 +1,25 @@
 <script setup>
-import api from '@/services/api/index';
-import {computed, reactive, ref} from 'vue';
-import {useVuelidate} from '@vuelidate/core';
-import {email, helpers, required, sameAs} from '@vuelidate/validators';
-import FormErrorsFeedback from '@/components/forms/FormErrorsFeedback.vue';
+import api from "@/services/api/index";
+import {computed, reactive, ref} from "vue";
+import {useVuelidate} from "@vuelidate/core";
+import {email, helpers, required, sameAs} from "@vuelidate/validators";
+import FormErrorsFeedback from "@/components/forms/FormErrorsFeedback.vue";
 import {getValidationClass, handleAuthError} from "@/utils";
 import {passwordValidators, usernameValidators} from "@/validators";
 import router from "@/router";
-import toaster from '@/plugins/toaster';
-import FormFlushMessages from '@/components/forms/FormFlushMessages.vue'
+import toaster from "@/plugins/toaster";
+import FormFlushMessages from "@/components/forms/FormFlushMessages.vue"
 import SubmitButton from "@/components/submitButton.vue";
 
 
 const isSignUpResponseWaiting = ref(false);
+const serverErrorMessages = reactive([]);
 
 const formData = reactive({
-  username: '',
-  email: '',
-  password: '',
-  password_confirmation: '',
+  username: "",
+  email: "",
+  password: "",
+  password_confirmation: "",
 });
 
 const rules = {
@@ -42,11 +43,9 @@ const rules = {
 
 const v$ = useVuelidate(rules, formData)
 
-const serverErrorMessages = reactive([]);
-
 async function handleAfterSignUpActions() {
-  await router.push({name: 'logIn'});
-  toaster.success('You have successfully registered!');
+  await router.push({name: "logIn"});
+  toaster.success("You have successfully registered!");
 }
 
 const signUp = async () => {

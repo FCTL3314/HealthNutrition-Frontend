@@ -1,14 +1,15 @@
 <script setup>
-import {computed} from 'vue';
-import {useRoute} from 'vue-router';
-import {useStore} from 'vuex';
+import {computed} from "vue";
+import {useRoute} from "vue-router";
+import {useStore} from "vuex";
 import {BACKEND_REPOSITORY_URL, BACKEND_ADMIN_URL, FRONTEND_REPOSITORY_URL} from '@/constants'
 import {getUserImage, scrollToBottom} from "@/utils";
-import HouseIcon from '@/components/icons/HouseIcon.vue';
-import PenIcon from '@/components/icons/PenIcon.vue';
-import GearIcon from '@/components/icons/GearIcon.vue';
-import DoorOpenIcon from '@/components/icons/DoorOpenIcon.vue';
-import {logoutWithFlush} from '@/services/auth'
+import HouseIcon from "@/components/icons/HouseIcon.vue";
+import PenIcon from "@/components/icons/PenIcon.vue";
+import GearIcon from "@/components/icons/GearIcon.vue";
+import DoorOpenIcon from "@/components/icons/DoorOpenIcon.vue";
+import {logoutWithFlush} from "@/services/auth";
+
 
 const route = useRoute();
 const store = useStore();

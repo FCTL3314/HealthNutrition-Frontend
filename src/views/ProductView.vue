@@ -2,7 +2,7 @@
 import {onMounted, ref} from "vue";
 import api from "@/services/api";
 import {useRoute} from "vue-router";
-import moment from 'moment';
+import moment from "moment";
 import CommentsSection from "@/components/comments/CommentsSection.vue";
 import {createTitle, getImageFullPath} from "@/utils";
 import CommentsForm from "@/components/comments/CommentsForm.vue";
@@ -10,15 +10,12 @@ import CommentsForm from "@/components/comments/CommentsForm.vue";
 
 const route = useRoute()
 
-const isProductLoading = ref(false);
 const product = ref(null);
+const isProductLoading = ref(false);
 
 const comments = ref([]);
 const commentsCount = ref(0);
-const hasMoreComment = ref(false);
-const isCommentsLoading = ref(false);
 const isAddingComment = ref(false);
-
 
 async function loadProduct() {
   isProductLoading.value = true;
@@ -35,22 +32,9 @@ async function updateProduct() {
   product.value = await loadProduct();
 }
 
-async function loadComments(page = 1) {
-  isCommentsLoading.value = true;
-  try {
-    return (await api.comments.comments(product.value.id, 'product', page)).data;
-  } catch (error) {
-    console.error(error);
-  } finally {
-    isCommentsLoading.value = false;
-  }
-}
-
-async function updateComments(page = 1) {
-  const response = await loadComments(page);
-  comments.value.push(...response.results);
-  commentsCount.value = response.count;
-  hasMoreComment.value = response.next !== null;
+function onCommentsLoaded(data) {
+  comments.value.push(...data.results)
+  commentsCount.value = data.count
 }
 
 async function createComment(text) {
@@ -72,7 +56,6 @@ async function AddCommentToTop(comment) {
 onMounted(async () => {
   await updateProduct()
       .then(async () => {
-        await updateComments()
         document.title = createTitle(product.value.name);
       });
 })
@@ -141,9 +124,9 @@ onMounted(async () => {
         />
         <comments-section
             :comments="comments"
-            :is-comments-loading="isCommentsLoading"
-            :has-more-comments="hasMoreComment"
-            @show-more-comments="updateComments"
+            :object-id="product.id"
+            :content-type="'product'"
+            @comments-loaded="onCommentsLoaded"
         />
       </div>
     </div>

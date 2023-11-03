@@ -2,7 +2,7 @@
 defineProps({
   flushClass: {
     type: String,
-    default: 'alert-warning',
+    default: "alert-warning",
   },
   errorMessages: {
     type: Array,

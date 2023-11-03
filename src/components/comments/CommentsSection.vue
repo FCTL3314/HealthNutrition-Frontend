@@ -1,35 +1,64 @@
 <script setup>
-import {computed} from 'vue';
-import store from '@/store';
-import CaretDownIcon from '@/components/icons/CaretDownIcon.vue';
-import CommentBlock from '@/components/comments/CommentBlock.vue';
-import CommentBlockPlaceholder from '@/components/comments/CommentBlockPlaceholder.vue';
+import {computed, ref, onMounted} from "vue";
+import store from "@/store";
+import CaretDownIcon from "@/components/icons/CaretDownIcon.vue";
+import CommentBlock from "@/components/comments/CommentBlock.vue";
+import CommentBlockPlaceholder from "@/components/comments/CommentBlockPlaceholder.vue";
+import {COMMENTS_ALLOWED_CONTENT_TYPES} from "@/constants";
+import api from "@/services/api";
 
-defineProps({
+const props = defineProps({
   comments: {
     type: Object,
     required: true,
   },
-  isCommentsLoading: {
-    type: Boolean,
+  objectId: {
+    type: Number,
     required: true,
   },
-  hasMoreComments: {
-    type: Boolean,
+  contentType: {
+    type: String,
     required: true,
-  },
+    validator: (value) => {
+      return COMMENTS_ALLOWED_CONTENT_TYPES.includes(value);
+    },
+  }
 })
 
-const user = computed(() => store.getters['auth/user']);
+const user = computed(() => store.getters["auth/user"]);
+
+const isCommentsLoading = ref(false);
+const hasMoreComments = ref(false);
 
 let currentPage = 1;
 
-const emits = defineEmits(["showMoreComments", "addComment"]);
+const emits = defineEmits(["commentsLoaded", "showMoreComments"]);
 
-const onClickShowMoreComments = () => {
-  currentPage++
-  emits("showMoreComments", currentPage);
+function onCommentsLoaded(data) {
+  emits("commentsLoaded", data);
 }
+
+async function onClickShowMoreComments() {
+  currentPage++
+  await loadComments(currentPage)
+}
+
+async function loadComments(page = 1) {
+  isCommentsLoading.value = true;
+  try {
+    const data = (await api.comments.comments(props.objectId, props.contentType, page)).data;
+    hasMoreComments.value = data.next !== null;
+    onCommentsLoaded(data)
+  } catch (error) {
+    console.error(error);
+  } finally {
+    isCommentsLoading.value = false;
+  }
+}
+
+onMounted(async () => {
+  await loadComments()
+})
 </script>
 
 <template>
