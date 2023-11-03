@@ -41,9 +41,9 @@ function toggleReplies() {
 
 <template>
   <div class="comment-wrp">
-    <div class="commend-body">
+    <div class="comment-body">
       <router-link :to="{name: 'profile', params: {userSlug: author.slug}}">
-        <img class="me-3 rounded-circle object-fit-cover"
+        <img class="comment-avatar object-fit-cover"
              :src="getUserImage(author)"
              alt="user-image"
              width="40"

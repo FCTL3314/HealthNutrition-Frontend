@@ -1,7 +1,7 @@
 <template>
-  <div class="comment-wrp">
+  <div class="comment-wrp d-flex">
     <svg
-        class="rounded-circle bd-placeholder-img me-3"
+        class="comment-avatar bd-placeholder-img"
         width="40"
         height="40"
         xmlns="http://www.w3.org/2000/svg"
@@ -15,9 +15,13 @@
     <div class="placeholder-glow w-100">
       <span class="placeholder comment-author-name col-2"/>
       <span class="placeholder placeholder-text bg-secondary col-2"/>
-      <div class="placeholder-glow w-100 mb-3">
+      <div class="placeholder-glow w-100">
         <span class="placeholder placeholder-text col-4"/>
         <span class="placeholder placeholder-text col-3"/>
+      </div>
+      <div class="placeholder-glow w-100">
+        <span class="placeholder placeholder-text placeholder-text-replies col-1"/>
+        <span class="placeholder placeholder-text placeholder-text-replies col-1"/>
       </div>
     </div>
   </div>
@@ -29,4 +33,7 @@
 .placeholder-text
   font-size: 12px
   margin-right: 4px
+
+  &-replies
+    color: $color-main
 </style>

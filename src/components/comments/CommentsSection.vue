@@ -62,7 +62,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div id="comments-wrp" class="container my-3">
+  <div id="comments-wrp" class="container comments-wrp">
     <comment-block
         v-for="(comment, index) in comments"
         :key="index"
@@ -98,4 +98,5 @@ onMounted(async () => {
 
 <style scoped lang="sass">
 @import "@/assets/sass/main"
+@import "@/assets/sass/comments"
 </style>

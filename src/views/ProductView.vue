@@ -131,19 +131,24 @@ onMounted(async () => {
       </div>
     </div>
   </div>
-  <div v-else class="loading-spinner-wrp">
-    <div class="spinner-border" role="status" style="width: 3rem; height: 3rem;">
+  <div v-else class="loading">
+    <div class="spinner-border spinner-border-lg" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
-    <p class="fs-4 text-main-light">Loading...</p>
+    <p class="fs-4 text-main-light">Loading</p>
   </div>
 </template>
 
 <style lang="sass">
 @import "@/assets/sass/main"
 
-.loading-spinner-wrp
+.loading
   text-align: center
   padding: 6em 0 0 0
   color: $color-main-light
+
+.spinner-border
+  &-lg
+    width: 3rem
+    height: 3rem
 </style>

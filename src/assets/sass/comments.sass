@@ -1,12 +1,16 @@
-@import 'variables'
+@import "variables"
+
+
+.comments-wrp
+  margin-top: $between-comments-margin
 
 .comment-wrp
-  margin-bottom: 16px
+  margin-bottom: $between-comments-margin
 
 .comment-wrp:last-child
   margin-bottom: 0
 
-.commend-body
+.comment-body
   display: flex
   align-items: flex-start
 
@@ -14,6 +18,10 @@
   font-size: 20px
   margin: 0 .4em 0 0
   text-decoration: none
+
+.comment-avatar
+  border-radius: 50%
+  margin-right: 1rem
 
 .btn
   &-comment
