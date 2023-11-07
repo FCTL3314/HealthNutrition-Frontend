@@ -1,11 +1,12 @@
 <script setup>
-import {computed, ref, onMounted} from "vue";
+import {computed, onMounted, ref} from "vue";
 import store from "@/store";
 import CaretDownIcon from "@/components/icons/CaretDownIcon.vue";
 import CommentBlock from "@/components/comments/CommentBlock.vue";
 import CommentBlockPlaceholder from "@/components/comments/CommentBlockPlaceholder.vue";
-import {COMMENTS_ALLOWED_CONTENT_TYPES} from "@/constants";
 import api from "@/services/api";
+import {isContentTypeAllowed} from "@/validators";
+
 
 const props = defineProps({
   comments: {
@@ -19,10 +20,11 @@ const props = defineProps({
   contentType: {
     type: String,
     required: true,
-    validator: (value) => {
-      return COMMENTS_ALLOWED_CONTENT_TYPES.includes(value);
-    },
-  }
+    validator: isContentTypeAllowed,
+  },
+  parentId: {
+    type: Number,
+  },
 })
 
 const user = computed(() => store.getters["auth/user"]);
@@ -32,7 +34,7 @@ const hasMoreComments = ref(false);
 
 let currentPage = 1;
 
-const emits = defineEmits(["commentsLoaded", "showMoreComments"]);
+const emits = defineEmits(["commentsLoaded"]);
 
 function onCommentsLoaded(data) {
   emits("commentsLoaded", data);
@@ -46,7 +48,7 @@ async function onClickShowMoreComments() {
 async function loadComments(page = 1) {
   isCommentsLoading.value = true;
   try {
-    const data = (await api.comments.comments(props.objectId, props.contentType, page)).data;
+    const data = (await api.comments.comments(props.objectId, props.contentType, page, props.parentId)).data;
     hasMoreComments.value = data.next !== null;
     onCommentsLoaded(data)
   } catch (error) {
@@ -56,22 +58,27 @@ async function loadComments(page = 1) {
   }
 }
 
+function addReplyComment(reply) {
+  const parentComment = props.comments.find(comment => comment.id === reply.parent_id);
+  const parentCommentIndex = props.comments.indexOf(parentComment);
+  const indexToInsertReply = parentCommentIndex + 1;
+  props.comments.splice(indexToInsertReply, 0, reply);
+}
+
 onMounted(async () => {
-  await loadComments()
+  await loadComments();
 })
 </script>
 
 <template>
   <div id="comments-wrp" class="container comments-wrp">
     <comment-block
-        v-for="(comment, index) in comments"
-        :key="index"
-        :text="comment.text"
-        :author="comment.author"
-        :created-at="comment.created_at"
-        :has-replies="comment.has_replies"
-        :replies-count="comment.replies_count"
-        :edited="comment.edited"
+        v-for="comment in comments"
+        :key="comment.id"
+        :object-id="objectId"
+        :content-type="contentType"
+        :comment="comment"
+        @reply-created="addReplyComment"
     />
     <comment-block-placeholder
         v-if="isCommentsLoading"
@@ -83,7 +90,7 @@ onMounted(async () => {
       <h4>Looks like no one has left a comment yet, be the first!</h4>
     </div>
   </div>
-  <div v-if="hasMoreComments" class="text-center list-group">
+  <div v-if="hasMoreComments" class="show-more-comments-wrp list-group">
     <button
         v-if="!isCommentsLoading"
         @click="onClickShowMoreComments"
@@ -99,4 +106,13 @@ onMounted(async () => {
 <style scoped lang="sass">
 @import "@/assets/sass/main"
 @import "@/assets/sass/comments"
+
+
+.show-more-comments-wrp
+  margin-top: $between-comments-margin
+  text-align: center
+
+.comments-wrp
+  margin-top: $between-comments-margin
+
 </style>
