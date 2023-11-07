@@ -95,8 +95,8 @@ onMounted(async () => {
   >
     <template v-if="isDataLoaded && isProductsExists">
       <div
-          v-for="(product, index) in products"
-          :key="index"
+          v-for="product in products"
+          :key="product.id"
           class="col-lg-4 col-md-6 mb-3"
       >
         <product-card

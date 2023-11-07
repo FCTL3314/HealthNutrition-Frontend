@@ -3,13 +3,13 @@ import {computed, reactive, ref} from "vue";
 import {useStore} from "vuex";
 import {useVuelidate} from "@vuelidate/core";
 import {maxLength, minLength} from "@vuelidate/validators";
-import {usernameValidators} from "@/validators";
 import {appendResponseErrorMessages, getValidationClass} from "@/utils";
 import FormErrorsFeedback from "@/components/forms/FormErrorsFeedback.vue";
 import api from "@/services/api";
 import {ALLOWED_IMAGE_EXTENSIONS} from "@/constants";
 import BaseTab from "@/components/settings/BaseTab.vue";
 import {afterUpdateActions} from "@/services/userUpdate";
+import {usernameValidators} from "@/validators/vuelidate";
 
 
 const store = useStore();

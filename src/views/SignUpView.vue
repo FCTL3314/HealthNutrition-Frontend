@@ -5,11 +5,11 @@ import {useVuelidate} from "@vuelidate/core";
 import {email, helpers, required, sameAs} from "@vuelidate/validators";
 import FormErrorsFeedback from "@/components/forms/FormErrorsFeedback.vue";
 import {getValidationClass, handleAuthError} from "@/utils";
-import {passwordValidators, usernameValidators} from "@/validators";
 import router from "@/router";
 import toaster from "@/plugins/toaster";
 import FormFlushMessages from "@/components/forms/FormFlushMessages.vue"
 import SubmitButton from "@/components/submitButton.vue";
+import {passwordValidators, usernameValidators} from "@/validators/vuelidate";
 
 
 const isSignUpResponseWaiting = ref(false);

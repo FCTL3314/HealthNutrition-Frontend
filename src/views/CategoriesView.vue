@@ -61,8 +61,8 @@ onMounted(async () => {
   >
     <template v-if="!isCategoriesLoading">
       <div
-          v-for="(category, index) in categories"
-          :key="index"
+          v-for="category in categories"
+          :key="category.id"
           class="col-lg-4 col-md-6 mb-3"
       >
         <category-card

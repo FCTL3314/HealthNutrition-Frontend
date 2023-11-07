@@ -7,11 +7,11 @@ import {useStore} from "vuex";
 import {required} from "@vuelidate/validators";
 import FormErrorsFeedback from "@/components/forms/FormErrorsFeedback.vue";
 import {getValidationClass, handleAuthError} from "@/utils";
-import {passwordValidators, usernameValidators} from "@/validators";
 import toaster from "@/plugins/toaster";
 import {authStorage} from "@/services/auth";
 import FormFlushMessages from "@/components/forms/FormFlushMessages.vue";
 import SubmitButton from "@/components/submitButton.vue";
+import {passwordValidators, usernameValidators} from "@/validators/vuelidate";
 
 
 const router = useRouter();

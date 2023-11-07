@@ -37,7 +37,7 @@ const props = defineProps({
 });
 
 const productsRoute = computed(() => {
-  return {name: 'products', params: {categorySlug: props.slug}}
+  return {name: 'products', params: {categorySlug: props.slug}};
 })
 </script>
 
