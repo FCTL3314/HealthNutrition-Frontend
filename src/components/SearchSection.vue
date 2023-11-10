@@ -5,23 +5,23 @@ import {ref} from "vue";
 const searchTypes = [
   {
     label: "Category",
-    value: "product_type",
+    value: "category",
   },
   {
     label: "Product",
     value: "product",
   },
 ];
-const selectedSearchType = ref("product_type");
+const selectedSearchType = ref("category");
 const searchQuery = ref("");
 </script>
 
 <template>
   <div class="search-wrapper text-center mx-auto">
-    <h1 class="text-main">StoreTracker</h1>
+    <h1 class="text-main">HealthNutrition</h1>
     <p class="fs-4">
-      Discover unbeatable deals and unlock the power of price comparison across global leading retailers on our
-      platform!
+      Welcome to a hub for healthier choices. Discover, compare, and create personalized diets. Your go-to for
+      nutritional insights. Let's build a healthier future, one bite at a time.
     </p>
     <form role="search" action="#" method="GET">
       <div class="row">

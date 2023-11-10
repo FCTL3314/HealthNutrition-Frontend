@@ -39,3 +39,7 @@ onBeforeMount(() => {
   </content-wrapper>
   <footer-section/>
 </template>
+
+<style lang="sass">
+
+</style>

@@ -1,43 +1,47 @@
 <script setup>
 import {computed} from "vue";
-import DollarIcon from "@/components/icons/DollarIcon.vue";
-import PatchCheckIcon from "@/components/icons/PatchCheckIcon.vue";
-import PatchExclamationIcon from "@/components/icons/PatchExclamationIcon.vue";
-import ShopIcon from "@/components/icons/ShopIcon.vue";
+import CircleFillIcon from "@/components/icons/CircleFillIcon.vue";
+import {PRODUCT_NUTRITION_ROUNDING} from "@/constants";
+
 
 const props = defineProps({
-  imageURL: {
-    type: String,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  averagePrice: {
-    type: Number,
-  },
-  lowestPrice: {
-    type: Number,
-  },
-  highestPrice: {
-    type: Number,
-  },
-  storesCount: {
-    type: Number,
-  },
-  slug: {
-    type: String,
+  category: {
+    type: Object,
     required: true,
   },
 });
 
+
+const nutritionItems = [
+  {
+    name: "Calories",
+    value: props.category.calories_avg,
+    colorClass: "text-warning",
+    units: "kcal",
+  },
+  {
+    name: "Protein",
+    value: props.category.protein_avg,
+    colorClass: "text-success",
+    units: "g.",
+  },
+  {
+    name: "Fat",
+    value: props.category.fat_avg,
+    colorClass: "text-danger",
+    units: "g.",
+  },
+  {
+    name: "Carbs",
+    value: props.category.carbs_avg,
+    colorClass: "text-primary",
+    units: "g.",
+  },
+]
+
+
 const productsRoute = computed(() => {
-  return {name: 'products', params: {categorySlug: props.slug}};
+  return {name: 'products', params: {categorySlug: props.category.slug}};
 })
 </script>
 
@@ -46,7 +50,7 @@ const productsRoute = computed(() => {
     <router-link :to="productsRoute">
       <div class="card-img-scale">
         <img
-            :src="imageURL"
+            :src="category.image"
             class="card-img-top"
             alt="category-image"
         >
@@ -55,27 +59,23 @@ const productsRoute = computed(() => {
     <div class="card-body">
       <h5 class="card-title text-main text-truncate">
         <router-link class="link-main fw-semibold" :to="productsRoute">
-          {{ name }}
+          {{ category.name }}
         </router-link>
       </h5>
-      <p class="card-text">{{ description }}</p>
+      <p class="card-text">{{ category.description }}</p>
     </div>
     <ul class="list-group list-group-flush">
-      <li v-if="averagePrice" class="text-warning list-group-item inline-icon-text">
-        <dollar-icon/>
-        <span class="ms-1 fw-semibold">Average: {{ averagePrice }}$</span>
-      </li>
-      <li v-if="lowestPrice" class="text-success list-group-item inline-icon-text">
-        <patch-check-icon/>
-        <span class="ms-1 fw-semibold">Lowest: {{ lowestPrice }}$</span>
-      </li>
-      <li v-if="highestPrice" class="text-danger list-group-item inline-icon-text">
-        <patch-exclamation-icon/>
-        <span class="ms-1 fw-semibold">Highest: {{ highestPrice }}$</span>
-      </li>
-      <li v-if="storesCount" class="text-primary list-group-item inline-icon-text">
-        <shop-icon/>
-        <span class="ms-1 fw-semibold">Stores: {{ storesCount }}</span>
+      <li
+          v-for="(item, index) in nutritionItems"
+          :key="index"
+          class="list-group-item inline-icon-text"
+          :class="item.colorClass"
+      >
+        <circle-fill-icon/>
+        &nbsp;
+        <span class="fw-semibold">
+          {{ item.name }}: {{ item.value.toFixed(PRODUCT_NUTRITION_ROUNDING) }} {{ item.units }}
+        </span>
       </li>
     </ul>
   </div>

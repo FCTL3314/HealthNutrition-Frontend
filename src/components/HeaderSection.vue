@@ -39,7 +39,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
           src="@/assets/icons/logo.png"
           alt="logo"
       >
-      <span class="fs-4">StoreTracker</span>
+      <span class="fs-4">HealthNutrition</span>
     </span>
       <button
           class="navbar-toggler"

@@ -22,7 +22,7 @@ const isCategoriesLoading = ref(false);
 async function loadCategories() {
   isCategoriesLoading.value = true;
   try {
-    return (await api.products.categories(currentPage.value)).data;
+    return (await api.categories.categories(currentPage.value)).data;
   } catch (error) {
     console.error(error.response);
   } finally {
@@ -56,7 +56,7 @@ onMounted(async () => {
   <card-list
       class="py-3"
       ref="cardListRef"
-      title="Discover Popular Product Categories"
+      title="Discover popular product categories"
       description="Explore our curated list of popular product categories, sorted be their popularity among users."
   >
     <template v-if="!isCategoriesLoading">
@@ -65,16 +65,7 @@ onMounted(async () => {
           :key="category.id"
           class="col-lg-4 col-md-6 mb-3"
       >
-        <category-card
-            :image-u-r-l="category.image"
-            :slug="category.slug"
-            :name="category.name"
-            :description="category.description"
-            :average-price="category.product_price_avg"
-            :lowest-price="category.product_price_min"
-            :highest-price="category.product_price_max"
-            :stores-count="category.product_stores_count"
-        />
+        <category-card :category="category"/>
       </div>
       <pagination-section
           :total-pages="totalPages"

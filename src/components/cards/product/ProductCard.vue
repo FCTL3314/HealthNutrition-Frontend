@@ -1,116 +1,126 @@
 <script setup>
-import {computed} from "vue";
-import PinAngleIcon from "@/components/icons/PinAngleIcon.vue";
-import PatchCheckIcon from "@/components/icons/PatchCheckIcon.vue";
-import PatchExclamationIcon from "@/components/icons/PatchExclamationIcon.vue";
-import DollarIcon from "@/components/icons/DollarIcon.vue";
-import ShopIcon from "@/components/icons/ShopIcon.vue";
-import {PRODUCT_PRICE_ROUNDING} from "@/constants";
+import {computed, ref} from "vue";
+import {PRODUCT_NUTRITION_ROUNDING} from "@/constants";
+import CircleFillIcon from "@/components/icons/CircleFillIcon.vue";
+import BookmarksIcon from "@/components/icons/BookmarksIcon.vue";
+import BookmarksFillIcon from "@/components/icons/BookmarksFillIcon.vue";
+
 
 const props = defineProps({
-  imageURL: {
-    type: String,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  storeName: {
-    type: String,
-    required: true,
-  },
-  storeLink: {
-    type: String,
-    required: true,
-  },
-  price: {
-    type: Number,
-    required: true,
-  },
-  categoryHighestPrice: {
-    type: Number,
-    required: true,
-  },
-  categoryAveragePrice: {
-    type: Number,
-    required: true,
-  },
-  categoryLowestPrice: {
-    type: Number,
-    required: true,
-  },
-  route: {
+  product: {
     type: Object,
     required: true,
   },
+  category: {
+    type: Object,
+    required: true,
+  }
 });
 
-const priceDifference = computed(() => (
-    props.categoryAveragePrice - props.price).toFixed(PRODUCT_PRICE_ROUNDING)
-);
-const isPriceProfitable = computed(() => priceDifference.value >= 0);
-const isMostExpansiveProduct = computed(() => props.categoryHighestPrice === props.price);
-const isCheapestProduct = computed(() => props.categoryLowestPrice === props.price);
+const isProductCompared = ref(true);
+
+const createNutritionItem = (name, colorClass, units, value, maxValue, avgValue, minValue) => {
+  const difference = (avgValue - value).toFixed(PRODUCT_NUTRITION_ROUNDING);
+  const isDifferencePositive = difference >= 0;
+
+  return {
+    name,
+    colorClass,
+    units,
+    value,
+    maxValue,
+    avgValue,
+    minValue,
+    difference,
+    isDifferencePositive,
+  };
+};
+
+const nutritionItems = [
+  createNutritionItem(
+      "Calories",
+      "text-warning",
+      "kcal",
+      props.product.nutrition.calories,
+      props.category.calories_max,
+      props.category.calories_avg,
+      props.category.calories_min,
+  ),
+  createNutritionItem(
+      "Protein",
+      "text-success",
+      "g.",
+      props.product.nutrition.protein,
+      props.category.protein_max,
+      props.category.protein_avg,
+      props.category.protein_min,
+  ),
+  createNutritionItem(
+      "Fat",
+      "text-danger",
+      "g.",
+      props.product.nutrition.fat,
+      props.category.fat_max,
+      props.category.fat_avg,
+      props.category.fat_min,
+  ),
+  createNutritionItem(
+      "Carbs",
+      "text-primary",
+      "g.",
+      props.product.nutrition.carbs,
+      props.category.carbs_max,
+      props.category.carbs_avg,
+      props.category.carbs_min,
+  ),
+];
+
+const productRoute = computed(() => {
+  return {name: "product", params: {categorySlug: props.category.slug, productSlug: props.product.slug}}
+})
 </script>
 
 <template>
   <div class="card h-100">
-    <router-link :to="route">
+    <router-link :to="productRoute">
       <div class="card-img-scale">
         <img
-            :src="imageURL"
+            :src="product.image"
             class="card-img-top"
             alt="product-image"
         >
       </div>
     </router-link>
-    <div class="card-body">
+    <div class="card-body d-flex flex-column">
       <h5 class="card-title text-main text-truncate">
-        <router-link class="link-main fw-semibold" :to="route">
-          {{ name }}
+        <router-link class="link-main fw-semibold" :to="productRoute">
+          {{ product.name }}
         </router-link>
       </h5>
-      <p class="card-text">{{ description }}</p>
-      <div class="d-flex align-items-center mt-auto">
-        <button type="button" class="text-primary btn btn-add-to-compare">
-          <pin-angle-icon/>
-          <span class="ms-1">Add to Compare</span>
-        </button>
-      </div>
+      <p class="card-text">{{ product.short_description }}</p>
+      <button type="button" class="text-primary btn btn-add-to-compare mt-auto">
+        <bookmarks-icon v-if="isProductCompared" :width="24" :height="24"/>
+        <bookmarks-fill-icon v-else :width="24" :height="24"/>
+        <span class="ms-1 fw-semibold">Add to Compare</span>
+      </button>
     </div>
     <ul class="list-group list-group-flush">
-      <li v-if="isCheapestProduct" class="text-success list-group-item inline-icon-text">
-        <patch-check-icon/>
-        <span class="ms-1 fw-semibold">Lowest Price</span>
-      </li>
-      <li v-if="isMostExpansiveProduct" class="text-danger list-group-item inline-icon-text">
-        <patch-exclamation-icon/>
-        <span class="ms-1 fw-semibold">Highest Price</span>
-      </li>
-      <li class="text-warning list-group-item inline-icon-text">
-        <dollar-icon/>
-        <span class="fw-semibold">{{ price }}$</span>
+      <li
+          v-for="(item, index) in nutritionItems"
+          :key="index"
+          class="list-group-item inline-icon-text"
+          :class="item.colorClass"
+      >
+        <circle-fill-icon/>
+        <span class="fw-semibold">
+          &nbsp;{{ item.name }}: {{ item.value }} {{ item.units }}&nbsp;
+        </span>
         <span
             class="text-success fw-semibold"
-            :class="isPriceProfitable ? 'text-success' : 'text-danger'"
+            :class="item.isDifferencePositive ? 'text-success' : 'text-danger'"
         >
-          ({{ isPriceProfitable ? '-' : '+' }}{{ Math.abs(priceDifference) }}$)
+          ({{ item.isDifferencePositive ? '-' : '+' }}{{ Math.abs(item.difference) }} {{ item.units }})
         </span>
-      </li>
-      <li class="text-primary list-group-item list-group-item-centered">
-        <shop-icon/>
-        <a
-            class="ms-1 link link-store"
-            :href="storeLink"
-            target="_blank"
-        >
-          {{ storeName }}
-        </a>
       </li>
     </ul>
   </div>

@@ -33,7 +33,7 @@ const totalPages = ref(0);
 async function loadCategory() {
   isCategoryLoading.value = true;
   try {
-    return (await api.products.category(route.params.categorySlug)).data;
+    return (await api.categories.category(route.params.categorySlug)).data;
   } catch (error) {
     console.error(error);
   } finally {
@@ -71,10 +71,6 @@ async function onPageChange(page) {
   await updateProducts();
 }
 
-function createProductRoute(productSlug) {
-  return {name: 'product', params: {categorySlug: category.value.slug, productSlug: productSlug}}
-}
-
 onMounted(async () => {
   await updateCategory()
       .then(async () => {
@@ -100,16 +96,8 @@ onMounted(async () => {
           class="col-lg-4 col-md-6 mb-3"
       >
         <product-card
-            :image-u-r-l="product.image"
-            :route="createProductRoute(product.slug)"
-            :name="product.name"
-            :description="product.card_description"
-            :store-name="product.store.name"
-            :store-link="product.store.url"
-            :price="product.price"
-            :category-average-price="category.product_price_avg"
-            :category-highest-price="category.product_price_max"
-            :category-lowest-price="category.product_price_min"
+            :product="product"
+            :category="category"
         />
       </div>
       <pagination-section
