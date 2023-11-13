@@ -2,9 +2,8 @@
 import api from "@/services/api/index"
 import {computed, onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import {calculateTotalPages, createTitle, scrollToElement, setParams} from "@/utils";
+import {calculateTotalPages, createTitle, replaceURLParams, scrollToElement} from "@/utils";
 import SearchSection from "@/components/SearchSection.vue";
-import CardList from "@/components/cards/CardList.vue";
 import ProductCard from "@/components/cards/product/ProductCard.vue";
 import ProductCardPlaceholder from "@/components/cards/product/ProductCardPlaceholder.vue";
 import PaginationSection from "@/components/PaginationSection.vue";
@@ -45,10 +44,16 @@ async function updateCategory() {
   category.value = await loadCategory()
 }
 
-async function loadProducts() {
+async function loadProducts(searchQuery = null) {
   isProductsLoading.value = true;
   try {
-    return (await api.products.products(currentPage.value, route.params.categorySlug)).data;
+    if (searchQuery || route.query.search) {
+      return (await api.products.products(
+              currentPage.value, null, searchQuery || route.query.search)
+      ).data;
+    } else {
+      return (await api.products.products(currentPage.value, route.params.categorySlug)).data;
+    }
   } catch (error) {
     console.error(error);
   } finally {
@@ -56,8 +61,12 @@ async function loadProducts() {
   }
 }
 
-async function updateProducts() {
-  const data = await loadProducts()
+async function updateProducts(searchQuery = null) {
+  if (searchQuery) {
+    currentPage.value = 1;
+    await replaceURLParams(router, route, {page: 1});
+  }
+  const data = await loadProducts(searchQuery);
   products.value = data.results;
   totalPages.value = calculateTotalPages(data.count, data.results.length);
 }
@@ -66,7 +75,7 @@ const cardListRef = ref(null);
 
 async function onPageChange(page) {
   currentPage.value = page;
-  await setParams(router, route, {page: page});
+  await replaceURLParams(router, route, {page: page});
   scrollToElement(cardListRef.value);
   await updateProducts();
 }
@@ -81,13 +90,11 @@ onMounted(async () => {
 </script>
 
 <template>
-  <search-section class="pt-4 pb-3"/>
-  <hr class="m-0">
-  <card-list
+  <search-section @search-button-click="updateProducts" class="pt-4 pb-3"/>
+  <hr class="my-2">
+  <div
+      class="row py-3"
       ref="cardListRef"
-      class="py-3"
-      :title="`Products in the category ${category ? category.name : 'Loading...'}`"
-      description="Discover a wide range of products available in the selected category."
   >
     <template v-if="isDataLoaded && isProductsExists">
       <div
@@ -114,6 +121,5 @@ onMounted(async () => {
     >
       <product-card-placeholder/>
     </div>
-  </card-list>
-  <not-found-section v-if="isDataLoaded && !isProductsExists"/>
+  </div>
 </template>

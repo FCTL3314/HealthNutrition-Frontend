@@ -2,12 +2,12 @@
 import api from "@/services/api/index";
 import {onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import {calculateTotalPages, scrollToElement, setParams} from "@/utils";
+import {calculateTotalPages, replaceURLParams, scrollToElement} from "@/utils";
 import SearchSection from "@/components/SearchSection.vue";
-import CardList from "@/components/cards/CardList.vue";
 import CategoryCard from "@/components/cards/category/CategoryCard.vue";
 import CategoryCardPlaceholder from "@/components/cards/category/CategoryCardPlaceholder.vue";
 import PaginationSection from "@/components/PaginationSection.vue";
+import NotFoundSection from "@/components/NotFoundSection.vue";
 
 
 const route = useRoute();
@@ -19,10 +19,12 @@ const currentPage = ref(parseInt(route.query.page || 1));
 const totalPages = ref(0);
 const isCategoriesLoading = ref(false);
 
-async function loadCategories() {
+async function loadCategories(searchQuery = null) {
   isCategoriesLoading.value = true;
   try {
-    return (await api.categories.categories(currentPage.value)).data;
+    return (await api.categories.categories(
+        currentPage.value, searchQuery || route.query.search)
+    ).data;
   } catch (error) {
     console.error(error.response);
   } finally {
@@ -30,8 +32,12 @@ async function loadCategories() {
   }
 }
 
-async function updateCategories() {
-  const response = await loadCategories();
+async function updateCategories(searchQuery = null) {
+  if (searchQuery) {
+    currentPage.value = 1;
+    await replaceURLParams(router, route, {page: 1});
+  }
+  const response = await loadCategories(searchQuery);
   categories.value = response.results;
   totalPages.value = calculateTotalPages(response.count, response.results.length);
 }
@@ -40,7 +46,7 @@ const cardListRef = ref(null);
 
 async function onPageChange(page) {
   currentPage.value = page;
-  await setParams(router, route, {page: page});
+  await replaceURLParams(router, route, {page: page});
   scrollToElement(cardListRef.value);
   await updateCategories();
 }
@@ -51,13 +57,11 @@ onMounted(async () => {
 </script>
 
 <template>
-  <search-section class="pt-4 pb-3"/>
-  <hr class="m-0">
-  <card-list
-      class="py-3"
+  <search-section @search-button-click="updateCategories" class="pt-4 pb-3"/>
+  <hr class="my-2">
+  <div
+      class="row py-3"
       ref="cardListRef"
-      title="Discover popular product categories"
-      description="Explore our curated list of popular product categories, sorted be their popularity among users."
   >
     <template v-if="!isCategoriesLoading">
       <div
@@ -81,5 +85,6 @@ onMounted(async () => {
     >
       <category-card-placeholder/>
     </div>
-  </card-list>
+  </div>
+  <not-found-section v-if="!categories.length"/>
 </template>
