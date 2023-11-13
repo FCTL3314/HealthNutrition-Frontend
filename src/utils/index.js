@@ -14,7 +14,7 @@ export function scrollToTop(behavior = "smooth") {
 
 export function scrollToElement(element, behavior = "smooth") {
     window.scrollTo({
-        top: element.$el.offsetTop,
+        top: element.offsetTop,
         behavior: behavior,
     });
 }
@@ -103,7 +103,7 @@ export function getUserImage(user) {
     return user?.image || "/src/assets/images/default_user.png";
 }
 
-export async function setParams(router, route, params, savePosition = true) {
+export async function replaceURLParams(router, route, params, savePosition = true) {
     const _params = {...params};
     if (savePosition) {
         _params.save_position = "true";

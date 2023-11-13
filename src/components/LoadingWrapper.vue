@@ -23,7 +23,7 @@ defineProps({
 
 .loading
   text-align: center
-  padding: 6em 0 0 0
+  min-height: 100vh
   color: $color-main-light
 
 .spinner-border

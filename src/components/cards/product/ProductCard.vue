@@ -105,6 +105,12 @@ const productRoute = computed(() => {
       </button>
     </div>
     <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        <span class="fw-semibold text-main">Healthfulness:</span>
+        <div class="progress w-100">
+          <div class="progress-bar" style="width: 50%;">50%</div>
+        </div>
+      </li>
       <li
           v-for="(item, index) in nutritionItems"
           :key="index"

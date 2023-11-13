@@ -11,8 +11,7 @@ defineProps({
 </script>
 
 <template>
-<div class="text-center">
-    <h1 v-if="title" class="text-main">{{ title }}</h1>
+  <div class="text-center">
     <img
         class="text-main magnifying-glass-img mb-3"
         src="@/assets/icons/magnifying-glass.svg"
@@ -20,6 +19,7 @@ defineProps({
         width="100"
         height="100"
     >
+    <h2 v-if="title" class="text-main">{{ title }}</h2>
     <h4>{{ description }}</h4>
   </div>
 </template>

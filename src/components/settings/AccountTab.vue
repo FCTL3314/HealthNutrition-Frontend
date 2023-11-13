@@ -147,7 +147,7 @@ async function update() {
       <div class="input-group">
         <input
             id="image"
-            :accept="ALLOWED_IMAGE_EXTENSIONS"
+            :accept="ALLOWED_IMAGE_EXTENSIONS.join(', ')"
             @change="handleImageFieldChange"
             class="form-control"
             type="file"

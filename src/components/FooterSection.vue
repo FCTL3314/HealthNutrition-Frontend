@@ -10,9 +10,9 @@ const currentDate = new Date()
     <div class="container text-center py-4">
       <h3 class="text-main">About</h3>
       <p>
-        The project serves educational purposes and is not intended for practical use. The products featured herein do
-        not represent their actual value, description, or composition. The information provided is purely fictional and
-        should not be relied upon for any real-world applications.
+        The project is designed for educational purposes. The product information displayed may
+        not precisely reflect their real-world values or compositions. The details provided are for learning purposes
+        and might not entirely align with practical applications.
       </p>
       <hr class="divider border-2">
       <small>

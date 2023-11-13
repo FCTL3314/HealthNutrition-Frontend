@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid position-relative">
-    <div class="container min-vh-100 bg-light">
+    <div class="container bg-light">
       <slot></slot>
     </div>
   </div>

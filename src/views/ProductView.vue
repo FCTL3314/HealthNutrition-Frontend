@@ -46,10 +46,10 @@ onMounted(async () => {
 </script>
 
 <template>
-  <loading-wrapper :is-loading="!product">
-    <div class="py-4 px-2 mx-auto text-center">
-      <h1 class="text-main">{{ product.name }}</h1>
-      <div class="col-lg-6">
+  <div class="py-4">
+    <loading-wrapper :is-loading="!product">
+      <div class="px-2 mx-auto text-center">
+        <h1 class="text-main">{{ product.name }}</h1>
         <ul class="list-group list-group-flush">
           <li class="list-group-item bg-light">
             <span class="fs-5">
@@ -82,32 +82,29 @@ onMounted(async () => {
             </span>
           </li>
         </ul>
-      </div>
-      <div class="col-lg-6">
-        <canvas id="myChart" ref="ctx" style="max-width: 500px;"></canvas>
+        <hr>
+        <h2 class="text-main mb-4">Description</h2>
+        <p class="fs-5">{{ product.short_description }}</p>
       </div>
       <hr>
-      <h2 class="text-main mb-4">Description</h2>
-      <p class="fs-5">{{ product.short_description }}</p>
-    </div>
-    <hr>
-    <div class="row">
-      <div class="col-12">
-        <comments-form
-            :object-id="product.id"
-            :content-type="'product'"
-            :comments-count="commentsCount"
-            @comment-created="onCommentCreated"
-        />
-        <comments-section
-            :comments="comments"
-            :object-id="product.id"
-            :content-type="'product'"
-            @comments-loaded="onCommentsLoaded"
-        />
+      <div class="row">
+        <div class="col-12">
+          <comments-form
+              :object-id="product.id"
+              :content-type="'product'"
+              :comments-count="commentsCount"
+              @comment-created="onCommentCreated"
+          />
+          <comments-section
+              :comments="comments"
+              :object-id="product.id"
+              :content-type="'product'"
+              @comments-loaded="onCommentsLoaded"
+          />
+        </div>
       </div>
-    </div>
-  </loading-wrapper>
+    </loading-wrapper>
+  </div>
 </template>
 
 <style lang="sass">
