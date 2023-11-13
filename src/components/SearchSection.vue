@@ -1,29 +1,41 @@
 <script setup>
-import {ref} from "vue";
+import {computed, ref} from "vue";
+import {useRoute, useRouter} from "vue-router";
+import {replaceURLParams} from "@/utils";
 
 
-const searchTypes = [
-  {
-    label: "Category",
-    value: "category",
-  },
-  {
-    label: "Product",
-    value: "product",
-  },
-];
-const selectedSearchType = ref("category");
-const searchQuery = ref("");
+const route = useRoute();
+const router = useRouter();
+
+const emits = defineEmits(["searchButtonClick"])
+
+const searchQuery = ref(route.query.search || "");
+const searchButtonText = ref(route.name === "categories" ? "Search Categories" : "Search Products")
+const searchInputPlaceholderText = computed(() => {
+  return `Enter a query to search for ${"categories" ? "categories" : "products"}...`
+})
+
+const updateURLSearchParam = async (value) => {
+  await replaceURLParams(router, route, {search: value});
+}
+
+const onSearchButtonClick = async () => {
+  await updateURLSearchParam(searchQuery.value);
+  emits("searchButtonClick", searchQuery.value);
+}
 </script>
 
 <template>
   <div class="search-wrapper text-center mx-auto">
     <h1 class="text-main">HealthNutrition</h1>
     <p class="fs-4">
-      Welcome to a hub for healthier choices. Discover, compare, and create personalized diets. Your go-to for
-      nutritional insights. Let's build a healthier future, one bite at a time.
+      Explore, compare, and nourish better! Discover, plan, and compare food for a healthier lifestyle.
+      Begin your wellness journey here.
     </p>
-    <form role="search" action="#" method="GET">
+    <form
+        @submit.prevent="onSearchButtonClick"
+        role="search"
+    >
       <div class="row">
         <div class="search-input col-lg-9">
           <div class="input-group">
@@ -31,27 +43,17 @@ const searchQuery = ref("");
                 v-model="searchQuery"
                 class="form-control"
                 type="search"
-                placeholder="Enter a query to search for the item of your choice..."
+                :placeholder="searchInputPlaceholderText"
                 autocomplete="off"
                 required=""
             >
           </div>
         </div>
-        <div class="col-lg-3">
-          <select v-model="selectedSearchType" class="form-select">
-            <option
-                :value="searchType.value"
-                v-for="(searchType, index) in searchTypes"
-                :key="index"
-            >
-              {{ searchType.label }}
-            </option>
-          </select>
-        </div>
-      </div>
-      <div class="row justify-content-center py-3">
-        <button class="col-lg-3 col-md-4 col-sm-4 btn btn-outline-primary" type="submit">
-          Search
+        <button
+            class="col-lg-3 col-md-4 col-sm-4 btn btn-outline-primary"
+            type="submit"
+        >
+          {{ searchButtonText }}
         </button>
       </div>
     </form>
