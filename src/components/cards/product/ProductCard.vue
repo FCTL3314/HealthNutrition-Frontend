@@ -1,6 +1,6 @@
 <script setup>
 import {computed, ref} from "vue";
-import {PRODUCT_NUTRITION_ROUNDING} from "@/constants";
+import {PRODUCT_HEALTHFULNESS_REFERENCE, PRODUCT_NUTRITION_ROUNDING} from "@/constants";
 import CircleFillIcon from "@/components/icons/CircleFillIcon.vue";
 import BookmarksIcon from "@/components/icons/BookmarksIcon.vue";
 import BookmarksFillIcon from "@/components/icons/BookmarksFillIcon.vue";
@@ -18,9 +18,12 @@ const props = defineProps({
 });
 
 const isProductCompared = ref(true);
+const healthfulnessPercents = computed(() => {
+  return Math.round((props.product.healthfulness / PRODUCT_HEALTHFULNESS_REFERENCE) * 100);
+})
 
-const createNutritionItem = (name, colorClass, units, value, maxValue, avgValue, minValue) => {
-  const difference = (avgValue - value).toFixed(PRODUCT_NUTRITION_ROUNDING);
+const createNutritionItem = (name, colorClass, units, value, maxValue, avgValue, minValue, isMoreBetter) => {
+  const difference = (value - avgValue).toFixed(PRODUCT_NUTRITION_ROUNDING);
   const isDifferencePositive = difference >= 0;
 
   return {
@@ -33,6 +36,7 @@ const createNutritionItem = (name, colorClass, units, value, maxValue, avgValue,
     minValue,
     difference,
     isDifferencePositive,
+    isMoreBetter,
   };
 };
 
@@ -45,6 +49,7 @@ const nutritionItems = [
       props.category.calories_max,
       props.category.calories_avg,
       props.category.calories_min,
+      false,
   ),
   createNutritionItem(
       "Protein",
@@ -54,6 +59,7 @@ const nutritionItems = [
       props.category.protein_max,
       props.category.protein_avg,
       props.category.protein_min,
+      true,
   ),
   createNutritionItem(
       "Fat",
@@ -63,6 +69,7 @@ const nutritionItems = [
       props.category.fat_max,
       props.category.fat_avg,
       props.category.fat_min,
+      false,
   ),
   createNutritionItem(
       "Carbs",
@@ -72,6 +79,7 @@ const nutritionItems = [
       props.category.carbs_max,
       props.category.carbs_avg,
       props.category.carbs_min,
+      false,
   ),
 ];
 
@@ -105,10 +113,10 @@ const productRoute = computed(() => {
       </button>
     </div>
     <ul class="list-group list-group-flush">
-      <li class="list-group-item">
-        <span class="fw-semibold text-main">Healthfulness:</span>
-        <div class="progress w-100">
-          <div class="progress-bar" style="width: 50%;">50%</div>
+      <li class="list-group-item fw-semibold  text-center">
+        <span class="text-main-light">Healthfulness</span>
+        <div class="progress">
+          <div class="progress-bar" :style="{width: `${healthfulnessPercents}%`}">{{ healthfulnessPercents }}%</div>
         </div>
       </li>
       <li
@@ -122,10 +130,9 @@ const productRoute = computed(() => {
           &nbsp;{{ item.name }}: {{ item.value }} {{ item.units }}&nbsp;
         </span>
         <span
-            class="text-success fw-semibold"
-            :class="item.isDifferencePositive ? 'text-success' : 'text-danger'"
+            :class="item.isDifferencePositive && !item.isMoreBetter ? 'text-danger' : 'text-success'"
         >
-          ({{ item.isDifferencePositive ? '-' : '+' }}{{ Math.abs(item.difference) }} {{ item.units }})
+          {{ item.isDifferencePositive ? '+' : '-' }}{{ Math.abs(item.difference) }} {{ item.units }}
         </span>
       </li>
     </ul>

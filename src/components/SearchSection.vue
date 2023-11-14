@@ -12,7 +12,7 @@ const emits = defineEmits(["searchButtonClick"])
 const searchQuery = ref(route.query.search || "");
 const searchButtonText = ref(route.name === "categories" ? "Search Categories" : "Search Products")
 const searchInputPlaceholderText = computed(() => {
-  return `Enter a query to search for ${"categories" ? "categories" : "products"}...`
+  return `Enter a query to search for ${route.name === "categories" ? "categories" : "products"}...`
 })
 
 const updateURLSearchParam = async (value) => {
