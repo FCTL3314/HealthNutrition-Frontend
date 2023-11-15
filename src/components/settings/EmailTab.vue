@@ -57,9 +57,10 @@ async function update() {
 
 <template>
   <base-tab
+      tab-name="Email Settings"
       :vuelidate-data="v$"
       :server-error-messages="serverErrorMessages"
-      :is-update-response-waiting="isUpdateResponseWaiting"
+      :is-response-waiting="isUpdateResponseWaiting"
       :form-submit-callback="update"
   >
     <div class="mb-4">

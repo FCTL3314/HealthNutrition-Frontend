@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-5">
+  <div class="pt-5 min-vh-100">
     <router-view/>
   </div>
 </template>

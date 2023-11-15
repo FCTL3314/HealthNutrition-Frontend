@@ -74,8 +74,9 @@ async function update() {
 
 <template>
   <base-tab
+      tab-name="Account Settings"
       :form-submit-callback="update"
-      :is-update-response-waiting="isUpdateResponseWaiting"
+      :is-response-waiting="isUpdateResponseWaiting"
       :server-error-messages="serverErrorMessages"
       :vuelidate-data="v$"
   >

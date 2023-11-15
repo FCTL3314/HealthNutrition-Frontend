@@ -1,9 +1,12 @@
+import {tryParseOrDefault} from "@/utils";
+import {authStorage} from "@/services/auth";
+
 const auth = {
     namespaced: true,
     state: {
-        user: null,
-        accessToken: "",
-        refreshToken: "",
+        user: tryParseOrDefault(authStorage().getItem("user"), null),
+        accessToken: authStorage().getItem("accessToken") || "",
+        refreshToken: authStorage().getItem("refreshToken") || "",
     },
     getters: {
         user(state) {
