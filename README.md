@@ -24,7 +24,7 @@
 
 <details open><summary><h1>📃 Description</h1></summary>
 
-The <b>frontend part of StoreTracker project</b> that complements the backend by providing the Vue.js-based user interface that allows users to interact with the price comparison platform.
+The <b>frontend part of StoreTracker project</b> that complements the backend by providing the Vue.js-based user interface that allows users to interact with the nutrition comparison platform.
 
 It offers a <b>visually appealing</b> and <b>intuitive</b> UI to enhance the user experience.
 
