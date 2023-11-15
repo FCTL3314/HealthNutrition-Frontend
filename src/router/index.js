@@ -74,6 +74,14 @@ const router = createRouter({
                     },
                     children: [
                         {
+                            name: "nutritionSettingsTab",
+                            path: "nutrition/",
+                            component: () => import("@/components/settings/NutritionTab.vue"),
+                            meta: {
+                                title: "Nutrition Settings",
+                            }
+                        },
+                        {
                             name: "accountSettingsTab",
                             path: "account/",
                             component: () => import("@/components/settings/AccountTab.vue"),
