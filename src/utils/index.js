@@ -116,3 +116,15 @@ export function handleAuthError(error, errorsArr, v$) {
     v$.value.$reset();
     console.error(error.response);
 }
+
+export function tryParseOrDefault(value, defaultValue) {
+    try {
+        return value !== null ? JSON.parse(value) : defaultValue;
+    } catch (error) {
+        return defaultValue;
+    }
+}
+
+export function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
