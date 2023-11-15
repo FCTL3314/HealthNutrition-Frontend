@@ -4,6 +4,7 @@ import {PRODUCT_HEALTHFULNESS_REFERENCE, PRODUCT_NUTRITION_ROUNDING} from "@/con
 import CircleFillIcon from "@/components/icons/CircleFillIcon.vue";
 import BookmarksIcon from "@/components/icons/BookmarksIcon.vue";
 import BookmarksFillIcon from "@/components/icons/BookmarksFillIcon.vue";
+import {useStore} from "vuex";
 
 
 const props = defineProps({
@@ -17,14 +18,17 @@ const props = defineProps({
   }
 });
 
+const store = useStore();
+
 const isProductCompared = ref(true);
 const healthfulnessPercents = computed(() => {
   return Math.round((props.product.healthfulness / PRODUCT_HEALTHFULNESS_REFERENCE) * 100);
 })
 
 const createNutritionItem = (name, colorClass, units, value, maxValue, avgValue, minValue, isMoreBetter) => {
-  const difference = (value - avgValue).toFixed(PRODUCT_NUTRITION_ROUNDING);
+  const difference = parseFloat((value - avgValue).toFixed(PRODUCT_NUTRITION_ROUNDING));
   const isDifferencePositive = difference >= 0;
+  const normalizedDifference = Math.abs(difference);
 
   return {
     name,
@@ -35,6 +39,7 @@ const createNutritionItem = (name, colorClass, units, value, maxValue, avgValue,
     avgValue,
     minValue,
     difference,
+    normalizedDifference,
     isDifferencePositive,
     isMoreBetter,
   };
@@ -49,7 +54,7 @@ const nutritionItems = [
       props.category.calories_max,
       props.category.calories_avg,
       props.category.calories_min,
-      false,
+      store.getters["nutrition/isMoreCaloriesBetter"],
   ),
   createNutritionItem(
       "Protein",
@@ -59,7 +64,7 @@ const nutritionItems = [
       props.category.protein_max,
       props.category.protein_avg,
       props.category.protein_min,
-      true,
+      store.getters["nutrition/isMoreProteinBetter"],
   ),
   createNutritionItem(
       "Fat",
@@ -69,7 +74,7 @@ const nutritionItems = [
       props.category.fat_max,
       props.category.fat_avg,
       props.category.fat_min,
-      false,
+      store.getters["nutrition/isMoreFatBetter"],
   ),
   createNutritionItem(
       "Carbs",
@@ -79,7 +84,7 @@ const nutritionItems = [
       props.category.carbs_max,
       props.category.carbs_avg,
       props.category.carbs_min,
-      false,
+      store.getters["nutrition/isMoreCarbsBetter"],
   ),
 ];
 
@@ -130,9 +135,9 @@ const productRoute = computed(() => {
           &nbsp;{{ item.name }}: {{ item.value }} {{ item.units }}&nbsp;
         </span>
         <span
-            :class="item.isDifferencePositive && !item.isMoreBetter ? 'text-danger' : 'text-success'"
+            :class="item.isMoreBetter && item.isDifferencePositive ? 'text-success' : 'text-danger'"
         >
-          {{ item.isDifferencePositive ? '+' : '-' }}{{ Math.abs(item.difference) }} {{ item.units }}
+          {{ item.isDifferencePositive ? '+' : '-' }}{{ item.normalizedDifference }} {{ item.units }}
         </span>
       </li>
     </ul>

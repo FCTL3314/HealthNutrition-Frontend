@@ -6,21 +6,26 @@ import SubmitButton from "@/components/submitButton.vue";
 
 
 defineProps({
+  tabName: {
+    type: String,
+    default: "Settings"
+  },
+  submitButtonText: {
+    type: String,
+    default: "Update",
+  },
   formSubmitCallback: {
     type: Function,
     required: true,
   },
-  isUpdateResponseWaiting: {
+  isResponseWaiting: {
     type: Boolean,
-    required: true,
   },
   serverErrorMessages: {
     type: Array,
-    required: true,
   },
   vuelidateData: {
     type: Object,
-    required: true,
   }
 })
 
@@ -30,18 +35,20 @@ const user = computed(() => store.getters["auth/user"]);
 
 <template>
   <div class="mb-4">
-    <h2>{{ user.username }}'s Account</h2>
+    <h2>{{ user.username }}'s {{ tabName }}</h2>
   </div>
   <hr>
   <div class="row">
-    <form-flush-messages :error-messages="serverErrorMessages"/>
+    <template v-if="serverErrorMessages">
+      <form-flush-messages :error-messages="serverErrorMessages"/>
+    </template>
     <div class="mb-4">
       <form @submit.prevent="formSubmitCallback">
         <slot></slot>
         <div class="row justify-content-center">
           <submit-button
-              text="Update"
-              :is-response-waiting="isUpdateResponseWaiting"
+              :text="submitButtonText"
+              :is-response-waiting="isResponseWaiting"
               :vuelidate-data="vuelidateData"
           />
         </div>
