@@ -6,6 +6,7 @@ import {useStore} from "vuex";
 import HouseFillIcon from "@/components/icons/HouseFillIcon.vue";
 import EnvelopeFillIcon from "@/components/icons/EnvelopeFillIcon.vue";
 import KeyFillIcon from "@/components/icons/KeyFillIcon.vue";
+import EggFillIcon from "@/components/icons/EggFillIcon.vue";
 import DoorOpenIcon from "@/components/icons/DoorOpenIcon.vue";
 import {useRoute} from "vue-router";
 
@@ -30,6 +31,11 @@ const settingsTabs = [
     name: "Password",
     routeName: "passwordSettingsTab",
     icon: KeyFillIcon,
+  },
+  {
+    name: "Nutrition",
+    routeName: "nutritionSettingsTab",
+    icon: EggFillIcon,
   },
 ];
 
