@@ -7,6 +7,7 @@ import SearchSection from "@/components/SearchSection.vue";
 import ProductCard from "@/components/cards/product/ProductCard.vue";
 import ProductCardPlaceholder from "@/components/cards/product/ProductCardPlaceholder.vue";
 import PaginationSection from "@/components/PaginationSection.vue";
+import {PRODUCTS_PAGINATE_BY} from "@/constants";
 import NotFoundSection from "@/components/NotFoundSection.vue";
 
 
@@ -19,12 +20,10 @@ const isCategoryLoading = ref(false);
 const products = ref([]);
 const isProductsLoading = ref(false);
 
-const isDataLoaded = computed(() => {
-  return !isCategoryLoading.value && !isProductsLoading.value;
+const isDataLoading = computed(() => {
+  return isCategoryLoading.value || isProductsLoading.value;
 })
-const isProductsExists = computed(() => {
-  return products.value.length > 0;
-})
+const isNoProducts = computed(() => !products.value.length && !isProductsLoading.value)
 
 const currentPage = ref(parseInt(route.query.page || 1));
 const totalPages = ref(0);
@@ -68,7 +67,7 @@ async function updateProducts(searchQuery = null) {
   }
   const data = await loadProducts(searchQuery);
   products.value = data.results;
-  totalPages.value = calculateTotalPages(data.count, data.results.length);
+  totalPages.value = calculateTotalPages(data.count, PRODUCTS_PAGINATE_BY);
 }
 
 const cardListRef = ref(null);
@@ -92,34 +91,29 @@ onMounted(async () => {
 <template>
   <search-section @search-button-click="updateProducts" class="pt-4 pb-3"/>
   <hr class="my-2">
-  <div
-      class="row py-3"
-      ref="cardListRef"
-  >
-    <template v-if="isDataLoaded && isProductsExists">
-      <div
-          v-for="product in products"
-          :key="product.id"
-          class="col-lg-4 col-md-6 mb-3"
-      >
-        <product-card
-            :product="product"
-            :category="category"
-        />
-      </div>
-      <pagination-section
-          :total-pages="totalPages"
-          :current-page="currentPage"
-          @page-changed="onPageChange"
-      />
-    </template>
+  <div class="row py-3" ref="cardListRef">
     <div
-        v-else-if="!isDataLoaded"
-        v-for="_ in 9"
+        v-if="!isDataLoading"
+        v-for="product in products"
+        :key="product.id"
+        class="col-lg-4 col-md-6 mb-3"
+    >
+      <product-card :product="product" :category="category"/>
+    </div>
+    <div
+        v-else
+        v-for="_ in PRODUCTS_PAGINATE_BY"
         :key="_"
         class="col-lg-4 col-md-6 mb-3"
     >
       <product-card-placeholder/>
     </div>
+    <pagination-section
+        v-if="!isNoProducts"
+        :total-pages="totalPages"
+        :current-page="currentPage"
+        @page-changed="onPageChange"
+    />
   </div>
+  <not-found-section v-if="isNoProducts"/>
 </template>

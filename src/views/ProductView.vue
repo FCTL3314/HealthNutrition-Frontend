@@ -46,8 +46,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="py-4">
-    <loading-wrapper :is-loading="!product">
+  <loading-wrapper :is-loading="!product">
+    <div class="py-4">
       <div class="px-2 mx-auto text-center">
         <h1 class="text-main">{{ product.name }}</h1>
         <ul class="list-group list-group-flush">
@@ -103,8 +103,8 @@ onMounted(async () => {
           />
         </div>
       </div>
-    </loading-wrapper>
-  </div>
+    </div>
+  </loading-wrapper>
 </template>
 
 <style lang="sass">

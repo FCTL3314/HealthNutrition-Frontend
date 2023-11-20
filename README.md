@@ -24,9 +24,9 @@
 
 <details open><summary><h1>📃 Description</h1></summary>
 
-The <b>frontend part of StoreTracker project</b> that complements the backend by providing the Vue.js-based user interface that allows users to interact with the nutrition comparison platform.
+The *frontend part of StoreTracker project* that complements the backend by providing the Vue.js-based user interface that allows users to interact with the nutrition comparison platform.
 
-It offers a <b>visually appealing</b> and <b>intuitive</b> UI to enhance the user experience.
+It offers a *visually appealing* and *intuitive* UI to enhance the user experience.
 
 <b>Key Features:</b>
 
@@ -54,7 +54,7 @@ It offers a <b>visually appealing</b> and <b>intuitive</b> UI to enhance the use
     </li>
 </ul>
 
-Together, the <b>backend</b> and <b>frontend</b>, collaborate to create a <b>comprehensive price comparison solution</b>, empowering consumers to <b>discover the best prices</b> and make <b>cost-effective</b> shopping decisions across a wide array of products and stores.
+Together, the backend and frontend collaborate to create a **comprehensive nutritional value comparison* solution, empowering users to **explore the nutritional content** of **various food products** and **make health-conscious dietary decisions**. This integrated system facilitates users in comparing nutritional values seamlessly, ensuring they can make **informed choices** for their **dietary needs** across a diverse range of food items.
 
 > #### The project was created for educational purposes, any matches with real brands are accidental.
 > #### Backend part: https://github.com/FCTL3314/StoreTracker-Backend

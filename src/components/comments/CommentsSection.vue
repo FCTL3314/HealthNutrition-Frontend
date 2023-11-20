@@ -6,6 +6,8 @@ import CommentBlock from "@/components/comments/CommentBlock.vue";
 import CommentBlockPlaceholder from "@/components/comments/CommentBlockPlaceholder.vue";
 import api from "@/services/api";
 import {isContentTypeAllowed} from "@/validators";
+import NoCommentsSection from "@/components/comments/NoCommentsSection.vue";
+import {COMMENTS_PAGINATE_BY} from "@/constants";
 
 
 const props = defineProps({
@@ -82,13 +84,10 @@ onMounted(async () => {
     />
     <comment-block-placeholder
         v-if="isCommentsLoading"
-        v-for="_ in 3"
+        v-for="_ in COMMENTS_PAGINATE_BY"
         :key="_"
     />
-    <div v-else-if="comments.length === 0" class="container text-center">
-      <img class="mb-4" src="@/assets/icons/comment.svg" alt="comment" width="125" height="125">
-      <h4>Looks like no one has left a comment yet, be the first!</h4>
-    </div>
+    <no-comments-section v-else-if="comments.length === 0"/>
   </div>
   <div v-if="hasMoreComments" class="show-more-comments-wrp list-group">
     <button

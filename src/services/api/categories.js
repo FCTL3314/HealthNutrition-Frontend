@@ -6,7 +6,7 @@ export default function (instance) {
         categories(page = 1, searchQuery = null) {
             const params = {
                 page: page,
-            }
+            };
             if (searchQuery !== null) {
                 params.search = searchQuery;
             }

@@ -6,9 +6,9 @@ const currentDate = new Date()
 </script>
 
 <template>
-  <footer id="footer" class="bg-white shadow-top">
-    <div class="container text-center py-4">
-      <h3 class="text-main">About</h3>
+  <footer id="footer">
+    <div class="container text-center">
+      <h3>About</h3>
       <p>
         The project is designed for educational purposes. The product information displayed may
         not precisely reflect their real-world values or compositions. The details provided are for learning purposes
@@ -16,7 +16,7 @@ const currentDate = new Date()
       </p>
       <hr class="divider border-2">
       <small>
-        Copyright &copy; 2022 - {{ currentDate.getFullYear() }}
+        All rights reserved &copy; 2022 - {{ currentDate.getFullYear() }}
         <a
             :href="FRONTEND_REPOSITORY_URL"
             class="project-ref text-main-light"

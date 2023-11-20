@@ -3,7 +3,7 @@ export default function (instance) {
         products(page = 1, categorySlug= null, searchQuery = null) {
             const params = {
                 page: page,
-            }
+            };
             if (categorySlug) {
                 params.category_slug = categorySlug;
             }

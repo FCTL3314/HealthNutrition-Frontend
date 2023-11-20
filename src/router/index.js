@@ -38,12 +38,16 @@ const router = createRouter({
         {
             name: "users",
             path: "/users/",
+            meta: {
+                redirectTo: "logIn",
+            },
             children: [
                 {
                     name: "auth",
                     path: "auth/",
                     component: () => import("@/views/layouts/AuthLayout.vue"),
                     meta: {
+                        redirectTo: "logIn",
                         guestsOnly: true,
                     },
                     children: [
@@ -53,6 +57,7 @@ const router = createRouter({
                             component: () => import("@/views/LogInView.vue"),
                             meta: {
                                 title: "Log In",
+                                redirectTo: false,
                             },
                         },
                         {
@@ -61,6 +66,7 @@ const router = createRouter({
                             component: () => import("@/views/SignUpView.vue"),
                             meta: {
                                 title: "Sign Up",
+                                redirectTo: false,
                             },
                         },
                     ],
@@ -70,23 +76,17 @@ const router = createRouter({
                     path: "settings/",
                     component: () => import("@/views/layouts/SettingsLayout.vue"),
                     meta: {
+                        redirectTo: "account/",
                         authenticatedOnly: true,
                     },
                     children: [
-                        {
-                            name: "nutritionSettingsTab",
-                            path: "nutrition/",
-                            component: () => import("@/components/settings/NutritionTab.vue"),
-                            meta: {
-                                title: "Nutrition Settings",
-                            }
-                        },
                         {
                             name: "accountSettingsTab",
                             path: "account/",
                             component: () => import("@/components/settings/AccountTab.vue"),
                             meta: {
                                 title: "Account Settings",
+                                redirectTo: false,
                             }
                         },
                         {
@@ -95,6 +95,7 @@ const router = createRouter({
                             component: () => import("@/components/settings/EmailTab.vue"),
                             meta: {
                                 title: "Email Settings",
+                                redirectTo: false,
                             },
                         },
                         {
@@ -103,6 +104,16 @@ const router = createRouter({
                             component: () => import("@/components/settings/EmailTab.vue"),
                             meta: {
                                 title: "Password Settings",
+                                redirectTo: false,
+                            }
+                        },
+                        {
+                            name: "productsSettingsTab",
+                            path: "products/",
+                            component: () => import("@/components/settings/ProductsTab.vue"),
+                            meta: {
+                                title: "Products Settings",
+                                redirectTo: false,
                             }
                         },
                     ],
@@ -113,6 +124,7 @@ const router = createRouter({
                     component: () => import("@/views/ProfileView.vue"),
                     meta: {
                         title: "Profile",
+                        redirectTo: false,
                     },
                 },
             ],
@@ -133,6 +145,11 @@ router.beforeEach((to, from, next) => {
     const title = to.meta.title;
     if (title) {
         document.title = createTitle(title);
+    }
+    const redirectTo = to.meta.redirectTo;
+    if (redirectTo) {
+        next({name: redirectTo});
+        return;
     }
     if (isAuthenticatedOnlyRedirectRequired(to, user)) {
         console.log("Redirecting to the log in page...");

@@ -11,7 +11,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="text-center">
+  <div class="text-center min-vh-100">
     <img
         class="text-main magnifying-glass-img mb-3"
         src="@/assets/icons/magnifying-glass.svg"

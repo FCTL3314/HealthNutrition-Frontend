@@ -84,5 +84,4 @@ const productsRoute = computed(() => {
 <style lang="sass" scoped>
 @import '@/assets/sass/main'
 @import '@/assets/sass/cards'
-@import 'bootstrap/scss/bootstrap'
 </style>

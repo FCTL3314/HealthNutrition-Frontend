@@ -3,7 +3,7 @@ const bgColorClass = Math.random() >= 0.5 ? "bg-success" : "bg-danger"
 </script>
 
 <template>
-  <div class="card h-100">
+  <div class="card">
     <svg
         class="bd-placeholder-img card-img-scale"
         width="100%"

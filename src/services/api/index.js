@@ -1,6 +1,6 @@
+import categoriesModule from "./categories";
 import commentsModule from "./comments";
 import instance from "./instance";
-import categoriesModule from "./categories";
 import productsModule from "./products";
 import usersModule from "./users";
 

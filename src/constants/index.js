@@ -14,3 +14,6 @@ export const ALLOWED_IMAGE_EXTENSIONS = [
 export const COMMENTS_ALLOWED_CONTENT_TYPES = ["product", "store"];
 export const PRODUCT_NUTRITION_ROUNDING = 2;
 export const PRODUCT_HEALTHFULNESS_REFERENCE = 250;
+export const CATEGORIES_PAGINATE_BY = 3;
+export const PRODUCTS_PAGINATE_BY = 3;
+export const COMMENTS_PAGINATE_BY = 3;

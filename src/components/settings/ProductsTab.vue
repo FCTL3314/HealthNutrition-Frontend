@@ -55,7 +55,7 @@ async function saveSettings() {
 
 <template>
   <base-tab
-      tab-name="Nutrition Settings"
+      tab-name="Products Settings"
       submit-button-text="Save"
       :form-submit-callback="saveSettings"
       :is-response-waiting="isSettingsSaving"

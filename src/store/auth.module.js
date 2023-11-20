@@ -1,5 +1,5 @@
-import {tryParseOrDefault} from "@/utils";
 import {authStorage} from "@/services/auth";
+import {tryParseOrDefault} from "@/utils";
 
 const auth = {
     namespaced: true,

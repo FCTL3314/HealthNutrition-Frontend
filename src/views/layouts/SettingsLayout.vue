@@ -6,7 +6,7 @@ import {useStore} from "vuex";
 import HouseFillIcon from "@/components/icons/HouseFillIcon.vue";
 import EnvelopeFillIcon from "@/components/icons/EnvelopeFillIcon.vue";
 import KeyFillIcon from "@/components/icons/KeyFillIcon.vue";
-import EggFillIcon from "@/components/icons/EggFillIcon.vue";
+import CollectionFill from "@/components/icons/CollectionFill.vue";
 import DoorOpenIcon from "@/components/icons/DoorOpenIcon.vue";
 import {useRoute} from "vue-router";
 
@@ -33,9 +33,9 @@ const settingsTabs = [
     icon: KeyFillIcon,
   },
   {
-    name: "Nutrition",
-    routeName: "nutritionSettingsTab",
-    icon: EggFillIcon,
+    name: "Products",
+    routeName: "productsSettingsTab",
+    icon: CollectionFill,
   },
 ];
 
@@ -43,7 +43,7 @@ const isSettingsTabActive = (settingTab) => route.name === settingTab.routeName;
 </script>
 
 <template>
-  <div class="row py-4">
+  <div class="row py-4 min-vh-100">
     <div class="col-lg-3">
       <div class="text-center">
         <img

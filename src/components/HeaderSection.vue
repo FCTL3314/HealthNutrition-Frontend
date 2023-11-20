@@ -31,8 +31,8 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-xl sticky-top shadow-bottom bg-white p-3">
-    <div class="container-fluid px-4">
+  <nav class="navbar navbar-expand-xl sticky-top p-0">
+    <div class="container-fluid">
     <span class="logo navbar-brand d-flex align-items-center mb-1">
       <img
           class="img-fluid"
@@ -97,7 +97,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
               data-bs-toggle="dropdown"
               aria-expanded="false"
           >
-            <span>{{ user.username }}</span>
+            <span class="dropdown-username">{{ user.username }}</span>
             <img
                 class="rounded-circle object-fit-cover mb-1 ms-1"
                 :src="getUserImage(user)"
@@ -223,6 +223,10 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
     color: $primary
     outline: 0.0002em solid $primary
     transform: scale(1.01)
+
+.dropdown-username
+  font-weight: 500
+
 
 @media (width < map-get($grid-breakpoints, xl))
   ul.nav:not(:last-child)
