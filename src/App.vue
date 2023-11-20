@@ -32,5 +32,5 @@ body
   background-color: #f5f4fb
 
 .main-component
-  margin: 1rem 3rem
+  margin: 1rem 1rem
 </style>
