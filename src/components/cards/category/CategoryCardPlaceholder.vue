@@ -1,3 +1,7 @@
+<script setup>
+
+</script>
+
 <template>
   <div class="card h-100 card-img-scale">
     <svg

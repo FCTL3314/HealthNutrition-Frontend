@@ -19,7 +19,7 @@ const currentDate = new Date()
         All rights reserved &copy; 2022 - {{ currentDate.getFullYear() }}
         <a
             :href="FRONTEND_REPOSITORY_URL"
-            class="project-ref text-main-light"
+            class="project-ref"
             target="_blank"
         >
           StoreTracker

@@ -2,6 +2,7 @@
 import {computed} from "vue";
 import CircleFillIcon from "@/components/icons/CircleFillIcon.vue";
 import {PRODUCT_NUTRITION_ROUNDING} from "@/constants";
+import ComponentWrapper from "@/components/ComponentWrapper.vue";
 
 
 const props = defineProps({
@@ -46,7 +47,7 @@ const productsRoute = computed(() => {
 </script>
 
 <template>
-  <div class="card h-100">
+  <component-wrapper class="card component-rounding border-0 h-100">
     <router-link :to="productsRoute">
       <div class="card-img-scale">
         <img
@@ -78,7 +79,7 @@ const productsRoute = computed(() => {
         </span>
       </li>
     </ul>
-  </div>
+  </component-wrapper>
 </template>
 
 <style lang="sass" scoped>

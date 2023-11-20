@@ -70,32 +70,30 @@ onMounted(async () => {
     <component-wrapper class="mb-3">
       <search-section ref="searchComponentRef" @search-button-click="updateCategories"/>
     </component-wrapper>
-    <component-wrapper>
-      <div class="row" ref="searchComponentRef">
-        <div
-            v-if="!isCategoriesLoading"
-            v-for="category in categories"
-            :key="category.id"
-            class="col-lg-4 col-md-6 mb-3"
-        >
-          <category-card :category="category"/>
-        </div>
-        <div
-            v-else
-            v-for="_ in CATEGORIES_PAGINATE_BY"
-            :key="_"
-            class="col-lg-4 col-md-6 mb-3"
-        >
-          <category-card-placeholder/>
-        </div>
-        <pagination-section
-            v-if="!isNoCategories"
-            :total-pages="totalPages"
-            :current-page="currentPage"
-            @page-changed="onPageChange"
-        />
+    <div class="row" ref="searchComponentRef">
+      <div
+          v-if="!isCategoriesLoading"
+          v-for="category in categories"
+          :key="category.id"
+          class="col-lg-4 col-md-6 mb-3"
+      >
+        <category-card :category="category"/>
       </div>
-    </component-wrapper>
+      <div
+          v-else
+          v-for="_ in CATEGORIES_PAGINATE_BY"
+          :key="_"
+          class="col-lg-4 col-md-6 mb-3"
+      >
+        <category-card-placeholder/>
+      </div>
+      <pagination-section
+          v-if="!isNoCategories"
+          :total-pages="totalPages"
+          :current-page="currentPage"
+          @page-changed="onPageChange"
+      />
+    </div>
   </div>
   <not-found-section v-if="isNoCategories"/>
 </template>
