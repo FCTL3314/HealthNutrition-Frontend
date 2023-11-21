@@ -1,13 +1,14 @@
 <script setup>
 
+import ComponentWrapper from "@/components/ComponentWrapper.vue";
 </script>
 
 <template>
-  <div class="card h-100 card-img-scale">
+  <component-wrapper class="component-rounding card border-0">
     <svg
-        class="bd-placeholder-img"
+        class="bd-placeholder-img card-img-scale"
         width="100%"
-        height="260"
+        height="240"
         xmlns="http://www.w3.org/2000/svg"
         role="img"
         aria-label="Placeholder"
@@ -36,9 +37,10 @@
         <span class="placeholder col-7 bg-primary"></span>
       </p>
     </div>
-  </div>
+  </component-wrapper>
 </template>
 
 <style lang="sass" scoped>
+@import "@/assets/sass/main"
 @import "@/assets/sass/cards"
 </style>

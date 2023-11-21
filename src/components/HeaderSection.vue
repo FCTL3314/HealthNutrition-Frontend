@@ -2,13 +2,14 @@
 import {computed} from "vue";
 import {useRoute} from "vue-router";
 import {useStore} from "vuex";
-import {BACKEND_REPOSITORY_URL, BACKEND_ADMIN_URL, FRONTEND_REPOSITORY_URL} from '@/constants'
+import {BACKEND_ADMIN_URL, BACKEND_REPOSITORY_URL, FRONTEND_REPOSITORY_URL} from '@/constants'
 import {getUserImage, scrollToBottom} from "@/utils";
 import HouseIcon from "@/components/icons/HouseIcon.vue";
 import PenIcon from "@/components/icons/PenIcon.vue";
 import GearIcon from "@/components/icons/GearIcon.vue";
 import DoorOpenIcon from "@/components/icons/DoorOpenIcon.vue";
 import {logoutWithFlush} from "@/services/auth";
+import ComponentWrapper from "@/components/ComponentWrapper.vue";
 
 
 const route = useRoute();
@@ -31,8 +32,9 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-xl sticky-top p-0">
-    <div class="container-fluid">
+  <component-wrapper>
+    <nav class="navbar navbar-expand-xl p-0">
+      <div class="container-fluid">
     <span class="logo navbar-brand d-flex align-items-center mb-1">
       <img
           class="img-fluid"
@@ -41,144 +43,145 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
       >
       <span class="fs-4">HealthNutrition</span>
     </span>
-      <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="nav nav-underline me-auto">
-          <li
-              v-for="(navItem, index) in navItems"
-              :key="index"
-              class="nav-item"
-          >
-            <router-link
-                class="nav-link nav-link-action"
-                :class="isNavItemActive(navItem) ? 'active' : 'link-dark'"
-                :to="{name: navItem.routeName}"
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="nav nav-underline me-auto">
+            <li
+                v-for="(navItem, index) in navItems"
+                :key="index"
+                class="nav-item"
             >
-              {{ navItem.name }}
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <a
-                :href="FRONTEND_REPOSITORY_URL"
-                class="nav-link nav-link-action link-dark"
-                target="_blank"
-            >
-              Frontend Repository
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-                :href="BACKEND_REPOSITORY_URL"
-                class="nav-link nav-link-action link-dark"
-                target="_blank"
-            >
-              Backend Repository
-            </a>
-          </li>
-          <li class="nav-item">
-            <button type="button" @click="scrollToBottom" class="nav-link nav-link-action link-dark">
-              About
-            </button>
-          </li>
-        </ul>
-        <div v-if="user" class="dropdown">
-          <a
-              class="dropdown-toggle link-dark text-decoration-none"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-          >
-            <span class="dropdown-username">{{ user.username }}</span>
-            <img
-                class="rounded-circle object-fit-cover mb-1 ms-1"
-                :src="getUserImage(user)"
-                alt="user-image"
-                width="36"
-                height="36"
-            >
-          </a>
-          <ul class="dropdown-menu dropdown-menu-md-end dropdown-menu-sm-start">
-            <li>
-              <p class="text-center m-0">Menubar</p>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li>
               <router-link
-                  :to="{name: 'profile', params: {userSlug: user.slug}}"
-                  class="dropdown-item inline-icon-text"
+                  class="nav-link nav-link-action"
+                  :class="isNavItemActive(navItem) ? 'active' : 'link-dark'"
+                  :to="{name: navItem.routeName}"
               >
-                <house-icon/>
-                <span class="ps-1">Profile</span>
+                {{ navItem.name }}
               </router-link>
             </li>
-            <li>
-              <router-link
-                  :to="{name: 'accountSettingsTab'}"
-                  class="dropdown-item inline-icon-text"
+            <li class="nav-item">
+              <a
+                  :href="FRONTEND_REPOSITORY_URL"
+                  class="nav-link nav-link-action link-dark"
+                  target="_blank"
               >
-                <pen-icon/>
-                <span class="ps-1">Settings & Privacy</span>
-              </router-link>
+                Frontend Repository
+              </a>
             </li>
-            <li>
-              <hr class="dropdown-divider">
+            <li class="nav-item">
+              <a
+                  :href="BACKEND_REPOSITORY_URL"
+                  class="nav-link nav-link-action link-dark"
+                  target="_blank"
+              >
+                Backend Repository
+              </a>
             </li>
-            <template v-if="user.is_staff">
-              <li>
-                <a
-                    :href="BACKEND_ADMIN_URL"
-                    class="dropdown-item inline-icon-text"
-                    target="_blank"
-                >
-                  <gear-icon/>
-                  <span class="ps-1">Administration</span>
-                </a>
-              </li>
-              <li v-if="user.is_staff">
-                <hr class="dropdown-divider">
-              </li>
-            </template>
-            <li>
-              <button @click="logoutWithFlush" class="dropdown-item inline-icon-text text-danger">
-                <door-open-icon/>
-                <span class="ps-1">Logout</span>
+            <li class="nav-item">
+              <button type="button" @click="scrollToBottom" class="nav-link nav-link-action link-dark">
+                About
               </button>
             </li>
           </ul>
+          <div v-if="user" class="dropdown">
+            <a
+                class="dropdown-toggle link-dark text-decoration-none"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+            >
+              <span class="dropdown-username">{{ user.username }}</span>
+              <img
+                  class="rounded-circle object-fit-cover mb-1 ms-1"
+                  :src="getUserImage(user)"
+                  alt="user-image"
+                  width="36"
+                  height="36"
+              >
+            </a>
+            <ul class="dropdown-menu dropdown-menu-md-end dropdown-menu-sm-start">
+              <li>
+                <p class="text-center m-0">Menubar</p>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li>
+                <router-link
+                    :to="{name: 'profile', params: {userSlug: user.slug}}"
+                    class="dropdown-item inline-icon-text"
+                >
+                  <house-icon/>
+                  <span class="ps-1">Profile</span>
+                </router-link>
+              </li>
+              <li>
+                <router-link
+                    :to="{name: 'accountSettingsTab'}"
+                    class="dropdown-item inline-icon-text"
+                >
+                  <pen-icon/>
+                  <span class="ps-1">Settings & Privacy</span>
+                </router-link>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <template v-if="user.is_staff">
+                <li>
+                  <a
+                      :href="BACKEND_ADMIN_URL"
+                      class="dropdown-item inline-icon-text"
+                      target="_blank"
+                  >
+                    <gear-icon/>
+                    <span class="ps-1">Administration</span>
+                  </a>
+                </li>
+                <li v-if="user.is_staff">
+                  <hr class="dropdown-divider">
+                </li>
+              </template>
+              <li>
+                <button @click="logoutWithFlush" class="dropdown-item inline-icon-text text-danger">
+                  <door-open-icon/>
+                  <span class="ps-1">Logout</span>
+                </button>
+              </li>
+            </ul>
+          </div>
+          <ul v-else class="nav nav-underline align-items-center">
+            <li class="nav-item">
+              <router-link
+                  :to="{name: 'logIn'}"
+                  class="nav-link nav-link-action"
+                  :class="isNavItemActive({routeName: 'logIn'}) ? 'active' : 'link-dark'"
+              >
+                Log In
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link
+                  :to="{name: 'signUp'}"
+                  class="btn btn-sign-up"
+              >
+                Sign Up
+              </router-link>
+            </li>
+          </ul>
         </div>
-        <ul v-else class="nav nav-underline align-items-center">
-          <li class="nav-item">
-            <router-link
-                :to="{name: 'logIn'}"
-                class="nav-link nav-link-action"
-                :class="isNavItemActive({routeName: 'logIn'}) ? 'active' : 'link-dark'"
-            >
-              Log In
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link
-                :to="{name: 'signUp'}"
-                class="btn btn-sign-up"
-            >
-              Sign Up
-            </router-link>
-          </li>
-        </ul>
       </div>
-    </div>
-  </nav>
+    </nav>
+  </component-wrapper>
 </template>
 
 <style lang="sass" scoped>

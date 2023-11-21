@@ -3,22 +3,17 @@ import {RouterView} from "vue-router";
 import ContentWrapper from "@/components/ContentWrapper.vue";
 import HeaderSection from "@/components/HeaderSection.vue";
 import FooterSection from "@/components/FooterSection.vue";
-import ComponentWrapper from "@/components/ComponentWrapper.vue";
 </script>
 
 <template>
   <div class="main-component">
-    <component-wrapper>
-      <header-section/>
-    </component-wrapper>
+    <header-section/>
   </div>
   <content-wrapper>
     <RouterView/>
   </content-wrapper>
   <div class="main-component">
-    <component-wrapper class="text-white" style="background-color: #14141c">
-      <footer-section/>
-    </component-wrapper>
+    <footer-section/>
   </div>
 </template>
 

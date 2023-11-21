@@ -9,7 +9,6 @@ import CategoryCardPlaceholder from "@/components/cards/category/CategoryCardPla
 import PaginationSection from "@/components/PaginationSection.vue";
 import NotFoundSection from "@/components/NotFoundSection.vue";
 import {CATEGORIES_PAGINATE_BY} from "@/constants";
-import ComponentWrapper from "@/components/ComponentWrapper.vue";
 import WelcomeSection from "@/components/WelcomeSection.vue";
 
 
@@ -53,7 +52,7 @@ const searchComponentRef = ref(null);
 async function onPageChange(page) {
   currentPage.value = page;
   await replaceURLParams(router, route, {page: page});
-  scrollToElement(searchComponentRef.value);
+  scrollToElement(searchComponentRef.value.$el);
   await updateCategories();
 }
 
@@ -63,14 +62,14 @@ onMounted(async () => {
 </script>
 
 <template>
-  <component-wrapper class="my-4">
-    <welcome-section/>
-  </component-wrapper>
+  <welcome-section class="my-4"/>
   <div class="my-4">
-    <component-wrapper class="mb-3">
-      <search-section ref="searchComponentRef" @search-button-click="updateCategories"/>
-    </component-wrapper>
-    <div class="row" ref="searchComponentRef">
+    <search-section
+        class="mb-3"
+        ref="searchComponentRef"
+        @search-button-click="updateCategories"
+    />
+    <div class="row">
       <div
           v-if="!isCategoriesLoading"
           v-for="category in categories"
@@ -87,13 +86,17 @@ onMounted(async () => {
       >
         <category-card-placeholder/>
       </div>
-      <pagination-section
-          v-if="!isNoCategories"
-          :total-pages="totalPages"
-          :current-page="currentPage"
-          @page-changed="onPageChange"
-      />
     </div>
+    <pagination-section
+        v-if="!isNoCategories"
+        :total-pages="totalPages"
+        :current-page="currentPage"
+        @page-changed="onPageChange"
+    />
   </div>
   <not-found-section v-if="isNoCategories"/>
 </template>
+
+<style lang="sass">
+
+</style>

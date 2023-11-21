@@ -1,9 +1,21 @@
 <script setup>
+import {computed} from "vue";
 
+const props = defineProps({
+  padding: {
+    type: Float32Array,
+    default: 1.0,
+  },
+})
+
+
+const cssPadding = computed(() => {
+  return {"padding": `${props.padding}em`}
+})
 </script>
 
 <template>
-<div class="component">
+<div class="component" :style="cssPadding">
   <slot></slot>
 </div>
 </template>
@@ -16,5 +28,4 @@
   background-color: #FFF
   border-radius: $component-rounding
   width: 100%
-  padding: 1em
 </style>
