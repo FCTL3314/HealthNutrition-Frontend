@@ -46,10 +46,10 @@ onBeforeRouteUpdate(async (to, from, next) => {
 </script>
 
 <template>
-  <div class="py-4">
+  <div class="">
     <not-found-section
         v-if="userNotFound"
-        description="Looks like we couldn't find this profile :("
+        description="Oops... Looks like this profile has been deleted or doesn't exist."
     />
     <loading-wrapper v-else :is-loading="!user">
       <div class="container">

@@ -3,7 +3,7 @@ import {computed} from "vue";
 
 const props = defineProps({
   padding: {
-    type: Float32Array,
+    type: Number,
     default: 1.0,
   },
 })
@@ -21,11 +21,10 @@ const cssPadding = computed(() => {
 </template>
 
 <style scoped lang="sass">
-@import '@/assets/sass/variables.sass'
+@import '@/assets/sass/variables'
 
 
 .component
   background-color: #FFF
   border-radius: $component-rounding
-  width: 100%
 </style>

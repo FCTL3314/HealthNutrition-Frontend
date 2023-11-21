@@ -6,13 +6,13 @@ import FooterSection from "@/components/FooterSection.vue";
 </script>
 
 <template>
-  <div class="main-component">
+  <div class="headed-indentation">
     <header-section/>
   </div>
   <content-wrapper>
     <RouterView/>
   </content-wrapper>
-  <div class="main-component">
+  <div class="footer-indentation">
     <footer-section/>
   </div>
 </template>
@@ -24,8 +24,11 @@ import FooterSection from "@/components/FooterSection.vue";
 
 body
   font-family: 'Quicksand', 'sans-serif'
-  background-color: #f5f4fb
+  background-color: $color-light
 
-.main-component
-  margin: 1rem 1rem
+.headed-indentation
+  margin: 1rem 1rem 1rem $between-components-indentation
+
+.footer-indentation
+  margin: $between-components-indentation 1rem 1rem 1rem
 </style>

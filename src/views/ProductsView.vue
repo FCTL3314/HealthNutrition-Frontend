@@ -90,8 +90,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <welcome-section class="my-4"/>
-  <div class="my-4">
+  <welcome-section class="component-indentation"/>
+  <div class="component-indentation">
     <search-section
         class="mb-3"
         ref="searchComponentRef"

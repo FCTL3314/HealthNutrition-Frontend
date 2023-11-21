@@ -27,7 +27,7 @@ const currentDate = new Date()
             class="project-ref"
             target="_blank"
         >
-          StoreTracker
+          HealthNutrition
         </a>
       </small>
     </footer>
@@ -39,7 +39,7 @@ const currentDate = new Date()
 @import '@/assets/sass/variables'
 
 .project-ref
-  font-weight: 600
+  font-weight: 500
   color: $color-main-light
   text-decoration: none
 

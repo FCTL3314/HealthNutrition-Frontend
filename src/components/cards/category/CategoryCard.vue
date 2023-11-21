@@ -47,7 +47,7 @@ const productsRoute = computed(() => {
 </script>
 
 <template>
-  <component-wrapper class="card component-rounding border-0 h-100">
+  <component-wrapper class="card common-rounding border-0 h-100">
     <router-link :to="productsRoute">
       <div class="card-img-scale">
         <img

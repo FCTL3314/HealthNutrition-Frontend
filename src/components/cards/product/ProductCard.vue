@@ -5,6 +5,7 @@ import CircleFillIcon from "@/components/icons/CircleFillIcon.vue";
 import BookmarksIcon from "@/components/icons/BookmarksIcon.vue";
 import BookmarksFillIcon from "@/components/icons/BookmarksFillIcon.vue";
 import {useStore} from "vuex";
+import ComponentWrapper from "@/components/ComponentWrapper.vue";
 
 
 const props = defineProps({
@@ -94,7 +95,7 @@ const productRoute = computed(() => {
 </script>
 
 <template>
-  <div class="card h-100">
+  <component-wrapper class="card common-rounding border-0 h-100">
     <router-link :to="productRoute">
       <div class="card-img-scale">
         <img
@@ -141,7 +142,7 @@ const productRoute = computed(() => {
         </span>
       </li>
     </ul>
-  </div>
+  </component-wrapper>
 </template>
 
 <style lang="sass" scoped>

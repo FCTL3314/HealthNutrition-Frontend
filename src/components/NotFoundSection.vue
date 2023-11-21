@@ -1,5 +1,6 @@
 <script setup>
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
+import {useRouter} from "vue-router";
 
 defineProps({
   title: {
@@ -7,25 +8,29 @@ defineProps({
   },
   description: {
     type: String,
-    default: "Looks like we couldn't find what you're looking for.",
+    default: "Oops... Looks like we couldn't find what you're looking for.",
   },
 })
 
+
+const router = useRouter();
 
 const emojis = [
   "(o^^)o",
   "(>_<)",
   "(≥o≤)",
-  "(·_·)",
   "(;-;)",
-  "\\(^Д^)/",
   "(^-^*)",
-  "(˚Δ˚)b",
 ]
 
 function getRandomEmoji() {
   const randomIndex = Math.floor(Math.random() * emojis.length);
   return emojis[randomIndex];
+}
+
+
+function onGoBackClick() {
+  router.go(-1);
 }
 
 </script>
@@ -35,14 +40,27 @@ function getRandomEmoji() {
     <div class="text-center min-vh-100">
       <div class="error-emoji mb-3">{{ getRandomEmoji() }}</div>
       <h2 v-if="title" class="text-main">{{ title }}</h2>
-      <p class="mb-0 fw-semibold fs-4">{{ description }}</p>
+      <p class="mb-3 fw-semibold fs-4">{{ description }}</p>
+      <button
+          class="btn btn-dark to-main-btn"
+          @click="onGoBackClick"
+      >
+        Go back
+      </button>
     </div>
   </component-wrapper>
 </template>
 
 <style scoped lang="sass">
 @import '@/assets/sass/main'
+@import '@/assets/sass/variables'
 @import 'bootstrap/scss/bootstrap'
+
+
+.to-main-btn
+  border-radius: $component-rounding
+  padding: 1rem 3rem
+  font-weight: 500
 
 
 .error-emoji

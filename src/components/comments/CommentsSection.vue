@@ -8,6 +8,7 @@ import api from "@/services/api";
 import {isContentTypeAllowed} from "@/validators";
 import NoCommentsSection from "@/components/comments/NoCommentsSection.vue";
 import {COMMENTS_PAGINATE_BY} from "@/constants";
+import ComponentWrapper from "@/components/ComponentWrapper.vue";
 
 
 const props = defineProps({
@@ -73,28 +74,30 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div id="comments-wrp" class="container comments-wrp">
-    <comment-block
-        v-for="comment in comments"
-        :key="comment.id"
-        :object-id="objectId"
-        :content-type="contentType"
-        :comment="comment"
-        @reply-created="addReplyComment"
-    />
-    <comment-block-placeholder
-        v-if="isCommentsLoading"
-        v-for="_ in COMMENTS_PAGINATE_BY"
-        :key="_"
-    />
-    <no-comments-section v-else-if="comments.length === 0"/>
-  </div>
-  <div v-if="hasMoreComments" class="show-more-comments-wrp list-group">
+  <component-wrapper class="mb-3">
+    <div id="comments-wrp" class="container">
+      <comment-block
+          v-for="comment in comments"
+          :key="comment.id"
+          :object-id="objectId"
+          :content-type="contentType"
+          :comment="comment"
+          @reply-created="addReplyComment"
+      />
+      <comment-block-placeholder
+          v-if="isCommentsLoading"
+          v-for="_ in COMMENTS_PAGINATE_BY"
+          :key="_"
+      />
+      <no-comments-section v-else-if="comments.length === 0"/>
+    </div>
+  </component-wrapper>
+  <div v-if="hasMoreComments" class="text-center list-group">
     <button
         v-if="!isCommentsLoading"
         @click="onClickShowMoreComments"
         type="button"
-        class="list-group-item list-group-item-action text-primary"
+        class="list-group-item list-group-item-action text-primary common-rounding fw-semibold border-0"
     >
       Show more
       <caret-down-icon/>
@@ -105,13 +108,4 @@ onMounted(async () => {
 <style scoped lang="sass">
 @import "@/assets/sass/main"
 @import "@/assets/sass/comments"
-
-
-.show-more-comments-wrp
-  margin-top: $between-comments-margin
-  text-align: center
-
-.comments-wrp
-  margin-top: $between-comments-margin
-
 </style>

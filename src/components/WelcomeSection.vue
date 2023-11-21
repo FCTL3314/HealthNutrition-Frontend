@@ -7,8 +7,9 @@ import ComponentWrapper from "@/components/ComponentWrapper.vue";
     <div class="text-center">
       <h1 class="text-main">HealthNutrition</h1>
       <p class="fs-4 mb-0">
-        Explore, compare, and nourish better! Discover, plan, and compare food for a healthier lifestyle.
-        Begin your wellness journey here.
+        Embark on a transformative wellness journey with our platform. Explore diverse, nutritious options, plan
+        balanced meals, and compare foods for a healthier lifestyle. Nourish better with personalized guidance and
+        support.
       </p>
     </div>
   </component-wrapper>

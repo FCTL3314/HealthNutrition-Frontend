@@ -1,9 +1,11 @@
 <script setup>
+import ComponentWrapper from "@/components/ComponentWrapper.vue";
+
 const bgColorClass = Math.random() >= 0.5 ? "bg-success" : "bg-danger"
 </script>
 
 <template>
-  <div class="card">
+  <component-wrapper class="common-rounding card border-0">
     <svg
         class="bd-placeholder-img card-img-scale"
         width="100%"
@@ -38,9 +40,10 @@ const bgColorClass = Math.random() >= 0.5 ? "bg-success" : "bg-danger"
         <span class="placeholder col-6 bg-primary"></span>
       </p>
     </div>
-  </div>
+  </component-wrapper>
 </template>
 
 <style lang="sass" scoped>
+@import "@/assets/sass/main"
 @import "@/assets/sass/cards"
 </style>

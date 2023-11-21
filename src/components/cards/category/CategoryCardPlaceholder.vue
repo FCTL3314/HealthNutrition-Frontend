@@ -4,11 +4,11 @@ import ComponentWrapper from "@/components/ComponentWrapper.vue";
 </script>
 
 <template>
-  <component-wrapper class="component-rounding card border-0">
+  <component-wrapper class="common-rounding card border-0">
     <svg
         class="bd-placeholder-img card-img-scale"
         width="100%"
-        height="240"
+        height="260"
         xmlns="http://www.w3.org/2000/svg"
         role="img"
         aria-label="Placeholder"

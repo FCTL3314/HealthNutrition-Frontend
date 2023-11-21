@@ -135,11 +135,13 @@ const onClickLastPage = () => {
 
 
 .page-item
-  margin: 0 .8rem
+  margin: 0 .4rem
 
 .page-link
   border-radius: $component-rounding !important
   font-weight: 500
+  padding-right: 1rem
+  padding-left: 1rem
 
 .page-link:focus
   box-shadow: unset

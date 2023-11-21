@@ -13,7 +13,7 @@ const emits = defineEmits(["searchPerformed"])
 
 const searchQuery = ref(route.query.search || "");
 const searchInputPlaceholderText = computed(() => {
-  return `Enter a query to search for ${route.name === "categories" ? "categories" : "products"}...`
+  return `Enter a query, for example ${route.name === "categories" ? "fruits" : "mango"}...`
 })
 
 const updateURLSearchParam = async (value) => {
@@ -36,7 +36,7 @@ const onSearchButtonClick = async () => {
         <magnifying-glass-icon :width="32" :height="32" class="me-3"/>
         <input
             v-model="searchQuery"
-            class="search-input form-control border-0 p-0 shadow-none"
+            class="form-control p-0 shadow-none custom-input rounded-0"
             type="search"
             :placeholder="searchInputPlaceholderText"
             autocomplete="off"
@@ -48,7 +48,5 @@ const onSearchButtonClick = async () => {
 </template>
 
 <style lang="sass">
-.search-input
-  font-size: 20px
-  font-weight: 500
+@import "@/assets/sass/main"
 </style>

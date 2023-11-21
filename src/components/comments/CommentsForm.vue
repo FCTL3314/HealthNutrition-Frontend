@@ -4,6 +4,7 @@ import store from "@/store";
 import {getUserImage} from "@/utils";
 import api from "@/services/api";
 import {isContentTypeAllowed} from "@/validators";
+import ComponentWrapper from "@/components/ComponentWrapper.vue";
 
 
 const props = defineProps({
@@ -65,62 +66,64 @@ async function createComment(text) {
 </script>
 
 <template>
-  <div v-show="showCommentCount" class="mb-3">
-    <h3>{{ commentsCount }} {{ commentsCount === 1 ? "Comment" : "Comments" }}</h3>
-  </div>
-  <div class="d-flex">
-    <template v-if="!isCommentAdding">
-      <img class="me-3 rounded-circle object-fit-cover"
-           :src="getUserImage(user)"
-           alt="author-image"
-           width="40"
-           height="40"
-      >
-      <form
-          @submit.prevent="onClickAddComment"
-          id="add-comment-form"
-          class="w-100">
-        <div class="input-group">
-          <input
-              v-model="commentText"
-              class="form-control"
-              placeholder="Add a comment..."
-              maxlength="516"
-              type="text"
-              required
-              :disabled="!user"
-          >
-          <button
-              class="btn btn-outline-success"
-              :class="{disabled: !user}"
-              type="submit"
-              id="comment-submit"
-          >
-            Comment
-          </button>
-          <button
-              @click="onClickCancelButton"
-              v-if="isReplyForm"
-              class="btn btn-outline-dark"
-              type="button"
-          >
-            Cancel
-          </button>
+  <component-wrapper>
+    <div v-show="showCommentCount" class="mb-3">
+      <h3>{{ commentsCount }} {{ commentsCount === 1 ? "Comment" : "Comments" }}</h3>
+    </div>
+    <div class="d-flex">
+      <template v-if="!isCommentAdding">
+        <img class="me-3 rounded-circle object-fit-cover"
+             :src="getUserImage(user)"
+             alt="author-image"
+             width="40"
+             height="40"
+        >
+        <form
+            @submit.prevent="onClickAddComment"
+            id="add-comment-form"
+            class="w-100">
+          <div class="input-group">
+            <input
+                v-model="commentText"
+                class="form-control shadow-none custom-input rounded-0 me-3"
+                placeholder="Add a comment..."
+                maxlength="516"
+                type="text"
+                required
+                :disabled="!user"
+            >
+            <button
+                class="btn btn-outline-success common-rounding"
+                :class="{disabled: !user}"
+                type="submit"
+                id="comment-submit"
+            >
+              Comment
+            </button>
+            <button
+                @click="onClickCancelButton"
+                v-if="isReplyForm"
+                class="btn btn-outline-dark common-rounding ms-3"
+                type="button"
+            >
+              Cancel
+            </button>
+          </div>
+          <p v-if="!user">
+            <router-link class="link-main" :to="{name: 'logIn'}">Log In</router-link>
+            or
+            <router-link class="link-main" :to="{name: 'signUp'}">Sign Up</router-link>
+            to leave comments.
+          </p>
+        </form>
+      </template>
+      <div v-else class="text-center mx-auto text-main-light">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
         </div>
-        <p v-if="!user">
-          <router-link class="link-main" :to="{name: 'logIn'}">Log In</router-link>
-          or
-          <router-link class="link-main" :to="{name: 'signUp'}">Sign Up</router-link>
-          to leave comments.
-        </p>
-      </form>
-    </template>
-    <div v-else class="text-center mx-auto text-main-light">
-      <div class="spinner-border" role="status">
-        <span class="visually-hidden">Loading...</span>
       </div>
     </div>
-  </div>
+  </component-wrapper>
 </template>
 
 <style scoped lang="sass">

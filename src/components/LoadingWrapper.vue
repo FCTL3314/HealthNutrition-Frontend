@@ -12,7 +12,7 @@ defineProps({
     <div class="spinner-border spinner-border-lg" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
-    <p class="fs-4 text-main-light">Loading</p>
+    <p class="fs-4 text-main-light">Loading, please wait...</p>
   </div>
   <slot v-else></slot>
 </template>
