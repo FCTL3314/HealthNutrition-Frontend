@@ -1,5 +1,6 @@
 <script setup>
 import {computed} from "vue";
+import ComponentWrapper from "@/components/ComponentWrapper.vue";
 
 
 const props = defineProps({
@@ -67,67 +68,78 @@ const onClickLastPage = () => {
 </script>
 
 <template>
-  <nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-center m-0">
-      <li class="page-item">
-        <button
-            type="button"
-            class="page-link"
-            :class="{disabled: isInFirstPage}"
-            @click="onClickFirstPage"
+  <component-wrapper>
+    <nav>
+      <ul class="pagination pagination-md justify-content-center m-0">
+        <li class="page-item">
+          <button
+              type="button"
+              class="page-link"
+              :class="{disabled: isInFirstPage}"
+              @click="onClickFirstPage"
+          >
+            <span aria-hidden="true">First</span>
+          </button>
+        </li>
+        <li class="page-item">
+          <button
+              type="button"
+              class="page-link"
+              :class="{disabled: isInFirstPage}"
+              @click="onClickPreviousPage"
+          >
+            <span aria-hidden="true">&laquo;</span>
+          </button>
+        </li>
+        <li
+            v-for="(page, index) in pages"
+            :key="index"
+            class="page-item"
         >
-          <span aria-hidden="true">First</span>
-        </button>
-      </li>
-      <li class="page-item">
-        <button
-            type="button"
-            class="page-link"
-            :class="{disabled: isInFirstPage}"
-            @click="onClickPreviousPage"
-        >
-          <span aria-hidden="true">&laquo;</span>
-        </button>
-      </li>
-      <li
-          v-for="(page, index) in pages"
-          :key="index"
-          class="page-item"
-      >
-        <button
-            type="button"
-            class="page-link"
-            :class="{disabled: page.isDisabled}"
-            @click="onClickPage(page.number)"
-        >
-          {{ page.number }}
-        </button>
-      </li>
-      <li class="page-item">
-        <button
-            type="button"
-            class="page-link"
-            :class="{disabled: isInLastPage}"
-            @click="onClickNextPage"
-        >
-          <span aria-hidden="true">&raquo;</span>
-        </button>
-      </li>
-      <li class="page-item">
-        <button
-            type="button"
-            class="page-link"
-            :class="{disabled: isInLastPage}"
-            @click="onClickLastPage"
-        >
-          <span aria-hidden="true">Last</span>
-        </button>
-      </li>
-    </ul>
-  </nav>
+          <button
+              type="button"
+              class="page-link"
+              :class="{disabled: page.isDisabled}"
+              @click="onClickPage(page.number)"
+          >
+            {{ page.number }}
+          </button>
+        </li>
+        <li class="page-item">
+          <button
+              type="button"
+              class="page-link"
+              :class="{disabled: isInLastPage}"
+              @click="onClickNextPage"
+          >
+            <span aria-hidden="true">&raquo;</span>
+          </button>
+        </li>
+        <li class="page-item">
+          <button
+              type="button"
+              class="page-link"
+              :class="{disabled: isInLastPage}"
+              @click="onClickLastPage"
+          >
+            <span aria-hidden="true">Last</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </component-wrapper>
 </template>
 
 <style lang="sass" scoped>
+@import '@/assets/sass/variables'
+
+
+.page-item
+  margin: 0 .8rem
+
+.page-link
+  border-radius: $component-rounding !important
+
 .page-link:focus
   box-shadow: unset
 
