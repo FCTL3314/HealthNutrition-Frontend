@@ -48,4 +48,7 @@ const onSearchButtonClick = async () => {
 </template>
 
 <style lang="sass">
+.search-input
+  font-size: 20px
+  font-weight: 500
 </style>

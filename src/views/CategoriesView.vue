@@ -67,7 +67,7 @@ onMounted(async () => {
     <search-section
         class="mb-3"
         ref="searchComponentRef"
-        @search-button-click="updateCategories"
+        @search-performed="updateCategories"
     />
     <div class="row">
       <div
@@ -87,6 +87,7 @@ onMounted(async () => {
         <category-card-placeholder/>
       </div>
     </div>
+    <not-found-section v-if="isNoCategories"/>
     <pagination-section
         v-if="!isNoCategories"
         :total-pages="totalPages"
@@ -94,7 +95,6 @@ onMounted(async () => {
         @page-changed="onPageChange"
     />
   </div>
-  <not-found-section v-if="isNoCategories"/>
 </template>
 
 <style lang="sass">

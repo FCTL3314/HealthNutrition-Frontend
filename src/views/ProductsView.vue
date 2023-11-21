@@ -9,6 +9,7 @@ import ProductCardPlaceholder from "@/components/cards/product/ProductCardPlaceh
 import PaginationSection from "@/components/PaginationSection.vue";
 import {PRODUCTS_PAGINATE_BY} from "@/constants";
 import NotFoundSection from "@/components/NotFoundSection.vue";
+import WelcomeSection from "@/components/WelcomeSection.vue";
 
 
 const route = useRoute();
@@ -70,12 +71,12 @@ async function updateProducts(searchQuery = null) {
   totalPages.value = calculateTotalPages(data.count, PRODUCTS_PAGINATE_BY);
 }
 
-const cardListRef = ref(null);
+const searchComponentRef = ref(null);
 
 async function onPageChange(page) {
   currentPage.value = page;
   await replaceURLParams(router, route, {page: page});
-  scrollToElement(cardListRef.value);
+  scrollToElement(searchComponentRef.value);
   await updateProducts();
 }
 
@@ -89,25 +90,32 @@ onMounted(async () => {
 </script>
 
 <template>
-  <search-section @search-button-click="updateProducts" class="pt-4 pb-3"/>
-  <hr class="my-2">
-  <div class="row py-3" ref="cardListRef">
-    <div
-        v-if="!isDataLoading"
-        v-for="product in products"
-        :key="product.id"
-        class="col-lg-4 col-md-6 mb-3"
-    >
-      <product-card :product="product" :category="category"/>
+  <welcome-section class="my-4"/>
+  <div class="my-4">
+    <search-section
+        class="mb-3"
+        ref="searchComponentRef"
+        @search-performed="updateProducts"
+    />
+    <div class="row">
+      <div
+          v-if="!isDataLoading"
+          v-for="product in products"
+          :key="product.id"
+          class="col-lg-4 col-md-6 mb-3"
+      >
+        <product-card :product="product" :category="category"/>
+      </div>
+      <div
+          v-else
+          v-for="_ in PRODUCTS_PAGINATE_BY"
+          :key="_"
+          class="col-lg-4 col-md-6 mb-3"
+      >
+        <product-card-placeholder/>
+      </div>
     </div>
-    <div
-        v-else
-        v-for="_ in PRODUCTS_PAGINATE_BY"
-        :key="_"
-        class="col-lg-4 col-md-6 mb-3"
-    >
-      <product-card-placeholder/>
-    </div>
+    <not-found-section v-if="isNoProducts"/>
     <pagination-section
         v-if="!isNoProducts"
         :total-pages="totalPages"
@@ -115,5 +123,4 @@ onMounted(async () => {
         @page-changed="onPageChange"
     />
   </div>
-  <not-found-section v-if="isNoProducts"/>
 </template>

@@ -139,6 +139,7 @@ const onClickLastPage = () => {
 
 .page-link
   border-radius: $component-rounding !important
+  font-weight: 500
 
 .page-link:focus
   box-shadow: unset
