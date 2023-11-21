@@ -8,7 +8,7 @@ defineProps({
 </script>
 
 <template>
-  <div v-if="isLoading" class="loading py-5">
+  <div v-if="isLoading" class="loading py-4">
     <div class="spinner-border spinner-border-lg" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>

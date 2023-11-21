@@ -27,7 +27,7 @@ body
   background-color: $color-light
 
 .headed-indentation
-  margin: 1rem 1rem 1rem $between-components-indentation
+  margin: 1rem 1rem $between-components-indentation 1rem
 
 .footer-indentation
   margin: $between-components-indentation 1rem 1rem 1rem

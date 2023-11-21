@@ -17,14 +17,25 @@ const store = useStore();
 
 const user = computed(() => store.getters['auth/user']);
 
+const profileRoute = computed(() => {
+  return {name: 'profile', params: {userSlug: user.value?.slug}};
+})
+
 const navItems = [
   {
-    name: 'Categories',
-    routeName: 'categories',
+    name: "Categories",
+    routeName: "categories",
+    to: {name: "categories"},
   },
   {
-    name: 'My Comparisons',
-    routeName: '',
+    name: "Comparisons",
+    routeName: "comparisons",
+    to: {name: "categories"}
+  },
+  {
+    name: "Profile",
+    routeName: "profile",
+    to: profileRoute.value,
   },
 ];
 
@@ -63,7 +74,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
               <router-link
                   class="nav-link nav-link-action"
                   :class="isNavItemActive(navItem) ? 'active' : 'link-dark'"
-                  :to="{name: navItem.routeName}"
+                  :to="navItem.to"
               >
                 {{ navItem.name }}
               </router-link>
@@ -117,7 +128,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
               </li>
               <li>
                 <router-link
-                    :to="{name: 'profile', params: {userSlug: user.slug}}"
+                    :to="profileRoute"
                     class="dropdown-item inline-icon-text"
                 >
                   <house-icon/>

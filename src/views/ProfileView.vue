@@ -7,6 +7,7 @@ import moment from "moment";
 import {getUserImage} from "@/utils";
 import LoadingWrapper from "@/components/LoadingWrapper.vue";
 import NotFoundSection from "@/components/NotFoundSection.vue";
+import ComponentWrapper from "@/components/ComponentWrapper.vue";
 
 
 const route = useRoute();
@@ -15,6 +16,35 @@ const user = ref(null);
 const userNotFound = ref(false);
 const storeUser = store.getters["auth/user"];
 const isCurrentUser = computed(() => storeUser?.slug === route.params.userSlug);
+
+const informationData = computed(() => {
+  return [
+    {
+      label: "Username",
+      value: user.value?.username,
+    },
+    {
+      label: "Email",
+      value: user.value?.email,
+    },
+    {
+      label: "Member since",
+      value: moment(user.value?.date_joined).format('LLL'),
+    },
+    {
+      label: "First name",
+      value: user.value?.first_name,
+    },
+    {
+      label: "Last name",
+      value: user.value?.last_name,
+    },
+    {
+      label: "About",
+      value: user.value?.about,
+    },
+  ]
+})
 
 const loadUser = async (userSlug) => {
   try {
@@ -46,89 +76,39 @@ onBeforeRouteUpdate(async (to, from, next) => {
 </script>
 
 <template>
-  <div class="">
-    <not-found-section
-        v-if="userNotFound"
-        description="Oops... Looks like this profile has been deleted or doesn't exist."
-    />
-    <loading-wrapper v-else :is-loading="!user">
-      <div class="container">
-        <div class="row justify-content-center">
-
-          <div class="row">
-            <div class="text-center">
-              <img
-                  class="rounded-circle object-fit-cover"
-                  :src="getUserImage(user)"
-                  width="208"
-                  height="208"
-                  alt="user_image">
-              <h1 class="my-3 text-truncate">{{ user.username }}</h1>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="container">
-
-              <div>
-                <h2>Information</h2>
-                <hr class="mb-0">
-                <ul class="row mt-4 list-unstyled">
-                  <li class="col-6 profile-list-item">
-                    <h4 class="mb-4 fw-semibold">Username</h4>
-                    <h4 class="text-main-light text-truncate ps-1">{{ user.username }}</h4>
-                  </li>
-                  <li v-if="isCurrentUser" class="col-6 profile-list-item">
-                    <div class="d-flex mb-4 align-items-start">
-                      <h4 class="mb-0 me-1 fw-semibold">Email</h4>
-                      <span>[<small class="text-main-light">Private</small>]</span>
-                    </div>
-                    <h4 class="text-main-light text-truncate ps-1">{{ user.email }}</h4>
-                  </li>
-                  <li class="col-6 profile-list-item">
-                    <h3 class="mb-4 fw-semibold">Member since</h3>
-                    <h4 class="text-main-light text-truncate ps-1">{{ moment(user.date_joined).format('LLL') }}</h4>
-                  </li>
-                </ul>
-              </div>
-
-              <div class="mt-5">
-                <h2>About</h2>
-                <hr class="mb-0">
-                <ul class="row mt-4 list-unstyled">
-                  <li class="col-6 profile-list-item">
-                    <h4 class="mb-4 fw-semibold">First name</h4>
-                    <h4 class="text-main-light text-truncate ps-1">
-                      {{ user.first_name || 'Not specified' }}
-                    </h4>
-                  </li>
-                  <li class="col-6 profile-list-item">
-                    <h4 class="mb-4 fw-semibold">Last name</h4>
-                    <h4 class="text-main-light text-truncate ps-1">
-                      {{ user.last_name || 'Not specified' }}
-                    </h4>
-                  </li>
-                  <li class="col-12 profile-list-item">
-                    <h4 class="mb-4 fw-semibold">About me</h4>
-                    <h4 class="text-main-light text-break ps-1">
-                      {{ user.about || 'Not specified' }}
-                    </h4>
-                  </li>
-                </ul>
-              </div>
-
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </loading-wrapper>
-  </div>
+  <not-found-section
+      v-if="userNotFound"
+      description="Oops... Looks like this profile has been deleted or doesn't exist."
+  />
+  <loading-wrapper v-else :is-loading="!user">
+    <component-wrapper class="text-center">
+      <img
+          class="rounded-circle object-fit-cover mb-3"
+          :src="getUserImage(user)"
+          width="210"
+          height="210"
+          alt="user_image">
+      <h1 class="text-truncate mb-0">{{ user.username }}</h1>
+    </component-wrapper>
+    <component-wrapper class="component-indentation">
+      <ul class="row list-unstyled mb-0">
+        <li
+            v-for="(item, index) in informationData"
+            :key="index"
+            class="col-6 profile-list-item"
+        >
+          <h4 class="mb-4 fw-semibold">{{ item.label }}</h4>
+          <h4 class="text-main-light text-truncate ps-1">{{ item.value || 'Not specified' }}</h4>
+        </li>
+      </ul>
+    </component-wrapper>
+  </loading-wrapper>
 </template>
 
 <style scoped lang="sass">
 @import '@/assets/sass/main.sass'
 
-.profile-list-item:nth-of-type(3)
-  margin-top: 50px
+
+.profile-list-item:not(:nth-last-child(-n+2))
+  margin-bottom: 3rem
 </style>
