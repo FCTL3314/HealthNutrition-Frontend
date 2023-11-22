@@ -6,6 +6,10 @@ const props = defineProps({
     type: Number,
     default: 1.0,
   },
+  shadow: {
+    type: Boolean,
+    default: true,
+  }
 })
 
 
@@ -15,7 +19,11 @@ const cssPadding = computed(() => {
 </script>
 
 <template>
-<div class="component" :style="cssPadding">
+<div
+    class="component"
+    :class="{'shadow-sm': shadow}"
+    :style="cssPadding"
+>
   <slot></slot>
 </div>
 </template>

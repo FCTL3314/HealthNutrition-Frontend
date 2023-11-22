@@ -42,7 +42,7 @@ function onGoBackClick() {
       <h2 v-if="title" class="text-main">{{ title }}</h2>
       <p class="mb-3 fw-semibold fs-4">{{ description }}</p>
       <button
-          class="btn btn-dark to-main-btn"
+          class="btn btn-dark go-back-btn"
           @click="onGoBackClick"
       >
         Go back
@@ -57,14 +57,13 @@ function onGoBackClick() {
 @import 'bootstrap/scss/bootstrap'
 
 
-.to-main-btn
+.go-back-btn
   border-radius: $component-rounding
   padding: 1rem 3rem
   font-weight: 500
 
-
 .error-emoji
-  font-size: 140px
+  font-size: 7em
   font-weight: 600
 
 .magnifying-glass-img
