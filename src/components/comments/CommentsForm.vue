@@ -66,7 +66,7 @@ async function createComment(text) {
 </script>
 
 <template>
-  <component-wrapper>
+  <component-wrapper :shadow="!isReplyForm">
     <div v-show="showCommentCount" class="mb-3">
       <h3>{{ commentsCount }} {{ commentsCount === 1 ? "Comment" : "Comments" }}</h3>
     </div>
@@ -93,7 +93,7 @@ async function createComment(text) {
                 :disabled="!user"
             >
             <button
-                class="btn btn-outline-success common-rounding"
+                class="btn btn-outline-success common-rounding fw-semibold"
                 :class="{disabled: !user}"
                 type="submit"
                 id="comment-submit"
@@ -103,7 +103,7 @@ async function createComment(text) {
             <button
                 @click="onClickCancelButton"
                 v-if="isReplyForm"
-                class="btn btn-outline-dark common-rounding ms-3"
+                class="btn btn-outline-dark common-rounding ms-3 fw-semibold"
                 type="button"
             >
               Cancel

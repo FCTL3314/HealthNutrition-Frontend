@@ -28,6 +28,10 @@ const props = defineProps({
   parentId: {
     type: Number,
   },
+  isRepliesSection: {
+    type: Boolean,
+    default: false,
+  }
 })
 
 const user = computed(() => store.getters["auth/user"]);
@@ -74,7 +78,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <component-wrapper class="mb-3">
+  <component-wrapper class="mb-3" :shadow="!isRepliesSection">
     <div id="comments-wrp" class="container">
       <comment-block
           v-for="comment in comments"
@@ -92,7 +96,8 @@ onMounted(async () => {
       <no-comments-section v-else-if="comments.length === 0"/>
     </div>
   </component-wrapper>
-  <div v-if="hasMoreComments" class="text-center list-group">
+  <component-wrapper v-if="hasMoreComments" :padding="0">
+    <div class="text-center list-group">
     <button
         v-if="!isCommentsLoading"
         @click="onClickShowMoreComments"
@@ -103,6 +108,7 @@ onMounted(async () => {
       <caret-down-icon/>
     </button>
   </div>
+  </component-wrapper>
 </template>
 
 <style scoped lang="sass">

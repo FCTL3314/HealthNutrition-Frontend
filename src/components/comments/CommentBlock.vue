@@ -162,6 +162,7 @@ async function onReplyCreated(reply) {
               :object-id="objectId"
               :content-type="'product'"
               :parent-id="comment.id"
+              :is-replies-section="true"
               @comments-loaded="onRepliesLoaded"
           />
         </div>
