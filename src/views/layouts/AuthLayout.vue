@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-5 min-vh-100">
+  <div class="min-vh-100 component-indentation">
     <router-view/>
   </div>
 </template>

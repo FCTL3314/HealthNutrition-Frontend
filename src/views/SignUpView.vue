@@ -67,7 +67,7 @@ const signUp = async () => {
 </script>
 
 <template>
-  <div class="container rounded-4 col-lg-5 col-md-8 shadow-lg">
+  <div class="container rounded-4 col-lg-5 col-md-8 bg-white shadow-lg">
     <form @submit.prevent="signUp" class="py-2 px-1">
       <div class="mb-4">
         <h2 class="form-title text-center mt-2">Sign Up</h2>

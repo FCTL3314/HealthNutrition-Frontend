@@ -71,7 +71,7 @@ onMounted(async () => {
 
 onBeforeRouteUpdate(async (to, from, next) => {
   await setUser(to.params.userSlug);
-  next()
+  next();
 })
 </script>
 
@@ -98,7 +98,7 @@ onBeforeRouteUpdate(async (to, from, next) => {
             class="col-6 profile-list-item"
         >
           <h4 class="mb-4 fw-semibold">{{ field.label }}</h4>
-          <h4 class="text-main-light text-truncate ps-1">{{ field.value || 'Not specified' }}</h4>
+          <h4 class="text-main-light text-truncate ps-1">{{ field.value || 'Not specified or hidden' }}</h4>
         </li>
       </ul>
     </component-wrapper>

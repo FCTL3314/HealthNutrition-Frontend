@@ -35,7 +35,7 @@ const navItems = [
   {
     name: "Profile",
     routeName: "profile",
-    to: profileRoute.value,
+    to: user.value ? profileRoute.value : {name: 'logIn'},
   },
 ];
 
@@ -72,8 +72,8 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
                 class="nav-item"
             >
               <router-link
-                  class="nav-link nav-link-action"
-                  :class="isNavItemActive(navItem) ? 'active' : 'link-dark'"
+                  class="nav-link link-dark nav-link-action"
+                  :class="{'active': isNavItemActive(navItem)}"
                   :to="navItem.to"
               >
                 {{ navItem.name }}
@@ -119,7 +119,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
                   height="36"
               >
             </a>
-            <ul class="dropdown-menu dropdown-menu-md-end dropdown-menu-sm-start">
+            <component-wrapper class="dropdown-menu border-0 common-rounding dropdown-menu-md-end dropdown-menu-sm-start">
               <li>
                 <p class="text-center m-0">Menubar</p>
               </li>
@@ -129,7 +129,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
               <li>
                 <router-link
                     :to="profileRoute"
-                    class="dropdown-item inline-icon-text"
+                    class="dropdown-item inline-icon-text common-rounding"
                 >
                   <house-icon/>
                   <span class="ps-1">Profile</span>
@@ -138,7 +138,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
               <li>
                 <router-link
                     :to="{name: 'accountSettingsTab'}"
-                    class="dropdown-item inline-icon-text"
+                    class="dropdown-item inline-icon-text common-rounding"
                 >
                   <pen-icon/>
                   <span class="ps-1">Settings & Privacy</span>
@@ -151,7 +151,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
                 <li>
                   <a
                       :href="BACKEND_ADMIN_URL"
-                      class="dropdown-item inline-icon-text"
+                      class="dropdown-item inline-icon-text common-rounding"
                       target="_blank"
                   >
                     <gear-icon/>
@@ -163,19 +163,22 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
                 </li>
               </template>
               <li>
-                <button @click="logoutWithFlush" class="dropdown-item inline-icon-text text-danger">
+                <button
+                    @click="logoutWithFlush"
+                    class="dropdown-item dropdown-item-logout inline-icon-text common-rounding"
+                >
                   <door-open-icon/>
                   <span class="ps-1">Logout</span>
                 </button>
               </li>
-            </ul>
+            </component-wrapper>
           </div>
           <ul v-else class="nav nav-underline align-items-center">
             <li class="nav-item">
               <router-link
                   :to="{name: 'logIn'}"
-                  class="nav-link nav-link-action"
-                  :class="isNavItemActive({routeName: 'logIn'}) ? 'active' : 'link-dark'"
+                  class="nav-link link-dark nav-link-action"
+                  :class="{'active': isNavItemActive({routeName: 'logIn'})}"
               >
                 Log In
               </router-link>
@@ -184,6 +187,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
               <router-link
                   :to="{name: 'signUp'}"
                   class="btn btn-sign-up"
+                  :class="isNavItemActive({routeName: 'signUp'}) ? 'active' : ''"
               >
                 Sign Up
               </router-link>
@@ -222,6 +226,14 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
 .nav-link-action:focus
   transform: scale(1.065)
   color: $primary !important
+
+.dropdown-item
+  &-logout
+    color: $danger !important
+
+  &-logout:active
+    color: white !important
+    background-color: $danger !important
 
 .btn
   &-sign-up
