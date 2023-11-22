@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, reactive, ref} from "vue";
+import {computed, onMounted, reactive, ref} from "vue";
 import api from "@/services/api";
 import {useRoute} from "vue-router";
 import CommentsSection from "@/components/comments/CommentsSection.vue";
@@ -7,11 +7,13 @@ import {createTitle} from "@/utils";
 import CommentsForm from "@/components/comments/CommentsForm.vue";
 import LoadingWrapper from "@/components/LoadingWrapper.vue";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
+import NotFoundSection from "@/components/NotFoundSection.vue";
 
 
 const route = useRoute()
 
 const product = ref(null);
+const productNotFound = ref(false);
 
 const comments = reactive([]);
 const commentsCount = ref(0);
@@ -20,6 +22,9 @@ async function loadProduct() {
   try {
     return (await api.products.product(route.params.productSlug)).data;
   } catch (error) {
+    if (error.response.status === 404) {
+      productNotFound.value = true;
+    }
     console.error(error.response);
   }
 }
@@ -47,6 +52,10 @@ onMounted(async () => {
 </script>
 
 <template>
+  <not-found-section
+      v-if="productNotFound"
+      description="Oops... Looks like there is no such product or it has been removed."
+  />
   <loading-wrapper :is-loading="!product">
     <component-wrapper class="component-indentation text-center">
       <h1 class="text-main product-name">{{ product.name }}</h1>

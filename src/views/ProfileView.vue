@@ -17,7 +17,7 @@ const userNotFound = ref(false);
 const storeUser = store.getters["auth/user"];
 const isCurrentUser = computed(() => storeUser?.slug === route.params.userSlug);
 
-const informationData = computed(() => {
+const userFields = computed(() => {
   return [
     {
       label: "Username",
@@ -78,7 +78,7 @@ onBeforeRouteUpdate(async (to, from, next) => {
 <template>
   <not-found-section
       v-if="userNotFound"
-      description="Oops... Looks like this profile has been deleted or doesn't exist."
+      description="Oops... Looks like this profile does not exist or has been deleted."
   />
   <loading-wrapper v-else :is-loading="!user">
     <component-wrapper class="text-center">
@@ -93,12 +93,12 @@ onBeforeRouteUpdate(async (to, from, next) => {
     <component-wrapper class="component-indentation">
       <ul class="row list-unstyled mb-0">
         <li
-            v-for="(item, index) in informationData"
+            v-for="(field, index) in userFields"
             :key="index"
             class="col-6 profile-list-item"
         >
-          <h4 class="mb-4 fw-semibold">{{ item.label }}</h4>
-          <h4 class="text-main-light text-truncate ps-1">{{ item.value || 'Not specified' }}</h4>
+          <h4 class="mb-4 fw-semibold">{{ field.label }}</h4>
+          <h4 class="text-main-light text-truncate ps-1">{{ field.value || 'Not specified' }}</h4>
         </li>
       </ul>
     </component-wrapper>
