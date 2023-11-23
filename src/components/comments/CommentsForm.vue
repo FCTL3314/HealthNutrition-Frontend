@@ -85,7 +85,7 @@ async function createComment(text) {
           <div class="input-group">
             <input
                 v-model="commentText"
-                class="form-control shadow-none custom-input rounded-0 me-3"
+                class="form-control shadow-none input-underline rounded-0 me-3"
                 placeholder="Add a comment..."
                 maxlength="516"
                 type="text"
@@ -103,7 +103,7 @@ async function createComment(text) {
             <button
                 @click="onClickCancelButton"
                 v-if="isReplyForm"
-                class="btn btn-outline-dark common-rounding ms-3 fw-semibold"
+                class="btn btn-outline-purple-black common-rounding ms-3 fw-semibold"
                 type="button"
             >
               Cancel
@@ -127,5 +127,5 @@ async function createComment(text) {
 </template>
 
 <style scoped lang="sass">
-@import "@/assets/sass/main"
+
 </style>

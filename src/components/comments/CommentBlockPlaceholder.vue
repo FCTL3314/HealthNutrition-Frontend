@@ -29,9 +29,12 @@
 
 <style scoped lang="sass">
 @import "@/assets/sass/comments"
+@import "@/assets/sass/variables"
+@import "@/assets/sass/placeholders"
+
 
 .placeholder-text
-  font-size: 12px
+  font-size: .9em
   margin-right: 4px
 
   &-replies

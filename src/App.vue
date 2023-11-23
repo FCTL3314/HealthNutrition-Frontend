@@ -18,17 +18,16 @@ import FooterSection from "@/components/FooterSection.vue";
 </template>
 
 <style lang="sass">
-@import 'bootstrap/scss/bootstrap'
 @import '@/assets/sass/variables'
 
 
 body
-  font-family: 'Quicksand', 'sans-serif'
-  background-color: $color-light
+  font-family: 'Quicksand', 'sans-serif' !important
+  background-color: $color-pink-light !important
 
 .headed-indentation
-  margin: 1rem 1rem $between-components-indentation 1rem
+  margin: 1rem 1rem $between-components-indentation 1rem !important
 
 .footer-indentation
-  margin: $between-components-indentation 1rem 1rem 1rem
+  margin: $between-components-indentation 1rem 1rem 1rem !important
 </style>

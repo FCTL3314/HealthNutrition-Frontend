@@ -8,7 +8,7 @@ import {getValidationClass, handleAuthError} from "@/utils";
 import router from "@/router";
 import toaster from "@/plugins/toaster";
 import FormFlushMessages from "@/components/forms/FormFlushMessages.vue"
-import SubmitButton from "@/components/submitButton.vue";
+import SubmitButton from "@/components/SubmitButton.vue";
 import {passwordValidators, usernameValidators} from "@/validators/vuelidate";
 
 

@@ -41,10 +41,12 @@ async function updateCategories(searchQuery = null) {
     currentPage.value = 1;
     await replaceURLParams(router, route, {page: 1});
   }
-  const response = await loadCategories(searchQuery);
-  categories.value = response.results;
-  categoriesCount.value = response.count;
-  totalPages.value = calculateTotalPages(response.count, CATEGORIES_PAGINATE_BY);
+  const data = await loadCategories(searchQuery);
+  if (data) {
+    categories.value = data.results;
+    categoriesCount.value = data.count;
+    totalPages.value = calculateTotalPages(data.count, CATEGORIES_PAGINATE_BY);
+  }
 }
 
 const searchComponentRef = ref(null);
@@ -62,12 +64,12 @@ onMounted(async () => {
 </script>
 
 <template>
-  <welcome-section class="component-indentation"/>
-  <div class="component-indentation">
+  <welcome-section class="component-indentation-y"/>
+  <div class="component-indentation-y">
     <search-section
         class="mb-3"
         ref="searchComponentRef"
-        @search-performed="updateCategories"
+        @search-input="updateCategories"
     />
     <div class="row">
       <div

@@ -119,7 +119,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
                   height="36"
               >
             </a>
-            <component-wrapper class="dropdown-menu border-0 common-rounding dropdown-menu-md-end dropdown-menu-sm-start">
+            <component-wrapper class="dropdown-menu border-0 dropdown-menu-md-end dropdown-menu-sm-start">
               <li>
                 <p class="text-center m-0">Menubar</p>
               </li>
@@ -129,7 +129,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
               <li>
                 <router-link
                     :to="profileRoute"
-                    class="dropdown-item inline-icon-text common-rounding"
+                    class="dropdown-item inline-icon-text rounded-2"
                 >
                   <house-icon/>
                   <span class="ps-1">Profile</span>
@@ -138,7 +138,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
               <li>
                 <router-link
                     :to="{name: 'accountSettingsTab'}"
-                    class="dropdown-item inline-icon-text common-rounding"
+                    class="dropdown-item inline-icon-text rounded-2"
                 >
                   <pen-icon/>
                   <span class="ps-1">Settings & Privacy</span>
@@ -151,7 +151,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
                 <li>
                   <a
                       :href="BACKEND_ADMIN_URL"
-                      class="dropdown-item inline-icon-text common-rounding"
+                      class="dropdown-item inline-icon-text rounded-2"
                       target="_blank"
                   >
                     <gear-icon/>
@@ -165,7 +165,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
               <li>
                 <button
                     @click="logoutWithFlush"
-                    class="dropdown-item dropdown-item-logout inline-icon-text common-rounding"
+                    class="dropdown-item dropdown-item-logout inline-icon-text rounded-2"
                 >
                   <door-open-icon/>
                   <span class="ps-1">Logout</span>

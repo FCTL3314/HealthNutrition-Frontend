@@ -33,6 +33,6 @@ const cssPadding = computed(() => {
 
 
 .component
-  background-color: #FFF
-  border-radius: $component-rounding
+  background-color: #FFF !important
+  border-radius: $component-rounding !important
 </style>

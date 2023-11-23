@@ -2,7 +2,7 @@
 import {computed} from "vue";
 import {useStore} from "vuex";
 import FormFlushMessages from "@/components/forms/FormFlushMessages.vue";
-import SubmitButton from "@/components/submitButton.vue";
+import SubmitButton from "@/components/SubmitButton.vue";
 
 
 defineProps({

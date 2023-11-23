@@ -57,7 +57,7 @@ onMounted(async () => {
       description="Oops... Looks like there is no such product or it has been removed."
   />
   <loading-wrapper :is-loading="!product">
-    <component-wrapper class="component-indentation text-center">
+    <component-wrapper class="component-indentation-y text-center">
       <h1 class="text-main product-name">{{ product.name }}</h1>
       <ul class="list-group list-group-flush">
         <li class="list-group-item">
@@ -92,7 +92,7 @@ onMounted(async () => {
         </li>
       </ul>
     </component-wrapper>
-    <component-wrapper class="component-indentation text-center">
+    <component-wrapper class="component-indentation-y text-center">
       <h2 class="text-main">Description</h2>
       <p class="fs-5 mb-0">{{ product.short_description }}</p>
     </component-wrapper>

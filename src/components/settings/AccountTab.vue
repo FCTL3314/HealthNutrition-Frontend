@@ -60,7 +60,7 @@ async function update() {
     });
     await afterUpdateActions(
         response.data,
-        'Your account data has been successfully updated.',
+        "Your account data has been successfully updated.",
     );
   } catch (error) {
     appendResponseErrorMessages(serverErrorMessages, error.request.response);

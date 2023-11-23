@@ -1,10 +1,25 @@
-@import 'variables'
+@import "variables"
+@import "bootstrap/scss/bootstrap"
+
+
+input
+  font-size: 1.1rem !important
+  font-weight: 500 !important
 
 .common-rounding
   border-radius: $component-rounding !important
 
-.component-indentation
+.component-indentation-y
   margin: $between-components-indentation 0 !important
+
+.component-indentation-x
+  margin: 0 $between-components-indentation !important
+
+.component-indentation-right
+  margin-right: $between-components-indentation !important
+
+.component-indentation-left
+  margin-left: $between-components-indentation !important
 
 .text-main
   line-height: normal
@@ -25,8 +40,11 @@
   color: $color-main-light !important
   text-decoration: underline !important
 
+.text-purple-black
+  color: $color-purple-black !important
+
 .background-black
-  background-color: $color-black
+  background-color: $color-purple-black !important
 
 .inline-icon-text
   display: flex !important
@@ -41,11 +59,18 @@
     background-color: rgba($color-main, .25) !important
     border: 1px solid $color-main !important
 
-input
-  font-size: 1.1rem !important
-  font-weight: 500 !important
+.input-underline
+  border-left: 0 !important
+  border-top: 0 !important
+  border-right: 0 !important
 
-.custom-input
-  border-left: 0
-  border-top: 0
-  border-right: 0
+
+.btn
+  &-outline-purple-black
+    @extend .btn-outline-dark
+    color: $color-purple-black
+    border-color: $color-purple-black
+
+  &-outline-purple-black:hover
+    @extend .btn-outline-dark
+    background-color: $color-purple-black

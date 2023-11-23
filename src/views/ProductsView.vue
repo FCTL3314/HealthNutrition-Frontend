@@ -67,8 +67,10 @@ async function updateProducts(searchQuery = null) {
     await replaceURLParams(router, route, {page: 1});
   }
   const data = await loadProducts(searchQuery);
-  products.value = data.results;
-  totalPages.value = calculateTotalPages(data.count, PRODUCTS_PAGINATE_BY);
+  if (data) {
+    products.value = data.results;
+    totalPages.value = calculateTotalPages(data.count, PRODUCTS_PAGINATE_BY);
+  }
 }
 
 const searchComponentRef = ref(null);
@@ -90,12 +92,12 @@ onMounted(async () => {
 </script>
 
 <template>
-  <welcome-section class="component-indentation"/>
-  <div class="component-indentation">
+  <welcome-section class="component-indentation-y"/>
+  <div class="component-indentation-y">
     <search-section
         class="mb-3"
         ref="searchComponentRef"
-        @search-performed="updateProducts"
+        @search-input="updateProducts"
     />
     <div class="row">
       <div

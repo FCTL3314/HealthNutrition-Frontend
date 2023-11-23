@@ -5,7 +5,10 @@ import toaster from "@/plugins/toaster";
 
 
 export async function afterUpdateActions(updatedUser, message) {
-    let updatedUserCopy = {...updatedUser, image: getImageFullPath(updatedUser["image"])};
+    const updatedUserCopy = {...updatedUser};
+    if (updatedUser.image) {
+        updatedUserCopy.image = getImageFullPath(updatedUser.image);
+    }
     store.commit("auth/setUser", updatedUserCopy);
     authStorage().setItem("user", JSON.stringify(updatedUserCopy));
     toaster.success(message);

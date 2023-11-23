@@ -10,7 +10,7 @@ import {getValidationClass, handleAuthError} from "@/utils";
 import toaster from "@/plugins/toaster";
 import {authStorage} from "@/services/auth";
 import FormFlushMessages from "@/components/forms/FormFlushMessages.vue";
-import SubmitButton from "@/components/submitButton.vue";
+import SubmitButton from "@/components/SubmitButton.vue";
 import {passwordValidators, usernameValidators} from "@/validators/vuelidate";
 
 
@@ -122,7 +122,7 @@ const logIn = async () => {
             text="Log In"
             :is-response-waiting="isLogInResponseWaiting"
             :vuelidate-data="v$"
-            column-width="4"
+            column-width="5"
         />
       </div>
       <div class="text-center mt-2">

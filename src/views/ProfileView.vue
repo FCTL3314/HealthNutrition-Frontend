@@ -90,7 +90,7 @@ onBeforeRouteUpdate(async (to, from, next) => {
           alt="user_image">
       <h1 class="text-truncate mb-0">{{ user.username }}</h1>
     </component-wrapper>
-    <component-wrapper class="component-indentation">
+    <component-wrapper class="component-indentation-y">
       <ul class="row list-unstyled mb-0">
         <li
             v-for="(field, index) in userFields"
@@ -98,7 +98,7 @@ onBeforeRouteUpdate(async (to, from, next) => {
             class="col-6 profile-list-item"
         >
           <h4 class="mb-4 fw-semibold">{{ field.label }}</h4>
-          <h4 class="text-main-light text-truncate ps-1">{{ field.value || 'Not specified or hidden' }}</h4>
+          <h4 class="text-main-light text-truncate ps-1">{{ field.value || 'Not specified | Hidden' }}</h4>
         </li>
       </ul>
     </component-wrapper>
@@ -106,7 +106,7 @@ onBeforeRouteUpdate(async (to, from, next) => {
 </template>
 
 <style scoped lang="sass">
-@import '@/assets/sass/main.sass'
+@import '@/assets/sass/main'
 
 
 .profile-list-item:not(:nth-last-child(-n+2))

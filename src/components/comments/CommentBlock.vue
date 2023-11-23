@@ -185,7 +185,7 @@ async function onReplyCreated(reply) {
     color: $color-main-lighter
     font-weight: 600
     background: transparent
-    border-radius: 2em
+    border-radius: $component-rounding
 
   &-comment:hover
     background: $color-main-transparent-bg
@@ -194,7 +194,7 @@ async function onReplyCreated(reply) {
     color: $color-main-lighter
 
 .replies
-  margin: 0 0 0 56px
+  margin-left: 56px
 
 .replies-buttons
   color: $color-main-light
@@ -203,5 +203,6 @@ async function onReplyCreated(reply) {
 
 .comment-author-prefix-link
   color: $color-main-light
+  font-weight: 500
   text-decoration: none
 </style>
