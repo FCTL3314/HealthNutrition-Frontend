@@ -52,7 +52,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
         <router-link class="text-decoration-none" :to="categoriesRoute">
           <span class="logo navbar-brand d-flex align-items-center mb-1">
             <img
-                class="img-fluid mb-1 me-1"
+                class="logo-img img-fluid mb-1 me-1"
                 src="@/assets/icons/logo.png"
                 width="42"
                 height="42"
@@ -221,6 +221,9 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
 .shadow-bottom
   box-shadow: 0 0.025rem 1rem rgba(0, 0, 0, 0.075) !important
 
+.logo-img
+  transition-duration: 0.4s
+
 .logo
   @extend .text-main
   font-size: 18px
@@ -228,6 +231,9 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
 
 .logo:hover
   color: $color-main-lighter !important
+
+.logo:hover img
+  transform: scale(1.10)
 
 .nav-underline .nav-link.active
   color: $primary !important
