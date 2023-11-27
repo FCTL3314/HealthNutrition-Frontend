@@ -1,6 +1,5 @@
 <script setup>
 import {RouterView} from "vue-router";
-import ContentWrapper from "@/components/ContentWrapper.vue";
 import HeaderSection from "@/components/HeaderSection.vue";
 import FooterSection from "@/components/FooterSection.vue";
 </script>
@@ -9,9 +8,9 @@ import FooterSection from "@/components/FooterSection.vue";
   <div class="headed-indentation">
     <header-section/>
   </div>
-  <content-wrapper>
+  <div class="container position-relative">
     <RouterView/>
-  </content-wrapper>
+  </div>
   <div class="footer-indentation">
     <footer-section/>
   </div>
@@ -26,8 +25,8 @@ body
   background-color: $color-pink-light !important
 
 .headed-indentation
-  margin: 1rem 1rem $between-components-indentation 1rem !important
+  margin: 0.75rem 0.75rem $between-components-indentation 0.75rem !important
 
 .footer-indentation
-  margin: $between-components-indentation 1rem 1rem 1rem !important
+  margin: $between-components-indentation 0.75rem 0.75rem 0.75rem !important
 </style>

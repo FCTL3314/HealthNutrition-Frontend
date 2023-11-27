@@ -78,8 +78,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <component-wrapper class="mb-3" :shadow="!isRepliesSection">
-    <div id="comments-wrp" class="container">
+  <component-wrapper :class="[{'mb-3': !isRepliesSection}, {'pb-0': isRepliesSection}]" :shadow="!isRepliesSection">
+    <div id="comments-wrp" class="container overflow-scroll">
       <comment-block
           v-for="comment in comments"
           :key="comment.id"

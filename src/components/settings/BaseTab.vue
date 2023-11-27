@@ -35,25 +35,23 @@ const user = computed(() => store.getters["auth/user"]);
 
 <template>
   <div class="mb-4">
-    <h2>{{ user.username }}'s {{ tabName }}</h2>
+    <h2 class="text-truncate">{{ user.username }}'s {{ tabName }}</h2>
   </div>
   <hr>
   <div class="row">
     <template v-if="serverErrorMessages">
       <form-flush-messages :error-messages="serverErrorMessages"/>
     </template>
-    <div class="mb-4">
-      <form @submit.prevent="formSubmitCallback">
-        <slot></slot>
-        <div class="row justify-content-center">
-          <submit-button
-              :text="submitButtonText"
-              :is-response-waiting="isResponseWaiting"
-              :vuelidate-data="vuelidateData"
-          />
-        </div>
-      </form>
-    </div>
+    <form @submit.prevent="formSubmitCallback">
+      <slot></slot>
+      <div class="row justify-content-center">
+        <submit-button
+            :text="submitButtonText"
+            :is-response-waiting="isResponseWaiting"
+            :vuelidate-data="vuelidateData"
+        />
+      </div>
+    </form>
   </div>
 </template>
 

@@ -165,7 +165,7 @@ async function update() {
                 class="form-control"
                 :class="getValidationClass(v$.about)"
                 rows="3"
-                placeholder="Enter information about you"
+                placeholder="Tell a little about yourself"
             />
         <form-errors-feedback :field="v$.about"/>
       </div>

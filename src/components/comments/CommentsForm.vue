@@ -72,42 +72,41 @@ async function createComment(text) {
     </div>
     <div class="d-flex">
       <template v-if="!isCommentAdding">
-        <img class="me-3 rounded-circle object-fit-cover"
+        <img class="rounded-circle object-fit-cover"
              :src="getUserImage(user)"
              alt="author-image"
              width="40"
              height="40"
         >
-        <form
-            @submit.prevent="onClickAddComment"
-            id="add-comment-form"
-            class="w-100">
+        <form @submit.prevent="onClickAddComment" class="w-100">
           <div class="input-group">
             <input
                 v-model="commentText"
-                class="form-control shadow-none input-underline rounded-0 me-3"
+                class="form-control shadow-none input-underline rounded-0 mx-3"
                 placeholder="Add a comment..."
                 maxlength="516"
                 type="text"
                 required
                 :disabled="!user"
             >
-            <button
-                class="btn btn-outline-success common-rounding fw-semibold"
-                :class="{disabled: !user}"
-                type="submit"
-                id="comment-submit"
-            >
-              Comment
-            </button>
-            <button
-                @click="onClickCancelButton"
-                v-if="isReplyForm"
-                class="btn btn-outline-purple-black common-rounding ms-3 fw-semibold"
-                type="button"
-            >
-              Cancel
-            </button>
+            <div>
+              <button
+                  class="btn btn-outline-success common-rounding fw-semibold"
+                  :class="{disabled: !user}"
+                  type="submit"
+                  id="comment-submit"
+              >
+                Comment
+              </button>
+              <button
+                  @click="onClickCancelButton"
+                  v-if="isReplyForm"
+                  class="btn btn-outline-purple-black common-rounding ms-3 fw-semibold"
+                  type="button"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
           <p v-if="!user">
             <router-link class="link-main" :to="{name: 'logIn'}">Log In</router-link>

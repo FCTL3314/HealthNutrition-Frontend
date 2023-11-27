@@ -3,7 +3,7 @@ import ComponentWrapper from "@/components/ComponentWrapper.vue";
 </script>
 
 <template>
-  <component-wrapper class="common-rounding card border-0">
+  <component-wrapper class="common-rounding card">
     <svg
         class="bd-placeholder-img card-img-scale"
         width="100%"

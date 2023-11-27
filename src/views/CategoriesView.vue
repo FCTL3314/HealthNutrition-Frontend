@@ -2,14 +2,14 @@
 import api from "@/services/api/index";
 import {computed, onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import {calculateTotalPages, replaceURLParams, scrollToElement} from "@/utils";
+import {calculateTotalPages, replaceURLParams, scrollToTop} from "@/utils";
 import SearchSection from "@/components/SearchSection.vue";
 import CategoryCard from "@/components/cards/category/CategoryCard.vue";
 import CategoryCardPlaceholder from "@/components/cards/category/CategoryCardPlaceholder.vue";
 import PaginationSection from "@/components/PaginationSection.vue";
 import NotFoundSection from "@/components/NotFoundSection.vue";
 import {CATEGORIES_PAGINATE_BY} from "@/constants";
-import WelcomeSection from "@/components/WelcomeSection.vue";
+import CategoriesGreeting from "@/components/greetings/CategoriesGreeting.vue";
 
 
 const route = useRoute();
@@ -21,7 +21,7 @@ const categoriesCount = ref(0);
 const currentPage = ref(parseInt(route.query.page || 1));
 const totalPages = ref(0);
 const isCategoriesLoading = ref(false);
-const isNoCategories = computed(() => !categories.value.length & !isCategoriesLoading.value)
+const isNoCategories = computed(() => !isCategoriesLoading.value && !categories.value.length)
 
 async function loadCategories(searchQuery = null) {
   isCategoriesLoading.value = true;
@@ -49,12 +49,10 @@ async function updateCategories(searchQuery = null) {
   }
 }
 
-const searchComponentRef = ref(null);
-
 async function onPageChange(page) {
   currentPage.value = page;
   await replaceURLParams(router, route, {page: page});
-  scrollToElement(searchComponentRef.value.$el);
+  scrollToTop();
   await updateCategories();
 }
 
@@ -64,13 +62,9 @@ onMounted(async () => {
 </script>
 
 <template>
-  <welcome-section class="component-indentation-y"/>
+  <categories-greeting class="component-indentation-y"/>
   <div class="component-indentation-y">
-    <search-section
-        class="mb-3"
-        ref="searchComponentRef"
-        @search-input="updateCategories"
-    />
+    <search-section class="mb-3" @search-input="updateCategories"/>
     <div class="row">
       <div
           v-if="!isCategoriesLoading"
@@ -89,7 +83,10 @@ onMounted(async () => {
         <category-card-placeholder/>
       </div>
     </div>
-    <not-found-section v-if="isNoCategories"/>
+    <not-found-section
+        v-if="isNoCategories"
+        description="Oops... Looks like we couldn't find any categories for your search query."
+    />
     <pagination-section
         v-if="!isNoCategories"
         :total-pages="totalPages"

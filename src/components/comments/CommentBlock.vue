@@ -117,9 +117,8 @@ async function onReplyCreated(reply) {
                 class="comment-author-prefix-link"
                 :to="commentParentAuthorProfileRoute"
             >
-              {{ getParentCommentAuthorPrefix() }}
+              {{ getParentCommentAuthorPrefix() }}&nbsp;
             </router-link>
-            <span>&nbsp;</span>
           </template>
           <span>{{ comment.text }}</span>
         </p>
