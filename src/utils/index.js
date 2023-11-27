@@ -19,15 +19,15 @@ export function scrollToElement(element, behavior = "smooth") {
     });
 }
 
-export function scrollToBottom() {
+export function scrollToBottom(element, behavior = "smooth") {
     window.scrollTo({
         top: document.body.scrollHeight,
-        behavior: "smooth",
+        behavior: behavior,
     });
 }
 
 export function createTitle(title) {
-    return `${title} | ${TITLE_ENDING}`;
+    return `${title} - ${TITLE_ENDING}`;
 }
 
 export function getValidationClass(field) {

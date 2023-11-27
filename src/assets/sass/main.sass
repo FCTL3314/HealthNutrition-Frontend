@@ -15,6 +15,12 @@ input
 .component-indentation-x
   margin: 0 $between-components-indentation !important
 
+.component-indentation-top
+  margin-top: $between-components-indentation !important
+
+.component-indentation-bottom
+  margin-bottom: $between-components-indentation !important
+
 .component-indentation-right
   margin-right: $between-components-indentation !important
 
@@ -74,3 +80,13 @@ input
   &-outline-purple-black:hover
     @extend .btn-outline-dark
     background-color: $color-purple-black
+
+.btn
+  &-light-blue
+    border-radius: $component-rounding !important
+    background-color: transparent !important
+    border: none !important
+    padding: 0 !important
+
+  &-light-blue:hover
+    background-color: $color-main-transparent-bg !important

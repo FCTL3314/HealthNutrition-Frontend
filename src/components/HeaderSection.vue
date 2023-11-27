@@ -17,6 +17,9 @@ const store = useStore();
 
 const user = computed(() => store.getters['auth/user']);
 
+const categoriesRoute = computed(() => {
+  return {name: 'categories'};
+})
 const profileRoute = computed(() => {
   return {name: 'profile', params: {userSlug: user.value?.slug}};
 })
@@ -25,12 +28,12 @@ const navItems = [
   {
     name: "Categories",
     routeName: "categories",
-    to: {name: "categories"},
+    to: categoriesRoute.value,
   },
   {
     name: "Comparisons",
     routeName: "comparisons",
-    to: {name: "categories"}
+    to: {name: "comparisons"}
   },
   {
     name: "Profile",
@@ -46,14 +49,18 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
   <component-wrapper>
     <nav class="navbar navbar-expand-xl p-0">
       <div class="container-fluid">
-    <span class="logo navbar-brand d-flex align-items-center mb-1">
-      <img
-          class="img-fluid"
-          src="@/assets/icons/logo.png"
-          alt="logo"
-      >
-      <span class="fs-4">HealthNutrition</span>
-    </span>
+        <router-link class="text-decoration-none" :to="categoriesRoute">
+          <span class="logo navbar-brand d-flex align-items-center mb-1">
+            <img
+                class="img-fluid mb-1 me-1"
+                src="@/assets/icons/logo.png"
+                width="42"
+                height="42"
+                alt="logo"
+            >
+            <span class="fs-4">HealthNutrition</span>
+          </span>
+        </router-link>
         <button
             class="navbar-toggler"
             type="button"
@@ -119,7 +126,14 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
                   height="36"
               >
             </a>
-            <component-wrapper class="dropdown-menu border-0 dropdown-menu-md-end dropdown-menu-sm-start">
+            <ul
+                class="dropdown-menu
+                       border-0
+                       dropdown-menu-md-end
+                       dropdown-menu-sm-start
+                       common-rounding
+                       overflow-hidden"
+            >
               <li>
                 <p class="text-center m-0">Menubar</p>
               </li>
@@ -171,7 +185,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
                   <span class="ps-1">Logout</span>
                 </button>
               </li>
-            </component-wrapper>
+            </ul>
           </div>
           <ul v-else class="nav nav-underline align-items-center">
             <li class="nav-item">
@@ -211,7 +225,6 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
   @extend .text-main
   font-size: 18px
   transition-duration: 0.3s
-  cursor: default
 
 .logo:hover
   color: $color-main-lighter !important

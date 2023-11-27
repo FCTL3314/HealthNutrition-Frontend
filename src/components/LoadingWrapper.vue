@@ -1,4 +1,6 @@
 <script setup>
+import ComponentWrapper from "@/components/ComponentWrapper.vue";
+
 defineProps({
   isLoading: {
     type: Boolean,
@@ -8,12 +10,12 @@ defineProps({
 </script>
 
 <template>
-  <div v-if="isLoading" class="loading py-4">
+  <component-wrapper v-if="isLoading" class="loading component-indentation-y">
     <div class="spinner-border spinner-border-lg" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
     <p class="fs-4 text-main-light">Loading, please wait...</p>
-  </div>
+  </component-wrapper>
   <slot v-else></slot>
 </template>
 
