@@ -45,9 +45,9 @@ const isSettingsTabActive = (settingTab) => route.name === settingTab.routeName;
 
 <template>
   <div class="row component-indentation-y min-vh-100 justify-content-center">
-    <div class="settings-tabs col-xxl-3 col-xl-4 col-lg-4 p-0">
+    <div class="settings-tabs col-xxl-3 col-xl-4 col-lg-4">
       <component-wrapper>
-        <div class="text-center">
+        <div class="text-center mb-3">
           <img
               class="rounded-circle object-fit-cover"
               :src="getUserImage(user)"
@@ -59,11 +59,10 @@ const isSettingsTabActive = (settingTab) => route.name === settingTab.routeName;
             <h2 class="text-truncate">{{ user.username }}</h2>
           </div>
         </div>
-        <hr>
         <div class="list-group rounded-top-2 rounded-bottom-2 ">
           <router-link
-              class="list-group-item list-group-item-action"
-              :class="{'list-group-item-primary pe-none': isSettingsTabActive(settingsTab)}"
+              class="list-group-item list-group-item-action rounded-4 mb-3 border-1"
+              :class="{'list-group-item-primary': isSettingsTabActive(settingsTab)}"
               :to="{name: settingsTab.routeName}"
               v-for="(settingsTab, index) in settingsTabs"
               :key="index"
@@ -71,24 +70,23 @@ const isSettingsTabActive = (settingTab) => route.name === settingTab.routeName;
             <component class="me-2" :is="settingsTab.icon"/>
             <span>{{ settingsTab.name }}</span>
           </router-link>
-        </div>
-        <hr>
-        <div class="text-center inline-icon-text justify-content-center">
-          <a
-              class="btn btn-outline-danger"
+          <button
+              class="list-group-item list-group-item-danger list-group-item-action rounded-4 border-1"
               @click="logoutWithFlush"
           >
             <door-open-icon class="me-2"/>
             <span>Logout</span>
-          </a>
+          </button>
         </div>
       </component-wrapper>
     </div>
-    <component-wrapper class="col-xxl-8 col-xl-7 col-lg-7">
-      <div class="justify-content-center">
-        <router-view/>
-      </div>
-    </component-wrapper>
+    <div class="col-xxl-9 col-xl-8 col-lg-8">
+      <component-wrapper>
+        <div class="justify-content-center">
+          <router-view/>
+        </div>
+      </component-wrapper>
+    </div>
   </div>
 </template>
 
@@ -98,12 +96,8 @@ const isSettingsTabActive = (settingTab) => route.name === settingTab.routeName;
 @import "bootstrap/scss/bootstrap"
 
 
-.settings-tabs
-    margin-right: $between-comments-indentation
-
 @media (width < map-get($grid-breakpoints, lg))
   .settings-tabs
-    margin-right: 0
     margin-bottom: $between-comments-indentation
 
 </style>

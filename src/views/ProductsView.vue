@@ -2,14 +2,14 @@
 import api from "@/services/api/index"
 import {computed, onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import {calculateTotalPages, createTitle, replaceURLParams, scrollToElement} from "@/utils";
+import {calculateTotalPages, createTitle, replaceURLParams, scrollToTop} from "@/utils";
 import SearchSection from "@/components/SearchSection.vue";
 import ProductCard from "@/components/cards/product/ProductCard.vue";
 import ProductCardPlaceholder from "@/components/cards/product/ProductCardPlaceholder.vue";
 import PaginationSection from "@/components/PaginationSection.vue";
 import {PRODUCTS_PAGINATE_BY} from "@/constants";
 import NotFoundSection from "@/components/NotFoundSection.vue";
-import WelcomeSection from "@/components/WelcomeSection.vue";
+import ProductsGreeting from "@/components/greetings/ProductsGreeting.vue";
 
 
 const route = useRoute();
@@ -24,7 +24,7 @@ const isProductsLoading = ref(false);
 const isDataLoading = computed(() => {
   return isCategoryLoading.value || isProductsLoading.value;
 })
-const isNoProducts = computed(() => !products.value.length && !isProductsLoading.value)
+const isNoProducts = computed(() => !isDataLoading.value & !products.value.length)
 
 const currentPage = ref(parseInt(route.query.page || 1));
 const totalPages = ref(0);
@@ -73,12 +73,10 @@ async function updateProducts(searchQuery = null) {
   }
 }
 
-const searchComponentRef = ref(null);
-
 async function onPageChange(page) {
   currentPage.value = page;
   await replaceURLParams(router, route, {page: page});
-  scrollToElement(searchComponentRef.value);
+  scrollToTop();
   await updateProducts();
 }
 
@@ -92,13 +90,9 @@ onMounted(async () => {
 </script>
 
 <template>
-  <welcome-section class="component-indentation-y"/>
+  <products-greeting class="component-indentation-y"/>
   <div class="component-indentation-y">
-    <search-section
-        class="mb-3"
-        ref="searchComponentRef"
-        @search-input="updateProducts"
-    />
+    <search-section class="mb-3" @search-input="updateProducts"/>
     <div class="row">
       <div
           v-if="!isDataLoading"
@@ -117,7 +111,10 @@ onMounted(async () => {
         <product-card-placeholder/>
       </div>
     </div>
-    <not-found-section v-if="isNoProducts"/>
+    <not-found-section
+        v-if="isNoProducts"
+        description="Oops... Looks like we couldn't find any products for your search query."
+    />
     <pagination-section
         v-if="!isNoProducts"
         :total-pages="totalPages"

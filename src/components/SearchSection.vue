@@ -19,13 +19,16 @@ const searchInputPlaceholderText = computed(() => {
 })
 
 const iconsSize = 32
-const inactivityMillisecondsForSearch = 500
 
-async function clearSearchQuery() {
+const searchInput = ref(null);
+
+async function clearSearch() {
   searchQuery.value = "";
   await replaceURLParams(router, route, {search: null});
   emits("searchInput", searchQuery.value);
 }
+
+const inactivityTimeForSearchApply = 500
 
 const onSearchInput = async () => {
   if (searchTimeout.value) {
@@ -35,7 +38,7 @@ const onSearchInput = async () => {
   searchTimeout.value = setTimeout(async () => {
     await replaceURLParams(router, route, {search: searchQuery.value});
     emits("searchInput", searchQuery.value);
-  }, inactivityMillisecondsForSearch);
+  }, inactivityTimeForSearchApply);
 }
 </script>
 
@@ -45,21 +48,20 @@ const onSearchInput = async () => {
       <magnifying-glass-icon
           :width="iconsSize"
           :height="iconsSize"
-          class="me-3"
       />
       <input
           @input="onSearchInput"
           v-model="searchQuery"
-          class="form-control p-0 shadow-none input-underline rounded-0"
+          class="form-control mx-3 p-0 shadow-none input-underline rounded-0"
           type="search"
           :placeholder="searchInputPlaceholderText"
           autocomplete="off"
           required=""
       >
       <button
-          @click="clearSearchQuery"
+          @click="clearSearch"
           v-if="searchQuery"
-          class="ms-3 border-0 btn btn-clear-search-query p-0"
+          class="btn btn-light-blue"
       >
         <cross-fill-icon
             :width="iconsSize"
@@ -72,13 +74,4 @@ const onSearchInput = async () => {
 
 <style lang="sass">
 @import "@/assets/sass/main"
-
-
-.btn
-  &-clear-search-query
-    border-radius: $component-rounding !important
-    background-color: transparent
-
-  &-clear-search-query:hover
-    background-color: $color-main-transparent-bg
 </style>

@@ -70,7 +70,7 @@ const onClickLastPage = () => {
 <template>
   <component-wrapper>
     <nav>
-      <ul class="pagination pagination-md justify-content-center m-0">
+      <ul class="pagination pagination-md justify-content-center overflow-x-auto m-0">
         <li class="page-item">
           <button
               type="button"
