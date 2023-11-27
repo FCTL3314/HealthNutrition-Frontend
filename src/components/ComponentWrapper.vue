@@ -30,6 +30,7 @@ const cssPadding = computed(() => {
 
 <style scoped lang="sass">
 @import '@/assets/sass/variables'
+@import 'bootstrap/scss/bootstrap'
 
 
 .component
