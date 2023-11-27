@@ -2,8 +2,8 @@
 import {computed, ref} from "vue";
 import {PRODUCT_HEALTHFULNESS_REFERENCE, PRODUCT_NUTRITION_ROUNDING} from "@/constants";
 import CircleFillIcon from "@/components/icons/CircleFillIcon.vue";
-import BookmarksIcon from "@/components/icons/BookmarksIcon.vue";
-import BookmarksFillIcon from "@/components/icons/BookmarksFillIcon.vue";
+import BookmarkIcon from "@/components/icons/BookmarkIcon.vue";
+import BookmarkFillIcon from "@/components/icons/BookmarkFillIcon.vue";
 import {useStore} from "vuex";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
 
@@ -95,7 +95,7 @@ const productRoute = computed(() => {
 </script>
 
 <template>
-  <component-wrapper class="card common-rounding border-0 h-100">
+  <component-wrapper class="card common-rounding h-100">
     <router-link :to="productRoute">
       <div class="card-img-scale">
         <img
@@ -113,8 +113,8 @@ const productRoute = computed(() => {
       </h5>
       <p class="card-text">{{ product.short_description }}</p>
       <button type="button" class="text-primary btn btn-add-to-compare mt-auto">
-        <bookmarks-icon v-if="isProductCompared" :width="24" :height="24"/>
-        <bookmarks-fill-icon v-else :width="24" :height="24"/>
+        <BookmarkIcon v-if="isProductCompared" :width="24" :height="24"/>
+        <BookmarkFillIcon v-else :width="24" :height="24"/>
         <span class="ms-1 fw-semibold">Add to Compare</span>
       </button>
     </div>

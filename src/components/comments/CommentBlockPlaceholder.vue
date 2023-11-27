@@ -12,14 +12,14 @@
     >
       <rect width="100%" height="100%" fill="#AFCFFF"/>
     </svg>
-    <div class="placeholder-glow w-100">
+    <div class="placeholder-glow">
       <span class="placeholder comment-author-name col-2"/>
       <span class="placeholder placeholder-text bg-secondary col-2"/>
-      <div class="placeholder-glow w-100">
+      <div class="placeholder-glow">
         <span class="placeholder placeholder-text col-4"/>
         <span class="placeholder placeholder-text col-3"/>
       </div>
-      <div class="placeholder-glow w-100">
+      <div class="placeholder-glow">
         <span class="placeholder placeholder-text placeholder-text-replies col-1"/>
         <span class="placeholder placeholder-text placeholder-text-replies col-1"/>
       </div>
@@ -31,7 +31,14 @@
 @import "@/assets/sass/comments"
 @import "@/assets/sass/variables"
 @import "@/assets/sass/placeholders"
+@import "bootstrap/scss/bootstrap"
 
+
+.comment-wrp
+  width: 100vh !important
+
+.placeholder-glow
+  width: 100%
 
 .placeholder-text
   font-size: .9em
