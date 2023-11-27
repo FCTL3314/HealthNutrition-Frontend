@@ -124,7 +124,6 @@ const signUp = async () => {
             text="Sign Up"
             :is-response-waiting="isSignUpResponseWaiting"
             :vuelidate-data="v$"
-            column-width="4"
         />
       </div>
       <div class="text-center mt-2">
@@ -145,4 +144,5 @@ const signUp = async () => {
 
 <style lang=sass>
 @import '@/assets/sass/main'
+@import '@/assets/sass/forms'
 </style>

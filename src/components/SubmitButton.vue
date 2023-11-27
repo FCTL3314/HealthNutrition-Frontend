@@ -15,17 +15,14 @@ defineProps({
   vuelidateData: {
     type: Object,
   },
-  columnWidth: {
-    type: String,
-    default: "3",
-  },
 })
 </script>
 
 <template>
   <button
-      class="btn btn-outline-primary"
-      :class="[{disabled: vuelidateData?.$invalid || isResponseWaiting}, `col-${columnWidth}`]"
+      class="btn btn-outline-primary px-4"
+      style="width: max-content"
+      :class="{disabled: vuelidateData?.$invalid || isResponseWaiting}"
       type="submit"
   >
     <template v-if="isResponseWaiting">

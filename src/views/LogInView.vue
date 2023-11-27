@@ -122,7 +122,6 @@ const logIn = async () => {
             text="Log In"
             :is-response-waiting="isLogInResponseWaiting"
             :vuelidate-data="v$"
-            column-width="5"
         />
       </div>
       <div class="text-center mt-2">
@@ -142,4 +141,5 @@ const logIn = async () => {
 
 <style lang="sass">
 @import '@/assets/sass/main'
+@import '@/assets/sass/forms'
 </style>
