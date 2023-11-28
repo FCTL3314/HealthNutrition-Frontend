@@ -2,6 +2,7 @@ import {createRouter, createWebHistory} from "vue-router";
 import {createTitle, scrollToTop} from "@/utils";
 import {isAuthenticatedOnlyRedirectRequired, isGuestsOnlyRedirectRequired} from "@/router/utils";
 import store from "@/store/index";
+import toaster from "@/plugins/toaster";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -41,6 +42,7 @@ const router = createRouter({
             component: () => import("@/views/ComparisonGroupsView.vue"),
             meta: {
                 title: "Comparisons",
+                authenticatedOnly: true,
             },
         },
         {
@@ -162,6 +164,7 @@ router.beforeEach((to, from, next) => {
     if (isAuthenticatedOnlyRedirectRequired(to, user)) {
         console.log("Redirecting to the log in page...");
         next({name: "logIn"});
+        toaster.error("Please log in to access this page.");
         return;
     }
     if (isGuestsOnlyRedirectRequired(to, user)) {
