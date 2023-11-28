@@ -5,6 +5,7 @@ import {getUserImage} from "@/utils";
 import api from "@/services/api";
 import {isContentTypeAllowed} from "@/validators";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
+import LoadingSpinner from "@/components/loading/LoadingSpinner.vue";
 
 
 const props = defineProps({
@@ -117,9 +118,7 @@ async function createComment(text) {
         </form>
       </template>
       <div v-else class="text-center mx-auto text-main-light">
-        <div class="spinner-border" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
+        <loading-spinner/>
       </div>
     </div>
   </component-wrapper>
