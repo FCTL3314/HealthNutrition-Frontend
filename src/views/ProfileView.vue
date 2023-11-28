@@ -4,7 +4,7 @@ import {onBeforeRouteUpdate, useRoute} from "vue-router";
 import api from "@/services/api/index";
 import moment from "moment";
 import {createTitle, getUserImage} from "@/utils";
-import LoadingWrapper from "@/components/LoadingWrapper.vue";
+import LoadingWrapper from "@/components/loading/LoadingWrapper.vue";
 import NotFoundSection from "@/components/NotFoundSection.vue";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
 

@@ -1,11 +1,11 @@
 <script setup>
-import {computed, onMounted, reactive, ref} from "vue";
+import {onMounted, reactive, ref} from "vue";
 import api from "@/services/api";
 import {useRoute} from "vue-router";
 import CommentsSection from "@/components/comments/CommentsSection.vue";
 import {createTitle} from "@/utils";
 import CommentsForm from "@/components/comments/CommentsForm.vue";
-import LoadingWrapper from "@/components/LoadingWrapper.vue";
+import LoadingWrapper from "@/components/loading/LoadingWrapper.vue";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
 import NotFoundSection from "@/components/NotFoundSection.vue";
 
