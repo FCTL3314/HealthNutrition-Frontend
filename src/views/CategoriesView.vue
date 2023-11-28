@@ -3,7 +3,7 @@ import api from "@/services/api/index";
 import {computed, onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {calculateTotalPages, replaceURLParams, scrollToTop} from "@/utils";
-import SearchSection from "@/components/SearchSection.vue";
+import SearchForm from "@/components/SearchForm.vue";
 import CategoryCard from "@/components/cards/category/CategoryCard.vue";
 import CategoryCardPlaceholder from "@/components/cards/category/CategoryCardPlaceholder.vue";
 import PaginationSection from "@/components/PaginationSection.vue";
@@ -64,7 +64,7 @@ onMounted(async () => {
 <template>
   <categories-greeting class="component-indentation-y"/>
   <div class="component-indentation-y">
-    <search-section class="mb-3" @search-input="updateCategories"/>
+    <SearchForm class="mb-3" @search-input="updateCategories"/>
     <div class="row">
       <div
           v-if="!isCategoriesLoading"

@@ -3,7 +3,7 @@ import api from "@/services/api/index"
 import {computed, onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {calculateTotalPages, createTitle, replaceURLParams, scrollToTop} from "@/utils";
-import SearchSection from "@/components/SearchSection.vue";
+import SearchForm from "@/components/SearchForm.vue";
 import ProductCard from "@/components/cards/product/ProductCard.vue";
 import ProductCardPlaceholder from "@/components/cards/product/ProductCardPlaceholder.vue";
 import PaginationSection from "@/components/PaginationSection.vue";
@@ -92,7 +92,7 @@ onMounted(async () => {
 <template>
   <products-greeting class="component-indentation-y"/>
   <div class="component-indentation-y">
-    <search-section class="mb-3" @search-input="updateProducts"/>
+    <search-form class="mb-3" @search-input="updateProducts"/>
     <div class="row">
       <div
           v-if="!isDataLoading"
