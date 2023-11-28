@@ -35,11 +35,6 @@ const navItems = [
     routeName: "comparisons",
     to: {name: "comparisons"}
   },
-  {
-    name: "Profile",
-    routeName: "profile",
-    to: user.value ? profileRoute.value : {name: 'logIn'},
-  },
 ];
 
 const isNavItemActive = (navItem) => route.name === navItem.routeName;
@@ -233,7 +228,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
   color: $color-main-lighter !important
 
 .logo:hover img
-  transform: scale(1.10)
+  transform: scale(1.05)
 
 .nav-underline .nav-link.active
   color: $primary !important
