@@ -2,14 +2,16 @@
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
 import {useRouter} from "vue-router";
 
+
 defineProps({
-  title: {
-    type: String,
-  },
   description: {
     type: String,
     default: "Oops... Looks like we couldn't find what you're looking for.",
   },
+  showGoBackButton: {
+    type: Boolean,
+    default: true,
+  }
 })
 
 
@@ -39,10 +41,10 @@ function onGoBackClick() {
   <component-wrapper>
     <div class="text-center min-vh-100">
       <div class="error-emoji mb-3">{{ getRandomEmoji() }}</div>
-      <h2 v-if="title" class="text-main">{{ title }}</h2>
       <p class="mb-3 fw-semibold fs-4">{{ description }}</p>
       <button
-          class="btn btn-dark go-back-btn"
+          v-if="showGoBackButton"
+          class="btn btn-dark-rounded"
           @click="onGoBackClick"
       >
         Go back
@@ -57,23 +59,7 @@ function onGoBackClick() {
 @import 'bootstrap/scss/bootstrap'
 
 
-.go-back-btn
-  border-radius: $component-rounding
-  padding: 1rem 3rem
-  font-weight: 500
-
 .error-emoji
   font-size: 7em
   font-weight: 600
-
-.magnifying-glass-img
-  width: 100px
-
-@media (width < map-get($grid-breakpoints, xl))
-  .magnifying-glass-img
-    width: 85px
-
-@media (width < map-get($grid-breakpoints, lg))
-  .magnifying-glass-img
-    width: 75px
 </style>
