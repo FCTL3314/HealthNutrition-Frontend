@@ -1,11 +1,11 @@
 <script setup>
-import BaseGreetingSection from "@/components/greetings/BaseGreetingSection.vue";
+import BaseGreeting from "@/components/greetings/BaseGreeting.vue";
 </script>
 
 <template>
-  <base-greeting-section
+  <base-greeting
       title="Comparison Groups Section"
-      description="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque beatae blanditiis cupiditate dolor natus officiis possimus qui ratione, veniam voluptate. Aliquam aliquid corporis cumque delectus dolor excepturi illumiste iusto maxime natus, odio officia quae quibusdam quo sequi."
+      description="Navigate our Comparison Groups section, your hub for effortlessly organizing and creating comparison groups. Simplify the management of health-related data, empowering you to track and analyze fitness progress or nutritional habits with ease."
   />
 </template>
 

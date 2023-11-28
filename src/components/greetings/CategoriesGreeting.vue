@@ -1,9 +1,9 @@
 <script setup>
-import BaseGreetingSection from "@/components/greetings/BaseGreetingSection.vue";
+import BaseGreeting from "@/components/greetings/BaseGreeting.vue";
 </script>
 
 <template>
-  <base-greeting-section
+  <base-greeting
       title="Categories Section"
       description="Discover a wealth of topics in our Categories section, covering a spectrum of healthy living aspects. Simplify your exploration of the world of healthy choices and find valuable resources to support your journey toward a balanced and wholesome lifestyle."
   />
