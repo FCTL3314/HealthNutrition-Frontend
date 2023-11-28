@@ -2,8 +2,8 @@
 import {computed, onMounted, ref} from "vue";
 import store from "@/store";
 import CaretDownIcon from "@/components/icons/CaretDownIcon.vue";
-import CommentBlock from "@/components/comments/CommentBlock.vue";
-import CommentBlockPlaceholder from "@/components/comments/CommentBlockPlaceholder.vue";
+import CommentCard from "@/components/comments/CommentCard.vue";
+import CommentCardPlaceholder from "@/components/comments/CommentCardPlaceholder.vue";
 import api from "@/services/api";
 import {isContentTypeAllowed} from "@/validators";
 import NoCommentsSection from "@/components/comments/NoCommentsSection.vue";
@@ -47,9 +47,9 @@ function onCommentsLoaded(data) {
   emits("commentsLoaded", data);
 }
 
-async function onClickShowMoreComments() {
-  currentPage++
-  await loadComments(currentPage)
+async function onClickShowMore() {
+  currentPage++;
+  await loadComments(currentPage);
 }
 
 async function loadComments(page = 1) {
@@ -80,7 +80,7 @@ onMounted(async () => {
 <template>
   <component-wrapper :class="[{'mb-3': !isRepliesSection}, {'pb-0': isRepliesSection}]" :shadow="!isRepliesSection">
     <div id="comments-wrp" class="container overflow-scroll">
-      <comment-block
+      <CommentCard
           v-for="comment in comments"
           :key="comment.id"
           :object-id="objectId"
@@ -88,7 +88,7 @@ onMounted(async () => {
           :comment="comment"
           @reply-created="addReplyComment"
       />
-      <comment-block-placeholder
+      <CommentCardPlaceholder
           v-if="isCommentsLoading"
           v-for="_ in COMMENTS_PAGINATE_BY"
           :key="_"
@@ -98,16 +98,16 @@ onMounted(async () => {
   </component-wrapper>
   <component-wrapper v-if="hasMoreComments" :padding="0">
     <div class="text-center list-group">
-    <button
-        v-if="!isCommentsLoading"
-        @click="onClickShowMoreComments"
-        type="button"
-        class="list-group-item list-group-item-action text-primary common-rounding fw-semibold border-0"
-    >
-      Show more
-      <caret-down-icon/>
-    </button>
-  </div>
+      <button
+          v-if="!isCommentsLoading"
+          @click="onClickShowMore"
+          type="button"
+          class="list-group-item list-group-item-action text-primary common-rounding fw-semibold border-0"
+      >
+        Show more
+        <caret-down-icon/>
+      </button>
+    </div>
   </component-wrapper>
 </template>
 

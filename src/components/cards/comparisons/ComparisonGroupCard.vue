@@ -38,7 +38,7 @@ const comparisonGroupRoute = computed(() => {
 </script>
 
 <template>
-  <div>
+  <div v-if="!isComparisonGroupDeleted">
     <component-wrapper class="card common-rounding">
       <div class="card-body inline-icon-text">
         <div class="text-truncate">
