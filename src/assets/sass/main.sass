@@ -65,23 +65,37 @@ input
     background-color: rgba($color-main, .25) !important
     border: 1px solid $color-main !important
 
+  &--warning
+    color: $warning !important
+    background-color: rgba($warning, .25) !important
+    border: 1px solid $warning !important
+
+  &--error
+    color: $danger !important
+    background-color: rgba($danger, .25) !important
+    border: 1px solid $danger !important
+
 .input-underline
   border-left: 0 !important
   border-top: 0 !important
   border-right: 0 !important
 
-
 .btn
+  &-dark-rounded
+    @extend .btn-dark
+    border-radius: $component-rounding !important
+    padding: 1rem 3rem !important
+    font-weight: 500 !important
+
   &-outline-purple-black
     @extend .btn-outline-dark
-    color: $color-purple-black
-    border-color: $color-purple-black
+    color: $color-purple-black !important
+    border-color: $color-purple-black !important
 
   &-outline-purple-black:hover
     @extend .btn-outline-dark
-    background-color: $color-purple-black
+    background-color: $color-purple-black !important
 
-.btn
   &-light-blue
     border-radius: $component-rounding !important
     background-color: transparent !important
