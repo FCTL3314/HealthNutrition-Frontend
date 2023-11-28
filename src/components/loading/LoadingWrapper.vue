@@ -1,5 +1,6 @@
 <script setup>
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
+import LoadingSpinner from "@/components/loading/LoadingSpinner.vue";
 
 defineProps({
   isLoading: {
@@ -11,10 +12,7 @@ defineProps({
 
 <template>
   <component-wrapper v-if="isLoading" class="loading component-indentation-y">
-    <div class="spinner-border spinner-border-lg" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-    <p class="fs-4 text-main-light">Loading, please wait...</p>
+    <loading-spinner text="Loading, please wait..." size="lg"/>
   </component-wrapper>
   <slot v-else></slot>
 </template>
