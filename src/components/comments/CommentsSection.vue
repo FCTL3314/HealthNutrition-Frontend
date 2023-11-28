@@ -1,7 +1,6 @@
 <script setup>
 import {computed, onMounted, ref} from "vue";
 import store from "@/store";
-import CaretDownIcon from "@/components/icons/CaretDownIcon.vue";
 import CommentCard from "@/components/comments/CommentCard.vue";
 import CommentCardPlaceholder from "@/components/comments/CommentCardPlaceholder.vue";
 import api from "@/services/api";
@@ -9,6 +8,7 @@ import {isContentTypeAllowed} from "@/validators";
 import NoCommentsSection from "@/components/comments/NoCommentsSection.vue";
 import {COMMENTS_PAGINATE_BY} from "@/constants";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
+import ShowMoreButton from "@/components/ShowMoreButton.vue";
 
 
 const props = defineProps({
@@ -96,19 +96,10 @@ onMounted(async () => {
       <no-comments-section v-else-if="comments.length === 0"/>
     </div>
   </component-wrapper>
-  <component-wrapper v-if="hasMoreComments" :padding="0">
-    <div class="text-center list-group">
-      <button
-          v-if="!isCommentsLoading"
-          @click="onClickShowMore"
-          type="button"
-          class="list-group-item list-group-item-action text-primary common-rounding fw-semibold border-0"
-      >
-        Show more
-        <caret-down-icon/>
-      </button>
-    </div>
-  </component-wrapper>
+  <show-more-button
+      v-if="hasMoreComments && !isCommentsLoading"
+      :callback="onClickShowMore"
+  />
 </template>
 
 <style scoped lang="sass">

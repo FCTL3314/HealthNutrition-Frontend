@@ -7,8 +7,7 @@ import ComparisonGroupCardPlaceholder from "@/components/cards/comparisons/Compa
 import {COMPARISON_GROUPS_PAGINATE_BY} from "@/constants";
 import CreateComparisonGroupForm from "@/components/comparisons/CreateComparisonGroupForm.vue";
 import NotFoundSection from "@/components/NotFoundSection.vue";
-import CaretDownIcon from "@/components/icons/CaretDownIcon.vue";
-import ComponentWrapper from "@/components/ComponentWrapper.vue";
+import ShowMoreButton from "@/components/ShowMoreButton.vue";
 
 
 const comparisonGroups = ref([]);
@@ -66,21 +65,10 @@ onMounted(async () => {
           :key="_"
           class="comparison-card mb-3"
       />
-      <div>
-        <component-wrapper v-if="hasMoreComparisonGroups" :padding="0">
-          <div class="text-center list-group">
-            <button
-                v-if="!isComparisonGroupsLoading"
-                @click="onClickShowMore"
-                type="button"
-                class="list-group-item list-group-item-action text-primary common-rounding fw-semibold border-0"
-            >
-              Show more
-              <caret-down-icon/>
-            </button>
-          </div>
-        </component-wrapper>
-      </div>
+      <show-more-button
+          v-if="hasMoreComparisonGroups && !isComparisonGroupsLoading"
+          :callback="onClickShowMore"
+      />
     </div>
     <not-found-section
         v-if="isNoComparisonGroups"
