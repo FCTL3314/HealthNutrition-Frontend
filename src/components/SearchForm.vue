@@ -43,8 +43,8 @@ const onSearchInput = async () => {
 </script>
 
 <template>
-  <component-wrapper>
-    <div class="input-group p-2">
+  <component-wrapper :padding="1.5">
+    <div class="input-group">
       <magnifying-glass-icon
           :width="iconsSize"
           :height="iconsSize"

@@ -1,11 +1,11 @@
 <script setup>
-import {computed, ref} from "vue";
+import {computed} from "vue";
 import {PRODUCT_HEALTHFULNESS_REFERENCE, PRODUCT_NUTRITION_ROUNDING} from "@/constants";
 import CircleFillIcon from "@/components/icons/CircleFillIcon.vue";
-import BookmarkIcon from "@/components/icons/BookmarkIcon.vue";
-import BookmarkFillIcon from "@/components/icons/BookmarkFillIcon.vue";
 import {useStore} from "vuex";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
+import SaveProductModal from "@/components/comparisons/SaveProductModal.vue";
+import SaveProductButton from "@/components/comparisons/SaveProductButton.vue";
 
 
 const props = defineProps({
@@ -21,7 +21,6 @@ const props = defineProps({
 
 const store = useStore();
 
-const isProductCompared = ref(true);
 const healthfulnessPercents = computed(() => {
   return Math.round((props.product.healthfulness / PRODUCT_HEALTHFULNESS_REFERENCE) * 100);
 })
@@ -95,6 +94,7 @@ const productRoute = computed(() => {
 </script>
 
 <template>
+  <save-product-modal :product-id="product.id"/>
   <component-wrapper class="card common-rounding h-100">
     <router-link :to="productRoute">
       <div class="card-img-scale">
@@ -112,11 +112,7 @@ const productRoute = computed(() => {
         </router-link>
       </h5>
       <p class="card-text">{{ product.short_description }}</p>
-      <button type="button" class="text-primary btn btn-add-to-compare mt-auto">
-        <BookmarkIcon v-if="isProductCompared" :width="24" :height="24"/>
-        <BookmarkFillIcon v-else :width="24" :height="24"/>
-        <span class="ms-1 fw-semibold">Add to Compare</span>
-      </button>
+      <save-product-button/>
     </div>
     <ul class="list-group list-group-flush">
       <li class="list-group-item fw-semibold  text-center">
@@ -149,12 +145,15 @@ const productRoute = computed(() => {
 @import '@/assets/sass/main'
 @import '@/assets/sass/cards'
 
+
 .btn
-  &-add-to-compare
+  &-save
+    @extend .btn-outline-primary
     display: flex
     align-items: center
-    border: 0
-    padding: 0
+    border-radius: $component-rounding
+    width: max-content !important
+    margin-top: auto
 
 .link
   &-store

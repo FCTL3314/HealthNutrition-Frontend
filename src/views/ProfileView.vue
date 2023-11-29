@@ -95,7 +95,7 @@ onMounted(async () => {
 onBeforeRouteUpdate(async (to, from, next) => {
   await setUser(to.params.userSlug);
   next();
-})
+});
 </script>
 
 <template>

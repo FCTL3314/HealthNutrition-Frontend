@@ -7,7 +7,7 @@ const currentDate = new Date()
 </script>
 
 <template>
-  <component-wrapper class="background-black">
+  <component-wrapper class="bg-purple-black">
     <footer
         id="footer"
         class="container text-center text-white"
