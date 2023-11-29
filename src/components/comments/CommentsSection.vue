@@ -39,17 +39,10 @@ const user = computed(() => store.getters["auth/user"]);
 const isCommentsLoading = ref(false);
 const hasMoreComments = ref(false);
 
-let currentPage = 1;
-
 const emits = defineEmits(["commentsLoaded"]);
 
 function onCommentsLoaded(data) {
   emits("commentsLoaded", data);
-}
-
-async function onClickShowMore() {
-  currentPage++;
-  await loadComments(currentPage);
 }
 
 async function loadComments(page = 1) {
@@ -97,8 +90,8 @@ onMounted(async () => {
     </div>
   </component-wrapper>
   <show-more-button
-      v-if="hasMoreComments && !isCommentsLoading"
-      :callback="onClickShowMore"
+      v-show="hasMoreComments && !isCommentsLoading"
+      @show-more-button-click="loadComments"
   />
 </template>
 

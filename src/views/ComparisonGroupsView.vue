@@ -5,9 +5,9 @@ import ComparisonGroupCard from "@/components/cards/comparisons/ComparisonGroupC
 import ComparisonGroupsGreeting from "@/components/greetings/ComparisonGroupsGreeting.vue";
 import ComparisonGroupCardPlaceholder from "@/components/cards/comparisons/ComparisonGroupCardPlaceholder.vue";
 import {COMPARISON_GROUPS_PAGINATE_BY} from "@/constants";
-import CreateComparisonGroupForm from "@/components/comparisons/CreateComparisonGroupForm.vue";
 import NotFoundSection from "@/components/NotFoundSection.vue";
 import ShowMoreButton from "@/components/ShowMoreButton.vue";
+import WrappedCreateComparisonGroupForm from "@/components/comparisons/WrappedCreateComparisonGroupForm.vue";
 
 
 const comparisonGroups = ref([]);
@@ -16,13 +16,6 @@ const isNoComparisonGroups = computed(() => {
   return comparisonGroups.value.length === 0 && !isComparisonGroupsLoading.value;
 })
 const hasMoreComparisonGroups = ref(false);
-
-let currentPage = 1;
-
-async function onClickShowMore() {
-  currentPage++;
-  await updateComparisonGroups(currentPage);
-}
 
 async function loadComparisonGroups(page = 1) {
   isComparisonGroupsLoading.value = true;
@@ -51,23 +44,24 @@ onMounted(async () => {
 <template>
   <comparison-groups-greeting/>
   <div class="component-indentation-y min-vh-100">
-    <create-comparison-group-form @comparison-group-created="addComparisonGroup" class="mb-3"/>
+    <wrapped-create-comparison-group-form @comparison-group-created="addComparisonGroup" class="mb-3"/>
     <div class="row">
       <comparison-group-card
           v-for="comparisonGroup in comparisonGroups"
           :key="comparisonGroup.id"
-          class="comparison-card mb-3"
+          class="comparison-card"
           :comparison-group="comparisonGroup"
       />
       <comparison-group-card-placeholder
           v-if="isComparisonGroupsLoading"
           v-for="_ in COMPARISON_GROUPS_PAGINATE_BY"
           :key="_"
-          class="comparison-card mb-3"
+          class="comparison-card"
       />
       <show-more-button
-          v-if="hasMoreComparisonGroups && !isComparisonGroupsLoading"
-          :callback="onClickShowMore"
+          class="mt-3"
+          v-show="hasMoreComparisonGroups && !isComparisonGroupsLoading"
+          @show-more-button-click="updateComparisonGroups"
       />
     </div>
     <not-found-section
@@ -82,6 +76,6 @@ onMounted(async () => {
 @import "@/assets/sass/main"
 
 
-.comparison-card:last-child
-  margin-bottom: 0 !important
+.comparison-card:not(:nth-last-child(-n+2))
+  margin-bottom: 1rem
 </style>
