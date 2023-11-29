@@ -34,10 +34,9 @@ const user = computed(() => store.getters["auth/user"]);
 </script>
 
 <template>
-  <div class="mb-4">
-    <h2 class="text-truncate">{{ user.username }}'s {{ tabName }}</h2>
+  <div class="mb-3 text-center">
+    <h2 class="text-main-light text-truncate mb-0">{{ tabName }}</h2>
   </div>
-  <hr>
   <div class="row">
     <template v-if="serverErrorMessages">
       <form-flush-messages :error-messages="serverErrorMessages"/>
