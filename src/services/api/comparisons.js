@@ -9,5 +9,14 @@ export default function (instance) {
         deleteComparisonGroup(id) {
             return instance.delete(`comparisons/groups/${id}/`);
         },
+        addProductToComparisonGroup(comparisonGroupId, productId) {
+            return instance.post("/comparisons/", {
+                comparison_group_id: comparisonGroupId,
+                product_id: productId,
+            });
+        },
+        removeProductFromComparisonGroup(comparisonId) {
+            return instance.delete(`/comparisons/${comparisonId}/`);
+        },
     };
 }

@@ -32,7 +32,7 @@ async function deleteComparisonGroup() {
 }
 
 const comparisonGroupRoute = computed(() => {
-  return {name: "comparisons"};
+  return {name: "comparisonGroups"};
 })
 
 </script>

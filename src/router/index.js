@@ -37,8 +37,8 @@ const router = createRouter({
             },
         },
         {
-            name: "comparisons",
-            path: "/comparisons/",
+            name: "comparisonGroups",
+            path: "/comparison-groups/",
             component: () => import("@/views/ComparisonGroupsView.vue"),
             meta: {
                 title: "Comparisons",
