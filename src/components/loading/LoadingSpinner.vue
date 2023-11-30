@@ -3,17 +3,24 @@ defineProps({
   text: {
     type: String,
   },
-  size: {
+  colorClass: {
     type: String,
-    validator(value) {
-      return value in ["lg", "sm"]
-    }
+    default: "text-main-light",
+  },
+  size: {
+    type: Number,
+    default: 16
   }
 })
 </script>
 
 <template>
-  <div class="spinner-border" :class="`spinner-border-${size}`" role="status">
+  <div
+      class="spinner-border"
+      :class="colorClass"
+      :style="{height: `${size}px`, width: `${size}px`}"
+      role="status"
+  >
     <span class="visually-hidden">Loading...</span>
   </div>
   <p v-if="text" class="fs-5 text-main-light">{{ text }}</p>

@@ -12,7 +12,7 @@ defineProps({
 
 <template>
   <component-wrapper v-if="isLoading" class="loading component-indentation-y">
-    <loading-spinner text="Loading, please wait..." size="lg"/>
+    <loading-spinner text="Loading, please wait..." :size="32"/>
   </component-wrapper>
   <slot v-else></slot>
 </template>
@@ -24,7 +24,6 @@ defineProps({
 .loading
   text-align: center
   min-height: 100vh
-  color: $color-main-light
   font-weight: bold
 
 .spinner-border

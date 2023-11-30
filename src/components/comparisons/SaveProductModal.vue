@@ -6,6 +6,7 @@ import ShowMoreButton from "@/components/ShowMoreButton.vue";
 import LoadingSpinner from "@/components/loading/LoadingSpinner.vue";
 import PlusIcon from "@/components/icons/PlusIcon.vue";
 import CreateComparisonGroupForm from "@/components/comparisons/CreateComparisonGroupForm.vue";
+import SaveProductCheckbox from "@/components/comparisons/SaveProductCheckbox.vue";
 
 
 const props = defineProps({
@@ -28,7 +29,7 @@ const showAddGroup = () => isAddGroupFormShown.value = true;
 async function loadComparisonGroups(page = 1) {
   isComparisonGroupsLoading.value = true;
   try {
-    const data = (await api.comparisons.comparisonGroups(page)).data;
+    const data = (await api.comparisons.comparisonGroups(page, props.productId)).data;
     hasMoreComparisonGroups.value = data.next !== null;
     return data;
   } catch (error) {
@@ -44,14 +45,6 @@ async function updateComparisonGroups(page = 1) {
 
 const addComparisonGroup = (comparisonGroup) => comparisonGroups.value.unshift(comparisonGroup);
 
-async function handleSaveCheckboxClick(isChecked, comparisonGroupId) {
-  if (isChecked) {
-    await api.comparisons.addProductToComparisonGroup(comparisonGroupId, props.productId);
-  } else {
-    await api.comparisons.removeProductFromComparisonGroup(comparisonGroupId, props.productId);
-  }
-}
-
 onMounted(async () => {
   await updateComparisonGroups();
 });
@@ -62,30 +55,19 @@ onMounted(async () => {
        aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <component-wrapper class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header px-0 pt-0">
           <h1 class="text-main fs-5 mb-0" id="saveProductModalLabel">
             Save product to...
           </h1>
           <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"/>
         </div>
         <div class="modal-body">
-          <div
+          <save-product-checkbox
               v-for="comparisonGroup in comparisonGroups"
-              class="form-check"
-          >
-            <input
-                @change="(event) => handleSaveCheckboxClick(event.target.checked, comparisonGroup.id)"
-                :id="`${comparisonGroup.name}-${comparisonGroup.id}`"
-                class="save-checkbox shadow-none me-3"
-                type="checkbox"
-            >
-            <label
-                class="form-check-label fw-medium"
-                :for="`${comparisonGroup.name}-${comparisonGroup.id}`"
-            >
-              {{ comparisonGroup.name }}
-            </label>
-          </div>
+              :key="comparisonGroup.id"
+              :product-id="productId"
+              :comparison-group="comparisonGroup"
+          />
           <p class="fw-medium mb-0" v-if="isNoComparisonGroups">
             It looks like you don't have any comparison group yet, you can create it below.
           </p>
@@ -94,11 +76,11 @@ onMounted(async () => {
               v-show="hasMoreComparisonGroups && !isComparisonGroupsLoading"
               @show-more-button-click="updateComparisonGroups"
           />
-          <div v-if="isComparisonGroupsLoading" class="text-center mx-auto text-main-light">
-            <loading-spinner/>
+          <div v-if="isComparisonGroupsLoading" class="text-center mx-auto">
+            <loading-spinner :size="24"/>
           </div>
         </div>
-        <div class="modal-footer justify-content-center">
+        <div class="modal-footer px-0 pb-0 justify-content-center">
           <create-comparison-group-form
               v-if="isAddGroupFormShown"
               @comparison-group-created="addComparisonGroup"
@@ -107,7 +89,7 @@ onMounted(async () => {
           <button
               v-else
               @click="showAddGroup"
-              class="btn text-main inline-icon-text justify-content-center m-0"
+              class="btn text-main inline-icon-text justify-content-center common-rounding w-100 m-0"
           >
             <plus-icon class="me-1" :height="24" :width="24"/>
             Create new group
@@ -119,17 +101,6 @@ onMounted(async () => {
 </template>
 
 <style scoped lang="sass">
-@import "bootstrap/scss/bootstrap"
-
-
 .modal-dialog
   max-width: 300px
-
-.save-checkbox
-  @extend .form-check-input
-  width: 1.2em
-  height: 1.2em
-
-.form-check:not(:nth-last-child(-n+2))
-  margin-bottom: 1rem
 </style>

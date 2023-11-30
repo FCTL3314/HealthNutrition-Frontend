@@ -129,7 +129,7 @@ onBeforeRouteUpdate(async (to, from, next) => {
         <li
             v-for="(field, index) in informationFields"
             :key="index"
-            class="list-group-item mb-3"
+            class="list-group-item"
         >
           <h3 class="fw-semibold text-main-light text-truncate">
             {{ field.label }}:&nbsp;
@@ -147,6 +147,6 @@ onBeforeRouteUpdate(async (to, from, next) => {
 @import '@/assets/sass/main'
 
 
-.profile-list-item:not(:nth-last-child(-n+2))
-  margin-bottom: 3rem
+.list-group-item:not(:nth-last-child(-n + 1))
+  margin-bottom: 1rem
 </style>

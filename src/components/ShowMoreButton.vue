@@ -1,5 +1,4 @@
 <script setup>
-import ComponentWrapper from "@/components/ComponentWrapper.vue";
 import CaretDownIcon from "@/components/icons/CaretDownIcon.vue";
 
 
@@ -21,19 +20,15 @@ function onShowMoreButtonClick() {
 </script>
 
 <template>
-  <div>
-    <component-wrapper :padding="0">
-      <div class="text-center list-group">
-        <button
-            @click="onShowMoreButtonClick"
-            type="button"
-            :class="buttonClasses"
-        >
-          Show more
-          <caret-down-icon/>
-        </button>
-      </div>
-    </component-wrapper>
+  <div class="text-center list-group">
+    <button
+        @click="onShowMoreButtonClick"
+        type="button"
+        :class="buttonClasses"
+    >
+      Show more
+      <caret-down-icon/>
+    </button>
   </div>
 </template>
 

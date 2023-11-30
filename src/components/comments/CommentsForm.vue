@@ -117,7 +117,7 @@ async function createComment(text) {
           </p>
         </form>
       </template>
-      <div v-else class="text-center mx-auto text-main-light">
+      <div v-else class="text-center mx-auto">
         <loading-spinner/>
       </div>
     </div>

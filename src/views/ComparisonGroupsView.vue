@@ -6,8 +6,8 @@ import ComparisonGroupsGreeting from "@/components/greetings/ComparisonGroupsGre
 import ComparisonGroupCardPlaceholder from "@/components/cards/comparisons/ComparisonGroupCardPlaceholder.vue";
 import {COMPARISON_GROUPS_PAGINATE_BY} from "@/constants";
 import NotFoundSection from "@/components/NotFoundSection.vue";
-import ShowMoreButton from "@/components/ShowMoreButton.vue";
 import WrappedCreateComparisonGroupForm from "@/components/comparisons/WrappedCreateComparisonGroupForm.vue";
+import WrappedShowMoreButton from "@/components/WrappedShowMoreButton.vue";
 
 
 const comparisonGroups = ref([]);
@@ -58,7 +58,7 @@ onMounted(async () => {
           :key="_"
           class="comparison-card"
       />
-      <show-more-button
+      <wrapped-show-more-button
           class="mt-3"
           v-show="hasMoreComparisonGroups && !isComparisonGroupsLoading"
           @show-more-button-click="updateComparisonGroups"
@@ -76,6 +76,6 @@ onMounted(async () => {
 @import "@/assets/sass/main"
 
 
-.comparison-card:not(:nth-last-child(-n+2))
+.comparison-card:not(:nth-last-child(-n + 2))
   margin-bottom: 1rem
 </style>
