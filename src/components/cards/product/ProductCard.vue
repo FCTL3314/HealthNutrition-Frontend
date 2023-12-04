@@ -4,8 +4,7 @@ import {PRODUCT_HEALTHFULNESS_REFERENCE, PRODUCT_NUTRITION_ROUNDING} from "@/con
 import CircleFillIcon from "@/components/icons/CircleFillIcon.vue";
 import {useStore} from "vuex";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
-import SaveProductModal from "@/components/comparisons/SaveProductModal.vue";
-import SaveProductButton from "@/components/comparisons/SaveProductButton.vue";
+import PlusIcon from "@/components/icons/PlusIcon.vue";
 
 
 const props = defineProps({
@@ -18,6 +17,9 @@ const props = defineProps({
     required: true,
   }
 });
+
+const emits = defineEmits(["saveButtonClick"])
+const onSaveButtonClick = () => emits("saveButtonClick", props.product.id);
 
 const store = useStore();
 
@@ -89,12 +91,11 @@ const nutritionItems = [
 ];
 
 const productRoute = computed(() => {
-  return {name: "product", params: {categorySlug: props.category.slug, productSlug: props.product.slug}}
-})
+  return {name: "product", params: {categorySlug: props.category.slug, productSlug: props.product.slug}};
+});
 </script>
 
 <template>
-  <save-product-modal :product-id="product.id"/>
   <component-wrapper class="card common-rounding h-100">
     <router-link :to="productRoute">
       <div class="card-img-scale">
@@ -112,7 +113,6 @@ const productRoute = computed(() => {
         </router-link>
       </h5>
       <p class="card-text">{{ product.short_description }}</p>
-      <save-product-button/>
     </div>
     <ul class="list-group list-group-flush">
       <li class="list-group-item fw-semibold  text-center">
@@ -137,6 +137,17 @@ const productRoute = computed(() => {
           {{ item.isDifferencePositive ? '+' : '-' }}{{ item.normalizedDifference }} {{ item.units }}
         </span>
       </li>
+      <li class="list-group-item text-center px-0 pb-0">
+        <button
+            @click="onSaveButtonClick"
+            class="btn btn-outline-primary inline-icon-text justify-content-center common-rounding w-100 m-0"
+            data-bs-toggle="modal"
+            data-bs-target="#saveProductModal"
+        >
+          <plus-icon :width="24" :height="24"/>
+          Save
+        </button>
+      </li>
     </ul>
   </component-wrapper>
 </template>
@@ -144,19 +155,4 @@ const productRoute = computed(() => {
 <style lang="sass" scoped>
 @import '@/assets/sass/main'
 @import '@/assets/sass/cards'
-
-
-.btn
-  &-save
-    @extend .btn-outline-primary
-    display: flex
-    align-items: center
-    border-radius: $component-rounding
-    width: max-content !important
-    margin-top: auto
-
-.link
-  &-store
-    font-size: 14px
-    font-weight: bold
 </style>

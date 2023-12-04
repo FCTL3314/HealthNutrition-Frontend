@@ -1,9 +1,9 @@
 export default function (instance) {
     return {
-        comparisonGroups(page, selectedProductId = null) {
+        comparisonGroups(page, selectedProduct = null) {
             const params = {page: page}
-            if (selectedProductId) {
-                params.selected_product_id = selectedProductId
+            if (selectedProduct) {
+                params.selected_product = selectedProduct
             }
             return instance.get("comparisons/groups/", {params: params});
         },

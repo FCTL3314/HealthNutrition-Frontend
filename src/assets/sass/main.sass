@@ -75,12 +75,18 @@ input
     background-color: rgba($danger, .25) !important
     border: 1px solid $danger !important
 
-.input-underline
+.only-bottom-border
   border-left: 0 !important
   border-top: 0 !important
   border-right: 0 !important
+  border-radius: 0 !important
+  box-shadow: none !important
 
 .btn
+  &-outline-primary-rounded
+    @extend .btn-outline-primary
+    border-radius: $component-rounding !important
+
   &-dark-rounded
     @extend .btn-dark
     border-radius: $component-rounding !important

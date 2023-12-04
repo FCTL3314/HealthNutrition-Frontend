@@ -10,6 +10,7 @@ import PaginationSection from "@/components/PaginationSection.vue";
 import {PRODUCTS_PAGINATE_BY} from "@/constants";
 import NotFoundSection from "@/components/NotFoundSection.vue";
 import ProductsGreeting from "@/components/greetings/ProductsGreeting.vue";
+import AddProductToComparisonGroupsModal from "@/components/comparisons/AddProductToComparisonGroupsModal.vue";
 
 
 const route = useRoute();
@@ -19,6 +20,7 @@ const category = ref(null);
 const isCategoryLoading = ref(false);
 
 const products = ref([]);
+const selectedProductId = ref(-1);
 const isProductsLoading = ref(false);
 
 const isDataLoading = computed(() => {
@@ -48,8 +50,10 @@ async function loadProducts(searchQuery = null) {
   isProductsLoading.value = true;
   try {
     if (searchQuery || route.query.search) {
-      return (await api.products.products(
-              currentPage.value, null, searchQuery || route.query.search)
+      return (
+          await api.products.products(
+              currentPage.value, null, searchQuery || route.query.search
+          )
       ).data;
     } else {
       return (await api.products.products(currentPage.value, route.params.categorySlug)).data;
@@ -90,6 +94,7 @@ onMounted(async () => {
 </script>
 
 <template>
+  <add-product-to-comparison-groups-modal :product-id="selectedProductId"/>
   <products-greeting class="component-indentation-y"/>
   <div class="component-indentation-y">
     <search-form class="mb-3" @search-input="updateProducts"/>
@@ -100,7 +105,11 @@ onMounted(async () => {
           :key="product.id"
           class="col-lg-4 col-md-6 mb-3"
       >
-        <product-card :product="product" :category="category"/>
+        <product-card
+            :product="product"
+            :category="category"
+            @save-button-click="(productId) => selectedProductId = productId"
+        />
       </div>
       <div
           v-else
