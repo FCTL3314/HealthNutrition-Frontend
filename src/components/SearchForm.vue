@@ -48,11 +48,12 @@ const onSearchInput = async () => {
       <magnifying-glass-icon
           :width="iconsSize"
           :height="iconsSize"
+          class="me-3"
       />
       <input
           @input="onSearchInput"
           v-model="searchQuery"
-          class="form-control mx-3 p-0 shadow-none input-underline rounded-0"
+          class="form-control p-0 only-bottom-border"
           type="search"
           :placeholder="searchInputPlaceholderText"
           autocomplete="off"
@@ -61,7 +62,7 @@ const onSearchInput = async () => {
       <button
           @click="clearSearch"
           v-if="searchQuery"
-          class="btn btn-light-blue"
+          class="btn btn-light-blue ms-3"
       >
         <cross-fill-icon
             :width="iconsSize"

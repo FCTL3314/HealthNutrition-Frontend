@@ -68,9 +68,9 @@ async function createComment(text) {
 
 <template>
   <component-wrapper :shadow="!isReplyForm">
-    <div v-show="showCommentCount" class="mb-3">
-      <h3>{{ commentsCount }} {{ commentsCount === 1 ? "Comment" : "Comments" }}</h3>
-    </div>
+    <h3 v-show="showCommentCount" class="mb-3">
+      {{ commentsCount }} {{ commentsCount === 1 ? "Comment" : "Comments" }}
+    </h3>
     <div class="d-flex">
       <template v-if="!isCommentAdding">
         <img class="rounded-circle object-fit-cover"
@@ -83,7 +83,7 @@ async function createComment(text) {
           <div class="input-group">
             <input
                 v-model="commentText"
-                class="form-control shadow-none input-underline rounded-0 mx-3"
+                class="form-control only-bottom-border mx-3"
                 placeholder="Add a comment..."
                 maxlength="516"
                 type="text"

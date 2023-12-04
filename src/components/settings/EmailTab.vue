@@ -64,23 +64,23 @@ async function update() {
       :form-submit-callback="update"
   >
     <div class="mb-4">
-      <label for="email" class="form-label">New email</label>
+      <label for="email" class="form-label text-main">New email</label>
       <input
           id="email"
           v-model="v$.newEmail.$model"
           type="email"
-          class="form-control"
+          class="form-control only-bottom-border"
           :class="getValidationClass(v$.newEmail)"
           placeholder="Enter email"
       >
       <form-errors-feedback :field="v$.newEmail"/>
     </div>
     <div class="mb-4">
-      <label class="form-label">Password</label>
+      <label class="form-label text-main">Password</label>
       <input
           v-model="v$.password.$model"
           type="password"
-          class="form-control"
+          class="form-control only-bottom-border"
           :class="getValidationClass(v$.password)"
           placeholder="Enter password"
       >

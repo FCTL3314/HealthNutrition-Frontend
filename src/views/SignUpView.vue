@@ -10,6 +10,7 @@ import toaster from "@/plugins/toaster";
 import FormFlushMessages from "@/components/forms/FormFlushMessages.vue"
 import SubmitButton from "@/components/SubmitButton.vue";
 import {passwordValidators, usernameValidators} from "@/validators/vuelidate";
+import ComponentWrapper from "@/components/ComponentWrapper.vue";
 
 
 const isSignUpResponseWaiting = ref(false);
@@ -67,67 +68,63 @@ const signUp = async () => {
 </script>
 
 <template>
-  <div class="container rounded-4 col-lg-5 col-md-8 bg-white shadow-lg">
-    <form @submit.prevent="signUp" class="py-2 px-1">
-      <div class="mb-4">
-        <h2 class="form-title text-center mt-2">Sign Up</h2>
-      </div>
+  <component-wrapper class="container col-lg-5 col-md-8 col-sm-10">
+    <form @submit.prevent="signUp">
+      <h2 class="form-title text-center">Sign Up</h2>
       <form-flush-messages :error-messages="serverErrorMessages"/>
-      <hr>
       <div class="mb-4">
-        <label class="form-label">Username</label>
+        <label class="form-label text-main">Username</label>
         <input
             v-model="v$.username.$model"
             type="text"
-            class="form-control"
+            class="form-control only-bottom-border"
             :class="getValidationClass(v$.username)"
             placeholder="Enter username"
         >
         <form-errors-feedback :field="v$.username"/>
       </div>
       <div class="mb-4">
-        <label class="form-label">Email</label>
+        <label class="form-label text-main">Email</label>
         <input
             v-model="v$.email.$model"
             type="email"
-            class="form-control"
+            class="form-control only-bottom-border"
             :class="getValidationClass(v$.email)"
             placeholder="Enter email"
         >
         <form-errors-feedback :field="v$.email"/>
       </div>
       <div class="mb-4">
-        <label class="form-label">Password</label>
+        <label class="form-label text-main">Password</label>
         <input
             v-model="v$.password.$model"
             type="password"
-            class="form-control"
+            class="form-control only-bottom-border"
             :class="getValidationClass(v$.password)"
             placeholder="Enter password"
         >
         <form-errors-feedback :field="v$.password"/>
       </div>
       <div class="mb-4">
-        <label class="form-label">Password confirmation</label>
+        <label class="form-label text-main">Password confirmation</label>
         <input
             v-model="v$.password_confirmation.$model"
             type="password"
-            class="form-control"
+            class="form-control only-bottom-border"
             :class="getValidationClass(v$.password_confirmation)"
             placeholder="Enter password confirmation"
         >
         <form-errors-feedback :field="v$.password_confirmation"/>
       </div>
-      <hr>
-      <div class="text-center">
+      <div class="text-center mb-2">
         <submit-button
             text="Sign Up"
             :is-response-waiting="isSignUpResponseWaiting"
             :vuelidate-data="v$"
         />
       </div>
-      <div class="text-center mt-2">
-        <p>
+      <div class="text-center">
+        <p class="mb-0">
           <span class="my-0 pe-1">Already registered ?</span>
           <router-link
               :to="{name: 'logIn'}"
@@ -138,7 +135,7 @@ const signUp = async () => {
         </p>
       </div>
     </form>
-  </div>
+  </component-wrapper>
 </template>
 
 

@@ -81,32 +81,26 @@ async function update() {
       :vuelidate-data="v$"
   >
     <div class="mb-4">
-      <label
-          for="username"
-          class="form-label"
-      >
+      <label for="username" class="form-label text-main">
         Username
       </label>
       <input
           id="username"
           v-model="v$.username.$model"
-          class="form-control"
+          class="form-control only-bottom-border"
           :class="getValidationClass(v$.username)"
           type="text"
       >
       <form-errors-feedback :field="v$.username"/>
     </div>
     <div class="mb-4">
-      <label
-          for="first_name"
-          class="form-label"
-      >
+      <label for="first_name" class="form-label text-main">
         First Name
       </label>
       <input
           id="first_name"
           v-model="v$.firstName.$model"
-          class="form-control"
+          class="form-control only-bottom-border"
           :class="getValidationClass(v$.firstName)"
           type="text"
           placeholder="Enter your first name"
@@ -114,11 +108,11 @@ async function update() {
       <form-errors-feedback :field="v$.firstName"/>
     </div>
     <div class="mb-4">
-      <label for="last_name" class="form-label">Last Name</label>
+      <label for="last_name" class="form-label text-main">Last Name</label>
       <input
           id="last_name"
           v-model="v$.lastName.$model"
-          class="form-control"
+          class="form-control only-bottom-border"
           :class="getValidationClass(v$.lastName)"
           type="text"
           placeholder="Enter your last name"
@@ -127,42 +121,39 @@ async function update() {
     </div>
     <div class="mb-4">
       <label for="email" class="form-label">
-        <span>Email</span>
-        <span v-if="user.is_verified" class="text-primary">
-              &check; Verified
-            </span>
-        <span v-else>
-              (Unverified, click <a class="text-decoration-none" href="#">here</a> to send a verification email)
-            </span>
+        <span class="text-main">Email</span>
+        <span v-if="user.is_verified" class="text-success">
+          &check; Verified
+        </span>
       </label>
       <input
           id="email"
-          class="form-control"
+          class="form-control only-bottom-border"
           type="email"
           :value="user.email"
           readonly
       >
     </div>
     <div class="mb-4">
-      <label for="image" class="form-label">Image</label>
+      <label for="image" class="form-label text-main">Image</label>
       <div class="input-group">
         <input
             id="image"
             :accept="ALLOWED_IMAGE_EXTENSIONS.join(', ')"
             @change="handleImageFieldChange"
-            class="form-control"
+            class="form-control common-rounding shadow-none"
             type="file"
             aria-label="Upload"
         >
       </div>
     </div>
     <div class="mb-4">
-      <label for="about" class="form-label">About me</label>
+      <label for="about" class="form-label text-main">About me</label>
       <div class="input-group">
             <textarea
                 id="about"
                 v-model="v$.about.$model"
-                class="form-control"
+                class="form-control only-bottom-border"
                 :class="getValidationClass(v$.about)"
                 rows="3"
                 placeholder="Tell a little about yourself"

@@ -29,7 +29,7 @@ async function createComparisonGroup() {
       <div class="input-group">
         <input
             v-model="comparisonGroupName"
-            class="form-control bg-transparent me-3 p-0 shadow-none input-underline rounded-0"
+            class="form-control bg-transparent p-0 only-bottom-border"
             type="search"
             placeholder="Enter a title for your comparison group..."
             maxlength="32"
@@ -37,7 +37,7 @@ async function createComparisonGroup() {
             required
         >
         <button
-            class="btn btn-outline-primary common-rounding"
+            class="btn btn-outline-primary common-rounding ms-3"
             type="submit"
         >
           Create

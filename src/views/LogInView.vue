@@ -12,6 +12,7 @@ import {authStorage} from "@/services/auth";
 import FormFlushMessages from "@/components/forms/FormFlushMessages.vue";
 import SubmitButton from "@/components/SubmitButton.vue";
 import {passwordValidators, usernameValidators} from "@/validators/vuelidate";
+import ComponentWrapper from "@/components/ComponentWrapper.vue";
 
 
 const router = useRouter();
@@ -71,30 +72,27 @@ const logIn = async () => {
 </script>
 
 <template>
-  <div class="container rounded-4 col-lg-4 col-md-7 col-sm-8 bg-white shadow-lg">
-    <form @submit.prevent="logIn" class="py-2 px-1">
-      <div class="mb-4">
-        <h2 class="form-title text-center mt-2">Log In</h2>
-      </div>
+  <component-wrapper class="container col-lg-4 col-md-6 col-sm-8">
+    <form @submit.prevent="logIn">
+      <h2 class="form-title text-center">Log In</h2>
       <form-flush-messages :error-messages="serverErrorMessages"/>
-      <hr>
       <div class="mb-4">
-        <label class="form-label">Username</label>
+        <label class="form-label text-main">Username</label>
         <input
             v-model="v$.username.$model"
             type="text"
-            class="form-control"
+            class="form-control only-bottom-border"
             :class="getValidationClass(v$.username)"
             placeholder="Enter username"
         >
         <form-errors-feedback :field="v$.username"/>
       </div>
       <div class="mb-4">
-        <label class="form-label">Password</label>
+        <label class="form-label text-main">Password</label>
         <input
             v-model="v$.password.$model"
             type="password"
-            class="form-control"
+            class="form-control only-bottom-border"
             :class="getValidationClass(v$.password)"
             placeholder="Enter password"
         >
@@ -116,16 +114,15 @@ const logIn = async () => {
           <a href="#" class="link-secondary text-decoration-none">Forgot password ?</a>
         </div>
       </div>
-      <hr>
-      <div class="text-center">
+      <div class="text-center my-2">
         <submit-button
             text="Log In"
             :is-response-waiting="isLogInResponseWaiting"
             :vuelidate-data="v$"
         />
       </div>
-      <div class="text-center mt-2">
-        <p>
+      <div class="text-center">
+        <p class="mb-0">
           <span class="my-0 pe-1">Not registered ?</span>
           <router-link
               :to="{name: 'signUp'}"
@@ -136,7 +133,7 @@ const logIn = async () => {
         </p>
       </div>
     </form>
-  </div>
+  </component-wrapper>
 </template>
 
 <style lang="sass">

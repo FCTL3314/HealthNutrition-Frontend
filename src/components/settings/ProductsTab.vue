@@ -62,14 +62,14 @@ async function saveSettings() {
   >
     <div
         v-for="(item, index) in nutritionPreferenceItems"
-        :key="index" class="input-group mb-4"
+        :key="index" class="mb-4"
     >
-      <label class="input-group-text w-50" :for="`nutrition-preferences-${index}`">
+      <label class="form-label text-main" :for="`nutrition-preferences-${index}`">
         {{ item.name }}
       </label>
       <select
           v-model="item.bound_variable.value"
-          class="form-select"
+          class="form-select only-bottom-border w-100"
           :id="`nutrition-preferences-${index}`"
       >
         <option
