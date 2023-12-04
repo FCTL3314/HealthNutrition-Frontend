@@ -1,12 +1,12 @@
 <script setup>
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
-import {computed, onMounted, ref} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import api from "@/services/api";
 import ShowMoreButton from "@/components/ShowMoreButton.vue";
 import LoadingSpinner from "@/components/loading/LoadingSpinner.vue";
 import PlusIcon from "@/components/icons/PlusIcon.vue";
 import CreateComparisonGroupForm from "@/components/comparisons/CreateComparisonGroupForm.vue";
-import SaveProductCheckbox from "@/components/comparisons/SaveProductCheckbox.vue";
+import AddProductToComparisonGroupCheckbox from "@/components/comparisons/AddProductToComparisonGroupCheckbox.vue";
 
 
 const props = defineProps({
@@ -15,6 +15,11 @@ const props = defineProps({
     required: true,
   },
 });
+
+watch(() => props.productId, async () => {
+  comparisonGroups.value.length = 0;
+  await updateComparisonGroups();
+})
 
 const comparisonGroups = ref([]);
 const isNoComparisonGroups = computed(() => {
@@ -51,18 +56,28 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="modal fade" id="saveProductModal" tabindex="-1" aria-labelledby="saveProductModalLabel"
-       aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-      <component-wrapper class="modal-content">
-        <div class="modal-header px-0 pt-0">
+  <div
+      class="modal fade"
+      id="saveProductModal"
+      tabindex="-1"
+      aria-labelledby="saveProductModalLabel"
+      aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable mx-auto">
+      <component-wrapper class="modal-content" :padding="0">
+        <div class="modal-header">
           <h1 class="text-main fs-5 mb-0" id="saveProductModalLabel">
             Save product to...
           </h1>
-          <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"/>
+          <button
+              type="button"
+              class="btn-close shadow-none"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+          />
         </div>
         <div class="modal-body">
-          <save-product-checkbox
+          <add-product-to-comparison-group-checkbox
               v-for="comparisonGroup in comparisonGroups"
               :key="comparisonGroup.id"
               :product-id="productId"
@@ -74,13 +89,14 @@ onMounted(async () => {
           <show-more-button
               class="mt-3"
               v-show="hasMoreComparisonGroups && !isComparisonGroupsLoading"
+              :key="productId"
               @show-more-button-click="updateComparisonGroups"
           />
           <div v-if="isComparisonGroupsLoading" class="text-center mx-auto">
             <loading-spinner :size="24"/>
           </div>
         </div>
-        <div class="modal-footer px-0 pb-0 justify-content-center">
+        <div class="modal-footer justify-content-center">
           <create-comparison-group-form
               v-if="isAddGroupFormShown"
               @comparison-group-created="addComparisonGroup"
