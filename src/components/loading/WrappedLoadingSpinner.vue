@@ -6,13 +6,25 @@ defineProps({
   isLoading: {
     type: Boolean,
     required: true,
-  }
+  },
+  colorClass: {
+    type: String,
+    default: "text-main-light",
+  },
 })
 </script>
 
 <template>
-  <component-wrapper v-if="isLoading" class="loading component-indentation-y">
-    <loading-spinner text="Loading, please wait..." :size="32"/>
+  <component-wrapper
+      v-if="isLoading"
+      class="loading component-indentation-y"
+      :class="colorClass"
+  >
+    <loading-spinner
+        :color-class="colorClass"
+        text="Loading, please wait..."
+        :size="32"
+    />
   </component-wrapper>
   <slot v-else></slot>
 </template>

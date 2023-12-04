@@ -20,7 +20,7 @@ defineProps({
 
 <template>
   <button
-      class="btn btn-outline-primary px-4"
+      class="btn btn-outline-primary-rounded px-4"
       style="width: max-content"
       :class="{disabled: vuelidateData?.$invalid || isResponseWaiting}"
       type="submit"

@@ -5,7 +5,7 @@ import {useRoute} from "vue-router";
 import CommentsSection from "@/components/comments/CommentsSection.vue";
 import {createTitle} from "@/utils";
 import CommentsForm from "@/components/comments/CommentsForm.vue";
-import LoadingWrapper from "@/components/loading/LoadingWrapper.vue";
+import WrappedLoadingSpinner from "@/components/loading/WrappedLoadingSpinner.vue";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
 import NotFoundSection from "@/components/NotFoundSection.vue";
 
@@ -56,7 +56,7 @@ onMounted(async () => {
       v-if="productNotFound"
       description="Oops... Looks like there is no such product or it has been removed."
   />
-  <loading-wrapper :is-loading="!product">
+  <wrapped-loading-spinner :is-loading="!product">
     <component-wrapper class="component-indentation-y text-center">
       <h1 class="text-main product-name">{{ product.name }}</h1>
       <ul class="list-group list-group-flush">
@@ -109,7 +109,7 @@ onMounted(async () => {
         :content-type="'product'"
         @comments-loaded="onCommentsLoaded"
     />
-  </loading-wrapper>
+  </wrapped-loading-spinner>
 </template>
 
 <style lang="sass">

@@ -4,7 +4,7 @@ import {onBeforeRouteUpdate, useRoute} from "vue-router";
 import api from "@/services/api/index";
 import moment from "moment";
 import {createTitle, getUserImage} from "@/utils";
-import LoadingWrapper from "@/components/loading/LoadingWrapper.vue";
+import WrappedLoadingSpinner from "@/components/loading/WrappedLoadingSpinner.vue";
 import NotFoundSection from "@/components/NotFoundSection.vue";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
 
@@ -88,7 +88,7 @@ const informationFields = computed(() => {
 onMounted(async () => {
   await setUser(route.params.userSlug)
       .then(() => {
-        document.title = createTitle(`${user.value.username} Profile`);
+        document.title = createTitle(`${user.value.username}'s Profile`);
       });
 })
 
@@ -103,7 +103,7 @@ onBeforeRouteUpdate(async (to, from, next) => {
       v-if="userNotFound"
       description="Oops... Looks like this profile does not exist or has been deleted."
   />
-  <loading-wrapper v-else :is-loading="!user">
+  <wrapped-loading-spinner v-else :is-loading="!user">
     <component-wrapper class="component-indentation-y text-center">
       <img
           class="rounded-circle object-fit-cover mb-3"
@@ -140,7 +140,7 @@ onBeforeRouteUpdate(async (to, from, next) => {
         </li>
       </ul>
     </component-wrapper>
-  </loading-wrapper>
+  </wrapped-loading-spinner>
 </template>
 
 <style scoped lang="sass">
