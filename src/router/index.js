@@ -64,7 +64,6 @@ const router = createRouter({
                 {
                     name: "auth",
                     path: "auth/",
-                    component: () => import("@/views/layouts/AuthLayout.vue"),
                     meta: {
                         redirectTo: "logIn",
                         guestsOnly: true,

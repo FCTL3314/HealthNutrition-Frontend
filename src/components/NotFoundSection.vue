@@ -4,9 +4,16 @@ import {useRouter} from "vue-router";
 
 
 defineProps({
+  title: {
+    type: String,
+  },
   description: {
     type: String,
     default: "Oops... Looks like we couldn't find what you're looking for.",
+  },
+  showEmoji: {
+    type: Boolean,
+    default: true,
   },
   showGoBackButton: {
     type: Boolean,
@@ -40,7 +47,8 @@ function onGoBackClick() {
 <template>
   <component-wrapper>
     <div class="text-center min-vh-100">
-      <div class="error-emoji mb-3">{{ getRandomEmoji() }}</div>
+      <div v-if="showEmoji" class="error-emoji mb-3">{{ getRandomEmoji() }}</div>
+      <h1 class="text-main">{{ title }}</h1>
       <p class="mb-3 fw-semibold fs-4">{{ description }}</p>
       <button
           v-if="showGoBackButton"

@@ -68,74 +68,76 @@ const signUp = async () => {
 </script>
 
 <template>
-  <component-wrapper class="container col-lg-5 col-md-8 col-sm-10">
-    <form @submit.prevent="signUp">
-      <h2 class="form-title text-center">Sign Up</h2>
-      <form-flush-messages :error-messages="serverErrorMessages"/>
-      <div class="mb-4">
-        <label class="form-label text-main">Username</label>
-        <input
-            v-model="v$.username.$model"
-            type="text"
-            class="form-control only-bottom-border"
-            :class="getValidationClass(v$.username)"
-            placeholder="Enter username"
-        >
-        <form-errors-feedback :field="v$.username"/>
-      </div>
-      <div class="mb-4">
-        <label class="form-label text-main">Email</label>
-        <input
-            v-model="v$.email.$model"
-            type="email"
-            class="form-control only-bottom-border"
-            :class="getValidationClass(v$.email)"
-            placeholder="Enter email"
-        >
-        <form-errors-feedback :field="v$.email"/>
-      </div>
-      <div class="mb-4">
-        <label class="form-label text-main">Password</label>
-        <input
-            v-model="v$.password.$model"
-            type="password"
-            class="form-control only-bottom-border"
-            :class="getValidationClass(v$.password)"
-            placeholder="Enter password"
-        >
-        <form-errors-feedback :field="v$.password"/>
-      </div>
-      <div class="mb-4">
-        <label class="form-label text-main">Password confirmation</label>
-        <input
-            v-model="v$.password_confirmation.$model"
-            type="password"
-            class="form-control only-bottom-border"
-            :class="getValidationClass(v$.password_confirmation)"
-            placeholder="Enter password confirmation"
-        >
-        <form-errors-feedback :field="v$.password_confirmation"/>
-      </div>
-      <div class="text-center mb-2">
-        <submit-button
-            text="Sign Up"
-            :is-response-waiting="isSignUpResponseWaiting"
-            :vuelidate-data="v$"
-        />
-      </div>
-      <div class="text-center">
-        <p class="mb-0">
-          <span class="my-0 pe-1">Already registered ?</span>
-          <router-link
-              :to="{name: 'logIn'}"
-              class="link-primary text-decoration-none"
+  <div class="justify-content-center component-indentation-y">
+    <component-wrapper class="container col-lg-5 col-md-8 col-sm-10">
+      <form @submit.prevent="signUp">
+        <h2 class="form-title text-center">Sign Up</h2>
+        <form-flush-messages :error-messages="serverErrorMessages"/>
+        <div class="mb-4">
+          <label class="form-label text-main">Username</label>
+          <input
+              v-model="v$.username.$model"
+              type="text"
+              class="form-control only-bottom-border"
+              :class="getValidationClass(v$.username)"
+              placeholder="Enter username"
           >
-            Login to your account
-          </router-link>
-        </p>
-      </div>
-    </form>
-  </component-wrapper>
+          <form-errors-feedback :field="v$.username"/>
+        </div>
+        <div class="mb-4">
+          <label class="form-label text-main">Email</label>
+          <input
+              v-model="v$.email.$model"
+              type="email"
+              class="form-control only-bottom-border"
+              :class="getValidationClass(v$.email)"
+              placeholder="Enter email"
+          >
+          <form-errors-feedback :field="v$.email"/>
+        </div>
+        <div class="mb-4">
+          <label class="form-label text-main">Password</label>
+          <input
+              v-model="v$.password.$model"
+              type="password"
+              class="form-control only-bottom-border"
+              :class="getValidationClass(v$.password)"
+              placeholder="Enter password"
+          >
+          <form-errors-feedback :field="v$.password"/>
+        </div>
+        <div class="mb-4">
+          <label class="form-label text-main">Password confirmation</label>
+          <input
+              v-model="v$.password_confirmation.$model"
+              type="password"
+              class="form-control only-bottom-border"
+              :class="getValidationClass(v$.password_confirmation)"
+              placeholder="Enter password confirmation"
+          >
+          <form-errors-feedback :field="v$.password_confirmation"/>
+        </div>
+        <div class="text-center mb-2">
+          <submit-button
+              text="Sign Up"
+              :is-response-waiting="isSignUpResponseWaiting"
+              :vuelidate-data="v$"
+          />
+        </div>
+        <div class="text-center">
+          <p class="mb-0">
+            <span class="my-0 pe-1">Already registered ?</span>
+            <router-link
+                :to="{name: 'logIn'}"
+                class="link-primary text-decoration-none"
+            >
+              Login to your account
+            </router-link>
+          </p>
+        </div>
+      </form>
+    </component-wrapper>
+  </div>
 </template>
 
 

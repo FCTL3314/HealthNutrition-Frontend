@@ -25,7 +25,7 @@ onMounted(() => {
   <div class="header-indentation">
     <header-section/>
   </div>
-  <div class="container position-relative">
+  <div class="container min-vh-100 position-relative">
     <RouterView/>
   </div>
   <div class="footer-indentation">

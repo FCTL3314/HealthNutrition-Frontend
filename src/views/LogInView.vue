@@ -72,68 +72,70 @@ const logIn = async () => {
 </script>
 
 <template>
-  <component-wrapper class="container col-lg-4 col-md-6 col-sm-8">
-    <form @submit.prevent="logIn">
-      <h2 class="form-title text-center">Log In</h2>
-      <form-flush-messages :error-messages="serverErrorMessages"/>
-      <div class="mb-4">
-        <label class="form-label text-main">Username</label>
-        <input
-            v-model="v$.username.$model"
-            type="text"
-            class="form-control only-bottom-border"
-            :class="getValidationClass(v$.username)"
-            placeholder="Enter username"
-        >
-        <form-errors-feedback :field="v$.username"/>
-      </div>
-      <div class="mb-4">
-        <label class="form-label text-main">Password</label>
-        <input
-            v-model="v$.password.$model"
-            type="password"
-            class="form-control only-bottom-border"
-            :class="getValidationClass(v$.password)"
-            placeholder="Enter password"
-        >
-        <form-errors-feedback :field="v$.password"/>
-      </div>
-      <div class="d-flex">
-        <div class="form-check me-auto">
+  <div class="justify-content-center component-indentation-y">
+    <component-wrapper class="container col-lg-4 col-md-6 col-sm-8">
+      <form @submit.prevent="logIn">
+        <h2 class="form-title text-center">Log In</h2>
+        <form-flush-messages :error-messages="serverErrorMessages"/>
+        <div class="mb-4">
+          <label class="form-label text-main">Username</label>
           <input
-              id="remember-me"
-              v-model="formData.rememberMe"
-              type="checkbox"
-              class="form-check-input"
+              v-model="v$.username.$model"
+              type="text"
+              class="form-control only-bottom-border"
+              :class="getValidationClass(v$.username)"
+              placeholder="Enter username"
           >
-          <label for="remember-me" class="form-check-label">
-            Remember me
-          </label>
+          <form-errors-feedback :field="v$.username"/>
         </div>
-        <div>
-          <a href="#" class="link-secondary text-decoration-none">Forgot password ?</a>
-        </div>
-      </div>
-      <div class="text-center my-2">
-        <submit-button
-            text="Log In"
-            :is-response-waiting="isLogInResponseWaiting"
-            :vuelidate-data="v$"
-        />
-      </div>
-      <div class="text-center">
-        <p class="mb-0">
-          <span class="my-0 pe-1">Not registered ?</span>
-          <router-link
-              :to="{name: 'signUp'}"
-              class="link-primary text-decoration-none"
+        <div class="mb-4">
+          <label class="form-label text-main">Password</label>
+          <input
+              v-model="v$.password.$model"
+              type="password"
+              class="form-control only-bottom-border"
+              :class="getValidationClass(v$.password)"
+              placeholder="Enter password"
           >
-            Create an account
-          </router-link>
-        </p>
-      </div>
-    </form>
-  </component-wrapper>
+          <form-errors-feedback :field="v$.password"/>
+        </div>
+        <div class="d-flex">
+          <div class="form-check me-auto">
+            <input
+                id="remember-me"
+                v-model="formData.rememberMe"
+                type="checkbox"
+                class="form-check-input"
+            >
+            <label for="remember-me" class="form-check-label">
+              Remember me
+            </label>
+          </div>
+          <div>
+            <a href="#" class="link-secondary text-decoration-none">Forgot password ?</a>
+          </div>
+        </div>
+        <div class="text-center my-2">
+          <submit-button
+              text="Log In"
+              :is-response-waiting="isLogInResponseWaiting"
+              :vuelidate-data="v$"
+          />
+        </div>
+        <div class="text-center">
+          <p class="mb-0">
+            <span class="my-0 pe-1">Not registered ?</span>
+            <router-link
+                :to="{name: 'signUp'}"
+                class="link-primary text-decoration-none"
+            >
+              Create an account
+            </router-link>
+          </p>
+        </div>
+      </form>
+    </component-wrapper>
+  </div>
 </template>
 
 <style lang="sass">

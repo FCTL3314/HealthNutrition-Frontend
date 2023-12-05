@@ -7,14 +7,14 @@ export default function (instance) {
             const params = {
                 page: page,
                 with_products_count: withProductsCount,
-            }
+            };
             if (selectedProduct) {
                 params.selected_product = selectedProduct;
             }
             return instance.get("comparisons/groups/", {params: params});
         },
         createComparisonGroup(name) {
-            return instance.post(`comparisons/groups/`, {name: name});
+            return instance.post("comparisons/groups/", {name: name});
         },
         deleteComparisonGroup(id) {
             return instance.delete(`comparisons/groups/${id}/`);
@@ -26,7 +26,7 @@ export default function (instance) {
             });
         },
         removeProductFromComparisonGroup(comparisonGroupId, productId) {
-            return instance.delete(`/comparisons/remove/`, {
+            return instance.delete("/comparisons/remove/", {
                 data: {
                     comparison_group_id: comparisonGroupId,
                     product_id: productId,
@@ -34,7 +34,7 @@ export default function (instance) {
             });
         },
         comparedProducts(comparisonGroupId) {
-            return instance.get(`comparisons/list/`, {params: {comparison_group_id: comparisonGroupId}});
+            return instance.get("comparisons/list/", {params: {comparison_group_id: comparisonGroupId}});
         },
     };
 }

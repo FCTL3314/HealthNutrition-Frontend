@@ -10,7 +10,7 @@ import CollectionFill from "@/components/icons/CollectionFill.vue";
 import DoorOpenIcon from "@/components/icons/DoorOpenIcon.vue";
 import {useRoute} from "vue-router";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
-import SecurityWarningBlock from "@/components/settings/SecurityWarningBlock.vue";
+import SecurityWarningsBlock from "@/components/settings/SecurityWarningsBlock.vue";
 
 
 const route = useRoute();
@@ -82,7 +82,7 @@ const isSettingsTabActive = (settingTab) => route.name === settingTab.routeName;
       </component-wrapper>
     </div>
     <div class="col-xxl-9 col-xl-8 col-lg-8">
-      <security-warning-block class="mb-3"/>
+      <security-warnings-block class="mb-3"/>
       <component-wrapper>
         <div class="justify-content-center">
           <router-view/>
