@@ -20,7 +20,7 @@ const hasMoreComparisonGroups = ref(false);
 async function loadComparisonGroups(page = 1) {
   isComparisonGroupsLoading.value = true;
   try {
-    const data = (await api.comparisons.comparisonGroups(page)).data;
+    const data = (await api.comparisons.comparisonGroups(page, null, true)).data;
     hasMoreComparisonGroups.value = data.next !== null;
     return data;
   } catch (error) {
@@ -49,17 +49,16 @@ onMounted(async () => {
       <comparison-group-card
           v-for="comparisonGroup in comparisonGroups"
           :key="comparisonGroup.id"
-          class="comparison-card"
+          class="col-xxl-6 col-lg-12 col-md-12 mb-3"
           :comparison-group="comparisonGroup"
       />
       <comparison-group-card-placeholder
           v-if="isComparisonGroupsLoading"
           v-for="_ in COMPARISON_GROUPS_PAGINATE_BY"
           :key="_"
-          class="comparison-card"
+          class="col-xxl-6 col-lg-12 col-md-12 mb-3"
       />
       <wrapped-show-more-button
-          class="mt-3"
           v-show="hasMoreComparisonGroups && !isComparisonGroupsLoading"
           @show-more-button-click="updateComparisonGroups"
       />
@@ -74,8 +73,4 @@ onMounted(async () => {
 
 <style scoped lang="sass">
 @import "@/assets/sass/main"
-
-
-.comparison-card:not(:nth-last-child(-n + 2))
-  margin-bottom: 1rem
 </style>

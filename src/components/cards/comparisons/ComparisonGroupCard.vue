@@ -31,22 +31,24 @@ async function deleteComparisonGroup() {
   }
 }
 
-const comparisonGroupRoute = computed(() => {
-  return {name: "comparisonGroups"};
-})
-
+const productsComparisonRoute = computed(() => {
+  return {name: "productsComparison", params: {comparisonGroupSlug: props.comparisonGroup.slug}};
+});
 </script>
 
 <template>
   <div v-if="!isComparisonGroupDeleted">
     <component-wrapper class="card common-rounding">
       <div class="card-body inline-icon-text">
-        <div class="text-truncate">
-          <router-link class="fw-bold text-decoration-none" :to="comparisonGroupRoute">
+        <div class="text-break">
+          <router-link
+              class="fw-bold text-decoration-none d-flex align-items-end"
+              :to="productsComparisonRoute"
+          >
             <h5 class="card-title text-main mb-0">
-              <span>{{ comparisonGroup.name }}&nbsp;</span>
-              <span class="fs-6 text-secondary">Created {{ humanizedCreatedAt }}</span>
+              {{ comparisonGroup.name }} ({{ comparisonGroup.products_count || 0 }})&nbsp;
             </h5>
+            <span class="fs-6 text-secondary">Created {{ humanizedCreatedAt }}</span>
           </router-link>
         </div>
         <div class="ms-auto d-flex justify-content-center align-items-center">

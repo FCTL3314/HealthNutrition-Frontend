@@ -11,6 +11,7 @@ export const ALLOWED_IMAGE_EXTENSIONS = [
     "image/webp",
     "image/heic",
 ];
+export const CARD_IMAGE_HEIGHT = 240;
 export const COMMENTS_ALLOWED_CONTENT_TYPES = ["product", "store"];
 export const PRODUCT_NUTRITION_ROUNDING = 2;
 export const PRODUCT_HEALTHFULNESS_REFERENCE = 250;

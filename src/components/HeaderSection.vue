@@ -127,7 +127,8 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
                        dropdown-menu-md-end
                        dropdown-menu-sm-start
                        common-rounding
-                       overflow-hidden"
+                       overflow-hidden
+                       common-padding"
             >
               <li>
                 <p class="text-center m-0">Menubar</p>
@@ -227,7 +228,7 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
 .logo:hover
   color: $color-main-lighter !important
 
-.logo:hover img
+.logo:hover .logo-img
   transform: scale(1.05)
 
 .nav-underline .nav-link.active
@@ -266,7 +267,6 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
 
 .dropdown-username
   font-weight: 500
-
 
 @media (width < map-get($grid-breakpoints, xl))
   ul.nav:not(:last-child)

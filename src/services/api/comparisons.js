@@ -1,9 +1,15 @@
 export default function (instance) {
     return {
-        comparisonGroups(page, selectedProduct = null) {
-            const params = {page: page}
+        comparisonGroup(slug) {
+            return instance.get(`comparisons/groups/${slug}/`);
+        },
+        comparisonGroups(page, selectedProduct = null, withProductsCount = false) {
+            const params = {
+                page: page,
+                with_products_count: withProductsCount,
+            }
             if (selectedProduct) {
-                params.selected_product = selectedProduct
+                params.selected_product = selectedProduct;
             }
             return instance.get("comparisons/groups/", {params: params});
         },
@@ -26,6 +32,9 @@ export default function (instance) {
                     product_id: productId,
                 },
             });
+        },
+        comparedProducts(comparisonGroupId) {
+            return instance.get(`comparisons/list/`, {params: {comparison_group_id: comparisonGroupId}});
         },
     };
 }

@@ -31,6 +31,8 @@ const isNoProducts = computed(() => !isDataLoading.value & !products.value.lengt
 const currentPage = ref(parseInt(route.query.page || 1));
 const totalPages = ref(0);
 
+const onProductSaveClick = (productId) => selectedProductId.value = productId;
+
 async function loadCategory() {
   isCategoryLoading.value = true;
   try {
@@ -43,7 +45,7 @@ async function loadCategory() {
 }
 
 async function updateCategory() {
-  category.value = await loadCategory()
+  category.value = await loadCategory();
 }
 
 async function loadProducts(searchQuery = null) {
@@ -108,7 +110,7 @@ onMounted(async () => {
         <product-card
             :product="product"
             :category="category"
-            @save-button-click="(productId) => selectedProductId = productId"
+            @save-button-click="onProductSaveClick"
         />
       </div>
       <div

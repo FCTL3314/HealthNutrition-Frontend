@@ -58,7 +58,13 @@ onMounted(async () => {
   />
   <wrapped-loading-spinner :is-loading="!product">
     <component-wrapper class="component-indentation-y text-center">
-      <h1 class="text-main product-name">{{ product.name }}</h1>
+      <h1 class="text-main product-name">
+        {{ product.category.name }} - {{ product.name }}
+      </h1>
+      <p class="fs-5 mb-0">{{ product.short_description }}</p>
+    </component-wrapper>
+    <component-wrapper class="component-indentation-y text-center">
+      <h2 class="text-main">Nutritional value</h2>
       <ul class="list-group list-group-flush">
         <li class="list-group-item">
             <span class="fs-5">
@@ -84,17 +90,7 @@ onMounted(async () => {
               <span>{{ product.nutrition.carbs }} g.</span>
             </span>
         </li>
-        <li class="list-group-item">
-            <span class="fs-5">
-              <span class="fw-semibold text-main-light">Category: </span>
-              <span>{{ product.category.name }}</span>
-            </span>
-        </li>
       </ul>
-    </component-wrapper>
-    <component-wrapper class="component-indentation-y text-center">
-      <h2 class="text-main">Description</h2>
-      <p class="fs-5 mb-0">{{ product.short_description }}</p>
     </component-wrapper>
     <comments-form
         class="mb-3"

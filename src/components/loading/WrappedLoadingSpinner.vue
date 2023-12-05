@@ -30,6 +30,7 @@ defineProps({
 </template>
 
 <style scoped lang="sass">
+@import "@/assets/sass/main"
 @import "@/assets/sass/variables"
 
 
