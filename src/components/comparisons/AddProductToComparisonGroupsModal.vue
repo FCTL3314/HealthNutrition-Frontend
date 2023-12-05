@@ -51,7 +51,9 @@ async function updateComparisonGroups(page = 1) {
 const addComparisonGroup = (comparisonGroup) => comparisonGroups.value.unshift(comparisonGroup);
 
 onMounted(async () => {
-  await updateComparisonGroups();
+  if (props.productId >= 0) {
+    await updateComparisonGroups();
+  }
 });
 </script>
 
