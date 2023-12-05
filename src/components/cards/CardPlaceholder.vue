@@ -1,5 +1,6 @@
 <script setup>
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
+import {CARD_IMAGE_HEIGHT} from "@/constants";
 </script>
 
 <template>
@@ -7,7 +8,7 @@ import ComponentWrapper from "@/components/ComponentWrapper.vue";
     <svg
         class="bd-placeholder-img card-img-scale"
         width="100%"
-        height="260"
+        :height="CARD_IMAGE_HEIGHT"
         xmlns="http://www.w3.org/2000/svg"
         role="img"
         aria-label="Placeholder"

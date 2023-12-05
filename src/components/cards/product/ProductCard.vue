@@ -1,6 +1,6 @@
 <script setup>
 import {computed} from "vue";
-import {PRODUCT_HEALTHFULNESS_REFERENCE, PRODUCT_NUTRITION_ROUNDING} from "@/constants";
+import {CARD_IMAGE_HEIGHT, PRODUCT_HEALTHFULNESS_REFERENCE, PRODUCT_NUTRITION_ROUNDING} from "@/constants";
 import CircleFillIcon from "@/components/icons/CircleFillIcon.vue";
 import {useStore} from "vuex";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
@@ -101,7 +101,8 @@ const productRoute = computed(() => {
       <div class="card-img-scale">
         <img
             :src="product.image"
-            class="card-img-top"
+            :height="CARD_IMAGE_HEIGHT"
+            class="card-img-top object-fit-cover"
             alt="product-image"
         >
       </div>
