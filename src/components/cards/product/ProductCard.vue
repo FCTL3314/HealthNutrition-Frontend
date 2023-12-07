@@ -5,6 +5,7 @@ import CircleFillIcon from "@/components/icons/CircleFillIcon.vue";
 import {useStore} from "vuex";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
 import PlusIcon from "@/components/icons/PlusIcon.vue";
+import MinusIcon from "@/components/icons/MinusIcon.vue";
 
 
 const props = defineProps({
@@ -12,14 +13,31 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  category: {
-    type: Object,
+  caloriesAvg: {
+    type: Number,
+  },
+  proteinAvg: {
+    type: Number,
+  },
+  fatAvg: {
+    type: Number,
+  },
+  carbsAvg: {
+    type: Number,
+  },
+  categorySlug: {
+    type: String,
     required: true,
+  },
+  isComparisonProduct: {
+    type: Boolean,
+    default: false,
   }
 });
 
-const emits = defineEmits(["saveButtonClick"])
+const emits = defineEmits(["saveButtonClick", "removeButtonClick"])
 const onSaveButtonClick = () => emits("saveButtonClick", props.product.id);
+const onRemoveButtonClick = () => emits("removeButtonClick", props.product.id);
 
 const store = useStore();
 
@@ -27,7 +45,7 @@ const healthfulnessPercents = computed(() => {
   return Math.round((props.product.healthfulness / PRODUCT_HEALTHFULNESS_REFERENCE) * 100);
 })
 
-const createNutritionItem = (name, colorClass, units, value, maxValue, avgValue, minValue, isMoreBetter) => {
+const createNutritionItem = (name, colorClass, units, value, avgValue, isMoreBetter) => {
   const difference = parseFloat((value - avgValue).toFixed(PRODUCT_NUTRITION_ROUNDING));
   const isDifferencePositive = difference >= 0;
   const normalizedDifference = Math.abs(difference);
@@ -37,9 +55,7 @@ const createNutritionItem = (name, colorClass, units, value, maxValue, avgValue,
     colorClass,
     units,
     value,
-    maxValue,
     avgValue,
-    minValue,
     difference,
     normalizedDifference,
     isDifferencePositive,
@@ -53,9 +69,7 @@ const nutritionItems = [
       "text-warning",
       "kcal",
       props.product.nutrition.calories,
-      props.category.calories_max,
-      props.category.calories_avg,
-      props.category.calories_min,
+      props.caloriesAvg,
       store.getters["nutrition/isMoreCaloriesBetter"],
   ),
   createNutritionItem(
@@ -63,9 +77,7 @@ const nutritionItems = [
       "text-success",
       "g.",
       props.product.nutrition.protein,
-      props.category.protein_max,
-      props.category.protein_avg,
-      props.category.protein_min,
+      props.proteinAvg,
       store.getters["nutrition/isMoreProteinBetter"],
   ),
   createNutritionItem(
@@ -73,9 +85,7 @@ const nutritionItems = [
       "text-danger",
       "g.",
       props.product.nutrition.fat,
-      props.category.fat_max,
-      props.category.fat_avg,
-      props.category.fat_min,
+      props.fatAvg,
       store.getters["nutrition/isMoreFatBetter"],
   ),
   createNutritionItem(
@@ -83,15 +93,13 @@ const nutritionItems = [
       "text-primary",
       "g.",
       props.product.nutrition.carbs,
-      props.category.carbs_max,
-      props.category.carbs_avg,
-      props.category.carbs_min,
+      props.carbsAvg,
       store.getters["nutrition/isMoreCarbsBetter"],
   ),
 ];
 
 const productRoute = computed(() => {
-  return {name: "product", params: {categorySlug: props.category.slug, productSlug: props.product.slug}};
+  return {name: "product", params: {categorySlug: props.categorySlug, productSlug: props.product.slug}};
 });
 </script>
 
@@ -119,7 +127,9 @@ const productRoute = computed(() => {
       <li class="list-group-item fw-semibold  text-center">
         <span class="text-main-light">Healthfulness</span>
         <div class="progress">
-          <div class="progress-bar" :style="{width: `${healthfulnessPercents}%`}">{{ healthfulnessPercents }}%</div>
+          <div class="progress-bar" :style="{width: `${healthfulnessPercents}%`}">
+            {{ healthfulnessPercents }}%
+          </div>
         </div>
       </li>
       <li
@@ -140,12 +150,21 @@ const productRoute = computed(() => {
       </li>
       <li class="list-group-item text-center px-0 pb-0">
         <button
+            v-if="isComparisonProduct"
+            @click="onRemoveButtonClick"
+            class="btn btn-outline-danger inline-icon-text justify-content-center common-rounding w-100 m-0"
+        >
+          <minus-icon class="me-1" :width="24" :height="24"/>
+          Remove
+        </button>
+        <button
+            v-else
             @click="onSaveButtonClick"
             class="btn btn-outline-primary inline-icon-text justify-content-center common-rounding w-100 m-0"
             data-bs-toggle="modal"
             data-bs-target="#saveProductModal"
         >
-          <plus-icon :width="24" :height="24"/>
+          <plus-icon class="me-1" :width="24" :height="24"/>
           Save
         </button>
       </li>

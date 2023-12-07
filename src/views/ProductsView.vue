@@ -109,7 +109,11 @@ onMounted(async () => {
       >
         <product-card
             :product="product"
-            :category="category"
+            :category-slug="category.slug"
+            :calories-avg="category.calories_avg"
+            :protein-avg="category.protein_avg"
+            :fat-avg="category.fat_avg"
+            :carbs-avg="category.carbs_avg"
             @save-button-click="onProductSaveClick"
         />
       </div>
