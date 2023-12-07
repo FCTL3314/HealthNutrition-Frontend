@@ -45,8 +45,8 @@ function onGoBackClick() {
 </script>
 
 <template>
-  <component-wrapper>
-    <div class="text-center min-vh-100">
+  <component-wrapper class="text-center min-vh-100 d-flex justify-content-center">
+    <div class="w-75">
       <div v-if="showEmoji" class="error-emoji mb-3">{{ getRandomEmoji() }}</div>
       <h1 class="text-main">{{ title }}</h1>
       <p class="mb-3 fw-semibold fs-4">{{ description }}</p>
