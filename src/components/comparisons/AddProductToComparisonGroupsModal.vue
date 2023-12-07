@@ -7,6 +7,7 @@ import LoadingSpinner from "@/components/loading/LoadingSpinner.vue";
 import PlusIcon from "@/components/icons/PlusIcon.vue";
 import CreateComparisonGroupForm from "@/components/comparisons/CreateComparisonGroupForm.vue";
 import AddProductToComparisonGroupCheckbox from "@/components/comparisons/AddProductToComparisonGroupCheckbox.vue";
+import {COMPARISON_GROUPS_PAGINATE_BY} from "@/constants";
 
 
 const props = defineProps({
@@ -31,10 +32,12 @@ const isAddGroupFormShown = ref(false);
 
 const showAddGroup = () => isAddGroupFormShown.value = true;
 
-async function loadComparisonGroups(page = 1) {
+async function loadComparisonGroups(offset = 0) {
   isComparisonGroupsLoading.value = true;
   try {
-    const data = (await api.comparisons.comparisonGroups(page, props.productId)).data;
+    const data = (
+        await api.comparisons.comparisonGroups(COMPARISON_GROUPS_PAGINATE_BY, offset, props.productId)
+    ).data;
     hasMoreComparisonGroups.value = data.next !== null;
     return data;
   } catch (error) {
@@ -44,8 +47,8 @@ async function loadComparisonGroups(page = 1) {
   }
 }
 
-async function updateComparisonGroups(page = 1) {
-  comparisonGroups.value.push(...(await loadComparisonGroups(page)).results);
+async function updateComparisonGroups(offset = 0) {
+  comparisonGroups.value.push(...(await loadComparisonGroups(offset)).results);
 }
 
 const addComparisonGroup = (comparisonGroup) => comparisonGroups.value.unshift(comparisonGroup);
@@ -91,6 +94,8 @@ onMounted(async () => {
           <show-more-button
               class="mt-3"
               v-show="hasMoreComparisonGroups && !isComparisonGroupsLoading"
+              pagination-type="limitOffset"
+              :offset-increase="COMPARISON_GROUPS_PAGINATE_BY"
               :key="productId"
               @show-more-button-click="updateComparisonGroups"
           />

@@ -4,7 +4,7 @@ import ComponentWrapper from "@/components/ComponentWrapper.vue";
 
 <template>
   <div>
-    <component-wrapper class="card common-rounding">
+    <component-wrapper class="card">
       <div class="card-body d-flex align-items-center">
         <div class="card-title placeholder-glow mb-0 w-100">
           <span class="placeholder placeholder-lg col-5 bg-primary"></span>

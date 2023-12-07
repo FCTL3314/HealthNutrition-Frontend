@@ -48,7 +48,7 @@ const router = createRouter({
         {
             name: "productsComparison",
             path: "/comparison-groups/:comparisonGroupSlug/",
-            component: () => import("@/views/ProductsComparisonView.vue"),
+            component: () => import("@/views/ComparisonGroupDetailsView.vue"),
             meta: {
                 title: "Products comparison",
                 authenticatedOnly: true,

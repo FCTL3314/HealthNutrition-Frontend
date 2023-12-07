@@ -1,11 +1,16 @@
 export default function (instance) {
     return {
-        comparisonGroup(slug) {
-            return instance.get(`comparisons/groups/${slug}/`);
+        comparisonGroup(slug, withProductsCount = false) {
+            return instance.get(`comparisons/groups/${slug}/`, {
+                params: {
+                    with_products_count: withProductsCount,
+                }
+            });
         },
-        comparisonGroups(page, selectedProduct = null, withProductsCount = false) {
+        comparisonGroups(limit, offset, selectedProduct = null, withProductsCount = false) {
             const params = {
-                page: page,
+                limit,
+                offset,
                 with_products_count: withProductsCount,
             };
             if (selectedProduct) {
@@ -16,8 +21,8 @@ export default function (instance) {
         createComparisonGroup(name) {
             return instance.post("comparisons/groups/", {name: name});
         },
-        deleteComparisonGroup(id) {
-            return instance.delete(`comparisons/groups/${id}/`);
+        deleteComparisonGroup(slug) {
+            return instance.delete(`comparisons/groups/${slug}/`);
         },
         addProductToComparisonGroup(comparisonGroupId, productId) {
             return instance.post("/comparisons/add/", {
@@ -33,8 +38,14 @@ export default function (instance) {
                 },
             });
         },
-        comparedProducts(comparisonGroupId) {
-            return instance.get("comparisons/list/", {params: {comparison_group_id: comparisonGroupId}});
+        comparedProducts(limit, offset, comparisonGroupId) {
+            return instance.get("comparisons/list/", {
+                params: {
+                    limit,
+                    offset,
+                    comparison_group_id: comparisonGroupId
+                }
+            });
         },
     };
 }

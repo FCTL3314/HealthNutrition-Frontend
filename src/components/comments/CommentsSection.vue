@@ -8,7 +8,7 @@ import {isContentTypeAllowed} from "@/validators";
 import NoCommentsSection from "@/components/comments/NoCommentsSection.vue";
 import {COMMENTS_PAGINATE_BY} from "@/constants";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
-import WrappedShowMoreButton from "@/components/WrappedShowMoreButton.vue";
+import ShowMoreButton from "@/components/ShowMoreButton.vue";
 
 
 const props = defineProps({
@@ -89,10 +89,13 @@ onMounted(async () => {
       <no-comments-section v-else-if="comments.length === 0"/>
     </div>
   </component-wrapper>
-  <wrapped-show-more-button
-      v-show="hasMoreComments && !isCommentsLoading"
-      @show-more-button-click="loadComments"
-  />
+  <component-wrapper :padding="0">
+    <show-more-button
+        v-show="hasMoreComments && !isCommentsLoading"
+        pagination-type="pageNumber"
+        @show-more-button-click="loadComments"
+    />
+  </component-wrapper>
 </template>
 
 <style scoped lang="sass">

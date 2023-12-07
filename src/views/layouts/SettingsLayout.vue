@@ -45,8 +45,8 @@ const isSettingsTabActive = (settingTab) => route.name === settingTab.routeName;
 </script>
 
 <template>
-  <div class="row component-indentation-y min-vh-100 justify-content-center">
-    <div class="settings-tabs col-xxl-3 col-xl-4 col-lg-4">
+  <div class="row component-indentation-y justify-content-center">
+    <div class="col-xxl-3 col-xl-4 col-lg-4 mb-3 mb-lg-0 mb-xl-0 mb-xxl-0">
       <component-wrapper>
         <div class="text-center mb-3">
           <img
@@ -103,9 +103,4 @@ const isSettingsTabActive = (settingTab) => route.name === settingTab.routeName;
 .list-group-item-primary:focus
   color: $primary-text-emphasis !important
   background-color: $primary-bg-subtle !important
-
-@media (width < map-get($grid-breakpoints, lg))
-  .settings-tabs
-    margin-bottom: $between-comments-indentation
-
 </style>

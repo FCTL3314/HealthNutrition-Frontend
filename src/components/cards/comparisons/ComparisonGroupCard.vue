@@ -1,6 +1,6 @@
 <script setup>
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
-import {computed, ref} from "vue";
+import {computed} from "vue";
 import TrashIcon from "@/components/icons/TrashIcon.vue";
 import api from "@/services/api";
 import moment from "moment/moment";
@@ -12,24 +12,14 @@ const props = defineProps({
   }
 })
 
-const emits = defineEmits(["comparisonGroupDeleted"])
+const emits = defineEmits(["deleteClick"])
+
+const onDeleteButtonClick = async () => {
+  emits("deleteClick", props.comparisonGroup);
+  await api.comparisons.deleteComparisonGroup(props.comparisonGroup.slug);
+}
 
 const humanizedCreatedAt = computed(() => moment(props.comparisonGroup.created_at).fromNow())
-
-const isComparisonGroupDeleting = ref(false);
-const isComparisonGroupDeleted = ref(false);
-
-async function deleteComparisonGroup() {
-  isComparisonGroupDeleting.value = true;
-  try {
-    await api.comparisons.deleteComparisonGroup(props.comparisonGroup.id);
-    isComparisonGroupDeleted.value = true;
-    emits("comparisonGroupDeleted", props.comparisonGroup.id)
-  } catch (error) {
-    isComparisonGroupDeleting.value = false;
-    console.error(error);
-  }
-}
 
 const productsComparisonRoute = computed(() => {
   return {name: "productsComparison", params: {comparisonGroupSlug: props.comparisonGroup.slug}};
@@ -37,7 +27,7 @@ const productsComparisonRoute = computed(() => {
 </script>
 
 <template>
-  <div v-if="!isComparisonGroupDeleted">
+  <div>
     <component-wrapper class="card common-rounding">
       <div class="card-body inline-icon-text">
         <div class="text-break">
@@ -52,13 +42,7 @@ const productsComparisonRoute = computed(() => {
           </router-link>
         </div>
         <div class="ms-auto d-flex justify-content-center align-items-center">
-          <div
-              v-if="isComparisonGroupDeleting"
-              class="text-main-light spinner-border"
-              role="status"
-          >
-          </div>
-          <button v-else class="btn btn-trash" @click="deleteComparisonGroup()">
+          <button class="btn btn-trash" @click="onDeleteButtonClick">
             <trash-icon :width="20" :height="20"/>
           </button>
         </div>
@@ -74,13 +58,4 @@ const productsComparisonRoute = computed(() => {
 
 .card:hover
   transform: scale(1.01)
-
-.btn
-  &-trash
-    border-radius: $component-rounding !important
-    background-color: transparent !important
-    border: none !important
-
-  &-trash:hover
-    color: $danger !important
 </style>

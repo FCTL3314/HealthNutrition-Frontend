@@ -15,18 +15,18 @@ defineProps({
 </script>
 
 <template>
-  <component-wrapper
-      v-if="isLoading"
-      class="loading component-indentation-y"
-      :class="colorClass"
-  >
-    <loading-spinner
-        :color-class="colorClass"
-        text="Loading, please wait..."
-        :size="32"
-    />
-  </component-wrapper>
-  <slot v-else></slot>
+  <template v-if="isLoading">
+    <component-wrapper class="loading component-indentation-y" :class="colorClass">
+      <loading-spinner
+          :color-class="colorClass"
+          text="Loading, please wait..."
+          :size="32"
+      />
+    </component-wrapper>
+  </template>
+  <template v-else>
+    <slot></slot>
+  </template>
 </template>
 
 <style scoped lang="sass">

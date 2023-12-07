@@ -18,6 +18,33 @@ const productNotFound = ref(false);
 const comments = reactive([]);
 const commentsCount = ref(0);
 
+const nutritionValues = reactive([]);
+
+function pushNutritionValues() {
+  nutritionValues.push(
+      {
+        title: "Calories: ",
+        value: product.value.nutrition.calories,
+        units: "kcal",
+      },
+      {
+        title: "Protein: ",
+        value: product.value.nutrition.protein,
+        units: "g.",
+      },
+      {
+        title: "Fat: ",
+        value: product.value.nutrition.fat,
+        units: "g.",
+      },
+      {
+        title: "Carbs: ",
+        value: product.value.nutrition.carbs,
+        units: "g.",
+      },
+  )
+}
+
 async function loadProduct() {
   try {
     return (await api.products.product(route.params.productSlug)).data;
@@ -47,6 +74,7 @@ onMounted(async () => {
   await updateProduct()
       .then(async () => {
         document.title = createTitle(product.value.name);
+        pushNutritionValues();
       });
 })
 </script>
@@ -66,28 +94,14 @@ onMounted(async () => {
     <component-wrapper class="component-indentation-y text-center">
       <h2 class="text-main">Nutritional value</h2>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item">
+        <li
+            v-for="(nutritionValue, index) in nutritionValues"
+            :key="index"
+            class="list-group-item"
+        >
             <span class="fs-5">
-              <span class="fw-semibold text-main-light">Calories: </span>
-              <span>{{ product.nutrition.calories }} kcal</span>
-            </span>
-        </li>
-        <li class="list-group-item">
-            <span class="fs-5">
-              <span class="fw-semibold text-main-light">Protein: </span>
-              <span>{{ product.nutrition.protein }} g.</span>
-            </span>
-        </li>
-        <li class="list-group-item">
-            <span class="fs-5">
-              <span class="fw-semibold text-main-light">Fat: </span>
-              <span>{{ product.nutrition.fat }} g.</span>
-            </span>
-        </li>
-        <li class="list-group-item">
-            <span class="fs-5">
-              <span class="fw-semibold text-main-light">Carbs: </span>
-              <span>{{ product.nutrition.carbs }} g.</span>
+              <span class="fw-semibold">{{ nutritionValue.title }}</span>
+              <span class="text-main-light">{{ nutritionValue.value }} {{ nutritionValue.units }}</span>
             </span>
         </li>
       </ul>

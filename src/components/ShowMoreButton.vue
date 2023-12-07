@@ -1,22 +1,55 @@
 <script setup>
 import CaretDownIcon from "@/components/icons/CaretDownIcon.vue";
+import {onMounted} from "vue";
 
 
-defineProps({
+const pageNumberPaginationType = "pageNumber";
+const limitOffsetPaginationType = "limitOffset";
+
+const props = defineProps({
   buttonClasses: {
     type: String,
     default: "list-group-item list-group-item-action text-primary common-rounding fw-semibold border-0",
   },
+  paginationType: {
+    type: String,
+    default: pageNumberPaginationType,
+    validator(value) {
+      return [pageNumberPaginationType, limitOffsetPaginationType].includes(value);
+    }
+  },
+  offsetIncrease: {
+    type: Number,
+  }
 })
 
 const emits = defineEmits(["showMoreButtonClick"]);
 
-let currentPage = 1;
+const paginationTypeToPaginationStartIndexMap = {};
+paginationTypeToPaginationStartIndexMap[pageNumberPaginationType] = 1;
+paginationTypeToPaginationStartIndexMap[limitOffsetPaginationType] = 0;
+
+let paginationStartIndex = paginationTypeToPaginationStartIndexMap[props.paginationType];
 
 function onShowMoreButtonClick() {
-  currentPage++;
-  emits("showMoreButtonClick", currentPage);
+  switch (props.paginationType) {
+    case pageNumberPaginationType:
+      paginationStartIndex++;
+      break;
+    case limitOffsetPaginationType:
+      paginationStartIndex += props.offsetIncrease;
+      break;
+  }
+  emits("showMoreButtonClick", paginationStartIndex);
 }
+
+onMounted(() => {
+  if (props.paginationType === limitOffsetPaginationType && !props.offsetIncrease) {
+    console.error(
+        `Property 'offsetIncrease' is required when paginationType is set to ${limitOffsetPaginationType}.`
+    );
+  }
+})
 </script>
 
 <template>
