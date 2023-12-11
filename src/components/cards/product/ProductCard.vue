@@ -6,6 +6,7 @@ import {useStore} from "vuex";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
 import PlusIcon from "@/components/icons/PlusIcon.vue";
 import MinusIcon from "@/components/icons/MinusIcon.vue";
+import TheTag from "@/components/TheTag.vue";
 
 
 const props = defineProps({
@@ -32,6 +33,9 @@ const props = defineProps({
   isComparisonProduct: {
     type: Boolean,
     default: false,
+  },
+  tags: {
+    type: Object,
   }
 });
 
@@ -123,6 +127,15 @@ const productRoute = computed(() => {
       </h5>
       <p class="card-text">{{ product.short_description }}</p>
     </div>
+    <div v-if="tags" class="tags px-3">
+      <the-tag
+          v-for="(tag, index) in tags"
+          :key="index"
+          :text="tag.text"
+          :bg-color-class="tag.color"
+          class="mb-1 me-1"
+      />
+    </div>
     <ul class="list-group list-group-flush">
       <li class="list-group-item fw-semibold  text-center">
         <span class="text-main-light">Healthfulness</span>
@@ -175,4 +188,9 @@ const productRoute = computed(() => {
 <style lang="sass" scoped>
 @import '@/assets/sass/main'
 @import '@/assets/sass/cards'
+
+
+.tags
+  display: flex
+  flex-wrap: wrap
 </style>
