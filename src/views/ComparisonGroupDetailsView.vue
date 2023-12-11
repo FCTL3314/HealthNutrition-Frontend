@@ -7,10 +7,11 @@ import WrappedLoadingSpinner from "@/components/loading/WrappedLoadingSpinner.vu
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
 import {PRODUCT_NUTRITION_ROUNDING, PRODUCTS_PAGINATE_BY} from "@/constants";
 import moment from "moment";
-import NotFoundSection from "@/components/NotFoundSection.vue";
+import ErrorSection from "@/components/ErrorSection.vue";
 import ShowMoreButton from "@/components/ShowMoreButton.vue";
 import ProductCard from "@/components/cards/product/ProductCard.vue";
 import ProductCardPlaceholder from "@/components/cards/product/ProductCardPlaceholder.vue";
+import ComparisonGroupGreeting from "@/components/greetings/ComparisonGroupGreeting.vue";
 
 
 const route = useRoute();
@@ -119,6 +120,29 @@ async function pushStatistics() {
   )
 }
 
+function getTags(productSlug) {
+  const tagData = {
+    max_calorie_product_slug: {text: "Max calorie", color: "bg-warning"},
+    min_calorie_product_slug: {text: "Min calorie", color: "bg-warning"},
+    max_protein_product_slug: {text: "Max protein", color: "bg-success"},
+    min_protein_product_slug: {text: "Min protein", color: "bg-success"},
+    max_fat_product_slug: {text: "Max fat", color: "bg-danger"},
+    min_fat_product_slug: {text: "Min fat", color: "bg-danger"},
+    max_carbs_product_slug: {text: "Max carbs", color: "bg-primary"},
+    min_carbs_product_slug: {text: "Min carbs", color: "bg-primary"},
+  };
+
+  const tags = [];
+
+  for (const key in tagData) {
+    if (productSlug === comparisonGroup.value[key]) {
+      tags.push(tagData[key]);
+    }
+  }
+
+  return tags;
+}
+
 onMounted(async () => {
   await updateComparisonGroup()
       .then(async () => {
@@ -136,11 +160,9 @@ onMounted(async () => {
 
 <template>
   <wrapped-loading-spinner :is-loading="!comparisonGroup">
-    <component-wrapper class="text-center">
-      <h1 class="text-main mb-0">{{ comparisonGroup.name }}</h1>
-    </component-wrapper>
+    <comparison-group-greeting class="component-indentation-y" :comparison-group-name="comparisonGroup.name"/>
     <template v-if="!isNoProducts">
-      <div class="row component-indentation-y text-center">
+      <div class="row text-center component-indentation-bottom">
         <div class="col-xl-6 mb-3 mb-xl-0 mb-xxl-0">
           <component-wrapper>
             <h1 class="text-main">Averages</h1>
@@ -172,11 +194,11 @@ onMounted(async () => {
           </component-wrapper>
         </div>
       </div>
-      <div class="row component-indentation-y">
+      <div class="row">
         <div
             v-for="product in products"
             :key="product.id"
-            class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12 mb-3"
+            class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12 mb-3 position-relative"
         >
           <product-card
               :product="product"
@@ -186,6 +208,7 @@ onMounted(async () => {
               :fat-avg="comparisonGroup.fat_avg"
               :carbs-avg="comparisonGroup.carbs_avg"
               :is-comparison-product="true"
+              :tags="getTags(product.slug)"
               @remove-button-click="removeProduct"
           />
         </div>
@@ -206,7 +229,7 @@ onMounted(async () => {
         </component-wrapper>
       </div>
     </template>
-    <not-found-section
+    <error-section
         v-else
         description="Apparently you haven't added products to this comparison group yet,
                      so we don't have details for it."
