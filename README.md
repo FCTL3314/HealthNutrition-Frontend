@@ -1,8 +1,16 @@
-# 📖 Table of contents
+<div align="center">
+  <img width="148" height="148" src="https://github.com/FCTL3314/HealthNutrition-Backend/assets/97694131/8025cf3d-612d-4a30-bd69-e8bfcc5d5b2b"/>
+  <h1>Health Nutrition</h1>
+  <p>Vue.js based frontend app for the Health Nutrition backend.</p>
+  
+  [![Node.js](https://img.shields.io/badge/Node.js-18.18.0-3E863D?style=flat-square)](https://nodejs.org/en)
+  [![Vue.js](https://img.shields.io/badge/Vue.js-3.3.4-3FB984?style=flat-square)](https://vuejs.org/)
+  [![Linter](https://img.shields.io/badge/ESLint-8.50.0-453ABC?style=flat-square)](https://eslint.org/)
 
-[![Node.js](https://img.shields.io/badge/Node.js-18.18.0-3E863D?style=flat-square)](https://nodejs.org/en)
-[![Vue.js](https://img.shields.io/badge/Vue.js-3.3.4-3FB984?style=flat-square)](https://vuejs.org/)
-[![Linter](https://img.shields.io/badge/ESLint-8.50.0-453ABC?style=flat-square)](https://eslint.org/)
+  <img src="https://github.com/FCTL3314/HealthNutrition-Frontend/assets/97694131/748ea2d3-2cc8-41a3-af5a-855787450024" style="width: 80%;"/>
+</div>
+
+# 📖 Table of contents
 
 <ul>
   <li>
