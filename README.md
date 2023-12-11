@@ -7,7 +7,7 @@
   [![Vue.js](https://img.shields.io/badge/Vue.js-3.3.4-3FB984?style=flat-square)](https://vuejs.org/)
   [![Linter](https://img.shields.io/badge/ESLint-8.50.0-453ABC?style=flat-square)](https://eslint.org/)
 
-  <img src="https://github.com/FCTL3314/HealthNutrition-Frontend/assets/97694131/748ea2d3-2cc8-41a3-af5a-855787450024" style="width: 80%;"/>
+  <img src="https://github.com/FCTL3314/HealthNutrition-Frontend/assets/97694131/748ea2d3-2cc8-41a3-af5a-855787450024"/>
 </div>
 
 # 📖 Table of contents
