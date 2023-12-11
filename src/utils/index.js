@@ -12,13 +12,6 @@ export function scrollToTop(behavior = "smooth") {
     });
 }
 
-export function scrollToElement(element, behavior = "smooth") {
-    window.scrollTo({
-        top: element.offsetTop,
-        behavior: behavior,
-    });
-}
-
 export function scrollToBottom(element, behavior = "smooth") {
     window.scrollTo({
         top: document.body.scrollHeight,

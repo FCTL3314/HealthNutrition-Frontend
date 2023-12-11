@@ -31,5 +31,8 @@ export default function (instance) {
         resetPasswordConfirm(payload) {
             return instance.post("users/reset_password_confirm/", payload);
         },
+        setPassword(payload) {
+          return instance.post("users/set_password/", payload);
+        },
     };
 }

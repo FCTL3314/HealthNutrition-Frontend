@@ -137,7 +137,7 @@ const router = createRouter({
                         {
                             name: "passwordSettingsTab",
                             path: "password/",
-                            component: () => import("@/components/settings/EmailTab.vue"),
+                            component: () => import("@/components/settings/PasswordTab.vue"),
                             meta: {
                                 title: "Password Settings",
                                 redirectTo: false,

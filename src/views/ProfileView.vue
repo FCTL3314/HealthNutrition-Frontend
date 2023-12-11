@@ -148,5 +148,5 @@ onBeforeRouteUpdate(async (to, from, next) => {
 
 
 .list-group-item:not(:nth-last-child(-n + 1))
-  margin-bottom: 1rem
+  margin-bottom: 1.5rem
 </style>

@@ -14,7 +14,7 @@ defineProps({
 <template>
   <div
       v-if="errorMessages.length"
-      class="alert"
+      class="alert common-rounding"
       :class="flushClass"
       role="alert"
   >
