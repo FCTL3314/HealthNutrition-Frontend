@@ -6,7 +6,7 @@ import {computed, reactive, ref} from "vue";
 import CaretUpFillIcon from "@/components/icons/CaretUpFillIcon.vue";
 import CommentsSection from "@/components/comments/CommentsSection.vue";
 import {isContentTypeAllowed} from "@/validators";
-import CommentsForm from "@/components/comments/CommentsForm.vue";
+import AddCommentForm from "@/components/comments/AddCommentForm.vue";
 
 
 const props = defineProps({
@@ -125,7 +125,7 @@ async function onReplyCreated(reply) {
       </div>
     </div>
     <div class="replies">
-      <comments-form
+      <add-comment-form
           v-if="isReplyFormShown"
           :object-id="objectId"
           :content-type="contentType"
@@ -204,4 +204,8 @@ async function onReplyCreated(reply) {
   color: $color-main-light
   font-weight: 500
   text-decoration: none
+
+@media (width < map-get($grid-breakpoints, md))
+  .replies
+    margin-left: 0
 </style>

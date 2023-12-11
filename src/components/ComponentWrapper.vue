@@ -19,13 +19,13 @@ const cssPadding = computed(() => {
 </script>
 
 <template>
-<div
-    class="component"
-    :class="{'shadow-sm': shadow}"
-    :style="cssPadding"
->
-  <slot></slot>
-</div>
+  <div
+      class="component"
+      :class="{'shadow-sm': shadow}"
+      :style="cssPadding"
+  >
+    <slot></slot>
+  </div>
 </template>
 
 <style scoped lang="sass">

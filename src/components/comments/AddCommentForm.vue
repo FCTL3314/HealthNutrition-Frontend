@@ -79,20 +79,23 @@ async function createComment(text) {
              width="40"
              height="40"
         >
-        <form @submit.prevent="onClickAddComment" class="w-100">
+        <form
+            @submit.prevent="onClickAddComment"
+            class="comment-form w-100"
+        >
           <div class="input-group">
             <input
                 v-model="commentText"
-                class="form-control only-bottom-border mx-3"
+                class="comment-input form-control only-bottom-border"
                 placeholder="Add a comment..."
                 maxlength="516"
                 type="text"
                 required
                 :disabled="!user"
             >
-            <div>
+            <div class="form-buttons">
               <button
-                  class="btn btn-outline-success common-rounding fw-semibold"
+                  class="btn btn-outline-success form-button common-rounding fw-semibold"
                   :class="{disabled: !user}"
                   type="submit"
                   id="comment-submit"
@@ -102,7 +105,7 @@ async function createComment(text) {
               <button
                   @click="onClickCancelButton"
                   v-if="isReplyForm"
-                  class="btn btn-outline-purple-black common-rounding ms-3 fw-semibold"
+                  class="btn btn-outline-purple-black form-button common-rounding ms-3 fw-semibold"
                   type="button"
               >
                 Cancel
@@ -125,5 +128,27 @@ async function createComment(text) {
 </template>
 
 <style scoped lang="sass">
+@import "@/assets/sass/main"
+@import "@/assets/sass/comments"
 
+
+.comment-input
+    margin-left: 1rem !important
+    margin-right: 1rem !important
+
+@media (width < map-get($grid-breakpoints, md))
+  .form-buttons
+    margin-left: auto !important
+    margin-top: .75rem !important
+
+  .form-button
+    font-size: .7em
+
+  .comment-input
+    width: 100% !important
+    margin-right: 0 !important
+
+  .comment-form
+    display: flex !important
+    flex-wrap: wrap !important
 </style>

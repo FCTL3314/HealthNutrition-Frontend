@@ -69,7 +69,7 @@ onMounted(async () => {
       aria-hidden="true"
   >
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable mx-auto">
-      <component-wrapper class="modal-content" :padding="0">
+      <component-wrapper class="modal-content">
         <div class="modal-header">
           <h1 class="text-main fs-5 mb-0" id="saveProductModalLabel">
             Save product to...

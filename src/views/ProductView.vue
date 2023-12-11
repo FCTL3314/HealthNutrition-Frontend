@@ -4,7 +4,7 @@ import api from "@/services/api";
 import {useRoute} from "vue-router";
 import CommentsSection from "@/components/comments/CommentsSection.vue";
 import {createTitle} from "@/utils";
-import CommentsForm from "@/components/comments/CommentsForm.vue";
+import AddCommentForm from "@/components/comments/AddCommentForm.vue";
 import WrappedLoadingSpinner from "@/components/loading/WrappedLoadingSpinner.vue";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
 import ErrorSection from "@/components/ErrorSection.vue";
@@ -106,7 +106,7 @@ onMounted(async () => {
         </li>
       </ul>
     </component-wrapper>
-    <comments-form
+    <add-comment-form
         class="mb-3"
         :object-id="product.id"
         :content-type="'product'"
