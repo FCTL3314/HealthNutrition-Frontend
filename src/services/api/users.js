@@ -12,6 +12,9 @@ export default function (instance) {
         me() {
             return instance.get("users/me/");
         },
+        specificUser(userSlug) {
+            return instance.get(`users/${userSlug}/`);
+        },
         update(payload) {
             return instance.patch("users/me/", payload, {
                 headers: {
@@ -22,8 +25,11 @@ export default function (instance) {
         changeEmail(payload) {
             return instance.post("users/change-email/", payload);
         },
-        specificUser(userSlug) {
-            return instance.get(`users/${userSlug}/`);
+        resetPassword(payload) {
+            return instance.post("users/reset_password/", payload);
+        },
+        resetPasswordConfirm(payload) {
+            return instance.post("users/reset_password_confirm/", payload);
         },
     };
 }

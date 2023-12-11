@@ -87,6 +87,24 @@ const router = createRouter({
                                 redirectTo: false,
                             },
                         },
+                        {
+                            name: "passwordReset",
+                            path: "password-reset/",
+                            component: () => import("@/views/PasswordResetView.vue"),
+                            meta: {
+                                title: "Password Reset",
+                                redirectTo: false,
+                            },
+                        },
+                        {
+                            name: "passwordResetConfirm",
+                            path: "password-reset/confirm/:uid/:token/",
+                            component: () => import("@/views/PasswordResetConfirmView.vue"),
+                            meta: {
+                                title: "Password Reset Confirm",
+                                redirectTo: false,
+                            },
+                        },
                     ],
                 },
                 {

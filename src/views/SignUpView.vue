@@ -49,7 +49,7 @@ async function handleAfterSignUpActions() {
   toaster.success("You have successfully registered!");
 }
 
-const signUp = async () => {
+async function signUp() {
   isSignUpResponseWaiting.value = true;
   serverErrorMessages.length = 0;
   try {
@@ -113,7 +113,7 @@ const signUp = async () => {
               type="password"
               class="form-control only-bottom-border"
               :class="getValidationClass(v$.password_confirmation)"
-              placeholder="Enter password confirmation"
+              placeholder="Confirm password"
           >
           <form-errors-feedback :field="v$.password_confirmation"/>
         </div>

@@ -7,7 +7,7 @@ import {createTitle} from "@/utils";
 import CommentsForm from "@/components/comments/CommentsForm.vue";
 import WrappedLoadingSpinner from "@/components/loading/WrappedLoadingSpinner.vue";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
-import NotFoundSection from "@/components/NotFoundSection.vue";
+import ErrorSection from "@/components/ErrorSection.vue";
 
 
 const route = useRoute()
@@ -80,7 +80,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <not-found-section
+  <error-section
       v-if="productNotFound"
       description="Oops... Looks like there is no such product or it has been removed."
   />

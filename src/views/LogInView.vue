@@ -52,7 +52,7 @@ async function storeUserData(data) {
 
 }
 
-const logIn = async () => {
+async function logIn() {
   isLogInResponseWaiting.value = true;
   serverErrorMessages.length = 0;
   try {
@@ -61,14 +61,16 @@ const logIn = async () => {
       password: formData.password,
     });
     await storeUserData(response.data)
-    await router.push({name: 'categories'})
     toaster.success('You have successfully login!')
+    await router.push({name: 'categories'})
   } catch (error) {
     handleAuthError(error, serverErrorMessages, v$);
   } finally {
     isLogInResponseWaiting.value = false;
   }
 }
+
+const passwordResetRoute = {name: "passwordReset"}
 </script>
 
 <template>
@@ -112,7 +114,12 @@ const logIn = async () => {
             </label>
           </div>
           <div>
-            <a href="#" class="link-secondary text-decoration-none">Forgot password ?</a>
+            <router-link
+                class="link-secondary text-decoration-none"
+                :to="passwordResetRoute"
+            >
+              Forgot password ?
+            </router-link>
           </div>
         </div>
         <div class="text-center my-2">

@@ -5,7 +5,7 @@ import api from "@/services/api/index";
 import moment from "moment";
 import {createTitle, getUserImage} from "@/utils";
 import WrappedLoadingSpinner from "@/components/loading/WrappedLoadingSpinner.vue";
-import NotFoundSection from "@/components/NotFoundSection.vue";
+import ErrorSection from "@/components/ErrorSection.vue";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
 
 
@@ -99,7 +99,7 @@ onBeforeRouteUpdate(async (to, from, next) => {
 </script>
 
 <template>
-  <not-found-section
+  <error-section
       v-if="userNotFound"
       description="Oops... Looks like this profile does not exist or has been deleted."
   />

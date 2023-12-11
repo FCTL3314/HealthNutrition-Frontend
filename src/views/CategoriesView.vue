@@ -7,7 +7,7 @@ import SearchForm from "@/components/SearchForm.vue";
 import CategoryCard from "@/components/cards/category/CategoryCard.vue";
 import CategoryCardPlaceholder from "@/components/cards/category/CategoryCardPlaceholder.vue";
 import PaginationSection from "@/components/PaginationSection.vue";
-import NotFoundSection from "@/components/NotFoundSection.vue";
+import ErrorSection from "@/components/ErrorSection.vue";
 import {CATEGORIES_PAGINATE_BY} from "@/constants";
 import CategoriesGreeting from "@/components/greetings/CategoriesGreeting.vue";
 
@@ -83,7 +83,7 @@ onMounted(async () => {
         <category-card-placeholder/>
       </div>
     </div>
-    <not-found-section
+    <error-section
         v-if="isNoCategories"
         description="Oops... Looks like we couldn't find any categories for your search query."
     />

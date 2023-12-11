@@ -5,7 +5,7 @@ import ComparisonGroupCard from "@/components/cards/comparisons/ComparisonGroupC
 import ComparisonGroupsGreeting from "@/components/greetings/ComparisonGroupsGreeting.vue";
 import ComparisonGroupCardPlaceholder from "@/components/cards/comparisons/ComparisonGroupCardPlaceholder.vue";
 import {COMPARISON_GROUPS_PAGINATE_BY} from "@/constants";
-import NotFoundSection from "@/components/NotFoundSection.vue";
+import ErrorSection from "@/components/ErrorSection.vue";
 import WrappedCreateComparisonGroupForm from "@/components/comparisons/WrappedCreateComparisonGroupForm.vue";
 import ShowMoreButton from "@/components/ShowMoreButton.vue";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
@@ -83,7 +83,7 @@ onMounted(async () => {
         />
       </component-wrapper>
     </div>
-    <not-found-section
+    <error-section
         v-else
         description="It looks like you don’t have a single comparison group yet, so create it."
         :show-go-back-button="false"

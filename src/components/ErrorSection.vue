@@ -3,7 +3,7 @@ import ComponentWrapper from "@/components/ComponentWrapper.vue";
 import {useRouter} from "vue-router";
 
 
-defineProps({
+const props = defineProps({
   title: {
     type: String,
   },
@@ -15,6 +15,10 @@ defineProps({
     type: Boolean,
     default: true,
   },
+  showSadEmoji: {
+    type: Boolean,
+    default: false,
+  },
   showGoBackButton: {
     type: Boolean,
     default: true,
@@ -24,15 +28,20 @@ defineProps({
 
 const router = useRouter();
 
-const emojis = [
+const funnyEmojis = [
   "(o^^)o",
-  "(>_<)",
-  "(≥o≤)",
-  "(;-;)",
   "(^-^*)",
 ]
 
+const sadEmojis = [
+  "(>_<)",
+  "(≥o≤)",
+  "(;-;)",
+]
+
 function getRandomEmoji() {
+  const emojis = props.showSadEmoji ? sadEmojis : funnyEmojis
+
   const randomIndex = Math.floor(Math.random() * emojis.length);
   return emojis[randomIndex];
 }

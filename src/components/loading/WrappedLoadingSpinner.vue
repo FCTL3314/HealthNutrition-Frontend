@@ -7,10 +7,18 @@ defineProps({
     type: Boolean,
     required: true,
   },
+  text: {
+    type: String,
+    default: "Loading, please wait...",
+  },
   colorClass: {
     type: String,
     default: "text-main-light",
   },
+  size: {
+    type: Number,
+    default: 16
+  }
 })
 </script>
 
@@ -19,7 +27,7 @@ defineProps({
     <component-wrapper class="loading component-indentation-y" :class="colorClass">
       <loading-spinner
           :color-class="colorClass"
-          text="Loading, please wait..."
+          :text="text"
           :size="32"
       />
     </component-wrapper>

@@ -8,7 +8,7 @@ import ProductCard from "@/components/cards/product/ProductCard.vue";
 import ProductCardPlaceholder from "@/components/cards/product/ProductCardPlaceholder.vue";
 import PaginationSection from "@/components/PaginationSection.vue";
 import {PRODUCTS_PAGINATE_BY} from "@/constants";
-import NotFoundSection from "@/components/NotFoundSection.vue";
+import ErrorSection from "@/components/ErrorSection.vue";
 import ProductsGreeting from "@/components/greetings/ProductsGreeting.vue";
 import AddProductToComparisonGroupsModal from "@/components/comparisons/AddProductToComparisonGroupsModal.vue";
 
@@ -126,7 +126,7 @@ onMounted(async () => {
         <product-card-placeholder/>
       </div>
     </div>
-    <not-found-section
+    <error-section
         v-if="isNoProducts"
         description="Oops... Looks like we couldn't find any products for your search query."
     />
