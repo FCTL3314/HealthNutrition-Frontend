@@ -12,7 +12,7 @@ const unsecuredAttributes = [
     text: "Your email is not verified, please verify it to increase the security of your account.",
     resolutionLink: {
       text: "Verify my email",
-      to: "#",
+      to: {name: "emailVerification"},
     }
   },
 ];
@@ -30,12 +30,13 @@ const hasSecurityWarnings = unsecuredAttributes.some(el => el.isSecured === fals
     >
       <span class="fw-semibold">{{ index + 1 }}.</span>
       {{ unsecuredAttribute.text }}
-      <a
+      <router-link
           v-if="unsecuredAttribute.resolutionLink"
-          :href="unsecuredAttribute.resolutionLink.to"
+          :to="unsecuredAttribute.resolutionLink.to"
           class="link link-danger">
         {{ unsecuredAttribute.resolutionLink.text }}
-      </a>.
+      </router-link>
+      .
     </p>
   </component-wrapper>
 </template>

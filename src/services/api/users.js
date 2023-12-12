@@ -34,5 +34,11 @@ export default function (instance) {
         setPassword(payload) {
           return instance.post("users/set_password/", payload);
         },
+        sendEmailVerification(payload) {
+          return instance.post("users/verification/send/", payload);
+        },
+        verifyUser(payload) {
+          return instance.post("users/verification/verify/", payload);
+        },
     };
 }

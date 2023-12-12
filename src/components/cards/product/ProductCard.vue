@@ -1,5 +1,5 @@
 <script setup>
-import {computed} from "vue";
+import {computed, ref} from "vue";
 import {CARD_IMAGE_HEIGHT, PRODUCT_HEALTHFULNESS_REFERENCE, PRODUCT_NUTRITION_ROUNDING} from "@/constants";
 import CircleFillIcon from "@/components/icons/CircleFillIcon.vue";
 import {useStore} from "vuex";
@@ -39,11 +39,19 @@ const props = defineProps({
   }
 });
 
+const store = useStore();
+
 const emits = defineEmits(["saveButtonClick", "removeButtonClick"])
 const onSaveButtonClick = () => emits("saveButtonClick", props.product.id);
-const onRemoveButtonClick = () => emits("removeButtonClick", props.product.id);
 
-const store = useStore();
+const cardElement = ref(null);
+
+const onRemoveButtonClick = () => {
+  cardElement.value.$el.classList.add('animate__animated', 'animate__bounceOut');
+  cardElement.value.$el.addEventListener('animationend', async () => {
+    emits("removeButtonClick", props.product.id);
+  });
+}
 
 const healthfulnessPercents = computed(() => {
   return Math.round((props.product.healthfulness / PRODUCT_HEALTHFULNESS_REFERENCE) * 100);
@@ -108,7 +116,7 @@ const productRoute = computed(() => {
 </script>
 
 <template>
-  <component-wrapper class="card common-rounding h-100">
+  <component-wrapper ref="cardElement" class="card common-rounding h-100 z-0">
     <router-link :to="productRoute">
       <div class="card-img-scale">
         <img
@@ -132,8 +140,9 @@ const productRoute = computed(() => {
           v-for="(tag, index) in tags"
           :key="index"
           :text="tag.text"
+          :icon="tag.icon"
           :bg-color-class="tag.color"
-          class="mb-1 me-1"
+          class="mb-2 me-2"
       />
     </div>
     <ul class="list-group list-group-flush">

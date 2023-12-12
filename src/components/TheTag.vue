@@ -4,6 +4,9 @@ defineProps({
     type: String,
     required: true,
   },
+  icon: {
+    type: Object,
+  },
   bgColorClass: {
     type: String,
     default: "bg-primary",
@@ -16,7 +19,8 @@ defineProps({
 </script>
 
 <template>
-  <div class="tag" :class="[bgColorClass, textColorClass]">
+  <div class="tag inline-icon-text" :class="[bgColorClass, textColorClass]">
+    <component v-if="icon" :is="icon" class="me-1"/>
     <span class="fw-semibold">{{ text }}</span>
   </div>
 </template>

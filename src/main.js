@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min";
 import "typeface-quicksand";
+import "animate.css";
 
 
 import App from "@/App.vue";

@@ -105,7 +105,7 @@ onMounted(async () => {
           v-if="!isDataLoading"
           v-for="product in products"
           :key="product.id"
-          class="col-lg-4 col-md-6 mb-3"
+          class="col-lg-4 col-md-6 mb-3 animate__animated animate__fadeIn"
       >
         <product-card
             :product="product"

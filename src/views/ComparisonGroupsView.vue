@@ -43,9 +43,10 @@ async function updateComparisonGroups(offset = 0) {
 
 const addComparisonGroup = (comparisonGroup) => comparisonGroups.value.unshift(comparisonGroup);
 
-function removeComparisonGroup(comparisonGroup) {
+async function removeComparisonGroup(comparisonGroup) {
   const indexToRemove = comparisonGroups.value.findIndex(obj => obj.id === comparisonGroup.id);
   comparisonGroups.value.splice(indexToRemove, 1);
+  await api.comparisons.deleteComparisonGroup(comparisonGroup.slug);
   deletedComparisonGroupsCount++;
 }
 
@@ -59,19 +60,24 @@ onMounted(async () => {
   <div class="component-indentation-y">
     <wrapped-create-comparison-group-form @comparison-group-created="addComparisonGroup" class="mb-3"/>
     <div v-if="!isNoComparisonGroups || hasMoreComparisonGroups" class="row">
-      <comparison-group-card
+      <div
           v-for="comparisonGroup in comparisonGroups"
           :key="comparisonGroup.id"
-          class="col-xxl-6 col-lg-12 col-md-12 mb-3"
-          :comparison-group="comparisonGroup"
-          @delete-click="removeComparisonGroup"
-      />
-      <comparison-group-card-placeholder
+          class="col-xxl-6 col-lg-12 col-md-12 mb-3 animate__animated animate__fadeIn"
+      >
+        <comparison-group-card
+            :comparison-group="comparisonGroup"
+            @delete-click="removeComparisonGroup"
+        />
+      </div>
+      <div
           v-if="isComparisonGroupsLoading"
           v-for="_ in COMPARISON_GROUPS_PAGINATE_BY"
           :key="_"
           class="col-xxl-6 col-lg-12 col-md-12 mb-3"
-      />
+      >
+        <comparison-group-card-placeholder/>
+      </div>
       <component-wrapper
           v-show="hasMoreComparisonGroups && !isComparisonGroupsLoading"
           :padding="0"

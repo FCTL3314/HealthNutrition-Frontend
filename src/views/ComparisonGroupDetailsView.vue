@@ -12,6 +12,8 @@ import ShowMoreButton from "@/components/ShowMoreButton.vue";
 import ProductCard from "@/components/cards/product/ProductCard.vue";
 import ProductCardPlaceholder from "@/components/cards/product/ProductCardPlaceholder.vue";
 import ComparisonGroupGreeting from "@/components/greetings/ComparisonGroupGreeting.vue";
+import CaretUpFillIcon from "@/components/icons/CaretUpFillIcon.vue";
+import CaretDownFillIcon from "@/components/icons/CaretDownFillIcon.vue";
 
 
 const route = useRoute();
@@ -122,14 +124,14 @@ async function pushStatistics() {
 
 function getTags(productSlug) {
   const tagData = {
-    max_calorie_product_slug: {text: "Max calorie", color: "bg-warning"},
-    min_calorie_product_slug: {text: "Min calorie", color: "bg-warning"},
-    max_protein_product_slug: {text: "Max protein", color: "bg-success"},
-    min_protein_product_slug: {text: "Min protein", color: "bg-success"},
-    max_fat_product_slug: {text: "Max fat", color: "bg-danger"},
-    min_fat_product_slug: {text: "Min fat", color: "bg-danger"},
-    max_carbs_product_slug: {text: "Max carbs", color: "bg-primary"},
-    min_carbs_product_slug: {text: "Min carbs", color: "bg-primary"},
+    max_calorie_product_slug: {text: "Max calorie", icon: CaretUpFillIcon, color: "bg-warning"},
+    min_calorie_product_slug: {text: "Min calorie", icon: CaretDownFillIcon, color: "bg-warning"},
+    max_protein_product_slug: {text: "Max protein", icon: CaretUpFillIcon, color: "bg-success"},
+    min_protein_product_slug: {text: "Min protein", icon: CaretDownFillIcon, color: "bg-success"},
+    max_fat_product_slug: {text: "Max fat", icon: CaretUpFillIcon, color: "bg-danger"},
+    min_fat_product_slug: {text: "Min fat", icon: CaretDownFillIcon, color: "bg-danger"},
+    max_carbs_product_slug: {text: "Max carbs", icon: CaretUpFillIcon, color: "bg-primary"},
+    min_carbs_product_slug: {text: "Min carbs", icon: CaretDownFillIcon, color: "bg-primary"},
   };
 
   const tags = [];
@@ -198,7 +200,9 @@ onMounted(async () => {
         <div
             v-for="product in products"
             :key="product.id"
-            class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12 mb-3 position-relative"
+            :id="`product-card-${product.id}`"
+            class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12 mb-3 position-relative
+            animate__animated animate__fadeIn"
         >
           <product-card
               :product="product"

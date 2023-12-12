@@ -2,7 +2,7 @@
 import {computed, reactive, ref} from "vue";
 import {useStore} from "vuex";
 import {useVuelidate} from "@vuelidate/core";
-import {appendResponseErrorMessages, appendResponseFieldErrors, getValidationClass} from "@/utils";
+import {appendResponseFieldErrors, getValidationClass} from "@/utils";
 import api from "@/services/api";
 import FormErrorsFeedback from "@/components/forms/FormErrorsFeedback.vue";
 import BaseTab from "@/components/settings/BaseTab.vue";

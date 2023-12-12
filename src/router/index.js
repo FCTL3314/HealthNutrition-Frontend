@@ -163,6 +163,15 @@ const router = createRouter({
                         redirectTo: false,
                     },
                 },
+                {
+                    name: "emailVerification",
+                    path: "email-verification/",
+                    component: () => import("@/views/EmailVerificationView.vue"),
+                    meta: {
+                        title: "Email Verification",
+                        redirectTo: false,
+                    }
+                },
             ],
         },
         {

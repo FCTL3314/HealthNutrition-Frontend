@@ -70,7 +70,7 @@ onMounted(async () => {
           v-if="!isCategoriesLoading"
           v-for="category in categories"
           :key="category.id"
-          class="col-lg-4 col-md-6 mb-3"
+          class="col-lg-4 col-md-6 mb-3 animate__animated animate__fadeIn"
       >
         <category-card :category="category"/>
       </div>

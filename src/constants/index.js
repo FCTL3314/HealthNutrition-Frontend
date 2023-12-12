@@ -14,6 +14,7 @@ export const ALLOWED_IMAGE_EXTENSIONS = [
 export const CARD_IMAGE_HEIGHT = 240;
 export const COMMENTS_ALLOWED_CONTENT_TYPES = ["product", "store"];
 export const PRODUCT_NUTRITION_ROUNDING = 2;
+export const EMAIL_VERIFICATION_CODE_LENGTH = 8;
 export const PRODUCT_HEALTHFULNESS_REFERENCE = 250;
 export const CATEGORIES_PAGINATE_BY = 3;
 export const PRODUCTS_PAGINATE_BY = 3;

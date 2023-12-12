@@ -57,7 +57,7 @@ const sendResetEmail = async () => {
           Forgot your password? No worries! Use our reset password form to regain access to your account. Simply enter
           the email associated with your account, and we'll send you an email to reset your password.
         </p>
-        <div class="mb-4">
+        <div>
           <label class="form-label text-main">Email</label>
           <input
               v-model="v$.email.$model"
@@ -68,12 +68,12 @@ const sendResetEmail = async () => {
           >
           <form-errors-feedback :field="v$.email"/>
         </div>
-        <div class="text-center my-2">
+        <div class="text-center mt-3 mb-2">
           <submit-button :is-response-waiting="isResponseWaiting"/>
         </div>
         <div class="text-center">
           <p class="mb-0">
-            <span class="my-0 pe-1">Don't want to reset ?</span>
+            <span class="me-1">Don't want to reset ?</span>
             <router-link
                 :to="logInRoute"
                 class="link link-primary text-decoration-none"
