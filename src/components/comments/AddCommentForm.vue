@@ -87,11 +87,11 @@ async function createComment(text) {
             <input
                 v-model="commentText"
                 class="comment-input form-control only-bottom-border"
+                :class="{'pe-none': !user}"
                 placeholder="Add a comment..."
                 maxlength="516"
                 type="text"
                 required
-                :disabled="!user"
             >
             <div class="form-buttons">
               <button
@@ -112,7 +112,7 @@ async function createComment(text) {
               </button>
             </div>
           </div>
-          <p v-if="!user">
+          <p v-if="!user" class="ms-3 mt-2 mb-0">
             <router-link class="link-main" :to="{name: 'logIn'}">Log In</router-link>
             or
             <router-link class="link-main" :to="{name: 'signUp'}">Sign Up</router-link>
