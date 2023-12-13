@@ -48,7 +48,7 @@ async function handleSaveCheckboxClick(comparisonGroupId) {
       <loading-spinner v-else :size="24"/>
     </div>
     <label
-        class="form-check-label fw-medium ms-3"
+        class="form-check-label fw-medium ms-3 text-truncate"
         :for="`${comparisonGroup.name}-${comparisonGroup.id}`"
     >
       {{ comparisonGroup.name }}
