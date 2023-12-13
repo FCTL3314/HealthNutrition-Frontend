@@ -128,7 +128,7 @@ onMounted(async () => {
     </div>
     <error-section
         v-if="isNoProducts"
-        description="Oops... Looks like we couldn't find any products for your search query."
+        description="Oops... Looks like we couldn't find any products."
     />
     <pagination-section
         v-if="!isNoProducts"
