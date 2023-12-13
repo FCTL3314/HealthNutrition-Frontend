@@ -49,7 +49,7 @@ const cardElement = ref(null);
 const onRemoveButtonClick = () => {
   cardElement.value.$el.classList.add('animate__animated', 'animate__bounceOut');
   cardElement.value.$el.addEventListener('animationend', async () => {
-    emits("removeButtonClick", props.product.id);
+    emits("removeButtonClick", props.product);
   });
 }
 

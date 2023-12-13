@@ -23,7 +23,7 @@ const user = computed(() => store.getters["auth/user"]);
 
 const isResponseWaiting = ref(false);
 const isVerificationSending = ref(false);
-const isVerificationRequired = !user.is_verified;
+const isAlreadyVerified = user.value.is_verified;
 
 const formData = reactive({
   code: '',
@@ -61,7 +61,7 @@ function startResentRemainingSecondsCountdown() {
 async function sendEmailVerification() {
   isVerificationSending.value = true;
   try {
-    if (isVerificationRequired) {
+    if (!isAlreadyVerified) {
       const response = await api.users.sendEmailVerification();
       const data = response.data
       if (response.status === 201) {
@@ -114,28 +114,22 @@ onMounted(async () => {
     <component-wrapper class="container text-center col-xxl-6 col-lg-7 col-md-10 col-sm-12">
       <h2 class="text-main">Email Verification</h2>
       <div
-          class="alert alert-primary common-rounding mb-2"
-          :class="isVerificationRequired ? 'alert-primary': 'alert-warning'"
+          class="alert alert-primary common-rounding mb-2 fs-5 fw-medium"
+          :class="isAlreadyVerified ? 'alert-warning': 'alert-primary'"
       >
-        <p class="fs-5 fw-medium mb-0">
-          <template v-if="isVerificationRequired">
-            <span v-if="resentRemainingSeconds > 0">
-              You have tried to send an email too many times, the email will be automatically sent in:
-              <span class="fw-semibold">{{ resentRemainingSeconds }}</span> seconds.
-            </span>
-            <span v-else>
-              You're almost there! You will receive an email within a couple of minutes. Just enter the code from the
-              email into the form to complete your verification if you don't see it, you may need to check your spam
-              folder. The code will be valid until: <span class="fw-semibold">{{ validUntil }}</span>
-            </span>
-          </template>
-          <span v-else>
-            You cannot send an email verification letter because your email has already been verified.
-          </span>
-        </p>
+        <span v-if="isAlreadyVerified">Your email has already been verified.</span>
+        <span v-else-if="resentRemainingSeconds > 0">
+          You have tried to send an email too many times, the email will be automatically sent in:
+          <span class="fw-semibold">{{ resentRemainingSeconds }}</span> seconds.
+        </span>
+        <span v-else>
+          You're almost there! You will receive an email within a couple of minutes. Just enter the code from the
+          email into the form to complete your verification if you don't see it, you may need to check your spam
+          folder. The code will be valid until: <span class="fw-semibold">{{ validUntil }}</span>
+        </span>
       </div>
       <form
-          v-if="isVerificationRequired && resentRemainingSeconds === 0"
+          v-if="!isAlreadyVerified && resentRemainingSeconds === 0"
           @submit.prevent="verifyUser"
       >
         <div class="text-start">

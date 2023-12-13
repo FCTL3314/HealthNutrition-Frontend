@@ -1,6 +1,6 @@
 <script setup>
 import api from "@/services/api";
-import {onMounted, reactive, ref} from "vue";
+import {computed, onMounted, reactive, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {createTitle} from "@/utils";
 import WrappedLoadingSpinner from "@/components/loading/WrappedLoadingSpinner.vue";
@@ -22,20 +22,16 @@ const router = useRouter();
 const comparisonGroup = ref(null);
 const products = ref([]);
 
-const isComparisonGroupLoading = ref(true);
-const isProductsLoading = ref(true);
+const isProductsLoading = ref(false);
+const isNoProducts = computed(() => products.value.length === 0 && !isProductsLoading.value);
 
-const isNoProducts = ref(false);
 const hasMoreProducts = ref(false);
 
 async function loadComparisonGroup() {
-  isComparisonGroupLoading.value = true;
   try {
     return (await api.comparisons.comparisonGroup(route.params.comparisonGroupSlug, true)).data;
   } catch (error) {
     console.error(error);
-  } finally {
-    isComparisonGroupLoading.value = false;
   }
 }
 
@@ -64,10 +60,9 @@ async function updateProducts(offset = 0) {
   products.value.push(...(await loadProducts(offset - removedProductsCount)).results);
 }
 
-async function removeProduct(productId) {
-  const indexToRemove = products.value.findIndex(obj => obj.id === productId);
-  products.value.splice(indexToRemove, 1);
-  await api.comparisons.removeProductFromComparisonGroup(comparisonGroup.value.id, productId);
+async function removeProduct(productToRemove) {
+  products.value = products.value.filter(product => product.id !== productToRemove.id)
+  await api.comparisons.removeProductFromComparisonGroup(comparisonGroup.value.id, productToRemove.id);
   removedProductsCount++;
 }
 
@@ -153,8 +148,6 @@ onMounted(async () => {
           await pushStatistics();
           await pushAverages();
           await updateProducts();
-        } else {
-          isNoProducts.value = true;
         }
       });
 });
@@ -235,8 +228,7 @@ onMounted(async () => {
     </template>
     <error-section
         v-else
-        description="Apparently you haven't added products to this comparison group yet,
-                     so we don't have details for it."
+        description="There are no products in this comparison group to display statistics for..."
         class="component-indentation-y"
     />
   </wrapped-loading-spinner>

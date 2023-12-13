@@ -43,10 +43,11 @@ async function updateComparisonGroups(offset = 0) {
 
 const addComparisonGroup = (comparisonGroup) => comparisonGroups.value.unshift(comparisonGroup);
 
-async function removeComparisonGroup(comparisonGroup) {
-  const indexToRemove = comparisonGroups.value.findIndex(obj => obj.id === comparisonGroup.id);
-  comparisonGroups.value.splice(indexToRemove, 1);
-  await api.comparisons.deleteComparisonGroup(comparisonGroup.slug);
+async function removeComparisonGroup(comparisonGroupToRemove) {
+  comparisonGroups.value = comparisonGroups.value.filter(comparisonGroup => {
+    return comparisonGroup.id !== comparisonGroupToRemove.id;
+  })
+  await api.comparisons.deleteComparisonGroup(comparisonGroupToRemove.slug);
   deletedComparisonGroupsCount++;
 }
 
