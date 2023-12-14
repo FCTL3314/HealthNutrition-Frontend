@@ -1,11 +1,11 @@
 <script setup>
 import {computed, ref} from "vue";
-import store from "@/store";
 import {getUserImage} from "@/utils";
 import api from "@/services/api";
 import {isContentTypeAllowed} from "@/validators";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
 import LoadingSpinner from "@/components/loading/LoadingSpinner.vue";
+import {useStore} from "vuex";
 
 
 const props = defineProps({
@@ -30,34 +30,30 @@ const props = defineProps({
   },
 })
 
+const emits = defineEmits(["commentCreated", "cancelButton"]);
+
+const onCommentCreated = (comment) => emits("commentCreated", comment);
+const onClickCancelButton = () => emits("cancelButton");
+
+const store = useStore();
+
 const user = computed(() => store.getters["auth/user"]);
 
 const commentText = ref("");
+
 const isCommentAdding = ref(false);
-const showCommentCount = computed(() => {
-  return props.commentsCount !== undefined && props.commentsCount !== null;
-})
-
-const emits = defineEmits(["commentCreated", "cancelButton"]);
-
-const onCommentCreated = (comment) => {
-  emits("commentCreated", comment);
-}
-
-const onClickCancelButton = () => {
-  emits("cancelButton");
-}
+const isCommentCountShown = computed(() => typeof props.commentsCount == "number")
 
 const onClickAddComment = async () => {
-  await createComment(commentText.value)
+  const comment = await createComment(commentText.value)
   commentText.value = "";
+  onCommentCreated(comment);
 }
 
 async function createComment(text) {
   isCommentAdding.value = true;
   try {
-    const comment = (await api.comments.comment_add(props.objectId, props.contentType, text, props.parentId)).data;
-    onCommentCreated(comment);
+    return (await api.comments.comment_add(props.objectId, props.contentType, text, props.parentId)).data;
   } catch (error) {
     console.error(error);
   } finally {
@@ -68,7 +64,7 @@ async function createComment(text) {
 
 <template>
   <component-wrapper :shadow="!isReplyForm">
-    <h3 v-show="showCommentCount" class="mb-3">
+    <h3 v-show="isCommentCountShown" class="mb-3">
       {{ commentsCount }} {{ commentsCount === 1 ? "Comment" : "Comments" }}
     </h3>
     <div class="d-flex">

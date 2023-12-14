@@ -8,12 +8,12 @@ defineProps({
     type: String,
     default: "Loading...",
   },
-  isResponseWaiting: {
+  showLoading: {
     type: Boolean,
     required: true,
   },
-  vuelidateData: {
-    type: Object,
+  isDisabled: {
+    type: Boolean,
   },
 })
 </script>
@@ -22,10 +22,10 @@ defineProps({
   <button
       class="btn btn-outline-primary-rounded px-4"
       style="width: max-content"
-      :class="{disabled: vuelidateData?.$invalid || isResponseWaiting}"
+      :class="{disabled: isDisabled || showLoading}"
       type="submit"
   >
-    <template v-if="isResponseWaiting">
+    <template v-if="showLoading">
       <span
           class="spinner-border spinner-border-sm me-1"
           role="status"

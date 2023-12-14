@@ -3,10 +3,10 @@ import {computed, ref} from "vue";
 import {useStore} from "vuex";
 import BaseTab from "@/components/settings/BaseTab.vue";
 import toaster from "@/plugins/toaster";
-import {sleep} from "@/utils";
 
 
 const store = useStore();
+
 const user = computed(() => store.getters["auth/user"]);
 
 const isSettingsSaving = ref(false);
@@ -47,9 +47,10 @@ async function saveSettings() {
   localStorage.setItem("isMoreFatBetter", isMoreFatBetter.value);
   localStorage.setItem("isMoreCarbsBetter", isMoreCarbsBetter.value);
 
-  toaster.success("Your nutrition preferences have been successfully saved!");
-  await sleep(200);
-  isSettingsSaving.value = false;
+  setTimeout(() => {
+    toaster.success("Your nutrition preferences have been successfully saved!");
+    isSettingsSaving.value = false;
+  }, 400);
 }
 </script>
 

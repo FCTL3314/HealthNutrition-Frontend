@@ -1,18 +1,15 @@
 <script setup>
-import {computed, reactive, ref} from "vue";
-import {useStore} from "vuex";
+import {reactive, ref} from "vue";
 import {useVuelidate} from "@vuelidate/core";
 import {email, required} from "@vuelidate/validators";
 import {appendResponseErrorMessages, getValidationClass} from "@/utils";
 import api from "@/services/api";
 import FormErrorsFeedback from "@/components/forms/FormErrorsFeedback.vue";
 import BaseTab from "@/components/settings/BaseTab.vue";
-import {afterUpdateActions} from "@/services/userUpdate";
+import {updateLocalUser} from "@/services/userUpdate";
 import {passwordValidators} from "@/validators/vuelidate";
+import toaster from "@/plugins/toaster";
 
-
-const store = useStore();
-const user = computed(() => store.getters["auth/user"]);
 
 const isUpdateResponseWaiting = ref(false);
 
@@ -23,30 +20,28 @@ const formData = reactive({
 
 const rules = {
   newEmail: {
-    required,
     email,
+    required,
   },
   password: passwordValidators,
 };
 
 const v$ = useVuelidate(rules, formData);
 
-const serverErrorMessages = reactive([]);
+const errorMessages = reactive([]);
 
-async function update() {
+async function changeEmail() {
   isUpdateResponseWaiting.value = true;
-  serverErrorMessages.length = 0;
+  errorMessages.length = 0;
   try {
     const response = await api.users.changeEmail({
       new_email: formData.newEmail,
       password: formData.password,
     });
-    await afterUpdateActions(
-        response.data,
-        'Your email has been successfully changed.',
-    )
+    await updateLocalUser(response.data);
+    toaster.success("Your email has been successfully changed.");
   } catch (error) {
-    appendResponseErrorMessages(serverErrorMessages, error.request.response);
+    appendResponseErrorMessages(errorMessages, error.request.response);
     console.log(error.request);
   } finally {
     v$.value.$reset();
@@ -58,10 +53,10 @@ async function update() {
 <template>
   <base-tab
       tab-name="Email Settings"
-      :vuelidate-data="v$"
-      :server-error-messages="serverErrorMessages"
+      :v$="v$"
+      :error-messages="errorMessages"
       :is-response-waiting="isUpdateResponseWaiting"
-      :form-submit-callback="update"
+      :form-submit-callback="changeEmail"
   >
     <div class="mb-4">
       <label for="email" class="form-label text-main">New email</label>

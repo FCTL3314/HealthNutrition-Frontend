@@ -19,10 +19,10 @@ const user = computed(() => store.getters['auth/user']);
 
 const categoriesRoute = computed(() => {
   return {name: 'categories'};
-})
+});
 const profileRoute = computed(() => {
   return {name: 'profile', params: {userSlug: user.value?.slug}};
-})
+});
 
 const navItems = [
   {
@@ -38,6 +38,8 @@ const navItems = [
 ];
 
 const isNavItemActive = (navItem) => route.name === navItem.routeName;
+
+const logoIconSize = 42;
 </script>
 
 <template>
@@ -49,8 +51,8 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
             <img
                 class="logo-img img-fluid mb-1 me-1"
                 src="@/assets/icons/logo.png"
-                width="42"
-                height="42"
+                :width="logoIconSize"
+                :height="logoIconSize"
                 alt="logo"
             >
             <span class="fs-4">HealthNutrition</span>
@@ -214,8 +216,6 @@ const isNavItemActive = (navItem) => route.name === navItem.routeName;
 @import '@/assets/sass/main'
 @import '@/assets/sass/variables'
 
-.shadow-bottom
-  box-shadow: 0 0.025rem 1rem rgba(0, 0, 0, 0.075) !important
 
 .logo-img
   transition-duration: 0.4s

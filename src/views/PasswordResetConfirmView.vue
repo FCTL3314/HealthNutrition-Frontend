@@ -106,7 +106,7 @@ onMounted(async () => {
             <form-errors-feedback :field="v$.newPasswordConfirmation"/>
           </div>
           <div class="text-center my-2">
-            <submit-button text="Reset" :is-response-waiting="isResponseWaiting"/>
+            <submit-button text="Reset" :show-loading="isResponseWaiting"/>
           </div>
           <div class="text-center">
             <p class="mb-0">

@@ -125,8 +125,8 @@ const passwordResetRoute = {name: "passwordReset"}
         <div class="text-center my-2">
           <submit-button
               text="Log In"
-              :is-response-waiting="isLogInResponseWaiting"
-              :vuelidate-data="v$"
+              :show-loading="isLogInResponseWaiting"
+              :is-disabled="v$.$invalid"
           />
         </div>
         <div class="text-center">

@@ -1,6 +1,7 @@
 <script setup>
 import {computed} from "vue";
 
+
 const props = defineProps({
   padding: {
     type: Number,
@@ -11,7 +12,6 @@ const props = defineProps({
     default: true,
   }
 })
-
 
 const cssPadding = computed(() => {
   return {"padding": `${props.padding}em`}

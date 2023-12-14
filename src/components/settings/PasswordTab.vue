@@ -1,6 +1,5 @@
 <script setup>
-import {computed, reactive, ref} from "vue";
-import {useStore} from "vuex";
+import {reactive, ref} from "vue";
 import {useVuelidate} from "@vuelidate/core";
 import {appendResponseFieldErrors, getValidationClass} from "@/utils";
 import api from "@/services/api";
@@ -9,9 +8,6 @@ import BaseTab from "@/components/settings/BaseTab.vue";
 import {passwordValidators} from "@/validators/vuelidate";
 import toaster from "@/plugins/toaster";
 
-
-const store = useStore();
-const user = computed(() => store.getters["auth/user"]);
 
 const isResponseWaiting = ref(false);
 
@@ -27,11 +23,11 @@ const rules = {
 
 const v$ = useVuelidate(rules, formData);
 
-const serverErrorMessages = reactive([]);
+const errorMessages = reactive([]);
 
 async function changePassword() {
   isResponseWaiting.value = true;
-  serverErrorMessages.length = 0;
+  errorMessages.length = 0;
   try {
     await api.users.setPassword({
       current_password: formData.currentPassword,
@@ -39,7 +35,7 @@ async function changePassword() {
     });
     toaster.success("Your password has been successfully changed.");
   } catch (error) {
-    appendResponseFieldErrors(serverErrorMessages, error.request.response);
+    appendResponseFieldErrors(errorMessages, error.request.response);
     console.log(error.request);
   } finally {
     v$.value.$reset();
@@ -51,8 +47,8 @@ async function changePassword() {
 <template>
   <base-tab
       tab-name="Password Settings"
-      :vuelidate-data="v$"
-      :server-error-messages="serverErrorMessages"
+      :v$="v$"
+      :error-messages="errorMessages"
       :is-response-waiting="isResponseWaiting"
       :form-submit-callback="changePassword"
   >

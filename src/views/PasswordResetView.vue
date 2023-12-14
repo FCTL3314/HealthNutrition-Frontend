@@ -19,8 +19,8 @@ const formData = reactive({
 
 const rules = {
   email: {
-    required,
     email,
+    required,
   },
 };
 
@@ -69,7 +69,7 @@ const sendResetEmail = async () => {
           <form-errors-feedback :field="v$.email"/>
         </div>
         <div class="text-center mt-3 mb-2">
-          <submit-button :is-response-waiting="isResponseWaiting"/>
+          <submit-button :show-loading="isResponseWaiting"/>
         </div>
         <div class="text-center">
           <p class="mb-0">

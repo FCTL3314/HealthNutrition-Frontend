@@ -87,6 +87,7 @@ onMounted(async () => {
               :key="comparisonGroup.id"
               :product-id="productId"
               :comparison-group="comparisonGroup"
+              :is-initially-checked="comparisonGroup.is_contains_selected_product"
           />
           <p class="fw-medium mb-0" v-if="isNoComparisonGroups">
             It looks like you don't have any comparison group yet, you can create it below.

@@ -140,8 +140,8 @@ const productRoute = computed(() => {
           v-for="(tag, index) in tags"
           :key="index"
           :text="tag.text"
-          :icon="tag.icon"
-          :bg-color-class="tag.color"
+          :icon-component="tag.iconComponent"
+          :classes="tag.classes"
           class="mb-2 me-2"
       />
     </div>

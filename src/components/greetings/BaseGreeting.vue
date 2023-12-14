@@ -1,6 +1,7 @@
 <script setup>
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
 
+
 defineProps({
   title: {
     type: String,

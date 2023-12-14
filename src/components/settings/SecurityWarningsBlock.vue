@@ -6,7 +6,7 @@ import store from "@/store";
 
 const user = computed(() => store.getters['auth/user']);
 
-const unsecuredAttributes = [
+const securityAttributes = [
   {
     isSecured: user.value.is_verified,
     text: "Your email is not verified, please verify it to increase the security of your account.",
@@ -16,14 +16,15 @@ const unsecuredAttributes = [
     }
   },
 ];
-const hasSecurityWarnings = unsecuredAttributes.some(el => el.isSecured === false);
+
+const hasSecurityWarnings = securityAttributes.some(el => el.isSecured === false);
 </script>
 
 <template>
   <component-wrapper v-if="hasSecurityWarnings" class="text-danger">
     <h3 class="text-center">Security Warnings</h3>
     <p
-        v-for="(unsecuredAttribute, index) in unsecuredAttributes"
+        v-for="(unsecuredAttribute, index) in securityAttributes"
         :key="index"
         v-show="!unsecuredAttribute.isSecured"
         class="mb-0"

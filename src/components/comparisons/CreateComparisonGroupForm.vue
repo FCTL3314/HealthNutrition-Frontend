@@ -4,10 +4,11 @@ import api from "@/services/api";
 import LoadingSpinner from "@/components/loading/LoadingSpinner.vue";
 
 
-const isComparisonGroupCreating = ref(false);
+const emits = defineEmits(["comparisonGroupCreated"])
+
 const comparisonGroupName = ref("");
 
-const emits = defineEmits(["comparisonGroupCreated"])
+const isComparisonGroupCreating = ref(false);
 
 async function createComparisonGroup() {
   isComparisonGroupCreating.value = true;

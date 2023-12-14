@@ -3,6 +3,7 @@ import api from "@/services/api";
 import {ref} from "vue";
 import LoadingSpinner from "@/components/loading/LoadingSpinner.vue";
 
+
 const props = defineProps({
   productId: {
     type: Number,
@@ -12,34 +13,37 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  isInitiallyChecked: {
+    type: Boolean,
+    default: false,
+  }
 })
 
-const isChecked = ref(props.comparisonGroup.is_contains_selected_product);
-const isActionPerforming = ref(false);
+const isProductAdding = ref(false);
+const isChecked = ref(props.isInitiallyChecked);
 
-async function handleSaveCheckboxClick(comparisonGroupId) {
-  isActionPerforming.value = true;
+async function handleSaveCheckboxClick() {
+  isProductAdding.value = true;
   try {
-    const actionsMap = {
-      true: api.comparisons.addProductToComparisonGroup,
-      false: api.comparisons.removeProductFromComparisonGroup,
-    };
-    const action = actionsMap[isChecked.value];
-    await action(comparisonGroupId, props.productId);
+    if (isChecked.value) {
+      await api.comparisons.addProductToComparisonGroup(props.comparisonGroup.id, props.productId);
+    } else {
+      await api.comparisons.removeProductFromComparisonGroup(props.comparisonGroup.id, props.productId);
+    }
   } catch (error) {
     console.error(error);
   } finally {
-    isActionPerforming.value = false;
+    isProductAdding.value = false;
   }
 }
 </script>
 
 <template>
   <div class="save-product-checkbox d-flex">
-    <div class="test">
+    <div class="save-checkbox-wrp">
       <input
-          v-if="!isActionPerforming"
-          @change="() => handleSaveCheckboxClick(comparisonGroup.id)"
+          v-if="!isProductAdding"
+          @change="handleSaveCheckboxClick"
           v-model="isChecked"
           :id="`${comparisonGroup.name}-${comparisonGroup.id}`"
           class="save-checkbox shadow-none mt-0"
@@ -60,7 +64,7 @@ async function handleSaveCheckboxClick(comparisonGroupId) {
 @import "bootstrap/scss/bootstrap"
 
 
-.test
+.save-checkbox-wrp
   width: 24px
   height: 24px
   display: flex

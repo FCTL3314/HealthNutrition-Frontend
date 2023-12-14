@@ -12,7 +12,7 @@ import {useVuelidate} from "@vuelidate/core";
 import {getValidationClass} from "@/utils";
 import FormErrorsFeedback from "@/components/forms/FormErrorsFeedback.vue";
 import {EMAIL_VERIFICATION_CODE_LENGTH} from "@/constants";
-import {afterUpdateActions} from "@/services/userUpdate";
+import {updateLocalUser} from "@/services/userUpdate";
 import toaster from "@/plugins/toaster";
 
 
@@ -87,10 +87,8 @@ async function verifyUser() {
   try {
     const response = await api.users.verifyUser({code: formData.code});
     if (response.status === 200) {
-      await afterUpdateActions(
-          response.data,
-          "Your email has been successfully verified.",
-      );
+      await updateLocalUser(response.data);
+      toaster.success("Your email has been successfully verified.");
       await router.push(accountSettingsRoute);
     }
   } catch (error) {
@@ -114,14 +112,19 @@ onMounted(async () => {
     <component-wrapper class="container text-center col-xxl-6 col-lg-7 col-md-10 col-sm-12">
       <h2 class="text-main">Email Verification</h2>
       <div
-          class="alert alert-primary common-rounding mb-2 fs-5 fw-medium"
+          class="alert alert-primary common-rounding mb-0 fs-5 fw-medium"
           :class="isAlreadyVerified ? 'alert-warning': 'alert-primary'"
       >
         <span v-if="isAlreadyVerified">Your email has already been verified.</span>
-        <span v-else-if="resentRemainingSeconds > 0">
-          You have tried to send an email too many times, the email will be automatically sent in:
-          <span class="fw-semibold">{{ resentRemainingSeconds }}</span> seconds.
-        </span>
+        <template v-else-if="resentRemainingSeconds > 0">
+          <p class="fs-2 fw-semibold mb-0">
+            {{ resentRemainingSeconds }}
+          </p>
+          <span>
+            You have tried to send an email too many times, please wait until the timer expires and then the email will
+            be automatically resent.
+          </span>
+        </template>
         <span v-else>
           You're almost there! You will receive an email within a couple of minutes. Just enter the code from the
           email into the form to complete your verification if you don't see it, you may need to check your spam
@@ -131,6 +134,7 @@ onMounted(async () => {
       <form
           v-if="!isAlreadyVerified && resentRemainingSeconds === 0"
           @submit.prevent="verifyUser"
+          class="mt-3"
       >
         <div class="text-start">
           <label class="form-label text-main">Verification code</label>
@@ -144,7 +148,7 @@ onMounted(async () => {
           <form-errors-feedback :field="v$.code"/>
         </div>
         <div class="text-center mt-3 mb-2">
-          <submit-button :is-response-waiting="isResponseWaiting"/>
+          <submit-button :show-loading="isResponseWaiting"/>
         </div>
         <div class="text-center">
           <p class="mb-0">

@@ -18,11 +18,16 @@ const props = defineProps({
   },
 });
 
+const emits = defineEmits(["pageChanged"])
+
+const onClickFirstPage = () => emits("pageChanged", 1);
+const onClickPreviousPage = () => emits("pageChanged", props.currentPage - 1);
+const onClickPage = (page) => emits("pageChanged", page);
+const onClickNextPage = () => emits("pageChanged", props.currentPage + 1);
+const onClickLastPage = () => emits("pageChanged", props.totalPages);
+
 const startPage = computed(() => {
-  if (props.currentPage === 1) {
-    return 1;
-  }
-  return props.currentPage - 1;
+  return props.currentPage === 1 ? props.currentPage : props.currentPage - 1;
 });
 
 const pages = computed(() => {
@@ -43,28 +48,6 @@ const pages = computed(() => {
 
 const isInFirstPage = computed(() => props.currentPage === 1);
 const isInLastPage = computed(() => props.currentPage === props.totalPages);
-
-const emits = defineEmits(["pageChanged"])
-
-const onClickFirstPage = () => {
-  emits("pageChanged", 1);
-};
-
-const onClickPreviousPage = () => {
-  emits("pageChanged", props.currentPage - 1);
-};
-
-const onClickPage = (page) => {
-  emits("pageChanged", page);
-};
-
-const onClickNextPage = () => {
-  emits("pageChanged", props.currentPage + 1);
-};
-
-const onClickLastPage = () => {
-  emits("pageChanged", props.totalPages);
-};
 </script>
 
 <template>

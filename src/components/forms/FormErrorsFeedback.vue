@@ -1,6 +1,7 @@
 <script setup>
 defineProps({
   field: {
+    type: Object,
     required: true,
   }
 })
@@ -11,3 +12,7 @@ defineProps({
     {{ error.$message }}
   </p>
 </template>
+
+<style lang="sass" scoped>
+
+</style>

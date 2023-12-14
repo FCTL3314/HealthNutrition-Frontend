@@ -119,14 +119,14 @@ async function pushStatistics() {
 
 function getTags(productSlug) {
   const tagData = {
-    max_calorie_product_slug: {text: "Max calorie", icon: CaretUpFillIcon, color: "bg-warning"},
-    min_calorie_product_slug: {text: "Min calorie", icon: CaretDownFillIcon, color: "bg-warning"},
-    max_protein_product_slug: {text: "Max protein", icon: CaretUpFillIcon, color: "bg-success"},
-    min_protein_product_slug: {text: "Min protein", icon: CaretDownFillIcon, color: "bg-success"},
-    max_fat_product_slug: {text: "Max fat", icon: CaretUpFillIcon, color: "bg-danger"},
-    min_fat_product_slug: {text: "Min fat", icon: CaretDownFillIcon, color: "bg-danger"},
-    max_carbs_product_slug: {text: "Max carbs", icon: CaretUpFillIcon, color: "bg-primary"},
-    min_carbs_product_slug: {text: "Min carbs", icon: CaretDownFillIcon, color: "bg-primary"},
+    max_calorie_product_slug: {text: "Max calorie", iconComponent: CaretUpFillIcon, classes: "tag-warning"},
+    min_calorie_product_slug: {text: "Min calorie", iconComponent: CaretDownFillIcon, classes: "tag-warning"},
+    max_protein_product_slug: {text: "Max protein", iconComponent: CaretUpFillIcon, classes: "tag-success"},
+    min_protein_product_slug: {text: "Min protein", iconComponent: CaretDownFillIcon, classes: "tag-success"},
+    max_fat_product_slug: {text: "Max fat", iconComponent: CaretUpFillIcon, classes: "tag-danger"},
+    min_fat_product_slug: {text: "Min fat", iconComponent: CaretDownFillIcon, classes: "tag-danger"},
+    max_carbs_product_slug: {text: "Max carbs", iconComponent: CaretUpFillIcon, classes: "tag-primary"},
+    min_carbs_product_slug: {text: "Min carbs", iconComponent: CaretDownFillIcon, classes: "tag-primary"},
   };
 
   const tags = [];

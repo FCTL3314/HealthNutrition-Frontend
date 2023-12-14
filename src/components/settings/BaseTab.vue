@@ -21,10 +21,10 @@ defineProps({
   isResponseWaiting: {
     type: Boolean,
   },
-  serverErrorMessages: {
+  errorMessages: {
     type: Array,
   },
-  vuelidateData: {
+  v$: {
     type: Object,
   }
 })
@@ -38,16 +38,16 @@ const user = computed(() => store.getters["auth/user"]);
     <h2 class="text-main-light text-truncate mb-0">{{ tabName }}</h2>
   </div>
   <div class="row">
-    <template v-if="serverErrorMessages">
-      <form-flush-messages :error-messages="serverErrorMessages"/>
+    <template v-if="errorMessages">
+      <form-flush-messages :error-messages="errorMessages"/>
     </template>
     <form @submit.prevent="formSubmitCallback">
       <slot></slot>
       <div class="row justify-content-center">
         <submit-button
             :text="submitButtonText"
-            :is-response-waiting="isResponseWaiting"
-            :vuelidate-data="vuelidateData"
+            :show-loading="isResponseWaiting"
+            :is-disabled="v$?.$invalid"
         />
       </div>
     </form>

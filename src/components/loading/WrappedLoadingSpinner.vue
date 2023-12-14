@@ -2,6 +2,7 @@
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
 import LoadingSpinner from "@/components/loading/LoadingSpinner.vue";
 
+
 defineProps({
   isLoading: {
     type: Boolean,

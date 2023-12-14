@@ -8,14 +8,16 @@ import FormErrorsFeedback from "@/components/forms/FormErrorsFeedback.vue";
 import api from "@/services/api";
 import {ALLOWED_IMAGE_EXTENSIONS} from "@/constants";
 import BaseTab from "@/components/settings/BaseTab.vue";
-import {afterUpdateActions} from "@/services/userUpdate";
+import {updateLocalUser} from "@/services/userUpdate";
 import {usernameValidators} from "@/validators/vuelidate";
+import toaster from "@/plugins/toaster";
 
 
 const store = useStore();
+
 const user = computed(() => store.getters["auth/user"]);
 
-const isUpdateResponseWaiting = ref(false);
+const isResponseWaiting = ref(false);
 
 const formData = reactive({
   username: user.value.username,
@@ -45,11 +47,11 @@ const v$ = useVuelidate(rules, formData);
 
 const handleImageFieldChange = (event) => formData.image = event.target.files[0];
 
-const serverErrorMessages = reactive([]);
+const errorMessages = reactive([]);
 
-async function update() {
-  isUpdateResponseWaiting.value = true;
-  serverErrorMessages.length = 0;
+async function updateUser() {
+  isResponseWaiting.value = true;
+  errorMessages.length = 0;
   try {
     const response = await api.users.update({
       username: formData.username,
@@ -58,16 +60,14 @@ async function update() {
       image: formData.image,
       about: formData.about,
     });
-    await afterUpdateActions(
-        response.data,
-        "Your account data has been successfully updated.",
-    );
+    await updateLocalUser(response.data);
+    toaster.success("Your account data has been successfully updated.");
   } catch (error) {
-    appendResponseErrorMessages(serverErrorMessages, error.request.response);
+    appendResponseErrorMessages(errorMessages, error.request.response);
     console.log(error.request);
   } finally {
     v$.value.$reset();
-    isUpdateResponseWaiting.value = false;
+    isResponseWaiting.value = false;
   }
 }
 </script>
@@ -75,10 +75,10 @@ async function update() {
 <template>
   <base-tab
       tab-name="Account Settings"
-      :form-submit-callback="update"
-      :is-response-waiting="isUpdateResponseWaiting"
-      :server-error-messages="serverErrorMessages"
-      :vuelidate-data="v$"
+      :form-submit-callback="updateUser"
+      :is-response-waiting="isResponseWaiting"
+      :error-messages="errorMessages"
+      :v$="v$"
   >
     <div class="mb-4">
       <label for="username" class="form-label text-main">

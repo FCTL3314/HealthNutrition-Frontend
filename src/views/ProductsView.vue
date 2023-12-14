@@ -17,11 +17,12 @@ const route = useRoute();
 const router = useRouter();
 
 const category = ref(null);
-const isCategoryLoading = ref(false);
-
 const products = ref([]);
-const selectedProductId = ref(-1);
+
+const isCategoryLoading = ref(false);
 const isProductsLoading = ref(false);
+
+const selectedProductId = ref(-1);
 
 const isDataLoading = computed(() => {
   return isCategoryLoading.value || isProductsLoading.value;
@@ -99,7 +100,12 @@ onMounted(async () => {
   <add-product-to-comparison-groups-modal :product-id="selectedProductId"/>
   <products-greeting class="component-indentation-y"/>
   <div class="component-indentation-y">
-    <search-form class="mb-3" @search-input="updateProducts"/>
+    <search-form
+        class="mb-3"
+        placeholder-text="Enter a query, for example mango..."
+        @search-input="updateProducts"
+        @clear-search="updateProducts"
+    />
     <div class="row">
       <div
           v-if="!isDataLoading"
@@ -129,6 +135,7 @@ onMounted(async () => {
     <error-section
         v-if="isNoProducts"
         description="Oops... Looks like we couldn't find any products."
+        :show-go-back-button="false"
     />
     <pagination-section
         v-if="!isNoProducts"

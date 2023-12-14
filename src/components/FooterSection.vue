@@ -23,7 +23,7 @@ const currentDate = new Date()
         All rights reserved &copy; 2022 - {{ currentDate.getFullYear() }}
         <a
             :href="FRONTEND_REPOSITORY_URL"
-            class="project-ref"
+            class="repository-link"
             target="_blank"
         >
           HealthNutrition
@@ -37,15 +37,12 @@ const currentDate = new Date()
 @import '@/assets/sass/main'
 @import '@/assets/sass/variables'
 
-.project-ref
+.repository-link
   font-weight: 500
   color: $color-main-light
   text-decoration: none
 
-.project-ref:hover
+.repository-link:hover
   color: $color-main-lighter
   text-decoration: underline
-
-.shadow-top
-  box-shadow: 0 -0.025rem 1rem rgba(0, 0, 0, 0.075) !important
 </style>

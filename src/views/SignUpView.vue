@@ -120,8 +120,8 @@ async function signUp() {
         <div class="text-center mb-2">
           <submit-button
               text="Sign Up"
-              :is-response-waiting="isSignUpResponseWaiting"
-              :vuelidate-data="v$"
+              :show-loading="isSignUpResponseWaiting"
+              :is-disabled="v$.$invalid"
           />
         </div>
         <div class="text-center">

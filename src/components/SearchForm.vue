@@ -1,5 +1,5 @@
 <script setup>
-import {computed, ref} from "vue";
+import {ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {replaceURLParams} from "@/utils";
 import MagnifyingGlassIcon from "@/components/icons/MagnifyingGlassIcon.vue";
@@ -10,32 +10,39 @@ import CrossFillIcon from "@/components/icons/CrossFillIcon.vue";
 const route = useRoute();
 const router = useRouter();
 
-const emits = defineEmits(["searchInput"])
+defineProps({
+  placeholderText: {
+    type: String,
+    default: "Enter a query..."
+  }
+});
+const emits = defineEmits(["searchInput", "clearSearch"])
 
 const searchQuery = ref(route.query.search || "");
-const searchTimeout = ref(null);
-const searchInputPlaceholderText = computed(() => {
-  return `Enter a query, for example ${route.name === "categories" ? "fruits" : "mango"}...`
-})
+
+const searchTimeoutId = ref(null);
 
 const iconsSize = 32
 
-const searchInput = ref(null);
+function clearSearchTimeout() {
+  if (searchTimeoutId.value) {
+    clearTimeout(searchTimeoutId.value);
+    searchTimeoutId.value = null;
+  }
+}
 
-async function clearSearch() {
+async function onClearSearch() {
+  clearSearchTimeout();
   searchQuery.value = "";
   await replaceURLParams(router, route, {search: null});
-  emits("searchInput", searchQuery.value);
+  emits("clearSearch");
 }
 
 const inactivityTimeForSearchApply = 500
 
 const onSearchInput = async () => {
-  if (searchTimeout.value) {
-    clearTimeout(searchTimeout.value);
-    searchTimeout.value = null;
-  }
-  searchTimeout.value = setTimeout(async () => {
+  clearSearchTimeout();
+  searchTimeoutId.value = setTimeout(async () => {
     await replaceURLParams(router, route, {search: searchQuery.value});
     emits("searchInput", searchQuery.value);
   }, inactivityTimeForSearchApply);
@@ -55,12 +62,12 @@ const onSearchInput = async () => {
           v-model="searchQuery"
           class="form-control p-0 only-bottom-border"
           type="search"
-          :placeholder="searchInputPlaceholderText"
+          :placeholder="placeholderText"
           autocomplete="off"
           required=""
       >
       <button
-          @click="clearSearch"
+          @click="onClearSearch"
           v-if="searchQuery"
           class="btn btn-light-blue ms-3"
       >

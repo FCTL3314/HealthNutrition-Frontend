@@ -25,18 +25,20 @@ const props = defineProps({
   }
 })
 
-
 const router = useRouter();
 
 const funnyEmojis = [
   "(o^^)o",
   "(^-^*)",
+  "(^_^)b",
+  "\\(^_^)/",
 ]
 
 const sadEmojis = [
   "(>_<)",
   "(≥o≤)",
   "(;-;)",
+  "\\(o_o)/",
 ]
 
 function getRandomEmoji() {
@@ -46,11 +48,9 @@ function getRandomEmoji() {
   return emojis[randomIndex];
 }
 
-
 function onGoBackClick() {
   router.go(-1);
 }
-
 </script>
 
 <template>

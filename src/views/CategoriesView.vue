@@ -16,12 +16,12 @@ const route = useRoute();
 const router = useRouter();
 
 const categories = ref([]);
-const categoriesCount = ref(0);
+
+const isCategoriesLoading = ref(false);
+const isNoCategories = computed(() => !isCategoriesLoading.value && !categories.value.length);
 
 const currentPage = ref(parseInt(route.query.page || 1));
 const totalPages = ref(0);
-const isCategoriesLoading = ref(false);
-const isNoCategories = computed(() => !isCategoriesLoading.value && !categories.value.length)
 
 async function loadCategories(searchQuery = null) {
   isCategoriesLoading.value = true;
@@ -44,7 +44,6 @@ async function updateCategories(searchQuery = null) {
   const data = await loadCategories(searchQuery);
   if (data) {
     categories.value = data.results;
-    categoriesCount.value = data.count;
     totalPages.value = calculateTotalPages(data.count, CATEGORIES_PAGINATE_BY);
   }
 }
@@ -64,7 +63,12 @@ onMounted(async () => {
 <template>
   <categories-greeting class="component-indentation-y"/>
   <div class="component-indentation-y">
-    <SearchForm class="mb-3" @search-input="updateCategories"/>
+    <SearchForm
+        class="mb-3"
+        placeholder-text="Enter a query, for example fruits..."
+        @search-input="updateCategories"
+        @clear-search="updateCategories"
+    />
     <div class="row">
       <div
           v-if="!isCategoriesLoading"
@@ -86,6 +90,7 @@ onMounted(async () => {
     <error-section
         v-if="isNoCategories"
         description="Oops... Looks like we couldn't find any categories."
+        :show-go-back-button="false"
     />
     <pagination-section
         v-if="!isNoCategories"

@@ -4,7 +4,6 @@ import CreateComparisonGroupForm from "@/components/comparisons/CreateComparison
 
 
 const emits = defineEmits(["comparisonGroupCreated"])
-
 </script>
 
 <template>

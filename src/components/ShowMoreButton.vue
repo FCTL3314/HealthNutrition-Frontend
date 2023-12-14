@@ -7,10 +7,6 @@ const pageNumberPaginationType = "pageNumber";
 const limitOffsetPaginationType = "limitOffset";
 
 const props = defineProps({
-  buttonClasses: {
-    type: String,
-    default: "list-group-item list-group-item-action text-primary common-rounding fw-semibold border-0",
-  },
   paginationType: {
     type: String,
     default: pageNumberPaginationType,
@@ -25,22 +21,22 @@ const props = defineProps({
 
 const emits = defineEmits(["showMoreButtonClick"]);
 
-const paginationTypeToPaginationStartIndexMap = {};
-paginationTypeToPaginationStartIndexMap[pageNumberPaginationType] = 1;
-paginationTypeToPaginationStartIndexMap[limitOffsetPaginationType] = 0;
+const paginationStartIndexMap = {};
+paginationStartIndexMap[pageNumberPaginationType] = 1;
+paginationStartIndexMap[limitOffsetPaginationType] = 0;
 
-let paginationStartIndex = paginationTypeToPaginationStartIndexMap[props.paginationType];
+let paginationIndex = paginationStartIndexMap[props.paginationType];
 
 function onShowMoreButtonClick() {
   switch (props.paginationType) {
     case pageNumberPaginationType:
-      paginationStartIndex++;
+      paginationIndex++;
       break;
     case limitOffsetPaginationType:
-      paginationStartIndex += props.offsetIncrease;
+      paginationIndex += props.offsetIncrease;
       break;
   }
-  emits("showMoreButtonClick", paginationStartIndex);
+  emits("showMoreButtonClick", paginationIndex);
 }
 
 onMounted(() => {
@@ -57,7 +53,7 @@ onMounted(() => {
     <button
         @click="onShowMoreButtonClick"
         type="button"
-        :class="buttonClasses"
+        class="list-group-item list-group-item-action text-primary common-rounding fw-semibold border-0"
     >
       Show more
       <caret-down-icon/>
