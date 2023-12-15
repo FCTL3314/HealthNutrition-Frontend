@@ -2,7 +2,7 @@
 import {getUserImage} from "@/utils";
 import moment from "moment";
 import CaretDownFillIcon from "@/components/icons/CaretDownFillIcon.vue";
-import {computed, reactive, ref} from "vue";
+import {reactive, ref} from "vue";
 import CaretUpFillIcon from "@/components/icons/CaretUpFillIcon.vue";
 import CommentsSection from "@/components/comments/CommentsSection.vue";
 import {isContentTypeAllowed} from "@/validators";
@@ -25,67 +25,65 @@ const props = defineProps({
   },
 })
 
-const replies = reactive([]);
-const isRepliesOpened = ref(false);
-const isRepliesOpenedAtLeastOnce = ref(false);
-const isReplyFormShown = ref(false);
-const showReplies = computed(() => !props.comment.parent)
-const humanizedCreatedAt = computed(() => moment(props.comment.created_at).fromNow())
-
-const commentAuthorProfileRoute = computed(() => {
-  return {name: 'profile', params: {userSlug: props.comment.author.slug}};
-})
-const commentParentAuthorProfileRoute = computed(() => {
-  return {name: 'profile', params: {userSlug: props.comment.parent.author.slug}};
-})
-
-const commentAuthorImageSize = 40
-
 const emits = defineEmits(["replyCreated"])
 
-const hasParentCommentAuthorPrefix = computed(() => {
-  return props.comment.parent !== null && props.comment.parent.parent_id !== null;
-})
-
-function getParentCommentAuthorPrefix() {
-  if (hasParentCommentAuthorPrefix) {
-    return `@${props.comment.parent.author.slug}`;
-  }
-  return ''
-
-}
-
-async function onRepliesLoaded(data) {
-  replies.push(...data.results);
-}
-
-function toggleReplies() {
-  isRepliesOpened.value = !isRepliesOpened.value;
-  if (!isRepliesOpenedAtLeastOnce.value) {
-    isRepliesOpenedAtLeastOnce.value = true;
-  }
-}
-
-function hideReplyForm() {
-  isReplyFormShown.value = false;
-}
-
-function toggleReplyForm() {
-  isReplyFormShown.value = !isReplyFormShown.value;
-}
-
 async function onReplyCreated(reply) {
-  hideReplyForm();
+  hideAddReplyForm();
   props.comment.replies_count += 1;
   props.comment.has_replies = true;
 
   if (isRepliesOpenedAtLeastOnce.value) {
     replies.unshift(reply);
+    openReplies();
   } else if (props.comment.parent) {
     emits("replyCreated", reply);
   } else {
-    toggleReplies();
+    openReplies();
   }
+}
+
+const replies = reactive([]);
+
+const isRepliesOpened = ref(false);
+const isRepliesOpenedAtLeastOnce = ref(false);
+const isAddReplyFormShown = ref(false);
+const showRepliesButton = !props.comment.parent;
+
+const parentCommentAuthorPrefix = props.comment.parent && props.comment.parent.parent_id !== null
+    ? `@${props.comment.parent.author.slug}`
+    : "";
+const humanizedCreatedAt = moment(props.comment.created_at).fromNow();
+
+const commentAuthorImageSize = 40
+
+const commentAuthorProfileRoute = {name: 'profile', params: {userSlug: props.comment.author.slug}};
+const commentParentAuthorProfileRoute = {name: 'profile', params: {userSlug: props.comment.parent?.author.slug}};
+
+const addReplies = async (data) => replies.push(...data.results);
+
+function toggleReplies() {
+  if (isRepliesOpened.value) {
+    closeReplies();
+  } else {
+    openReplies();
+  }
+}
+
+function openReplies() {
+  isRepliesOpenedAtLeastOnce.value = true;
+  isRepliesOpened.value = true;
+}
+
+function closeReplies() {
+  isRepliesOpened.value = false;
+}
+
+function hideAddReplyForm() {
+  isAddReplyFormShown.value = false;
+}
+
+function toggleReplyForm() {
+  isAddReplyFormShown.value = !isAddReplyFormShown.value;
 }
 </script>
 
@@ -93,11 +91,12 @@ async function onReplyCreated(reply) {
   <div class="comment-wrp">
     <div class="comment-body">
       <router-link :to="commentAuthorProfileRoute">
-        <img class="comment-avatar object-fit-cover"
-             :src="getUserImage(comment.author)"
-             alt="comment-author-image"
-             :width="commentAuthorImageSize"
-             :height="commentAuthorImageSize"
+        <img
+            class="comment-avatar object-fit-cover"
+            :src="getUserImage(comment.author)"
+            alt="comment-author-image"
+            :width="commentAuthorImageSize"
+            :height="commentAuthorImageSize"
         >
       </router-link>
       <div id="text-wrp">
@@ -112,33 +111,32 @@ async function onReplyCreated(reply) {
           <span class="ms-1" v-if="comment.edited">(edited)</span>
         </span>
         <p class="text-break mb-0">
-          <template v-if="hasParentCommentAuthorPrefix">
-            <router-link
-                class="comment-author-prefix-link"
-                :to="commentParentAuthorProfileRoute"
-            >
-              {{ getParentCommentAuthorPrefix() }}&nbsp;
-            </router-link>
-          </template>
+          <router-link
+              v-if="parentCommentAuthorPrefix"
+              class="comment-author-prefix-link"
+              :to="commentParentAuthorProfileRoute"
+          >
+            {{ parentCommentAuthorPrefix }}&nbsp;
+          </router-link>
           <span>{{ comment.text }}</span>
         </p>
       </div>
     </div>
     <div class="replies">
       <add-comment-form
-          v-if="isReplyFormShown"
+          v-if="isAddReplyFormShown"
           :object-id="objectId"
           :content-type="contentType"
           :is-reply-form="true"
           :parent-id="comment.id"
-          @cancel-button="hideReplyForm"
+          @cancel-button="hideAddReplyForm"
           @comment-created="onReplyCreated"
       />
       <div class="replies-buttons">
-        <template v-if="showReplies">
+        <template v-if="showRepliesButton">
           <button
               @click="comment.has_replies && toggleReplies()"
-              class="btn btn-comment"
+              class="btn btn-replies"
           >
             <template v-if="comment.has_replies">
               <caret-up-fill-icon v-if="isRepliesOpened"/>
@@ -150,11 +148,9 @@ async function onReplyCreated(reply) {
           </button>
           <span class="mx-1">&middot;</span>
         </template>
-        <button @click="toggleReplyForm" class="btn btn-comment">
-          Reply
-        </button>
+        <button @click="toggleReplyForm" class="btn btn-reply">Reply</button>
       </div>
-      <div v-if="isRepliesOpenedAtLeastOnce">
+      <template v-if="isRepliesOpenedAtLeastOnce">
         <div v-show="isRepliesOpened">
           <comments-section
               :comments="replies"
@@ -162,10 +158,10 @@ async function onReplyCreated(reply) {
               :content-type="'product'"
               :parent-id="comment.id"
               :is-replies-section="true"
-              @comments-loaded="onRepliesLoaded"
+              @comments-loaded="addReplies"
           />
         </div>
-      </div>
+      </template>
     </div>
   </div>
 </template>
@@ -180,16 +176,19 @@ async function onReplyCreated(reply) {
   align-items: flex-start
 
 .btn
-  &-comment
+  &-replies,
+  &-reply
     color: $color-main-lighter
     font-weight: 600
     background: transparent
     border-radius: $component-rounding
 
-  &-comment:hover
+  &-replies:hover,
+  &-reply:hover
     background: $color-main-transparent-bg
 
-  &-comment:active
+  &-replies:active,
+  &-reply:active
     color: $color-main-lighter
 
 .replies

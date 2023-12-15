@@ -1,5 +1,5 @@
 <script setup>
-import {computed, ref} from "vue";
+import {ref} from "vue";
 import {CARD_IMAGE_HEIGHT, PRODUCT_HEALTHFULNESS_REFERENCE, PRODUCT_NUTRITION_ROUNDING} from "@/constants";
 import CircleFillIcon from "@/components/icons/CircleFillIcon.vue";
 import {useStore} from "vuex";
@@ -44,20 +44,18 @@ const store = useStore();
 const emits = defineEmits(["saveButtonClick", "removeButtonClick"])
 const onSaveButtonClick = () => emits("saveButtonClick", props.product.id);
 
-const cardElement = ref(null);
+const cardComponent = ref(null);
 
 const onRemoveButtonClick = () => {
-  cardElement.value.$el.classList.add('animate__animated', 'animate__bounceOut');
-  cardElement.value.$el.addEventListener('animationend', async () => {
+  cardComponent.value.$el.classList.add('animate__animated', 'animate__bounceOut');
+  cardComponent.value.$el.addEventListener('animationend', async () => {
     emits("removeButtonClick", props.product);
   });
 }
 
-const healthfulnessPercents = computed(() => {
-  return Math.round((props.product.healthfulness / PRODUCT_HEALTHFULNESS_REFERENCE) * 100);
-})
+const healthfulnessPercents = Math.round((props.product.healthfulness / PRODUCT_HEALTHFULNESS_REFERENCE) * 100);
 
-const createNutritionItem = (name, colorClass, units, value, avgValue, isMoreBetter) => {
+function createNutritionItem(name, colorClass, units, value, avgValue, isMoreBetter) {
   const difference = parseFloat((value - avgValue).toFixed(PRODUCT_NUTRITION_ROUNDING));
   const isDifferencePositive = difference >= 0;
   const normalizedDifference = Math.abs(difference);
@@ -73,7 +71,7 @@ const createNutritionItem = (name, colorClass, units, value, avgValue, isMoreBet
     isDifferencePositive,
     isMoreBetter,
   };
-};
+}
 
 const nutritionItems = [
   createNutritionItem(
@@ -110,13 +108,14 @@ const nutritionItems = [
   ),
 ];
 
-const productRoute = computed(() => {
-  return {name: "product", params: {categorySlug: props.categorySlug, productSlug: props.product.slug}};
-});
+const productRoute = {
+  name: "product",
+  params: {categorySlug: props.categorySlug, productSlug: props.product.slug},
+};
 </script>
 
 <template>
-  <component-wrapper ref="cardElement" class="card common-rounding h-100 z-0">
+  <component-wrapper ref="cardComponent" class="card common-rounding h-100 z-0">
     <router-link :to="productRoute">
       <div class="card-img-scale">
         <img

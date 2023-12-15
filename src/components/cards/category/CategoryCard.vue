@@ -1,8 +1,8 @@
 <script setup>
-import {computed} from "vue";
 import CircleFillIcon from "@/components/icons/CircleFillIcon.vue";
 import {CARD_IMAGE_HEIGHT, PRODUCT_NUTRITION_ROUNDING} from "@/constants";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
+import {computed} from "vue";
 
 
 const props = defineProps({
@@ -10,40 +10,67 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  calories_avg: {
+    type: Number,
+  },
+  protein_avg: {
+    type: Number,
+  },
+  fat_avg: {
+    type: Number,
+  },
+  carbs_avg: {
+    type: Number,
+  },
 });
 
 
-const nutritionItems = [
-  {
-    name: "Calories",
-    value: props.category.calories_avg,
-    colorClass: "text-warning",
-    units: "kcal",
-  },
-  {
-    name: "Protein",
-    value: props.category.protein_avg,
-    colorClass: "text-success",
-    units: "g.",
-  },
-  {
-    name: "Fat",
-    value: props.category.fat_avg,
-    colorClass: "text-danger",
-    units: "g.",
-  },
-  {
-    name: "Carbs",
-    value: props.category.carbs_avg,
-    colorClass: "text-primary",
-    units: "g.",
-  },
-]
-
-
-const productsRoute = computed(() => {
-  return {name: 'products', params: {categorySlug: props.category.slug}};
+const nutritionItems = computed(() => {
+  const items = []
+  if (props.calories_avg) {
+    items.push(
+        {
+          name: "Calories",
+          value: props.calories_avg,
+          colorClass: "text-warning",
+          units: "kcal",
+        }
+    );
+  }
+  if (props.protein_avg) {
+    items.push(
+        {
+          name: "Protein",
+          value: props.protein_avg,
+          colorClass: "text-success",
+          units: "g.",
+        },
+    );
+  }
+  if (props.fat_avg) {
+    items.push(
+        {
+          name: "Fat",
+          value: props.fat_avg,
+          colorClass: "text-danger",
+          units: "g.",
+        },
+    );
+  }
+  if (props.carbs_avg) {
+    items.push(
+        {
+          name: "Carbs",
+          value: props.carbs_avg,
+          colorClass: "text-primary",
+          units: "g.",
+        },
+    );
+  }
+  return items;
 })
+
+const productsRoute = {name: 'products', params: {categorySlug: props.category.slug}};
 </script>
 
 <template>
@@ -68,6 +95,7 @@ const productsRoute = computed(() => {
     </div>
     <ul class="list-group list-group-flush">
       <li
+          v-if="nutritionItems.length"
           v-for="(item, index) in nutritionItems"
           :key="index"
           class="list-group-item inline-icon-text"

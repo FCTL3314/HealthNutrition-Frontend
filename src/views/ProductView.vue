@@ -13,9 +13,10 @@ import ErrorSection from "@/components/ErrorSection.vue";
 const route = useRoute()
 
 const product = ref(null);
-const productNotFound = ref(false);
+const comments = reactive([]);  // TODO: Move comments variable to the comment component.
 
-const comments = reactive([]);
+const isProductNotFound = ref(false);
+
 const commentsCount = ref(0);
 
 const nutritionValues = reactive([]);
@@ -50,28 +51,28 @@ async function loadProduct() {
     return (await api.products.product(route.params.productSlug)).data;
   } catch (error) {
     if (error.response.status === 404) {
-      productNotFound.value = true;
+      isProductNotFound.value = true;
     }
     console.error(error.response);
   }
 }
 
-async function updateProduct() {
+async function setProduct() {
   product.value = await loadProduct();
 }
 
-function onCommentsLoaded(data) {
+function addComments(data) {
   comments.push(...data.results)
   commentsCount.value = data.count
 }
 
-async function onCommentCreated(comment) {
+async function addComment(comment) {
   comments.unshift(comment);
   commentsCount.value++;
 }
 
 onMounted(async () => {
-  await updateProduct()
+  await setProduct()
       .then(async () => {
         document.title = createTitle(product.value.name);
         pushNutritionValues();
@@ -81,18 +82,22 @@ onMounted(async () => {
 
 <template>
   <error-section
-      v-if="productNotFound"
+      v-if="isProductNotFound"
       description="Oops... Looks like there is no such product or it has been removed."
   />
   <wrapped-loading-spinner :is-loading="!product">
     <component-wrapper class="component-indentation-y text-center">
-      <h1 class="text-main product-name">
+      <h1 class="product-name">
         {{ product.category.name }} - {{ product.name }}
       </h1>
       <p class="fs-5 mb-0">{{ product.short_description }}</p>
     </component-wrapper>
+    <component-wrapper>
+      <h2 class="component-title">Description</h2>
+      <p class="fs-5 mb-0" v-html="product.description"/>
+    </component-wrapper>
     <component-wrapper class="component-indentation-y text-center">
-      <h2 class="text-main">Nutritional value</h2>
+      <h2 class="text-main fs-1">Nutritional value</h2>
       <ul class="list-group list-group-flush">
         <li
             v-for="(nutritionValue, index) in nutritionValues"
@@ -111,13 +116,13 @@ onMounted(async () => {
         :object-id="product.id"
         :content-type="'product'"
         :comments-count="commentsCount"
-        @comment-created="onCommentCreated"
+        @comment-created="addComment"
     />
     <comments-section
         :comments="comments"
         :object-id="product.id"
         :content-type="'product'"
-        @comments-loaded="onCommentsLoaded"
+        @comments-loaded="addComments"
     />
   </wrapped-loading-spinner>
 </template>
@@ -127,7 +132,13 @@ onMounted(async () => {
 @import "@/assets/sass/variables"
 
 
-.product-name
+.component-title
   color: $color-main
-  font-size: 3em
+  font-weight: bold
+  font-size: 2.6rem
+  text-align: center
+
+.product-name
+  @extend .component-title
+  font-size: 3rem
 </style>

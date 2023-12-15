@@ -24,8 +24,9 @@ const products = ref([]);
 
 const isProductsLoading = ref(false);
 const isNoProducts = computed(() => products.value.length === 0 && !isProductsLoading.value);
-
 const hasMoreProducts = ref(false);
+
+let removedProductsCount = 0;
 
 async function loadComparisonGroup() {
   try {
@@ -35,9 +36,7 @@ async function loadComparisonGroup() {
   }
 }
 
-async function updateComparisonGroup() {
-  comparisonGroup.value = await loadComparisonGroup();
-}
+const setComparisonGroup = async () => comparisonGroup.value = await loadComparisonGroup();
 
 async function loadProducts(offset = 0) {
   isProductsLoading.value = true;
@@ -53,8 +52,6 @@ async function loadProducts(offset = 0) {
     isProductsLoading.value = false;
   }
 }
-
-let removedProductsCount = 0;
 
 async function updateProducts(offset = 0) {
   products.value.push(...(await loadProducts(offset - removedProductsCount)).results);
@@ -141,7 +138,7 @@ function getTags(productSlug) {
 }
 
 onMounted(async () => {
-  await updateComparisonGroup()
+  await setComparisonGroup()
       .then(async () => {
         document.title = createTitle(comparisonGroup.value.name);
         if (comparisonGroup.value.products_count > 0) {

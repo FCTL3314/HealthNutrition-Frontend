@@ -34,18 +34,13 @@ onMounted(() => {
 </template>
 
 <style lang="sass">
+@import '@/assets/sass/events'
 @import '@/assets/sass/variables'
 
 
 body
   font-family: 'Quicksand', 'sans-serif' !important
   background-color: $color-pink-light !important
-
-.event-background
-  background-repeat: repeat !important
-
-  &-christmas
-    background-image: url("@/assets/images/christmas-tiling.png") !important
 
 .header-indentation
   margin: 0.75rem 0.75rem $between-components-indentation 0.75rem !important

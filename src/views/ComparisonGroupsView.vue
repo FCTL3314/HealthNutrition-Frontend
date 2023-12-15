@@ -107,7 +107,4 @@ onMounted(async () => {
 
 <style scoped lang="sass">
 @import "@/assets/sass/main"
-
-.dragging
-  transform: scale(1.10)
 </style>

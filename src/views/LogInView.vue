@@ -6,7 +6,7 @@ import {useVuelidate} from "@vuelidate/core";
 import {useStore} from "vuex";
 import {required} from "@vuelidate/validators";
 import FormErrorsFeedback from "@/components/forms/FormErrorsFeedback.vue";
-import {getValidationClass, handleAuthError} from "@/utils";
+import {appendResponseErrorMessages, getValidationClass} from "@/utils";
 import toaster from "@/plugins/toaster";
 import {authStorage} from "@/services/auth";
 import FormFlushMessages from "@/components/forms/FormFlushMessages.vue";
@@ -18,8 +18,8 @@ import ComponentWrapper from "@/components/ComponentWrapper.vue";
 const router = useRouter();
 const store = useStore();
 
-const isLogInResponseWaiting = ref(false);
-const serverErrorMessages = reactive([])
+const isResponseWaiting = ref(false);
+const errorMessages = reactive([]);
 
 const formData = reactive({
   username: '',
@@ -37,8 +37,7 @@ const rules = {
 
 const v$ = useVuelidate(rules, formData)
 
-async function storeUserData(data) {
-
+async function saveUserDataLocally(data) {
   localStorage.setItem('rememberMe', JSON.stringify(formData.rememberMe));
   store.commit('auth/setAccessToken', data.access);
 
@@ -52,21 +51,27 @@ async function storeUserData(data) {
 
 }
 
+async function handleAfterLogIn() {
+  toaster.success('You have successfully login!')
+  await router.push({name: 'categories'})
+}
+
 async function logIn() {
-  isLogInResponseWaiting.value = true;
-  serverErrorMessages.length = 0;
+  isResponseWaiting.value = true;
+  errorMessages.length = 0;
   try {
     const response = await api.users.obtainToken({
       username: formData.username,
       password: formData.password,
     });
-    await storeUserData(response.data)
-    toaster.success('You have successfully login!')
-    await router.push({name: 'categories'})
+    await saveUserDataLocally(response.data)
+    await handleAfterLogIn()
   } catch (error) {
-    handleAuthError(error, serverErrorMessages, v$);
+    appendResponseErrorMessages(errorMessages, error.request.response);
+    console.error(error.response);
   } finally {
-    isLogInResponseWaiting.value = false;
+    isResponseWaiting.value = false;
+    v$.value.$reset();
   }
 }
 
@@ -78,7 +83,7 @@ const passwordResetRoute = {name: "passwordReset"}
     <component-wrapper class="container col-lg-4 col-md-6 col-sm-8">
       <form @submit.prevent="logIn">
         <h2 class="form-title text-center">Log In</h2>
-        <form-flush-messages :error-messages="serverErrorMessages"/>
+        <form-flush-messages :error-messages="errorMessages"/>
         <div class="mb-4">
           <label class="form-label text-main">Username</label>
           <input
@@ -125,7 +130,7 @@ const passwordResetRoute = {name: "passwordReset"}
         <div class="text-center my-2">
           <submit-button
               text="Log In"
-              :show-loading="isLogInResponseWaiting"
+              :show-loading="isResponseWaiting"
               :is-disabled="v$.$invalid"
           />
         </div>

@@ -32,13 +32,13 @@ export default function (instance) {
             return instance.post("users/reset_password_confirm/", payload);
         },
         setPassword(payload) {
-          return instance.post("users/set_password/", payload);
+            return instance.post("users/set_password/", payload);
         },
         sendEmailVerification(payload) {
-          return instance.post("users/verification/send/", payload);
+            return instance.post("users/verification/send/", payload);
         },
         verifyUser(payload) {
-          return instance.post("users/verification/verify/", payload);
+            return instance.post("users/verification/verify/", payload);
         },
     };
 }

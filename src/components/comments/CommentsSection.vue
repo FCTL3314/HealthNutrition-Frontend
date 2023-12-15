@@ -59,10 +59,8 @@ async function loadComments(page = 1) {
 }
 
 function addReplyComment(reply) {
-  const parentComment = props.comments.find(comment => comment.id === reply.parent_id);
-  const parentCommentIndex = props.comments.indexOf(parentComment);
-  const indexToInsertReply = parentCommentIndex + 1;
-  props.comments.splice(indexToInsertReply, 0, reply);
+  const parentCommentIndex = props.comments.findIndex(comment => comment.id === reply.parent_id);
+  props.comments.splice(parentCommentIndex + 1, 0, reply);
 }
 
 onMounted(async () => {
@@ -73,15 +71,16 @@ onMounted(async () => {
 <template>
   <component-wrapper :class="[{'mb-3': !isRepliesSection}, {'pb-0': isRepliesSection}]" :shadow="!isRepliesSection">
     <div id="comments-wrp" class="container overflow-scroll">
-      <CommentCard
+      <comment-card
           v-for="comment in comments"
           :key="comment.id"
           :object-id="objectId"
           :content-type="contentType"
           :comment="comment"
           @reply-created="addReplyComment"
+          class="animate__animated animate__fadeIn"
       />
-      <CommentCardPlaceholder
+      <comment-card-placeholder
           v-if="isCommentsLoading"
           v-for="_ in COMMENTS_PAGINATE_BY"
           :key="_"

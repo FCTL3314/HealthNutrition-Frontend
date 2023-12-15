@@ -17,8 +17,8 @@ import toaster from "@/plugins/toaster";
 
 
 const router = useRouter();
-
 const store = useStore();
+
 const user = computed(() => store.getters["auth/user"]);
 
 const isResponseWaiting = ref(false);
@@ -26,7 +26,7 @@ const isVerificationSending = ref(false);
 const isAlreadyVerified = user.value.is_verified;
 
 const formData = reactive({
-  code: '',
+  code: "",
 });
 
 const rules = {

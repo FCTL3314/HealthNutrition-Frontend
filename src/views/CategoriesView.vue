@@ -77,7 +77,13 @@ onMounted(async () => {
           :key="category.id"
           class="col-lg-4 col-md-6 mb-3 animate__animated animate__fadeIn"
       >
-        <category-card :category="category"/>
+        <category-card
+            :category="category"
+            :calories_avg="category.calories_avg"
+            :protein_avg="category.protein_avg"
+            :fat_avg="category.fat_avg"
+            :carbs_avg="category.carbs_avg"
+        />
       </div>
       <div
           v-else

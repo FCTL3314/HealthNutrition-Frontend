@@ -7,42 +7,37 @@ import {createTitle, getUserImage} from "@/utils";
 import WrappedLoadingSpinner from "@/components/loading/WrappedLoadingSpinner.vue";
 import ErrorSection from "@/components/ErrorSection.vue";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
+import {useStore} from "vuex";
 
 
 const route = useRoute();
+const store = useStore();
 
 const user = ref(null);
-const userMe = computed(async () => {
-  try {
-    return (await api.users.me()).data;
-  } catch (error) {
-    console.error(error);
-  }
-})
-const isCurrentUser = computed(async () => {
-  try {
-    return (await userMe.value).slug === route.params.userSlug;
-  } catch (error) {
+const localUser = computed(() => store.getters["auth/user"]);
+
+const isSlugMatchesLocalUserSlug = (slug) => {
+  if (!localUser.value) {
     return false;
   }
-});
-
-const userNotFound = ref(false);
+  return slug === localUser.value?.slug;
+}
+const isUserNotFound = ref(false);
 
 const loadUser = async (userSlug) => {
   try {
     return (await api.users.specificUser(userSlug)).data;
   } catch (error) {
     if (error.response.status === 404) {
-      userNotFound.value = true;
+      isUserNotFound.value = true;
     }
     console.error(error.response);
   }
 }
 
-const setUser = async (userSlug) => {
-  if (await isCurrentUser.value) {
-    user.value = await userMe.value;
+async function setUser(userSlug) {
+  if (isSlugMatchesLocalUserSlug(userSlug)) {
+    user.value = localUser.value;
   } else {
     user.value = await loadUser(userSlug);
   }
@@ -67,7 +62,7 @@ const informationFields = computed(() => {
     },
     {
       label: "Email",
-      value: isCurrentUser.value ? user.value?.email : 'Hidden',
+      value: isSlugMatchesLocalUserSlug(route.params.userSlug) ? user.value?.email : 'Hidden',
     },
     {
       label: "Member since",
@@ -85,22 +80,19 @@ const informationFields = computed(() => {
 })
 
 
-onMounted(async () => {
-  await setUser(route.params.userSlug)
-      .then(() => {
-        document.title = createTitle(`${user.value.username}'s Profile`);
-      });
-})
+const setDocumentTitle = () => document.title = createTitle(`${user.value.username}'s Profile`);
+
+onMounted(async () => await setUser(route.params.userSlug).then(() => setDocumentTitle()))
 
 onBeforeRouteUpdate(async (to, from, next) => {
-  await setUser(to.params.userSlug);
+  await setUser(to.params.userSlug).then(() => setDocumentTitle());
   next();
 });
 </script>
 
 <template>
   <error-section
-      v-if="userNotFound"
+      v-if="isUserNotFound"
       description="Oops... Looks like this profile does not exist or has been deleted."
   />
   <wrapped-loading-spinner v-else :is-loading="!user">

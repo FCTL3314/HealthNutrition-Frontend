@@ -1,9 +1,9 @@
 <script setup>
-import CardPlaceholder from "@/components/cards/CardPlaceholder.vue";
+import CommonCardWithImagePlaceholder from "@/components/cards/CommonCardWithImagePlaceholder.vue";
 </script>
 
 <template>
-  <card-placeholder>
+  <common-card-with-image-placeholder>
     <template v-slot:card-bottom>
       <p class="card-text placeholder-glow">
         <span class="placeholder col-7 bg-warning"></span>
@@ -12,7 +12,7 @@ import CardPlaceholder from "@/components/cards/CardPlaceholder.vue";
         <span class="placeholder col-7 bg-primary"></span>
       </p>
     </template>
-  </card-placeholder>
+  </common-card-with-image-placeholder>
 </template>
 
 <style lang="sass" scoped>

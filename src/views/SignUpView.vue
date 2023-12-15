@@ -4,7 +4,7 @@ import {computed, reactive, ref} from "vue";
 import {useVuelidate} from "@vuelidate/core";
 import {email, helpers, required, sameAs} from "@vuelidate/validators";
 import FormErrorsFeedback from "@/components/forms/FormErrorsFeedback.vue";
-import {getValidationClass, handleAuthError} from "@/utils";
+import {appendResponseErrorMessages, getValidationClass} from "@/utils";
 import router from "@/router";
 import toaster from "@/plugins/toaster";
 import FormFlushMessages from "@/components/forms/FormFlushMessages.vue"
@@ -13,8 +13,8 @@ import {passwordValidators, usernameValidators} from "@/validators/vuelidate";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
 
 
-const isSignUpResponseWaiting = ref(false);
-const serverErrorMessages = reactive([]);
+const isResponseWaiting = ref(false);
+const errorMessages = reactive([]);
 
 const formData = reactive({
   username: "",
@@ -42,27 +42,29 @@ const rules = {
   },
 };
 
-const v$ = useVuelidate(rules, formData)
+const v$ = useVuelidate(rules, formData);
 
-async function handleAfterSignUpActions() {
+async function handleAfterSignUp() {
   await router.push({name: "logIn"});
   toaster.success("You have successfully registered!");
 }
 
 async function signUp() {
-  isSignUpResponseWaiting.value = true;
-  serverErrorMessages.length = 0;
+  isResponseWaiting.value = true;
+  errorMessages.length = 0;
   try {
     await api.users.register({
       username: formData.username,
       email: formData.email,
       password: formData.password,
     });
-    await handleAfterSignUpActions();
+    await handleAfterSignUp();
   } catch (error) {
-    handleAuthError(error, serverErrorMessages, v$);
+    appendResponseErrorMessages(errorMessages, error.request.response);
+    console.error(error.response);
   } finally {
-    isSignUpResponseWaiting.value = false;
+    isResponseWaiting.value = false;
+    v$.value.$reset();
   }
 }
 </script>
@@ -72,7 +74,7 @@ async function signUp() {
     <component-wrapper class="container col-lg-5 col-md-8 col-sm-10">
       <form @submit.prevent="signUp">
         <h2 class="form-title text-center">Sign Up</h2>
-        <form-flush-messages :error-messages="serverErrorMessages"/>
+        <form-flush-messages :error-messages="errorMessages"/>
         <div class="mb-4">
           <label class="form-label text-main">Username</label>
           <input
@@ -120,7 +122,7 @@ async function signUp() {
         <div class="text-center mb-2">
           <submit-button
               text="Sign Up"
-              :show-loading="isSignUpResponseWaiting"
+              :show-loading="isResponseWaiting"
               :is-disabled="v$.$invalid"
           />
         </div>

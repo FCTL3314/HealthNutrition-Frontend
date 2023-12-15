@@ -24,9 +24,9 @@ const rules = {
   },
 };
 
-const v$ = useVuelidate(rules, formData)
+const v$ = useVuelidate(rules, formData);
 
-const logInRoute = {name: "logIn"}
+const logInRoute = {name: "logIn"};
 
 const sendResetEmail = async () => {
   isResponseWaiting.value = true;
@@ -42,8 +42,8 @@ const sendResetEmail = async () => {
     console.error(error);
   } finally {
     isResponseWaiting.value = false;
-    formData.email = ""
-    v$.value.$reset()
+    formData.email = "";
+    v$.value.$reset();
   }
 }
 </script>

@@ -104,20 +104,10 @@ export async function replaceURLParams(router, route, params, savePosition = tru
     await router.replace({query: {...route.query, ..._params}});
 }
 
-export function handleAuthError(error, errorsArr, v$) {
-    appendResponseErrorMessages(errorsArr, error.request.response);
-    v$.value.$reset();
-    console.error(error.response);
-}
-
 export function tryParseOrDefault(value, defaultValue) {
     try {
         return value !== null ? JSON.parse(value) : defaultValue;
     } catch (error) {
         return defaultValue;
     }
-}
-
-export function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
 }

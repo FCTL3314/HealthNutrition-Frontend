@@ -21,18 +21,17 @@ const products = ref([]);
 
 const isCategoryLoading = ref(false);
 const isProductsLoading = ref(false);
-
-const selectedProductId = ref(-1);
-
 const isDataLoading = computed(() => {
   return isCategoryLoading.value || isProductsLoading.value;
 })
 const isNoProducts = computed(() => !isDataLoading.value & !products.value.length)
 
+const selectedProductId = ref(-1);
+
 const currentPage = ref(parseInt(route.query.page || 1));
 const totalPages = ref(0);
 
-const onProductSaveClick = (productId) => selectedProductId.value = productId;
+const setSelectedProductId = (productId) => selectedProductId.value = productId;
 
 async function loadCategory() {
   isCategoryLoading.value = true;
@@ -121,7 +120,7 @@ onMounted(async () => {
             :protein-avg="category.protein_avg"
             :fat-avg="category.fat_avg"
             :carbs-avg="category.carbs_avg"
-            @save-button-click="onProductSaveClick"
+            @save-button-click="setSelectedProductId"
         />
       </div>
       <div
@@ -146,3 +145,7 @@ onMounted(async () => {
     />
   </div>
 </template>
+
+<style lang="sass" scoped>
+
+</style>

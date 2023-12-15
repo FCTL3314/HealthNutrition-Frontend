@@ -1,8 +1,9 @@
 <script setup>
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
-import {computed, ref} from "vue";
+import {ref} from "vue";
 import TrashIcon from "@/components/icons/TrashIcon.vue";
 import moment from "moment/moment";
+
 
 const props = defineProps({
   comparisonGroup: {
@@ -13,24 +14,25 @@ const props = defineProps({
 
 const emits = defineEmits(["deleteClick"])
 
-const cardElement = ref(null);
+const cardComponent = ref(null);
 
 const onDeleteButtonClick = async () => {
-  cardElement.value.$el.classList.add('animate__animated', 'animate__bounceOut');
-  cardElement.value.$el.addEventListener('animationend', async () => {
+  cardComponent.value.$el.classList.add('animate__animated', 'animate__bounceOut');
+  cardComponent.value.$el.addEventListener('animationend', async () => {
     emits("deleteClick", props.comparisonGroup);
   });
 }
 
-const humanizedCreatedAt = computed(() => moment(props.comparisonGroup.created_at).fromNow())
+const humanizedCreatedAt = moment(props.comparisonGroup.created_at).fromNow()
 
-const productsComparisonRoute = computed(() => {
-  return {name: "productsComparison", params: {comparisonGroupSlug: props.comparisonGroup.slug}};
-});
+const productsComparisonRoute = {
+  name: "productsComparison",
+  params: {comparisonGroupSlug: props.comparisonGroup.slug},
+};
 </script>
 
 <template>
-  <component-wrapper ref="cardElement" class="card common-rounding">
+  <component-wrapper ref="cardComponent" class="card common-rounding">
     <div class="card-body inline-icon-text">
       <div class="text-break">
         <router-link
@@ -55,8 +57,4 @@ const productsComparisonRoute = computed(() => {
 <style lang="sass" scoped>
 @import '@/assets/sass/main'
 @import '@/assets/sass/cards'
-@import 'bootstrap/scss/bootstrap'
-
-.card:hover
-  transform: scale(1.01)
 </style>

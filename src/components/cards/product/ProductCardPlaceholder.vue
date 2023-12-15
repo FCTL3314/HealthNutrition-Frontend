@@ -1,11 +1,11 @@
 <script setup>
-import CardPlaceholder from "@/components/cards/CardPlaceholder.vue";
+import CommonCardWithImagePlaceholder from "@/components/cards/CommonCardWithImagePlaceholder.vue";
 
 const getBGColorClass = () => Math.random() >= 0.5 ? "bg-success" : "bg-danger";
 </script>
 
 <template>
-  <card-placeholder>
+  <common-card-with-image-placeholder>
     <template v-slot:card-bottom>
       <p class="card-text placeholder-glow mb-1">
         <span class="placeholder col-12 bg-primary"></span>
@@ -21,7 +21,7 @@ const getBGColorClass = () => Math.random() >= 0.5 ? "bg-success" : "bg-danger";
         <span class="placeholder col-1" :class="getBGColorClass()"></span>
       </p>
     </template>
-  </card-placeholder>
+  </common-card-with-image-placeholder>
 </template>
 
 <style lang="sass" scoped>
