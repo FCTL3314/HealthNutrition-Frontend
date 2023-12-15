@@ -14,7 +14,11 @@ defineProps({
   placeholderText: {
     type: String,
     default: "Enter a query..."
-  }
+  },
+  showClearSearchButton: {
+    type: Boolean,
+    default: true,
+  },
 });
 const emits = defineEmits(["searchInput", "clearSearch"])
 
@@ -68,7 +72,7 @@ const onSearchInput = async () => {
       >
       <button
           @click="onClearSearch"
-          v-if="searchQuery"
+          v-show="searchQuery && showClearSearchButton"
           class="btn btn-light-blue ms-3"
       >
         <cross-fill-icon

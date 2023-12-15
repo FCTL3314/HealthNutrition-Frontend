@@ -103,6 +103,7 @@ onMounted(async () => {
     <search-form
         class="mb-3"
         placeholder-text="Enter a query, for example mango..."
+        :show-clear-search-button="!isProductsLoading"
         @search-input="updateProducts"
         @clear-search="updateProducts"
     />
