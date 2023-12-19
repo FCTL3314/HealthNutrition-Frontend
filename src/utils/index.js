@@ -111,3 +111,7 @@ export function tryParseOrDefault(value, defaultValue) {
         return defaultValue;
     }
 }
+
+export function calculateOffsetAdjustment(offset, createdObjects = 0, deletedObjects = 0) {
+    return offset + (createdObjects - deletedObjects);
+}

@@ -55,9 +55,16 @@ input
 .bg-purple-black
   background-color: $color-purple-black !important
 
-.inline-icon-text
+.centered-vertically
   display: flex !important
   align-items: center
+
+.centered-horizontally
+  display: flex !important
+  align-items: center
+
+.centered
+  @extend .centered-horizontally, .centered-vertically
 
 .c-toast
   font-size: 20px !important
@@ -115,7 +122,7 @@ input
   &-light-blue:hover
     background-color: $color-main-transparent-bg !important
 
-  &-trash
+  &-transparent
     border-radius: $component-rounding !important
     background-color: transparent !important
     border: none !important

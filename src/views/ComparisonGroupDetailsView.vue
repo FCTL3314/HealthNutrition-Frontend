@@ -59,7 +59,6 @@ async function updateProducts(offset = 0) {
 
 async function removeProduct(productToRemove) {
   products.value = products.value.filter(product => product.id !== productToRemove.id)
-  await api.comparisons.removeProductFromComparisonGroup(comparisonGroup.value.id, productToRemove.id);
   removedProductsCount++;
 }
 
@@ -202,6 +201,7 @@ onMounted(async () => {
               :fat-avg="comparisonGroup.fat_avg"
               :carbs-avg="comparisonGroup.carbs_avg"
               :is-comparison-product="true"
+              :comparison-group="comparisonGroup"
               :tags="getTags(product.slug)"
               @remove-button-click="removeProduct"
           />

@@ -100,7 +100,10 @@ onMounted(async () => {
               :key="productId"
               @show-more-button-click="updateComparisonGroups"
           />
-          <div v-if="isComparisonGroupsLoading" class="text-center mx-auto">
+          <div
+              v-if="isComparisonGroupsLoading"
+              class="text-center centered justify-content-center"
+          >
             <loading-spinner :size="24"/>
           </div>
         </div>
@@ -113,7 +116,7 @@ onMounted(async () => {
           <button
               v-else
               @click="showAddGroup"
-              class="btn text-main inline-icon-text justify-content-center common-rounding w-100 m-0"
+              class="btn text-main centered-vertically justify-content-center common-rounding w-100 m-0"
           >
             <plus-icon class="me-1" :height="24" :width="24"/>
             Create new group

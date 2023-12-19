@@ -3,6 +3,11 @@ import ComponentWrapper from "@/components/ComponentWrapper.vue";
 import {ref} from "vue";
 import TrashIcon from "@/components/icons/TrashIcon.vue";
 import moment from "moment/moment";
+import ListIcon from "@/components/icons/ListIcon.vue";
+import api from "@/services/api";
+import LoadingSpinner from "@/components/loading/LoadingSpinner.vue";
+import CheckIcon from "@/components/icons/CheckIcon.vue";
+import {ANIMATION_DELAY} from "@/constants";
 
 
 const props = defineProps({
@@ -14,13 +19,28 @@ const props = defineProps({
 
 const emits = defineEmits(["deleteClick"])
 
+const isComparisonGroupDeleting = ref(false);
+const isComparisonGroupDeleted = ref(false);
+
 const cardComponent = ref(null);
 
-const onDeleteButtonClick = async () => {
-  cardComponent.value.$el.classList.add('animate__animated', 'animate__bounceOut');
-  cardComponent.value.$el.addEventListener('animationend', async () => {
-    emits("deleteClick", props.comparisonGroup);
-  });
+async function onDeleteButtonClick() {
+  isComparisonGroupDeleting.value = true;
+  try {
+    const response = await api.comparisons.deleteComparisonGroup(props.comparisonGroup.slug)
+    if (response.status === 204) {
+      isComparisonGroupDeleted.value = true;
+
+      setTimeout(() => {
+        cardComponent.value.$el.classList.add('animate__animated', 'animate__bounceOut');
+        cardComponent.value.$el.addEventListener('animationend', async () => {
+          emits("deleteClick", props.comparisonGroup);
+        });
+      }, ANIMATION_DELAY)
+    }
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 const humanizedCreatedAt = moment(props.comparisonGroup.created_at).fromNow()
@@ -33,22 +53,37 @@ const productsComparisonRoute = {
 
 <template>
   <component-wrapper ref="cardComponent" class="card common-rounding">
-    <div class="card-body inline-icon-text">
-      <div class="text-break">
+    <div class="card-body p-0 centered-vertically">
+      <div class="dragging-handle centered justify-content-center p-2">
+        <list-icon :width="20" :height="20"/>
+      </div>
+      <div class="text-break ms-2 me-auto">
         <router-link
-            class="fw-bold text-decoration-none d-flex align-items-end"
+            class="fs-5 fw-bold text-decoration-none"
             :to="productsComparisonRoute"
         >
-          <h5 class="card-title text-main mb-0">
+          <span class="link-main">
             {{ comparisonGroup.name }} ({{ comparisonGroup.products_count || 0 }})&nbsp;
-          </h5>
+          </span>
           <span class="fs-6 text-secondary">Created {{ humanizedCreatedAt }}</span>
         </router-link>
       </div>
-      <div class="ms-auto d-flex justify-content-center align-items-center">
-        <button class="btn btn-trash" @click="onDeleteButtonClick">
+      <div class="centered p-2">
+        <button
+            v-if="!isComparisonGroupDeleting"
+            @click="onDeleteButtonClick"
+            class="btn btn-transparent centered p-0"
+        >
           <trash-icon :width="20" :height="20"/>
         </button>
+        <span
+            v-else-if="isComparisonGroupDeleted"
+            class="fs-4 fw-semibold centered text-success animate__animated animate__zoomIn"
+            style="height: 20px; width: 20px"
+        >
+          &check;
+        </span>
+        <loading-spinner v-else :size="20"/>
       </div>
     </div>
   </component-wrapper>
@@ -57,4 +92,9 @@ const productsComparisonRoute = {
 <style lang="sass" scoped>
 @import '@/assets/sass/main'
 @import '@/assets/sass/cards'
+@import '@/assets/sass/dragging'
+
+
+.btn-transparent:hover
+  color: $danger
 </style>

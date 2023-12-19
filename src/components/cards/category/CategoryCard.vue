@@ -98,7 +98,7 @@ const productsRoute = {name: 'products', params: {categorySlug: props.category.s
           v-if="nutritionItems.length"
           v-for="(item, index) in nutritionItems"
           :key="index"
-          class="list-group-item inline-icon-text"
+          class="list-group-item centered-vertically"
           :class="item.colorClass"
       >
         <circle-fill-icon/>

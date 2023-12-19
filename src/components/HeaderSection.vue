@@ -116,7 +116,7 @@ const logoIconSize = 42;
             >
               <span class="dropdown-username">{{ user.username }}</span>
               <img
-                  class="rounded-circle object-fit-cover mb-1 ms-1"
+                  class="rounded-circle object-fit-cover mb-1 ms-2"
                   :src="getUserImage(user)"
                   alt="user-image"
                   width="36"
@@ -141,7 +141,7 @@ const logoIconSize = 42;
               <li>
                 <router-link
                     :to="profileRoute"
-                    class="dropdown-item inline-icon-text rounded-2"
+                    class="dropdown-item centered-vertically rounded-2"
                 >
                   <house-icon/>
                   <span class="ps-1">Profile</span>
@@ -150,7 +150,7 @@ const logoIconSize = 42;
               <li>
                 <router-link
                     :to="{name: 'accountSettingsTab'}"
-                    class="dropdown-item inline-icon-text rounded-2"
+                    class="dropdown-item centered-vertically rounded-2"
                 >
                   <pen-icon/>
                   <span class="ps-1">Settings & Privacy</span>
@@ -163,7 +163,7 @@ const logoIconSize = 42;
                 <li>
                   <a
                       :href="BACKEND_ADMIN_URL"
-                      class="dropdown-item inline-icon-text rounded-2"
+                      class="dropdown-item centered-vertically rounded-2"
                       target="_blank"
                   >
                     <gear-icon/>
@@ -177,7 +177,7 @@ const logoIconSize = 42;
               <li>
                 <button
                     @click="logoutWithFlush"
-                    class="dropdown-item dropdown-item-logout inline-icon-text rounded-2"
+                    class="dropdown-item dropdown-item-logout centered-vertically rounded-2"
                 >
                   <door-open-icon/>
                   <span class="ps-1">Logout</span>

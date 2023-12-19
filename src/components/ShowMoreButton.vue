@@ -16,7 +16,11 @@ const props = defineProps({
   },
   offsetIncrease: {
     type: Number,
-  }
+  },
+  isDisabled: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const emits = defineEmits(["showMoreButtonClick"]);
@@ -54,6 +58,7 @@ onMounted(() => {
         @click="onShowMoreButtonClick"
         type="button"
         class="list-group-item list-group-item-action text-primary common-rounding fw-semibold border-0"
+        :class="{'disabled bg-body-secondary': isDisabled}"
     >
       Show more
       <caret-down-icon/>

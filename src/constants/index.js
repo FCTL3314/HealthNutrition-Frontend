@@ -20,3 +20,4 @@ export const CATEGORIES_PAGINATE_BY = 3;
 export const PRODUCTS_PAGINATE_BY = 3;
 export const COMMENTS_PAGINATE_BY = 3;
 export const COMPARISON_GROUPS_PAGINATE_BY = 3;
+export const ANIMATION_DELAY = 1250;

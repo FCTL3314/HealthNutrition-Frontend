@@ -10,6 +10,7 @@ import WrappedCreateComparisonGroupForm from "@/components/comparisons/WrappedCr
 import ShowMoreButton from "@/components/ShowMoreButton.vue";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
 import draggable from "vuedraggable";
+import {calculateOffsetAdjustment} from "@/utils";
 
 
 const comparisonGroups = ref([]);
@@ -36,20 +37,31 @@ async function loadComparisonGroups(offset = 0) {
   }
 }
 
+let createdComparisonGroupsCount = 0
 let deletedComparisonGroupsCount = 0
 
 async function updateComparisonGroups(offset = 0) {
-  comparisonGroups.value.push(...(await loadComparisonGroups(offset - deletedComparisonGroupsCount)).results);
+  const data = await loadComparisonGroups(
+      calculateOffsetAdjustment(offset, createdComparisonGroupsCount, deletedComparisonGroupsCount)
+  );
+  comparisonGroups.value.push(...data.results);
 }
 
-const addComparisonGroup = (comparisonGroup) => comparisonGroups.value.unshift(comparisonGroup);
+const addComparisonGroup = (comparisonGroup) => {
+  comparisonGroups.value.unshift(comparisonGroup);
+  createdComparisonGroupsCount++;
+}
 
 async function removeComparisonGroup(comparisonGroupToRemove) {
   comparisonGroups.value = comparisonGroups.value.filter(comparisonGroup => {
     return comparisonGroup.id !== comparisonGroupToRemove.id;
   })
-  await api.comparisons.deleteComparisonGroup(comparisonGroupToRemove.slug);
   deletedComparisonGroupsCount++;
+}
+
+async function changeComparisonGroupsOrder() {
+  const orderedIds = comparisonGroups.value.map((comparisonGroup) => comparisonGroup.id);
+  await api.comparisons.changeComparisonGroupsOrder({ordered_ids: orderedIds});
 }
 
 onMounted(async () => {
@@ -61,42 +73,47 @@ onMounted(async () => {
   <comparison-groups-greeting/>
   <div class="component-indentation-y">
     <wrapped-create-comparison-group-form @comparison-group-created="addComparisonGroup" class="mb-3"/>
-    <draggable
-        v-if="!isNoComparisonGroups || hasMoreComparisonGroups"
-        v-model="comparisonGroups"
-        item-key="id"
-        ghost-class="dragging"
-        class="row"
-    >
-      <template #item="{ element: comparisonGroup }">
-        <div class="col-xxl-6 col-lg-12 col-md-12 mb-3">
-          <comparison-group-card
-              :comparison-group="comparisonGroup"
-              @delete-click="removeComparisonGroup"
-          />
-        </div>
-      </template>
-      <template #footer>
-        <div
-            v-if="isComparisonGroupsLoading"
-            v-for="_ in COMPARISON_GROUPS_PAGINATE_BY"
-            :key="_"
-            class="col-xxl-6 col-lg-12 col-md-12 mb-3"
-        >
-          <comparison-group-card-placeholder/>
-        </div>
-        <component-wrapper
-            v-show="hasMoreComparisonGroups && !isComparisonGroupsLoading"
-            :padding="0"
-        >
-          <show-more-button
-              pagination-type="limitOffset"
-              :offset-increase="COMPARISON_GROUPS_PAGINATE_BY"
-              @show-more-button-click="updateComparisonGroups"
-          />
-        </component-wrapper>
-      </template>
-    </draggable>
+    <template v-if="!isNoComparisonGroups || hasMoreComparisonGroups">
+      <draggable
+          v-if="!isNoComparisonGroups"
+          v-model="comparisonGroups"
+          item-key="position"
+          ghost-class="dragging"
+          handle=".dragging-handle"
+          :force-fallback="true"
+          @change="changeComparisonGroupsOrder"
+          class="row"
+      >
+        <template #item="{ element: comparisonGroup }">
+          <div class="col-xxl-6 col-lg-12 col-md-12 mb-3 animate__animated animate__fadeIn">
+            <comparison-group-card
+                :comparison-group="comparisonGroup"
+                @delete-click="removeComparisonGroup"
+            />
+          </div>
+        </template>
+        <template #footer>
+          <div
+              v-if="isComparisonGroupsLoading"
+              v-for="_ in COMPARISON_GROUPS_PAGINATE_BY"
+              :key="_"
+              class="col-xxl-6 col-lg-12 col-md-12 mb-3"
+          >
+            <comparison-group-card-placeholder/>
+          </div>
+        </template>
+      </draggable>
+      <component-wrapper
+          v-show="hasMoreComparisonGroups && !isComparisonGroupsLoading"
+          :padding="0"
+      >
+        <show-more-button
+            pagination-type="limitOffset"
+            :offset-increase="COMPARISON_GROUPS_PAGINATE_BY"
+            @show-more-button-click="updateComparisonGroups"
+        />
+      </component-wrapper>
+    </template>
     <error-section
         v-else
         description="It looks like you don’t have a single comparison group yet, so create it."
@@ -107,4 +124,5 @@ onMounted(async () => {
 
 <style scoped lang="sass">
 @import "@/assets/sass/main"
+@import '@/assets/sass/dragging'
 </style>

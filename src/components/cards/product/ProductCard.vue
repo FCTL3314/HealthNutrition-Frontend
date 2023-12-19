@@ -1,12 +1,20 @@
 <script setup>
-import {ref} from "vue";
-import {CARD_IMAGE_HEIGHT, PRODUCT_HEALTHFULNESS_REFERENCE, PRODUCT_NUTRITION_ROUNDING} from "@/constants";
+import {onMounted, ref} from "vue";
+import {
+  ANIMATION_DELAY,
+  CARD_IMAGE_HEIGHT,
+  PRODUCT_HEALTHFULNESS_REFERENCE,
+  PRODUCT_NUTRITION_ROUNDING
+} from "@/constants";
 import CircleFillIcon from "@/components/icons/CircleFillIcon.vue";
 import {useStore} from "vuex";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
 import PlusIcon from "@/components/icons/PlusIcon.vue";
 import MinusIcon from "@/components/icons/MinusIcon.vue";
 import TheTag from "@/components/TheTag.vue";
+import api from "@/services/api";
+import CheckIcon from "@/components/icons/CheckIcon.vue";
+import LoadingSpinner from "@/components/loading/LoadingSpinner.vue";
 
 
 const props = defineProps({
@@ -34,23 +42,42 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  comparisonGroup: {
+    type: Object,
+  },
   tags: {
     type: Object,
-  }
+  },
 });
 
 const store = useStore();
 
 const emits = defineEmits(["saveButtonClick", "removeButtonClick"])
+
+const isComparedProductRemoving = ref(false);
+const isComparedProductRemoved = ref(false);
+
 const onSaveButtonClick = () => emits("saveButtonClick", props.product.id);
 
 const cardComponent = ref(null);
 
-const onRemoveButtonClick = () => {
-  cardComponent.value.$el.classList.add('animate__animated', 'animate__bounceOut');
-  cardComponent.value.$el.addEventListener('animationend', async () => {
-    emits("removeButtonClick", props.product);
-  });
+async function onRemoveButtonClick() {
+  isComparedProductRemoving.value = true;
+  try {
+    const response = await api.comparisons.removeProductFromComparisonGroup(props.comparisonGroup.id, props.product.id)
+    if (response.status === 204) {
+      isComparedProductRemoved.value = true;
+
+      setTimeout(() => {
+        cardComponent.value.$el.classList.add('animate__animated', 'animate__bounceOut');
+        cardComponent.value.$el.addEventListener('animationend', async () => {
+          emits("removeButtonClick", props.product);
+        });
+      }, ANIMATION_DELAY)
+    }
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 const healthfulnessPercents = Math.round((props.product.healthfulness / PRODUCT_HEALTHFULNESS_REFERENCE) * 100);
@@ -112,6 +139,14 @@ const productRoute = {
   name: "product",
   params: {categorySlug: props.categorySlug, productSlug: props.product.slug},
 };
+
+onMounted(() => {
+  if (props.isComparisonProduct && !props.comparisonGroup) {
+    console.error(
+        `Property 'comparisonGroup' is required when isComparisonProduct is set to true.`
+    );
+  }
+})
 </script>
 
 <template>
@@ -156,7 +191,7 @@ const productRoute = {
       <li
           v-for="(item, index) in nutritionItems"
           :key="index"
-          class="list-group-item inline-icon-text"
+          class="list-group-item centered-vertically"
           :class="item.colorClass"
       >
         <circle-fill-icon/>
@@ -170,18 +205,33 @@ const productRoute = {
         </span>
       </li>
       <li class="list-group-item text-center px-0 pb-0">
-        <button
-            v-if="isComparisonProduct"
-            @click="onRemoveButtonClick"
-            class="btn btn-outline-danger inline-icon-text justify-content-center common-rounding w-100 m-0"
-        >
-          <minus-icon class="me-1" :width="24" :height="24"/>
-          Remove
-        </button>
+        <template v-if="isComparisonProduct">
+          <button
+              v-if="!isComparedProductRemoved"
+              @click="onRemoveButtonClick"
+              class="btn btn-outline-danger centered-vertically justify-content-center common-rounding w-100 m-0"
+              :class="{disabled: isComparedProductRemoving}"
+          >
+            <template v-if="isComparedProductRemoving">
+              <loading-spinner :size="24" color-class="text-danger"/>
+              <span class="ms-1">Removing...</span>
+            </template>
+            <template v-else>
+              <minus-icon :width="24" :height="24"/>
+              <span class="ms-1">Remove</span>
+            </template>
+          </button>
+          <check-icon
+              v-else
+              :width="38"
+              :height="38"
+              class="mx-auto centered text-success animate__animated animate__bounceIn"
+          />
+        </template>
         <button
             v-else
             @click="onSaveButtonClick"
-            class="btn btn-outline-primary inline-icon-text justify-content-center common-rounding w-100 m-0"
+            class="btn btn-outline-primary centered-vertically justify-content-center common-rounding w-100 m-0"
             data-bs-toggle="modal"
             data-bs-target="#saveProductModal"
         >

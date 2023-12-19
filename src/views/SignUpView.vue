@@ -45,8 +45,8 @@ const rules = {
 const v$ = useVuelidate(rules, formData);
 
 async function handleAfterSignUp() {
-  await router.push({name: "logIn"});
   toaster.success("You have successfully registered!");
+  await router.push({name: "logIn"});
 }
 
 async function signUp() {

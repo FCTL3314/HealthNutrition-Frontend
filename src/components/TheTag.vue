@@ -15,7 +15,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="tag inline-icon-text" :class="classes">
+  <div class="tag centered-vertically" :class="classes">
     <component v-if="iconComponent" :is="iconComponent" class="me-1"/>
     <span class="fw-semibold">{{ text }}</span>
   </div>

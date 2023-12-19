@@ -1,0 +1,21 @@
+@import "@/assets/sass/variables"
+@import "bootstrap/scss/bootstrap"
+
+
+.dragging-handle
+  cursor: grab !important
+
+.dragging-handle:active
+  cursor: grabbing !important
+
+.dragging
+  border: 2px dashed $secondary
+  border-radius: $component-rounding
+  animation: none
+
+.dragging *
+  opacity: 0
+  cursor: grabbing !important
+
+.sortable-drag
+  opacity: 1 !important

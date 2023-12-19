@@ -38,6 +38,9 @@ export default function (instance) {
                 },
             });
         },
+        changeComparisonGroupsOrder(payload) {
+            return instance.patch("comparisons/groups/change-order/", payload);
+        },
         comparedProducts(limit, offset, comparisonGroupId) {
             return instance.get("comparisons/list/", {
                 params: {
