@@ -3,7 +3,7 @@ import {computed, reactive, ref} from "vue";
 import {useStore} from "vuex";
 import {useVuelidate} from "@vuelidate/core";
 import {maxLength, minLength} from "@vuelidate/validators";
-import {appendResponseErrorMessages, getValidationClass} from "@/utils";
+import {parseErrorsFromResponse, parseFieldMessagesFromResponse, getValidationClass} from "@/utils";
 import FormErrorsFeedback from "@/components/forms/FormErrorsFeedback.vue";
 import api from "@/services/api";
 import {ALLOWED_IMAGE_EXTENSIONS} from "@/constants";
@@ -63,8 +63,8 @@ async function updateUser() {
     await updateLocalUser(response.data);
     toaster.success("Your account data has been successfully updated.");
   } catch (error) {
-    appendResponseErrorMessages(errorMessages, error.request.response);
-    console.log(error.request);
+    errorMessages.push(...parseErrorsFromResponse(error.request.response));
+    console.error(error);
   } finally {
     v$.value.$reset();
     isResponseWaiting.value = false;

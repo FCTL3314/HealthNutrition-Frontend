@@ -14,6 +14,6 @@ const app = createApp(App);
 
 app.use(router);
 app.use(store);
-setupInterceptors(store);
+setupInterceptors();
 
 app.mount("#app");

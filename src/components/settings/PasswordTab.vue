@@ -1,7 +1,7 @@
 <script setup>
 import {reactive, ref} from "vue";
 import {useVuelidate} from "@vuelidate/core";
-import {appendResponseFieldErrors, getValidationClass} from "@/utils";
+import {parseErrorsFromResponse, parseFieldMessagesFromResponse, getValidationClass} from "@/utils";
 import api from "@/services/api";
 import FormErrorsFeedback from "@/components/forms/FormErrorsFeedback.vue";
 import BaseTab from "@/components/settings/BaseTab.vue";
@@ -35,7 +35,7 @@ async function changePassword() {
     });
     toaster.success("Your password has been successfully changed.");
   } catch (error) {
-    appendResponseFieldErrors(errorMessages, error.request.response);
+    errorMessages.push(...parseErrorsFromResponse(error.request.response));
     console.log(error.request);
   } finally {
     v$.value.$reset();

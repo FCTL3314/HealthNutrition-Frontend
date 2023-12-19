@@ -1,10 +1,13 @@
 import {authStorage} from "@/services/auth";
-import {tryParseOrDefault} from "@/utils";
+import api from "@/services/api";
+
 
 const auth = {
     namespaced: true,
     state: {
-        user: tryParseOrDefault(authStorage().getItem("user"), null),
+        user: authStorage().getItem("accessToken")
+            ? (await api.users.me(authStorage().getItem("accessToken"))).data
+            : null,
         accessToken: authStorage().getItem("accessToken") || "",
         refreshToken: authStorage().getItem("refreshToken") || "",
     },

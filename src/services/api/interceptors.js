@@ -1,11 +1,11 @@
 import api from "@/services/api/index";
-import {authStorage} from "@/services/auth";
+import {authStorage, logout} from "@/services/auth";
 import instance from "@/services/api/instance";
-import {isTokenExpired} from "@/utils";
-import {logout} from "@/services/auth";
+import store from "@/store";
+import {isJWTTokenExpired} from "@/utils";
 
 
-const setup = (store) => {
+const setup = () => {
     instance.interceptors.request.use(
         (config) => {
             const token = authStorage().getItem("accessToken");
@@ -29,12 +29,10 @@ const setup = (store) => {
 
                 const refreshToken = authStorage().getItem("refreshToken");
 
-                if (refreshToken && !isTokenExpired(refreshToken)) {
+                if (refreshToken && !isJWTTokenExpired(refreshToken)) {
                     try {
-                        const res = await api.users.refreshToken({
-                            refresh: refreshToken,
-                        });
-                        const accessToken = res.data.access;
+                        const _response = await api.users.refreshToken({refresh: refreshToken});
+                        const accessToken = _response.data.access;
 
                         store.commit("auth/setAccessToken", accessToken);
                         authStorage().setItem("accessToken", accessToken);

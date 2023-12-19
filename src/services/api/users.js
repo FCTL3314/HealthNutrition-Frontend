@@ -9,8 +9,12 @@ export default function (instance) {
         register(payload) {
             return instance.post("users/", payload);
         },
-        me() {
-            return instance.get("users/me/");
+        me(authenticationToken = null) {
+            const headers = {}
+            if (authenticationToken) {
+                headers.Authorization = `Bearer ${authenticationToken}`;
+            }
+            return instance.get("users/me/", {headers});
         },
         specificUser(userSlug) {
             return instance.get(`users/${userSlug}/`);

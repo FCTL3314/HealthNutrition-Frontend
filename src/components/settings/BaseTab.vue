@@ -38,9 +38,9 @@ const user = computed(() => store.getters["auth/user"]);
     <h2 class="text-main-light text-truncate mb-0">{{ tabName }}</h2>
   </div>
   <div class="row">
-    <template v-if="errorMessages">
+    <div v-if="errorMessages">
       <form-flush-messages :error-messages="errorMessages"/>
-    </template>
+    </div>
     <form @submit.prevent="formSubmitCallback">
       <slot></slot>
       <div class="row justify-content-center">

@@ -2,7 +2,7 @@
 import {reactive, ref} from "vue";
 import {useVuelidate} from "@vuelidate/core";
 import {email, required} from "@vuelidate/validators";
-import {appendResponseErrorMessages, getValidationClass} from "@/utils";
+import {parseErrorsFromResponse, getValidationClass} from "@/utils";
 import api from "@/services/api";
 import FormErrorsFeedback from "@/components/forms/FormErrorsFeedback.vue";
 import BaseTab from "@/components/settings/BaseTab.vue";
@@ -41,7 +41,7 @@ async function changeEmail() {
     await updateLocalUser(response.data);
     toaster.success("Your email has been successfully changed.");
   } catch (error) {
-    appendResponseErrorMessages(errorMessages, error.request.response);
+    errorMessages.push(...parseErrorsFromResponse(error.request.response));
     console.log(error.request);
   } finally {
     v$.value.$reset();

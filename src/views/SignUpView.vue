@@ -4,7 +4,7 @@ import {computed, reactive, ref} from "vue";
 import {useVuelidate} from "@vuelidate/core";
 import {email, helpers, required, sameAs} from "@vuelidate/validators";
 import FormErrorsFeedback from "@/components/forms/FormErrorsFeedback.vue";
-import {appendResponseErrorMessages, getValidationClass} from "@/utils";
+import {parseErrorsFromResponse, getValidationClass} from "@/utils";
 import router from "@/router";
 import toaster from "@/plugins/toaster";
 import FormFlushMessages from "@/components/forms/FormFlushMessages.vue"
@@ -60,7 +60,7 @@ async function signUp() {
     });
     await handleAfterSignUp();
   } catch (error) {
-    appendResponseErrorMessages(errorMessages, error.request.response);
+    parseErrorsFromResponse(errorMessages, error.request.response);
     console.error(error.response);
   } finally {
     isResponseWaiting.value = false;

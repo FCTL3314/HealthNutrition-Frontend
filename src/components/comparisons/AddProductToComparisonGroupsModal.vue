@@ -90,7 +90,7 @@ onMounted(async () => {
               :is-initially-checked="comparisonGroup.is_contains_selected_product"
           />
           <p class="fw-medium mb-0" v-if="isNoComparisonGroups">
-            It looks like you don't have any comparison group yet, you can create it below.
+            It looks like you don't have any comparison groups yet, but you can create one using the form below.
           </p>
           <show-more-button
               class="mt-3"

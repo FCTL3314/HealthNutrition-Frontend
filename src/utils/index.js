@@ -35,7 +35,7 @@ export function getValidationClass(field) {
     return validationClass;
 }
 
-export function isTokenExpired(token) {
+export function isJWTTokenExpired(token) {
     const tokenParts = token.split(".");
     if (tokenParts.length !== 3) {
         throw new Error("Invalid JWT token format");
@@ -50,42 +50,45 @@ export function isTokenExpired(token) {
     return currentDate >= expirationDate;
 }
 
-export function getResponseDetail(response) {
+export function parseDetailFromResponse(response) {
     const parsedResponse = JSON.parse(response);
-    if ("detail" in parsedResponse) {
-        return capitalize(parsedResponse["detail"]);
-    }
+    return parsedResponse.detail ? capitalize(parsedResponse.detail) : null;
 }
 
-export function getResponseMessages(response) {
+export function parseMessagesFromResponse(response) {
     const parsedResponse = JSON.parse(response);
-    let messages = [];
-    if ("messages" in parsedResponse) {
-        for (const message of parsedResponse["messages"]) {
-            messages.push(capitalize(message));
-        }
-    }
-    return messages;
+    return parsedResponse.messages ? parsedResponse.messages.map(message => capitalize(message)) : [];
 }
 
-export function appendResponseErrorMessages(arr, response) {
-    const detail = getResponseDetail(response);
-    const messages = getResponseMessages(response);
+const SERVICE_FIELDS = ["detail", "code"];
+
+export function parseFieldMessagesFromResponse(response) {
+    const parsedResponse = JSON.parse(response);
+
+    return Object.entries(parsedResponse)
+      .filter(([key]) => !SERVICE_FIELDS.includes(key))
+      .map(([key, value]) => `${capitalize(key)} field - ${value}`);
+}
+
+export function parseErrorsFromResponse(response) {
+    const errors = [];
+
+    const detail = parseDetailFromResponse(response);
+    const messages = parseMessagesFromResponse(response);
+    const fieldMessages = parseFieldMessagesFromResponse(response);
 
     if (detail) {
-        arr.push(detail);
+        errors.push(detail);
     }
 
     if (messages) {
-        arr.push(...messages);
+        errors.push(...messages);
     }
-}
 
-export function appendResponseFieldErrors(arr, response) {
-    const parsedResponse = JSON.parse(response);
-    for (const key in parsedResponse) {
-        arr.push(...parsedResponse[key]);
+    if (fieldMessages) {
+        errors.push(...fieldMessages)
     }
+    return errors;
 }
 
 export function getImageFullPath(url) {

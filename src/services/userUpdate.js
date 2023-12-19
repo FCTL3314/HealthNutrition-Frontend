@@ -1,4 +1,3 @@
-import {authStorage} from "@/services/auth";
 import {getImageFullPath} from "@/utils";
 import store from "@/store";
 
@@ -9,5 +8,4 @@ export async function updateLocalUser(updatedUser) {
         updatedUserCopy.image = getImageFullPath(updatedUser.image);
     }
     store.commit("auth/setUser", updatedUserCopy);
-    authStorage().setItem("user", JSON.stringify(updatedUserCopy));
 }

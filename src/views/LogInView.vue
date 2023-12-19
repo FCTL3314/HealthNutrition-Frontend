@@ -6,7 +6,7 @@ import {useVuelidate} from "@vuelidate/core";
 import {useStore} from "vuex";
 import {required} from "@vuelidate/validators";
 import FormErrorsFeedback from "@/components/forms/FormErrorsFeedback.vue";
-import {appendResponseErrorMessages, getValidationClass} from "@/utils";
+import {parseErrorsFromResponse, getValidationClass} from "@/utils";
 import toaster from "@/plugins/toaster";
 import {authStorage} from "@/services/auth";
 import FormFlushMessages from "@/components/forms/FormFlushMessages.vue";
@@ -38,22 +38,21 @@ const rules = {
 const v$ = useVuelidate(rules, formData)
 
 async function saveUserDataLocally(data) {
-  localStorage.setItem('rememberMe', JSON.stringify(formData.rememberMe));
-  store.commit('auth/setAccessToken', data.access);
+  localStorage.setItem("rememberMe", JSON.stringify(formData.rememberMe));
 
-  authStorage().setItem('accessToken', data.access);
-  store.commit('auth/setRefreshToken', data.refresh);
+  store.commit("auth/setAccessToken", data.access);
+  authStorage().setItem("accessToken", data.access);
 
-  authStorage().setItem('refreshToken', data.refresh);
+  store.commit("auth/setRefreshToken", data.refresh);
+  authStorage().setItem("refreshToken", data.refresh);
+
   const user = (await api.users.me()).data;
-  store.commit('auth/setUser', user);
-  authStorage().setItem('user', JSON.stringify(user));
-
+  store.commit("auth/setUser", user);
 }
 
 async function handleAfterLogIn() {
-  toaster.success('You have successfully login!')
-  await router.push({name: 'categories'})
+  toaster.success("You have successfully login!")
+  await router.push({name: "categories"})
 }
 
 async function logIn() {
@@ -67,7 +66,7 @@ async function logIn() {
     await saveUserDataLocally(response.data)
     await handleAfterLogIn()
   } catch (error) {
-    appendResponseErrorMessages(errorMessages, error.request.response);
+    parseErrorsFromResponse(errorMessages, error.request.response);
     console.error(error.response);
   } finally {
     isResponseWaiting.value = false;
