@@ -103,6 +103,7 @@ onMounted(async () => {
         v-if="!isNoCategories"
         :total-pages="totalPages"
         :current-page="currentPage"
+        :is-disabled="isCategoriesLoading"
         @page-changed="onPageChange"
     />
   </div>

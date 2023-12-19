@@ -31,7 +31,7 @@ const navItems = [
     to: categoriesRoute.value,
   },
   {
-    name: "Comparisons",
+    name: "Comparison Groups",
     routeName: "comparisonGroups",
     to: {name: "comparisonGroups"}
   },

@@ -141,6 +141,7 @@ onMounted(async () => {
         v-if="!isNoProducts"
         :total-pages="totalPages"
         :current-page="currentPage"
+        :is-disabled="isProductsLoading"
         @page-changed="onPageChange"
     />
   </div>

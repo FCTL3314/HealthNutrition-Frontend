@@ -16,6 +16,10 @@ const props = defineProps({
     type: Number,
     default: 9,
   },
+  isDisabled: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emits = defineEmits(["pageChanged"])
@@ -58,7 +62,7 @@ const isInLastPage = computed(() => props.currentPage === props.totalPages);
           <button
               type="button"
               class="page-link"
-              :class="{disabled: isInFirstPage}"
+              :class="{disabled: isInFirstPage || isDisabled}"
               @click="onClickFirstPage"
           >
             <span aria-hidden="true">First</span>
@@ -68,7 +72,7 @@ const isInLastPage = computed(() => props.currentPage === props.totalPages);
           <button
               type="button"
               class="page-link"
-              :class="{disabled: isInFirstPage}"
+              :class="{disabled: isInFirstPage || isDisabled}"
               @click="onClickPreviousPage"
           >
             <span aria-hidden="true">&laquo;</span>
@@ -82,7 +86,7 @@ const isInLastPage = computed(() => props.currentPage === props.totalPages);
           <button
               type="button"
               class="page-link"
-              :class="{disabled: page.isDisabled}"
+              :class="{disabled: page.isDisabled || isDisabled}"
               @click="onClickPage(page.number)"
           >
             {{ page.number }}
@@ -92,7 +96,7 @@ const isInLastPage = computed(() => props.currentPage === props.totalPages);
           <button
               type="button"
               class="page-link"
-              :class="{disabled: isInLastPage}"
+              :class="{disabled: isInLastPage || isDisabled}"
               @click="onClickNextPage"
           >
             <span aria-hidden="true">&raquo;</span>
@@ -102,7 +106,7 @@ const isInLastPage = computed(() => props.currentPage === props.totalPages);
           <button
               type="button"
               class="page-link"
-              :class="{disabled: isInLastPage}"
+              :class="{disabled: isInLastPage || isDisabled}"
               @click="onClickLastPage"
           >
             <span aria-hidden="true">Last</span>
