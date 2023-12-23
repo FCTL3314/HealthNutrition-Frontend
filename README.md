@@ -1,6 +1,6 @@
 <div align="center">
   <img width="148" height="148" src="https://github.com/FCTL3314/HealthNutrition-Backend/assets/97694131/8025cf3d-612d-4a30-bd69-e8bfcc5d5b2b"/>
-  <h1>Health Nutrition</h1>
+  <h1>Health Nutrition - Frontend</h1>
   <p>Vue.js based frontend app for the Health Nutrition backend.</p>
   
   [![Node.js](https://img.shields.io/badge/Node.js-18.18.0-3E863D?style=flat-square)](https://nodejs.org/en)
