@@ -1,4 +1,4 @@
-import {alphaNum, helpers, maxLength, minLength, required} from "@vuelidate/validators";
+import {helpers, maxLength, minLength, required} from "@vuelidate/validators";
 
 export const alphaNumAndSpecialCharacters = helpers.regex(/^[a-z\d.@\-_+]*$/i);
 
@@ -22,7 +22,6 @@ export const usernameValidators = {
 
 export const passwordValidators = {
     required,
-    alphaNum,
     minLength: minLength(8),
     maxLength: maxLength(32),
     passwordContainsLetter: passwordContainsLetter,

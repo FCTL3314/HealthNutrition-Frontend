@@ -9,11 +9,11 @@ import moment from "moment";
 import SubmitButton from "@/components/SubmitButton.vue";
 import {maxLength, minLength, numeric, required} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core";
-import {getValidationClass} from "@/utils";
 import FormErrorsFeedback from "@/components/forms/FormErrorsFeedback.vue";
 import {EMAIL_VERIFICATION_CODE_LENGTH} from "@/constants";
-import {updateLocalUser} from "@/services/userUpdate";
 import toaster from "@/plugins/toaster";
+import {confettiFromTop} from "@/utils/particles";
+import {getVuelidateFieldValidationClass} from "@/services/validation";
 
 
 const router = useRouter();
@@ -23,7 +23,7 @@ const user = computed(() => store.getters["auth/user"]);
 
 const isResponseWaiting = ref(false);
 const isVerificationSending = ref(false);
-const isAlreadyVerified = user.value.is_verified;
+const isAlreadyVerified = user.value.isVerified;
 
 const formData = reactive({
   code: "",
@@ -70,7 +70,7 @@ async function sendEmailVerification() {
     }
   } catch (error) {
     if (error.response.status === 429) {
-      resentRemainingSeconds.value = getResentRemainingSeconds(error.response.data.messages.retry_after);
+      resentRemainingSeconds.value = getResentRemainingSeconds(error.response.data.messages.retryAfter);
       startResentRemainingSecondsCountdown();
     } else {
       console.error(error);
@@ -82,21 +82,32 @@ async function sendEmailVerification() {
 
 const accountSettingsRoute = {name: "accountSettingsTab"}
 
+async function afterSuccessfulVerification() {
+  store.commit("auth/verifyUser");
+  confettiFromTop();
+  toaster.success("Your email has been successfully verified.");
+  await router.push(accountSettingsRoute);
+}
+
+function afterUnsuccessfulVerification(error) {
+  if (error.response.status === 400 && error.response.data.code === "invalid_verification_code") {
+    toaster.error(
+        "The entered code is incorrect, please make sure you entered it correctly, or send a new email."
+    );
+  } else {
+    console.error(error);
+  }
+}
+
 async function verifyUser() {
   isResponseWaiting.value = true;
   try {
     const response = await api.users.verifyUser({code: formData.code});
     if (response.status === 200) {
-      await updateLocalUser(response.data);
-      toaster.success("Your email has been successfully verified.");
-      await router.push(accountSettingsRoute);
+      await afterSuccessfulVerification();
     }
   } catch (error) {
-    if (error.response.status === 400 && error.response.data.code === "invalid_verification_code") {
-      toaster.error("The entered code is incorrect.");
-    } else {
-      console.error(error);
-    }
+    afterUnsuccessfulVerification(error);
   } finally {
     isResponseWaiting.value = false;
   }
@@ -132,7 +143,7 @@ onMounted(async () => {
         </span>
       </div>
       <form
-          v-if="!isAlreadyVerified && resentRemainingSeconds === 0"
+          v-if="!isAlreadyVerified"
           @submit.prevent="verifyUser"
           class="mt-3"
       >
@@ -142,7 +153,7 @@ onMounted(async () => {
               v-model="v$.code.$model"
               type="text"
               class="form-control only-bottom-border"
-              :class="getValidationClass(v$.code)"
+              :class="getVuelidateFieldValidationClass(v$.code)"
               placeholder="Enter a verification code"
           >
           <form-errors-feedback :field="v$.code"/>

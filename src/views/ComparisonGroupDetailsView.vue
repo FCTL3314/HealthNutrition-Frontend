@@ -2,18 +2,18 @@
 import api from "@/services/api";
 import {computed, onMounted, reactive, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import {createTitle} from "@/utils";
 import WrappedLoadingSpinner from "@/components/loading/WrappedLoadingSpinner.vue";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
 import {PRODUCT_NUTRITION_ROUNDING, PRODUCTS_PAGINATE_BY} from "@/constants";
 import moment from "moment";
 import ErrorSection from "@/components/ErrorSection.vue";
 import ShowMoreButton from "@/components/ShowMoreButton.vue";
-import ProductCard from "@/components/cards/product/ProductCard.vue";
-import ProductCardPlaceholder from "@/components/cards/product/ProductCardPlaceholder.vue";
+import ProductCard from "@/components/cards/ProductCard.vue";
+import ProductCardPlaceholder from "@/components/placeholders/ProductCardPlaceholder.vue";
 import ComparisonGroupGreeting from "@/components/greetings/ComparisonGroupGreeting.vue";
 import CaretUpFillIcon from "@/components/icons/CaretUpFillIcon.vue";
 import CaretDownFillIcon from "@/components/icons/CaretDownFillIcon.vue";
+import {createTitle} from "@/services/text";
 
 
 const route = useRoute();
@@ -68,22 +68,22 @@ async function pushAverages() {
   averages.push(
       {
         title: "Calories: ",
-        value: comparisonGroup.value.calories_avg,
+        value: comparisonGroup.value.caloriesAvg,
         units: "kcal",
       },
       {
         title: "Protein: ",
-        value: comparisonGroup.value.protein_avg,
+        value: comparisonGroup.value.proteinAvg,
         units: "g.",
       },
       {
         title: "Fat: ",
-        value: comparisonGroup.value.fat_avg,
+        value: comparisonGroup.value.fatAvg,
         units: "g.",
       },
       {
         title: "Carbs: ",
-        value: comparisonGroup.value.carbs_avg,
+        value: comparisonGroup.value.carbsAvg,
         units: "g.",
       },
   )
@@ -96,33 +96,33 @@ async function pushStatistics() {
   statistics.push(
       {
         title: "Compared products: ",
-        value: comparisonGroup.value.products_count,
+        value: comparisonGroup.value.productsCount,
       },
       {
         title: "Unique categories: ",
-        value: comparisonGroup.value.unique_categories_count,
+        value: comparisonGroup.value.uniqueCategoriesCount,
       },
       {
         title: "Last product added: ",
-        value: moment(comparisonGroup.value.last_added_product_datetime).fromNow(),
+        value: moment(comparisonGroup.value.lastAddedProductDatetime).fromNow(),
       },
       {
         title: "Comparison group created: ",
-        value: moment(comparisonGroup.value.created_at).fromNow(),
+        value: moment(comparisonGroup.value.createdAt).fromNow(),
       },
   )
 }
 
 function getTags(productSlug) {
   const tagData = {
-    max_calorie_product_slug: {text: "Max calorie", iconComponent: CaretUpFillIcon, classes: "tag-warning"},
-    min_calorie_product_slug: {text: "Min calorie", iconComponent: CaretDownFillIcon, classes: "tag-warning"},
-    max_protein_product_slug: {text: "Max protein", iconComponent: CaretUpFillIcon, classes: "tag-success"},
-    min_protein_product_slug: {text: "Min protein", iconComponent: CaretDownFillIcon, classes: "tag-success"},
-    max_fat_product_slug: {text: "Max fat", iconComponent: CaretUpFillIcon, classes: "tag-danger"},
-    min_fat_product_slug: {text: "Min fat", iconComponent: CaretDownFillIcon, classes: "tag-danger"},
-    max_carbs_product_slug: {text: "Max carbs", iconComponent: CaretUpFillIcon, classes: "tag-primary"},
-    min_carbs_product_slug: {text: "Min carbs", iconComponent: CaretDownFillIcon, classes: "tag-primary"},
+    maxCalorieProductSlug: {text: "Max calorie", iconComponent: CaretUpFillIcon, classes: "tag-warning"},
+    minCalorieProductSlug: {text: "Min calorie", iconComponent: CaretDownFillIcon, classes: "tag-warning"},
+    maxProteinProductSlug: {text: "Max protein", iconComponent: CaretUpFillIcon, classes: "tag-success"},
+    minProteinProductSlug: {text: "Min protein", iconComponent: CaretDownFillIcon, classes: "tag-success"},
+    maxFatProductSlug: {text: "Max fat", iconComponent: CaretUpFillIcon, classes: "tag-danger"},
+    minFatProductSlug: {text: "Min fat", iconComponent: CaretDownFillIcon, classes: "tag-danger"},
+    maxCarbsProductSlug: {text: "Max carbs", iconComponent: CaretUpFillIcon, classes: "tag-primary"},
+    minCarbsProductSlug: {text: "Min carbs", iconComponent: CaretDownFillIcon, classes: "tag-primary"},
   };
 
   const tags = [];
@@ -140,7 +140,7 @@ onMounted(async () => {
   await setComparisonGroup()
       .then(async () => {
         document.title = createTitle(comparisonGroup.value.name);
-        if (comparisonGroup.value.products_count > 0) {
+        if (comparisonGroup.value.productsCount > 0) {
           await pushStatistics();
           await pushAverages();
           await updateProducts();
@@ -196,10 +196,10 @@ onMounted(async () => {
           <product-card
               :product="product"
               :category-slug="product.category.slug"
-              :calories-avg="comparisonGroup.calories_avg"
-              :protein-avg="comparisonGroup.protein_avg"
-              :fat-avg="comparisonGroup.fat_avg"
-              :carbs-avg="comparisonGroup.carbs_avg"
+              :calories-avg="comparisonGroup.caloriesAvg"
+              :protein-avg="comparisonGroup.proteinAvg"
+              :fat-avg="comparisonGroup.fatAvg"
+              :carbs-avg="comparisonGroup.carbsAvg"
               :is-comparison-product="true"
               :comparison-group="comparisonGroup"
               :tags="getTags(product.slug)"

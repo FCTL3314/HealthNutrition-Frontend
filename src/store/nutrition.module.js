@@ -1,12 +1,20 @@
-import {tryParseOrDefault} from "@/utils";
+import {getLocalStorageBoolean} from "@/services/parsers";
 
 const nutrition = {
     namespaced: true,
     state: {
-        isMoreCaloriesBetter: tryParseOrDefault(localStorage.getItem("isMoreCaloriesBetter"), true),
-        isMoreProteinBetter: tryParseOrDefault(localStorage.getItem("isMoreProteinBetter"), true),
-        isMoreFatBetter: tryParseOrDefault(localStorage.getItem("isMoreFatBetter"), true),
-        isMoreCarbsBetter: tryParseOrDefault(localStorage.getItem("isMoreCarbsBetter"), false),
+        isMoreCaloriesBetter: getLocalStorageBoolean(
+            localStorage.getItem("isMoreCaloriesBetter"), true
+        ),
+        isMoreProteinBetter: getLocalStorageBoolean(
+            localStorage.getItem("isMoreProteinBetter"), true
+        ),
+        isMoreFatBetter: getLocalStorageBoolean(
+            localStorage.getItem("isMoreFatBetter"), true
+        ),
+        isMoreCarbsBetter: getLocalStorageBoolean(
+            localStorage.getItem("isMoreCarbsBetter"), false
+        ),
     },
     getters: {
         isMoreCaloriesBetter(state) {

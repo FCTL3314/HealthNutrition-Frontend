@@ -2,15 +2,17 @@
 import api from "@/services/api/index"
 import {computed, onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import {calculateTotalPages, createTitle, replaceURLParams, scrollToTop} from "@/utils";
+import {replaceURLParams, scrollToElement} from "@/utils";
 import SearchForm from "@/components/SearchForm.vue";
-import ProductCard from "@/components/cards/product/ProductCard.vue";
-import ProductCardPlaceholder from "@/components/cards/product/ProductCardPlaceholder.vue";
+import ProductCard from "@/components/cards/ProductCard.vue";
+import ProductCardPlaceholder from "@/components/placeholders/ProductCardPlaceholder.vue";
 import PaginationSection from "@/components/PaginationSection.vue";
 import {PRODUCTS_PAGINATE_BY} from "@/constants";
 import ErrorSection from "@/components/ErrorSection.vue";
 import ProductsGreeting from "@/components/greetings/ProductsGreeting.vue";
 import AddProductToComparisonGroupsModal from "@/components/comparisons/AddProductToComparisonGroupsModal.vue";
+import {calculateTotalPaginationPages} from "@/services/pagination";
+import {createTitle} from "@/services/text";
 
 
 const route = useRoute();
@@ -75,14 +77,16 @@ async function updateProducts(searchQuery = null) {
   const data = await loadProducts(searchQuery);
   if (data) {
     products.value = data.results;
-    totalPages.value = calculateTotalPages(data.count, PRODUCTS_PAGINATE_BY);
+    totalPages.value = calculateTotalPaginationPages(data.count, PRODUCTS_PAGINATE_BY);
   }
 }
+
+const productsWrapperElement = ref(null);
 
 async function onPageChange(page) {
   currentPage.value = page;
   await replaceURLParams(router, route, {page: page});
-  scrollToTop();
+  scrollToElement(productsWrapperElement.value);
   await updateProducts();
 }
 
@@ -106,7 +110,7 @@ onMounted(async () => {
         @search-input="updateProducts"
         @clear-search="updateProducts"
     />
-    <div class="row">
+    <div class="row" ref="productsWrapperElement">
       <div
           v-if="!isDataLoading"
           v-for="product in products"
@@ -116,10 +120,10 @@ onMounted(async () => {
         <product-card
             :product="product"
             :category-slug="category.slug"
-            :calories-avg="category.calories_avg"
-            :protein-avg="category.protein_avg"
-            :fat-avg="category.fat_avg"
-            :carbs-avg="category.carbs_avg"
+            :calories-avg="category.caloriesAvg"
+            :protein-avg="category.proteinAvg"
+            :fat-avg="category.fatAvg"
+            :carbs-avg="category.carbsAvg"
             @save-button-click="setSelectedProductId"
         />
       </div>

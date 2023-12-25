@@ -3,11 +3,12 @@ import {computed, onMounted, ref} from "vue";
 import {onBeforeRouteUpdate, useRoute} from "vue-router";
 import api from "@/services/api/index";
 import moment from "moment";
-import {createTitle, getUserImage} from "@/utils";
+import {getUserImage} from "@/utils";
 import WrappedLoadingSpinner from "@/components/loading/WrappedLoadingSpinner.vue";
 import ErrorSection from "@/components/ErrorSection.vue";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
 import {useStore} from "vuex";
+import {createTitle} from "@/services/text";
 
 
 const route = useRoute();
@@ -45,20 +46,28 @@ async function setUser(userSlug) {
 
 const initials = computed(() => {
   let result = "";
-  if (user.value?.first_name) {
-    result += user.value?.first_name;
+  if (user.value?.firstName) {
+    result += user.value?.firstName;
   }
-  if (user.value?.last_name) {
-    result += " " + user.value?.last_name;
+  if (user.value?.lastName) {
+    result += " " + user.value?.lastName;
   }
   return result;
 })
 
-const informationFields = computed(() => {
+const userFieldsToDisplay = computed(() => {
   return [
     {
       label: "Username",
       value: user.value?.username,
+    },
+    {
+      label: "First name",
+      value: user.value?.firstName,
+    },
+    {
+      label: "Last name",
+      value: user.value?.lastName,
     },
     {
       label: "Email",
@@ -66,21 +75,17 @@ const informationFields = computed(() => {
     },
     {
       label: "Member since",
-      value: moment(user.value?.date_joined).format('LLL'),
-    },
-    {
-      label: "First name",
-      value: user.value?.first_name,
-    },
-    {
-      label: "Last name",
-      value: user.value?.last_name,
+      value: moment(user.value?.dateJoined).format('LLL'),
     },
   ];
 })
 
 
-const setDocumentTitle = () => document.title = createTitle(`${user.value.username}'s Profile`);
+const setDocumentTitle = () => {
+  user.value?.username
+      ? document.title = createTitle(`${user.value.username}'s Profile`)
+      : document.title = createTitle("Profile");
+}
 
 onMounted(async () => await setUser(route.params.userSlug).then(() => setDocumentTitle()))
 
@@ -102,33 +107,31 @@ onBeforeRouteUpdate(async (to, from, next) => {
           :src="getUserImage(user)"
           width="210"
           height="210"
-          alt="user_image">
-      <h1 class="text-truncate mb-0">
-        {{ user.username }}
-      </h1>
+          alt="userImage">
+      <h1 class="text-truncate font-large mb-0">{{ user.username }}</h1>
       <h3 v-if="initials" class="text-secondary mb-0">{{ initials }}</h3>
     </component-wrapper>
     <component-wrapper
-        v-if="user.about"
-        class="component-indentation-y text-center"
+        v-if="user.profile.about"
+        class="component-indentation-y"
     >
-      <h2 class="text-main">About</h2>
-      <p class="fs-4 mb-0 text-break">{{ user.about }}</p>
+      <h2 class="text-main font-big text-center">About</h2>
+      <p class="font-medium mb-0 text-break">{{ user.profile.about }}</p>
     </component-wrapper>
     <component-wrapper class="text-center">
-      <h2 class="text-main">Account Information</h2>
+      <h2 class="text-main font-big">Account Information</h2>
       <ul class="list-group list-group-flush text-start">
         <li
-            v-for="(field, index) in informationFields"
+            v-for="(field, index) in userFieldsToDisplay"
             :key="index"
             class="list-group-item"
         >
-          <h3 class="fw-semibold text-main-light text-truncate">
+          <h3 class="font-medium fw-semibold text-main-light text-truncate">
             {{ field.label }}:&nbsp;
           </h3>
-          <h4 class="text-break mb-0">
+          <p class="text-break font-standard mb-0">
             {{ field.value || 'Not specified' }}
-          </h4>
+          </p>
         </li>
       </ul>
     </component-wrapper>

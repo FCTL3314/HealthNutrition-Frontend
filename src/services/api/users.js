@@ -20,7 +20,10 @@ export default function (instance) {
             return instance.get(`users/${userSlug}/`);
         },
         update(payload) {
-            return instance.patch("users/me/", payload, {
+            return instance.patch("users/me/", payload);
+        },
+        updateProfile(payload) {
+            return instance.patch("user-profiles/profile/update/", payload, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 }

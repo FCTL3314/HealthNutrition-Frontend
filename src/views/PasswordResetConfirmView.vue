@@ -2,7 +2,6 @@
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
 import {computed, onMounted, reactive, ref} from "vue";
 import {useVuelidate} from "@vuelidate/core";
-import {getValidationClass} from "@/utils";
 import FormErrorsFeedback from "@/components/forms/FormErrorsFeedback.vue";
 import SubmitButton from "@/components/SubmitButton.vue";
 import api from "@/services/api";
@@ -13,6 +12,8 @@ import {helpers, sameAs} from "@vuelidate/validators";
 import {useRoute} from "vue-router";
 import WrappedLoadingSpinner from "@/components/loading/WrappedLoadingSpinner.vue";
 import ErrorSection from "@/components/ErrorSection.vue";
+import {getVuelidateFieldValidationClass} from "@/services/validation";
+import {confettiFromTop} from "@/utils/particles";
 
 
 const route = useRoute();
@@ -58,8 +59,9 @@ const logInRoute = {name: "logIn"}
 async function resetPassword() {
   isResponseWaiting.value = true;
   try {
-    await api.users.resetPasswordConfirm({uid, token, new_password: formData.newPassword});
+    await api.users.resetPasswordConfirm({uid, token, newPassword: formData.newPassword});
     await router.push(logInRoute);
+    confettiFromTop();
     toaster.success("Your password has been successfully updated, use it to log in.");
   } catch (error) {
     console.error(error);
@@ -89,7 +91,7 @@ onMounted(async () => {
                 v-model="v$.newPassword.$model"
                 type="password"
                 class="form-control only-bottom-border"
-                :class="getValidationClass(v$.newPassword)"
+                :class="getVuelidateFieldValidationClass(v$.newPassword)"
                 placeholder="Enter new password"
             >
             <form-errors-feedback :field="v$.newPassword"/>
@@ -100,7 +102,7 @@ onMounted(async () => {
                 v-model="v$.newPasswordConfirmation.$model"
                 type="password"
                 class="form-control only-bottom-border"
-                :class="getValidationClass(v$.newPasswordConfirmation)"
+                :class="getVuelidateFieldValidationClass(v$.newPasswordConfirmation)"
                 placeholder="Confirm new password"
             >
             <form-errors-feedback :field="v$.newPasswordConfirmation"/>

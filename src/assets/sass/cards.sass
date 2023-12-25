@@ -5,15 +5,38 @@
   border: none !important
   transition-duration: 0.3s
 
-  &-img-scale
+  &-img-wrp
     border-radius: $component-rounding
     overflow: hidden
 
   &-img-top
     transition: 0.4s
 
+  &-img-responsive
+    height: 220px
+
 .card:hover .card-img-top
   transform: scale(1.05)
 
 .bd-placeholder-img
   cursor: wait
+
+@media (width < map-get($grid-breakpoints, xxl))
+  .card
+    &-img-responsive
+      height: 200px
+
+@media (width < map-get($grid-breakpoints, xl))
+  .card
+    &-img-responsive
+      height: 180px
+
+@media (width < map-get($grid-breakpoints, md))
+  .card
+    &-img-responsive
+      height: 260px
+
+@media (width < 450px)
+  .card
+    &-img-responsive
+      height: 200px

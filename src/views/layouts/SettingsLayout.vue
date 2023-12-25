@@ -57,7 +57,7 @@ const isSettingsTabActive = (settingTab) => route.name === settingTab.routeName;
               alt="profile-image"
           >
           <div class="mt-1">
-            <h2 class="text-truncate">{{ user.username }}</h2>
+            <h2 class="text-truncate font-big">{{ user.username }}</h2>
           </div>
         </div>
         <div class="list-group rounded-top-2 rounded-bottom-2 ">
@@ -69,7 +69,7 @@ const isSettingsTabActive = (settingTab) => route.name === settingTab.routeName;
               :key="index"
           >
             <component class="me-2" :is="settingsTab.icon"/>
-            <span>{{ settingsTab.name }}</span>
+            <span class="font-small">{{ settingsTab.name }}</span>
           </router-link>
           <button
               class="list-group-item list-group-item-danger list-group-item-action rounded-4 border-1"

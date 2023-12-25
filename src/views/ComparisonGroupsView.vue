@@ -1,16 +1,17 @@
 <script setup>
 import {computed, onMounted, ref} from "vue";
 import api from "@/services/api";
-import ComparisonGroupCard from "@/components/cards/comparisons/ComparisonGroupCard.vue";
+import ComparisonGroupCard from "@/components/cards/ComparisonGroupCard.vue";
 import ComparisonGroupsGreeting from "@/components/greetings/ComparisonGroupsGreeting.vue";
-import ComparisonGroupCardPlaceholder from "@/components/cards/comparisons/ComparisonGroupCardPlaceholder.vue";
+import ComparisonGroupCardPlaceholder from "@/components/placeholders/ComparisonGroupCardPlaceholder.vue";
 import {COMPARISON_GROUPS_PAGINATE_BY} from "@/constants";
 import ErrorSection from "@/components/ErrorSection.vue";
 import WrappedCreateComparisonGroupForm from "@/components/comparisons/WrappedCreateComparisonGroupForm.vue";
 import ShowMoreButton from "@/components/ShowMoreButton.vue";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
 import draggable from "vuedraggable";
-import {calculateOffsetAdjustment} from "@/utils";
+
+import {calculateOffsetAdjustment} from "@/services/pagination";
 
 
 const comparisonGroups = ref([]);
@@ -61,7 +62,7 @@ async function removeComparisonGroup(comparisonGroupToRemove) {
 
 async function changeComparisonGroupsOrder() {
   const orderedIds = comparisonGroups.value.map((comparisonGroup) => comparisonGroup.id);
-  await api.comparisons.changeComparisonGroupsOrder({ordered_ids: orderedIds});
+  await api.comparisons.changeComparisonGroupsOrder({orderedIds});
 }
 
 onMounted(async () => {

@@ -10,6 +10,7 @@ import GearIcon from "@/components/icons/GearIcon.vue";
 import DoorOpenIcon from "@/components/icons/DoorOpenIcon.vue";
 import {logoutWithFlush} from "@/services/auth";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
+import CollectionFillIcon from "@/components/icons/CollectionFillIcon.vue";
 
 
 const route = useRoute();
@@ -55,7 +56,7 @@ const logoIconSize = 42;
                 :height="logoIconSize"
                 alt="logo"
             >
-            <span class="fs-4">HealthNutrition</span>
+            <span class="font-medium">HealthNutrition</span>
           </span>
         </router-link>
         <button
@@ -73,7 +74,7 @@ const logoIconSize = 42;
             <li
                 v-for="(navItem, index) in navItems"
                 :key="index"
-                class="nav-item"
+                class="nav-item font-small"
             >
               <router-link
                   class="nav-link link-dark nav-link-action"
@@ -83,7 +84,7 @@ const logoIconSize = 42;
                 {{ navItem.name }}
               </router-link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item font-small">
               <a
                   :href="FRONTEND_REPOSITORY_URL"
                   class="nav-link nav-link-action link-dark"
@@ -92,7 +93,7 @@ const logoIconSize = 42;
                 Frontend Repository
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item font-small">
               <a
                   :href="BACKEND_REPOSITORY_URL"
                   class="nav-link nav-link-action link-dark"
@@ -101,7 +102,7 @@ const logoIconSize = 42;
                 Backend Repository
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item font-small">
               <button type="button" @click="scrollToBottom" class="nav-link nav-link-action link-dark">
                 About
               </button>
@@ -132,13 +133,13 @@ const logoIconSize = 42;
                        overflow-hidden
                        common-padding"
             >
-              <li>
+              <li class="font-small">
                 <p class="text-center m-0">Menubar</p>
               </li>
               <li>
                 <hr class="dropdown-divider">
               </li>
-              <li>
+              <li class="font-small">
                 <router-link
                     :to="profileRoute"
                     class="dropdown-item centered-vertically rounded-2"
@@ -147,7 +148,16 @@ const logoIconSize = 42;
                   <span class="ps-1">Profile</span>
                 </router-link>
               </li>
-              <li>
+              <li class="font-small">
+                <router-link
+                    :to="{name: 'comparisonGroups'}"
+                    class="dropdown-item centered-vertically rounded-2"
+                >
+                  <collection-fill-icon/>
+                  <span class="ps-1">Comparison Groups</span>
+                </router-link>
+              </li>
+              <li class="font-small">
                 <router-link
                     :to="{name: 'accountSettingsTab'}"
                     class="dropdown-item centered-vertically rounded-2"
@@ -159,8 +169,8 @@ const logoIconSize = 42;
               <li>
                 <hr class="dropdown-divider">
               </li>
-              <template v-if="user.is_staff">
-                <li>
+              <template v-if="user.isStaff">
+                <li class="font-small">
                   <a
                       :href="BACKEND_ADMIN_URL"
                       class="dropdown-item centered-vertically rounded-2"
@@ -170,11 +180,11 @@ const logoIconSize = 42;
                     <span class="ps-1">Administration</span>
                   </a>
                 </li>
-                <li v-if="user.is_staff">
+                <li>
                   <hr class="dropdown-divider">
                 </li>
               </template>
-              <li>
+              <li class="font-small">
                 <button
                     @click="logoutWithFlush"
                     class="dropdown-item dropdown-item-logout centered-vertically rounded-2"
@@ -186,7 +196,7 @@ const logoIconSize = 42;
             </ul>
           </div>
           <ul v-else class="nav nav-underline align-items-center">
-            <li class="nav-item">
+            <li class="nav-item font-small">
               <router-link
                   :to="{name: 'logIn'}"
                   class="nav-link link-dark nav-link-action"
@@ -195,12 +205,8 @@ const logoIconSize = 42;
                 Log In
               </router-link>
             </li>
-            <li class="nav-item">
-              <router-link
-                  :to="{name: 'signUp'}"
-                  class="btn btn-sign-up"
-                  :class="isNavItemActive({routeName: 'signUp'}) ? 'active' : ''"
-              >
+            <li class="nav-item font-small">
+              <router-link :to="{name: 'signUp'}" class="btn btn-sign-up">
                 Sign Up
               </router-link>
             </li>
@@ -241,6 +247,13 @@ const logoIconSize = 42;
 .nav-link-action:focus
   transform: scale(1.065)
   color: $primary !important
+
+.navbar-toggler
+  padding: .3rem
+
+.navbar-toggler:focus
+  box-shadow: none
+
 
 .dropdown-item
   &-logout

@@ -2,10 +2,13 @@ import {getImageFullPath} from "@/utils";
 import store from "@/store";
 
 
-export async function updateLocalUser(updatedUser) {
-    const updatedUserCopy = {...updatedUser};
-    if (updatedUser.image) {
-        updatedUserCopy.image = getImageFullPath(updatedUser.image);
+export async function updateLocalUser(updatedUser, updatedUserProfile = null) {
+    store.commit("auth/updateUser", updatedUser);
+
+    const updatedUserProfileCopy = {...updatedUserProfile};
+    if (updatedUserProfileCopy.image) {
+        updatedUserProfileCopy.image = getImageFullPath(updatedUserProfileCopy.image);
     }
-    store.commit("auth/setUser", updatedUserCopy);
+
+    store.commit("auth/updateProfile", updatedUserProfileCopy);
 }

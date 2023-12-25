@@ -6,13 +6,13 @@ import {useVuelidate} from "@vuelidate/core";
 import {useStore} from "vuex";
 import {required} from "@vuelidate/validators";
 import FormErrorsFeedback from "@/components/forms/FormErrorsFeedback.vue";
-import {parseErrorsFromResponse, getValidationClass} from "@/utils";
-import toaster from "@/plugins/toaster";
 import {authStorage} from "@/services/auth";
 import FormFlushMessages from "@/components/forms/FormFlushMessages.vue";
 import SubmitButton from "@/components/SubmitButton.vue";
 import {passwordValidators, usernameValidators} from "@/validators/vuelidate";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
+import {getVuelidateFieldValidationClass} from "@/services/validation";
+import {parseErrorsFromResponse} from "@/services/parsers";
 
 
 const router = useRouter();
@@ -50,11 +50,6 @@ async function saveUserDataLocally(data) {
   store.commit("auth/setUser", user);
 }
 
-async function handleAfterLogIn() {
-  toaster.success("You have successfully login!")
-  await router.push({name: "categories"})
-}
-
 async function logIn() {
   isResponseWaiting.value = true;
   errorMessages.length = 0;
@@ -64,9 +59,9 @@ async function logIn() {
       password: formData.password,
     });
     await saveUserDataLocally(response.data)
-    await handleAfterLogIn()
+    await router.push({name: "categories"});
   } catch (error) {
-    parseErrorsFromResponse(errorMessages, error.request.response);
+    errorMessages.push(...parseErrorsFromResponse(error.request.response));
     console.error(error.response);
   } finally {
     isResponseWaiting.value = false;
@@ -89,7 +84,7 @@ const passwordResetRoute = {name: "passwordReset"}
               v-model="v$.username.$model"
               type="text"
               class="form-control only-bottom-border"
-              :class="getValidationClass(v$.username)"
+              :class="getVuelidateFieldValidationClass(v$.username)"
               placeholder="Enter username"
           >
           <form-errors-feedback :field="v$.username"/>
@@ -100,7 +95,7 @@ const passwordResetRoute = {name: "passwordReset"}
               v-model="v$.password.$model"
               type="password"
               class="form-control only-bottom-border"
-              :class="getValidationClass(v$.password)"
+              :class="getVuelidateFieldValidationClass(v$.password)"
               placeholder="Enter password"
           >
           <form-errors-feedback :field="v$.password"/>

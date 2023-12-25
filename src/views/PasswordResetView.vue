@@ -3,12 +3,12 @@ import ComponentWrapper from "@/components/ComponentWrapper.vue";
 import {reactive, ref} from "vue";
 import {email, required} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core";
-import {getValidationClass} from "@/utils";
 import FormErrorsFeedback from "@/components/forms/FormErrorsFeedback.vue";
 import SubmitButton from "@/components/SubmitButton.vue";
 import api from "@/services/api";
 import toaster from "@/plugins/toaster";
 import router from "@/router";
+import {getVuelidateFieldValidationClass} from "@/services/validation";
 
 
 const isResponseWaiting = ref(false);
@@ -63,7 +63,7 @@ const sendResetEmail = async () => {
               v-model="v$.email.$model"
               type="email"
               class="form-control only-bottom-border"
-              :class="getValidationClass(v$.email)"
+              :class="getVuelidateFieldValidationClass(v$.email)"
               placeholder="Enter email"
           >
           <form-errors-feedback :field="v$.email"/>

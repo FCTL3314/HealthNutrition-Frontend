@@ -15,6 +15,9 @@ const auth = {
         user(state) {
             return state.user;
         },
+        userProfile(state) {
+            return state.user.profile;
+        },
         accessToken(state) {
             return state.accessToken;
         },
@@ -25,6 +28,18 @@ const auth = {
     mutations: {
         setUser(state, user) {
             state.user = user;
+        },
+        updateUser(state, updatedUser) {
+          state.user = {...state.user, ...updatedUser}  ;
+        },
+        updateProfile(state, updatedProfile) {
+          state.user.profile = {...state.user.profile, ...updatedProfile}  ;
+        },
+        setEmail(state, newEmail) {
+            state.user.email = newEmail;
+        },
+        verifyUser(state) {
+            state.user.isVerified = true;
         },
         removeUser(state) {
             state.user = null;

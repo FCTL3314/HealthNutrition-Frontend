@@ -8,7 +8,7 @@ const user = computed(() => store.getters['auth/user']);
 
 const securityAttributes = [
   {
-    isSecured: user.value.is_verified,
+    isSecured: user.value.isVerified,
     text: "Your email is not verified, please verify it to increase the security of your account.",
     resolutionLink: {
       text: "Verify my email",

@@ -1,6 +1,4 @@
 <script setup>
-import {computed} from "vue";
-import {useStore} from "vuex";
 import FormFlushMessages from "@/components/forms/FormFlushMessages.vue";
 import SubmitButton from "@/components/SubmitButton.vue";
 
@@ -28,9 +26,6 @@ defineProps({
     type: Object,
   }
 })
-
-const store = useStore();
-const user = computed(() => store.getters["auth/user"]);
 </script>
 
 <template>

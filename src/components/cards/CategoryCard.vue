@@ -1,6 +1,6 @@
 <script setup>
 import CircleFillIcon from "@/components/icons/CircleFillIcon.vue";
-import {CARD_IMAGE_HEIGHT, PRODUCT_NUTRITION_ROUNDING} from "@/constants";
+import {PRODUCT_NUTRITION_ROUNDING} from "@/constants";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
 import {computed} from "vue";
 
@@ -10,16 +10,16 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  calories_avg: {
+  caloriesAvg: {
     type: Number,
   },
-  protein_avg: {
+  proteinAvg: {
     type: Number,
   },
-  fat_avg: {
+  fatAvg: {
     type: Number,
   },
-  carbs_avg: {
+  carbsAvg: {
     type: Number,
   },
 });
@@ -27,41 +27,41 @@ const props = defineProps({
 
 const nutritionItems = computed(() => {
   const items = []
-  if (props.calories_avg) {
+  if (props.caloriesAvg) {
     items.push(
         {
           name: "Calories",
-          value: props.calories_avg,
+          value: props.caloriesAvg,
           colorClass: "text-warning",
           units: "kcal",
         }
     );
   }
-  if (props.protein_avg) {
+  if (props.proteinAvg) {
     items.push(
         {
           name: "Protein",
-          value: props.protein_avg,
+          value: props.proteinAvg,
           colorClass: "text-success",
           units: "g.",
         },
     );
   }
-  if (props.fat_avg) {
+  if (props.fatAvg) {
     items.push(
         {
           name: "Fat",
-          value: props.fat_avg,
+          value: props.fatAvg,
           colorClass: "text-danger",
           units: "g.",
         },
     );
   }
-  if (props.carbs_avg) {
+  if (props.carbsAvg) {
     items.push(
         {
           name: "Carbs",
-          value: props.carbs_avg,
+          value: props.carbsAvg,
           colorClass: "text-primary",
           units: "g.",
         },
@@ -76,22 +76,21 @@ const productsRoute = {name: 'products', params: {categorySlug: props.category.s
 <template>
   <component-wrapper class="card common-rounding h-100">
     <router-link :to="productsRoute">
-      <div class="card-img-scale">
+      <div class="card-img-wrp">
         <img
             :src="category.image"
-            :height="CARD_IMAGE_HEIGHT"
-            class="card-img-top object-fit-cover"
+            class="card-img-responsive card-img-top object-fit-cover"
             alt="category-image"
         >
       </div>
     </router-link>
     <div class="card-body">
-      <h5 class="card-title text-main text-truncate">
+      <h5 class="card-title font-standard text-main text-truncate">
         <router-link class="link-main fw-semibold" :to="productsRoute">
           {{ category.name }}
         </router-link>
       </h5>
-      <p class="card-text">{{ category.description }}</p>
+      <p class="card-text font-small">{{ category.description }}</p>
     </div>
     <ul class="list-group list-group-flush">
       <li

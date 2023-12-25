@@ -17,8 +17,8 @@ defineProps({
 <template>
   <component-wrapper>
     <div class="text-center">
-      <h1 class="text-main">{{ title }}</h1>
-      <p class="fs-4 mb-0">{{ description }}</p>
+      <h1 class="text-main font-large">{{ title }}</h1>
+      <p class="font-medium mb-0">{{ description }}</p>
     </div>
   </component-wrapper>
 </template>

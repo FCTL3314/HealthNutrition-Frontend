@@ -2,14 +2,15 @@
 import api from "@/services/api/index";
 import {computed, onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import {calculateTotalPages, replaceURLParams, scrollToTop} from "@/utils";
+import {replaceURLParams, scrollToElement} from "@/utils";
 import SearchForm from "@/components/SearchForm.vue";
-import CategoryCard from "@/components/cards/category/CategoryCard.vue";
-import CategoryCardPlaceholder from "@/components/cards/category/CategoryCardPlaceholder.vue";
+import CategoryCard from "@/components/cards/CategoryCard.vue";
+import CategoryCardPlaceholder from "@/components/placeholders/CategoryCardPlaceholder.vue";
 import PaginationSection from "@/components/PaginationSection.vue";
 import ErrorSection from "@/components/ErrorSection.vue";
 import {CATEGORIES_PAGINATE_BY} from "@/constants";
 import CategoriesGreeting from "@/components/greetings/CategoriesGreeting.vue";
+import {calculateTotalPaginationPages} from "@/services/pagination";
 
 
 const route = useRoute();
@@ -44,14 +45,16 @@ async function updateCategories(searchQuery = null) {
   const data = await loadCategories(searchQuery);
   if (data) {
     categories.value = data.results;
-    totalPages.value = calculateTotalPages(data.count, CATEGORIES_PAGINATE_BY);
+    totalPages.value = calculateTotalPaginationPages(data.count, CATEGORIES_PAGINATE_BY);
   }
 }
+
+const categoriesWrapperElement = ref(null);
 
 async function onPageChange(page) {
   currentPage.value = page;
   await replaceURLParams(router, route, {page: page});
-  scrollToTop();
+  scrollToElement(categoriesWrapperElement.value);
   await updateCategories();
 }
 
@@ -63,14 +66,14 @@ onMounted(async () => {
 <template>
   <categories-greeting class="component-indentation-y"/>
   <div class="component-indentation-y">
-    <SearchForm
+    <search-form
         class="mb-3"
         placeholder-text="Enter a query, for example fruits..."
         :show-clear-search-button="!isCategoriesLoading"
         @search-input="updateCategories"
         @clear-search="updateCategories"
     />
-    <div class="row">
+    <div class="row" ref="categoriesWrapperElement">
       <div
           v-if="!isCategoriesLoading"
           v-for="category in categories"
@@ -79,10 +82,10 @@ onMounted(async () => {
       >
         <category-card
             :category="category"
-            :calories_avg="category.calories_avg"
-            :protein_avg="category.protein_avg"
-            :fat_avg="category.fat_avg"
-            :carbs_avg="category.carbs_avg"
+            :calories-avg="category.caloriesAvg"
+            :protein-avg="category.proteinAvg"
+            :fat-avg="category.fatAvg"
+            :carbs-avg="category.carbsAvg"
         />
       </div>
       <div

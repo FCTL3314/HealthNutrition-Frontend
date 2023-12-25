@@ -6,7 +6,6 @@ import moment from "moment/moment";
 import ListIcon from "@/components/icons/ListIcon.vue";
 import api from "@/services/api";
 import LoadingSpinner from "@/components/loading/LoadingSpinner.vue";
-import CheckIcon from "@/components/icons/CheckIcon.vue";
 import {ANIMATION_DELAY} from "@/constants";
 
 
@@ -43,7 +42,7 @@ async function onDeleteButtonClick() {
   }
 }
 
-const humanizedCreatedAt = moment(props.comparisonGroup.created_at).fromNow()
+const humanizedCreatedAt = moment(props.comparisonGroup.createdAt).fromNow()
 
 const productsComparisonRoute = {
   name: "productsComparison",
@@ -59,13 +58,13 @@ const productsComparisonRoute = {
       </div>
       <div class="text-break ms-2 me-auto">
         <router-link
-            class="fs-5 fw-bold text-decoration-none"
+            class="fw-bold text-decoration-none"
             :to="productsComparisonRoute"
         >
-          <span class="link-main">
-            {{ comparisonGroup.name }} ({{ comparisonGroup.products_count || 0 }})&nbsp;
+          <span class="link-main font-standard">
+            {{ comparisonGroup.name }} ({{ comparisonGroup.productsCount || 0 }})&nbsp;
           </span>
-          <span class="fs-6 text-secondary">Created {{ humanizedCreatedAt }}</span>
+          <span class="font-small text-secondary">Created {{ humanizedCreatedAt }}</span>
         </router-link>
       </div>
       <div class="centered p-2">
@@ -78,7 +77,7 @@ const productsComparisonRoute = {
         </button>
         <span
             v-else-if="isComparisonGroupDeleted"
-            class="fs-4 fw-semibold centered text-success animate__animated animate__zoomIn"
+            class="fs-4 fw-semibold centered text-success animate__animated animate__zoomIn animate__faster"
             style="height: 20px; width: 20px"
         >
           &check;

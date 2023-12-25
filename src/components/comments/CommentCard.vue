@@ -29,8 +29,8 @@ const emits = defineEmits(["replyCreated"])
 
 async function onReplyCreated(reply) {
   hideAddReplyForm();
-  props.comment.replies_count += 1;
-  props.comment.has_replies = true;
+  props.comment.repliesCount += 1;
+  props.comment.hasReplies = true;
 
   if (isRepliesOpenedAtLeastOnce.value) {
     replies.unshift(reply);
@@ -52,7 +52,7 @@ const showRepliesButton = !props.comment.parent;
 const parentCommentAuthorPrefix = props.comment.parent && props.comment.parent.parent_id !== null
     ? `@${props.comment.parent.author.slug}`
     : "";
-const humanizedCreatedAt = moment(props.comment.created_at).fromNow();
+const humanizedCreatedAt = moment(props.comment.createdAt).fromNow();
 
 const commentAuthorImageSize = 40
 
@@ -135,15 +135,15 @@ function toggleReplyForm() {
       <div class="replies-buttons">
         <template v-if="showRepliesButton">
           <button
-              @click="comment.has_replies && toggleReplies()"
+              @click="comment.hasReplies && toggleReplies()"
               class="btn btn-replies"
           >
-            <template v-if="comment.has_replies">
+            <template v-if="comment.hasReplies">
               <caret-up-fill-icon v-if="isRepliesOpened"/>
               <caret-down-fill-icon v-else/>
             </template>
             <span class="ms-1">
-            {{ comment.replies_count }} Replies
+            {{ comment.repliesCount }} Replies
           </span>
           </button>
           <span class="mx-1">&middot;</span>

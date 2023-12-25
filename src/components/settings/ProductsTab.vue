@@ -1,5 +1,5 @@
 <script setup>
-import {computed, ref} from "vue";
+import {ref} from "vue";
 import {useStore} from "vuex";
 import BaseTab from "@/components/settings/BaseTab.vue";
 import toaster from "@/plugins/toaster";
@@ -7,7 +7,6 @@ import toaster from "@/plugins/toaster";
 
 const store = useStore();
 
-const user = computed(() => store.getters["auth/user"]);
 
 const isSettingsSaving = ref(false);
 

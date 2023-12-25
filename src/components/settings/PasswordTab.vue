@@ -1,12 +1,13 @@
 <script setup>
 import {reactive, ref} from "vue";
 import {useVuelidate} from "@vuelidate/core";
-import {parseErrorsFromResponse, parseFieldMessagesFromResponse, getValidationClass} from "@/utils";
 import api from "@/services/api";
 import FormErrorsFeedback from "@/components/forms/FormErrorsFeedback.vue";
 import BaseTab from "@/components/settings/BaseTab.vue";
 import {passwordValidators} from "@/validators/vuelidate";
 import toaster from "@/plugins/toaster";
+import {getVuelidateFieldValidationClass} from "@/services/validation";
+import {parseErrorsFromResponse} from "@/services/parsers";
 
 
 const isResponseWaiting = ref(false);
@@ -30,8 +31,8 @@ async function changePassword() {
   errorMessages.length = 0;
   try {
     await api.users.setPassword({
-      current_password: formData.currentPassword,
-      new_password: formData.newPassword,
+      currentPassword: formData.currentPassword,
+      newPassword: formData.newPassword,
     });
     toaster.success("Your password has been successfully changed.");
   } catch (error) {
@@ -59,7 +60,7 @@ async function changePassword() {
           v-model="v$.currentPassword.$model"
           type="password"
           class="form-control only-bottom-border"
-          :class="getValidationClass(v$.currentPassword)"
+          :class="getVuelidateFieldValidationClass(v$.currentPassword)"
           placeholder="Enter your current password"
       >
       <form-errors-feedback :field="v$.currentPassword"/>
@@ -70,7 +71,7 @@ async function changePassword() {
           v-model="v$.newPassword.$model"
           type="password"
           class="form-control only-bottom-border"
-          :class="getValidationClass(v$.newPassword)"
+          :class="getVuelidateFieldValidationClass(v$.newPassword)"
           placeholder="Enter new password"
       >
       <form-errors-feedback :field="v$.newPassword"/>

@@ -59,7 +59,7 @@ async function loadComments(page = 1) {
 }
 
 function addReplyComment(reply) {
-  const parentCommentIndex = props.comments.findIndex(comment => comment.id === reply.parent_id);
+  const parentCommentIndex = props.comments.findIndex(comment => comment.id === reply.parentId);
   props.comments.splice(parentCommentIndex + 1, 0, reply);
 }
 

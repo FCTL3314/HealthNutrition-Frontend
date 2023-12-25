@@ -1,30 +1,32 @@
 <script setup>
-import {computed, reactive, ref} from "vue";
+import {reactive, ref} from "vue";
 import {useStore} from "vuex";
 import {useVuelidate} from "@vuelidate/core";
-import {maxLength, minLength} from "@vuelidate/validators";
-import {parseErrorsFromResponse, parseFieldMessagesFromResponse, getValidationClass} from "@/utils";
+import {maxLength, maxValue, minLength, minValue} from "@vuelidate/validators";
 import FormErrorsFeedback from "@/components/forms/FormErrorsFeedback.vue";
 import api from "@/services/api";
-import {ALLOWED_IMAGE_EXTENSIONS} from "@/constants";
+import {ALLOWED_IMAGE_EXTENSIONS, MAX_USER_BODY_WEIGHT_KG, MIN_USER_BODY_WEIGHT_KG} from "@/constants";
 import BaseTab from "@/components/settings/BaseTab.vue";
 import {updateLocalUser} from "@/services/userUpdate";
 import {usernameValidators} from "@/validators/vuelidate";
 import toaster from "@/plugins/toaster";
+import {getVuelidateFieldValidationClass} from "@/services/validation";
+import {parseErrorsFromResponse} from "@/services/parsers";
 
 
 const store = useStore();
 
-const user = computed(() => store.getters["auth/user"]);
+const user = reactive(store.getters["auth/user"]);
 
 const isResponseWaiting = ref(false);
 
 const formData = reactive({
-  username: user.value.username,
-  firstName: user.value.first_name,
-  lastName: user.value.last_name,
+  username: user.username,
+  firstName: user.firstName,
+  lastName: user.lastName,
   image: null,
-  about: user.value.about,
+  about: user.profile.about,
+  bodyWeight: user.profile.bodyWeight,
 });
 
 const rules = {
@@ -41,6 +43,10 @@ const rules = {
     minLength: minLength(1),
     maxLength: maxLength(516),
   },
+  bodyWeight: {
+    minValue: minValue(MIN_USER_BODY_WEIGHT_KG),
+    maxValue: maxValue(MAX_USER_BODY_WEIGHT_KG),
+  }
 };
 
 const v$ = useVuelidate(rules, formData);
@@ -53,14 +59,17 @@ async function updateUser() {
   isResponseWaiting.value = true;
   errorMessages.length = 0;
   try {
-    const response = await api.users.update({
+    const updateUser = (await api.users.update({
       username: formData.username,
       first_name: formData.firstName,
       last_name: formData.lastName,
+    })).data;
+    const updateUserProfile = (await api.users.updateProfile({
       image: formData.image,
       about: formData.about,
-    });
-    await updateLocalUser(response.data);
+      bodyWeight: formData.bodyWeight,
+    })).data;
+    await updateLocalUser(updateUser, updateUserProfile);
     toaster.success("Your account data has been successfully updated.");
   } catch (error) {
     errorMessages.push(...parseErrorsFromResponse(error.request.response));
@@ -88,7 +97,7 @@ async function updateUser() {
           id="username"
           v-model="v$.username.$model"
           class="form-control only-bottom-border"
-          :class="getValidationClass(v$.username)"
+          :class="getVuelidateFieldValidationClass(v$.username)"
           type="text"
       >
       <form-errors-feedback :field="v$.username"/>
@@ -101,7 +110,7 @@ async function updateUser() {
           id="first_name"
           v-model="v$.firstName.$model"
           class="form-control only-bottom-border"
-          :class="getValidationClass(v$.firstName)"
+          :class="getVuelidateFieldValidationClass(v$.firstName)"
           type="text"
           placeholder="Enter your first name"
       >
@@ -113,7 +122,7 @@ async function updateUser() {
           id="last_name"
           v-model="v$.lastName.$model"
           class="form-control only-bottom-border"
-          :class="getValidationClass(v$.lastName)"
+          :class="getVuelidateFieldValidationClass(v$.lastName)"
           type="text"
           placeholder="Enter your last name"
       >
@@ -122,7 +131,7 @@ async function updateUser() {
     <div class="mb-4">
       <label for="email" class="form-label">
         <span class="text-main">Email</span>
-        <span v-if="user.is_verified" class="text-success">
+        <span v-if="user.isVerified" class="text-success">
           &check; Verified
         </span>
       </label>
@@ -154,12 +163,27 @@ async function updateUser() {
                 id="about"
                 v-model="v$.about.$model"
                 class="form-control only-bottom-border"
-                :class="getValidationClass(v$.about)"
+                :class="getVuelidateFieldValidationClass(v$.about)"
                 rows="3"
                 placeholder="Tell a little about yourself"
             />
         <form-errors-feedback :field="v$.about"/>
       </div>
+    </div>
+    <div class="mb-4">
+      <label for="first_name" class="form-label text-main">
+        Body Weight
+      </label>
+      <input
+          id="first_name"
+          v-model="v$.bodyWeight.$model"
+          class="form-control only-bottom-border"
+          :class="getVuelidateFieldValidationClass(v$.bodyWeight)"
+          type="number"
+          step="0.5"
+          placeholder="Enter your body weight"
+      >
+      <form-errors-feedback :field="v$.bodyWeight"/>
     </div>
   </base-tab>
 </template>

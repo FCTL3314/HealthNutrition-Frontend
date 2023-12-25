@@ -4,13 +4,14 @@ import {computed, reactive, ref} from "vue";
 import {useVuelidate} from "@vuelidate/core";
 import {email, helpers, required, sameAs} from "@vuelidate/validators";
 import FormErrorsFeedback from "@/components/forms/FormErrorsFeedback.vue";
-import {parseErrorsFromResponse, getValidationClass} from "@/utils";
 import router from "@/router";
-import toaster from "@/plugins/toaster";
 import FormFlushMessages from "@/components/forms/FormFlushMessages.vue"
 import SubmitButton from "@/components/SubmitButton.vue";
 import {passwordValidators, usernameValidators} from "@/validators/vuelidate";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
+import {confettiFromTop} from "@/utils/particles";
+import {getVuelidateFieldValidationClass} from "@/services/validation";
+import {parseErrorsFromResponse} from "@/services/parsers";
 
 
 const isResponseWaiting = ref(false);
@@ -20,7 +21,7 @@ const formData = reactive({
   username: "",
   email: "",
   password: "",
-  password_confirmation: "",
+  passwordConfirmation: "",
 });
 
 const rules = {
@@ -33,7 +34,7 @@ const rules = {
     email,
   },
   password: passwordValidators,
-  password_confirmation: {
+  passwordConfirmation: {
     ...passwordValidators,
     sameAs: helpers.withMessage(
         "The two password fields don’t match",
@@ -45,7 +46,7 @@ const rules = {
 const v$ = useVuelidate(rules, formData);
 
 async function handleAfterSignUp() {
-  toaster.success("You have successfully registered!");
+  confettiFromTop();
   await router.push({name: "logIn"});
 }
 
@@ -60,7 +61,7 @@ async function signUp() {
     });
     await handleAfterSignUp();
   } catch (error) {
-    parseErrorsFromResponse(errorMessages, error.request.response);
+    errorMessages.push(...parseErrorsFromResponse(error.request.response));
     console.error(error.response);
   } finally {
     isResponseWaiting.value = false;
@@ -81,7 +82,7 @@ async function signUp() {
               v-model="v$.username.$model"
               type="text"
               class="form-control only-bottom-border"
-              :class="getValidationClass(v$.username)"
+              :class="getVuelidateFieldValidationClass(v$.username)"
               placeholder="Enter username"
           >
           <form-errors-feedback :field="v$.username"/>
@@ -92,7 +93,7 @@ async function signUp() {
               v-model="v$.email.$model"
               type="email"
               class="form-control only-bottom-border"
-              :class="getValidationClass(v$.email)"
+              :class="getVuelidateFieldValidationClass(v$.email)"
               placeholder="Enter email"
           >
           <form-errors-feedback :field="v$.email"/>
@@ -103,7 +104,7 @@ async function signUp() {
               v-model="v$.password.$model"
               type="password"
               class="form-control only-bottom-border"
-              :class="getValidationClass(v$.password)"
+              :class="getVuelidateFieldValidationClass(v$.password)"
               placeholder="Enter password"
           >
           <form-errors-feedback :field="v$.password"/>
@@ -111,13 +112,13 @@ async function signUp() {
         <div class="mb-4">
           <label class="form-label text-main">Password confirmation</label>
           <input
-              v-model="v$.password_confirmation.$model"
+              v-model="v$.passwordConfirmation.$model"
               type="password"
               class="form-control only-bottom-border"
-              :class="getValidationClass(v$.password_confirmation)"
+              :class="getVuelidateFieldValidationClass(v$.passwordConfirmation)"
               placeholder="Confirm password"
           >
-          <form-errors-feedback :field="v$.password_confirmation"/>
+          <form-errors-feedback :field="v$.passwordConfirmation"/>
         </div>
         <div class="text-center mb-2">
           <submit-button

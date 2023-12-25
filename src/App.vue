@@ -2,33 +2,24 @@
 import {RouterView} from "vue-router";
 import HeaderSection from "@/components/HeaderSection.vue";
 import FooterSection from "@/components/FooterSection.vue";
-import {computed, onMounted} from "vue";
+import {onMounted} from "vue";
+import {getEventBackgroundClass} from "@/services/holidayEvents";
 
-
-const currentDate = new Date()
-const currentMonth = currentDate.getMonth() + 1
-
-const eventBackgroundClass = computed(() => {
-  const monthEventBackgroundClassMap = {
-    "12": "event-background-christmas",
-    "1": "event-background-christmas",
-  };
-  return monthEventBackgroundClassMap[currentMonth];
-})
 
 onMounted(() => {
-  document.body.classList.add(eventBackgroundClass.value);
+  const eventBackgroundClass = getEventBackgroundClass()
+  document.body.classList.add(eventBackgroundClass);
 })
 </script>
 
 <template>
-  <div class="header-indentation">
+  <div id="header" class="header-indentation">
     <header-section/>
   </div>
   <div class="container min-vh-100 position-relative">
     <RouterView/>
   </div>
-  <div class="footer-indentation">
+  <div id="footer" class="footer-indentation">
     <footer-section/>
   </div>
 </template>

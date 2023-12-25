@@ -1,11 +1,6 @@
 <script setup>
 import {onMounted, ref} from "vue";
-import {
-  ANIMATION_DELAY,
-  CARD_IMAGE_HEIGHT,
-  PRODUCT_HEALTHFULNESS_REFERENCE,
-  PRODUCT_NUTRITION_ROUNDING
-} from "@/constants";
+import {ANIMATION_DELAY, PRODUCT_HEALTHFULNESS_REFERENCE, PRODUCT_NUTRITION_ROUNDING} from "@/constants";
 import CircleFillIcon from "@/components/icons/CircleFillIcon.vue";
 import {useStore} from "vuex";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
@@ -82,14 +77,28 @@ async function onRemoveButtonClick() {
 
 const healthfulnessPercents = Math.round((props.product.healthfulness / PRODUCT_HEALTHFULNESS_REFERENCE) * 100);
 
+function getNutritionDifferenceColorClass(isMoreBetter, isDifferencePositive) {
+  return isMoreBetter
+      ? isDifferencePositive
+          ? "text-success"
+          : "text-danger"
+      : isDifferencePositive
+          ? "text-danger"
+          : "text-success";
+}
+
 function createNutritionItem(name, colorClass, units, value, avgValue, isMoreBetter) {
   const difference = parseFloat((value - avgValue).toFixed(PRODUCT_NUTRITION_ROUNDING));
   const isDifferencePositive = difference >= 0;
   const normalizedDifference = Math.abs(difference);
+  const differenceColorClass = getNutritionDifferenceColorClass(isMoreBetter, isDifferencePositive);
+  const differenceSymbol = isDifferencePositive ? '+' : '-';
 
   return {
     name,
     colorClass,
+    differenceColorClass,
+    differenceSymbol,
     units,
     value,
     avgValue,
@@ -152,22 +161,21 @@ onMounted(() => {
 <template>
   <component-wrapper ref="cardComponent" class="card common-rounding h-100 z-0">
     <router-link :to="productRoute">
-      <div class="card-img-scale">
+      <div class="card-img-wrp">
         <img
             :src="product.image"
-            :height="CARD_IMAGE_HEIGHT"
-            class="card-img-top object-fit-cover"
+            class="card-img-responsive card-img-top object-fit-cover"
             alt="product-image"
         >
       </div>
     </router-link>
     <div class="card-body d-flex flex-column">
-      <h5 class="card-title text-main text-truncate">
+      <h5 class="card-title font-standard text-main text-truncate">
         <router-link class="link-main fw-semibold" :to="productRoute">
           {{ product.name }}
         </router-link>
       </h5>
-      <p class="card-text">{{ product.short_description }}</p>
+      <p class="card-text font-small">{{ product.shortDescription }}</p>
     </div>
     <div v-if="tags" class="tags px-3">
       <the-tag
@@ -198,10 +206,8 @@ onMounted(() => {
         <span class="fw-semibold">
           &nbsp;{{ item.name }}: {{ item.value }} {{ item.units }}&nbsp;
         </span>
-        <span
-            :class="item.isMoreBetter && item.isDifferencePositive ? 'text-success' : 'text-danger'"
-        >
-          {{ item.isDifferencePositive ? '+' : '-' }}{{ item.normalizedDifference }} {{ item.units }}
+        <span :class="item.differenceColorClass">
+          {{ item.differenceSymbol }}{{ item.normalizedDifference }} {{ item.units }}
         </span>
       </li>
       <li class="list-group-item text-center px-0 pb-0">
@@ -225,7 +231,7 @@ onMounted(() => {
               v-else
               :width="38"
               :height="38"
-              class="mx-auto centered text-success animate__animated animate__bounceIn"
+              class="mx-auto centered text-success animate__animated animate__zoomIn animate__faster"
           />
         </template>
         <button
