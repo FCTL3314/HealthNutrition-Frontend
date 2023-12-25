@@ -1,5 +1,5 @@
-import {authStorage} from "@/services/auth";
 import api from "@/services/api";
+import {authStorage} from "@/services/auth";
 
 
 const auth = {
@@ -30,10 +30,10 @@ const auth = {
             state.user = user;
         },
         updateUser(state, updatedUser) {
-          state.user = {...state.user, ...updatedUser}  ;
+            state.user = {...state.user, ...updatedUser}  ;
         },
         updateProfile(state, updatedProfile) {
-          state.user.profile = {...state.user.profile, ...updatedProfile}  ;
+            state.user.profile = {...state.user.profile, ...updatedProfile}  ;
         },
         setEmail(state, newEmail) {
             state.user.email = newEmail;

@@ -2,7 +2,7 @@ import {capitalize} from "vue";
 
 
 export function getLocalStorageBoolean(value, default_value = false) {
-    return value === "true" ? true : default_value
+    return value === "true" ? true : default_value;
 }
 
 export function parseDetailFromResponse(response) {
@@ -55,7 +55,7 @@ export function parseErrorsFromResponse(response) {
     }
 
     if (fieldMessages) {
-        errors.push(...fieldMessages)
+        errors.push(...fieldMessages);
     }
     return errors;
 }

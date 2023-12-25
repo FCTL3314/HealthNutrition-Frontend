@@ -10,7 +10,7 @@ export default function (instance) {
             return instance.post("users/", payload);
         },
         me(authenticationToken = null) {
-            const headers = {}
+            const headers = {};
             if (authenticationToken) {
                 headers.Authorization = `Bearer ${authenticationToken}`;
             }

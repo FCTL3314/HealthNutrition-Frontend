@@ -1,9 +1,9 @@
 import {createRouter, createWebHistory} from "vue-router";
-import {scrollToTop} from "@/utils";
 import {isAuthenticatedOnlyRedirectRequired, isGuestsOnlyRedirectRequired} from "@/router/utils";
+import {createTitle} from "@/services/text";
+import {scrollToTop} from "@/utils";
 import store from "@/store/index";
 import toaster from "@/plugins/toaster";
-import {createTitle} from "@/services/text";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),

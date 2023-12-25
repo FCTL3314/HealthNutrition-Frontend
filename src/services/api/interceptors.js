@@ -1,8 +1,8 @@
-import api from "@/services/api/index";
 import {authStorage, logout} from "@/services/auth";
+import api from "@/services/api/index";
 import instance from "@/services/api/instance";
-import store from "@/store";
 import {isJWTTokenExpired} from "@/utils";
+import store from "@/store";
 
 
 const setup = () => {
