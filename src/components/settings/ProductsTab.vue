@@ -7,7 +7,6 @@ import toaster from "@/plugins/toaster";
 
 const store = useStore();
 
-
 const isSettingsSaving = ref(false);
 
 const isMoreCaloriesBetter = ref(store.getters["nutrition/isMoreCaloriesBetter"]);

@@ -1,6 +1,6 @@
 <script setup>
 import {onMounted, ref} from "vue";
-import {ANIMATION_DELAY, PRODUCT_HEALTHFULNESS_REFERENCE, PRODUCT_NUTRITION_ROUNDING} from "@/constants";
+import {ANIMATION_DELAY, PRODUCT_HEALTHFULNESS_REFERENCE, NUTRITION_FACTS_ROUNDING} from "@/constants";
 import CircleFillIcon from "@/components/icons/CircleFillIcon.vue";
 import {useStore} from "vuex";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
@@ -88,7 +88,7 @@ function getNutritionDifferenceColorClass(isMoreBetter, isDifferencePositive) {
 }
 
 function createNutritionItem(name, colorClass, units, value, avgValue, isMoreBetter) {
-  const difference = parseFloat((value - avgValue).toFixed(PRODUCT_NUTRITION_ROUNDING));
+  const difference = parseFloat((value - avgValue).toFixed(NUTRITION_FACTS_ROUNDING));
   const isDifferencePositive = difference >= 0;
   const normalizedDifference = Math.abs(difference);
   const differenceColorClass = getNutritionDifferenceColorClass(isMoreBetter, isDifferencePositive);

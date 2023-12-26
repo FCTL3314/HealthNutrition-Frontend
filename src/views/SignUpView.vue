@@ -12,6 +12,7 @@ import ComponentWrapper from "@/components/ComponentWrapper.vue";
 import {confettiFromTop} from "@/utils/particles";
 import {getVuelidateFieldValidationClass} from "@/services/validation";
 import {parseErrorsFromResponse} from "@/services/parsers";
+import toaster from "@/plugins/toaster";
 
 
 const isResponseWaiting = ref(false);
@@ -47,6 +48,7 @@ const v$ = useVuelidate(rules, formData);
 
 async function handleAfterSignUp() {
   confettiFromTop();
+  toaster.success("You have successfully registered!")
   await router.push({name: "logIn"});
 }
 

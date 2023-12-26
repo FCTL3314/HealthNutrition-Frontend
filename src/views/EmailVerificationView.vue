@@ -1,7 +1,7 @@
 <script setup>
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
 import {useStore} from "vuex";
-import {computed, onMounted, reactive, ref} from "vue";
+import {onMounted, reactive, ref} from "vue";
 import api from "@/services/api";
 import {useRouter} from "vue-router";
 import WrappedLoadingSpinner from "@/components/loading/WrappedLoadingSpinner.vue";
@@ -19,11 +19,11 @@ import {getVuelidateFieldValidationClass} from "@/services/validation";
 const router = useRouter();
 const store = useStore();
 
-const user = computed(() => store.getters["auth/user"]);
+const user = reactive(store.getters["auth/user"]);
 
 const isResponseWaiting = ref(false);
 const isVerificationSending = ref(false);
-const isAlreadyVerified = user.value.isVerified;
+const isAlreadyVerified = user.isVerified;
 
 const formData = reactive({
   code: "",
@@ -174,7 +174,7 @@ onMounted(async () => {
   </wrapped-loading-spinner>
 </template>
 
-<style scoped lang="sass">
+<style lang="sass">
 @import '@/assets/sass/main'
 @import '@/assets/sass/forms'
 </style>

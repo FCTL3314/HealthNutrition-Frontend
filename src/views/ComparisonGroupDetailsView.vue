@@ -1,11 +1,10 @@
 <script setup>
 import api from "@/services/api";
-import {computed, onMounted, reactive, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import WrappedLoadingSpinner from "@/components/loading/WrappedLoadingSpinner.vue";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
-import {PRODUCT_NUTRITION_ROUNDING, PRODUCTS_PAGINATE_BY} from "@/constants";
-import moment from "moment";
+import {PRODUCTS_PAGINATE_BY} from "@/constants";
 import ErrorSection from "@/components/ErrorSection.vue";
 import ShowMoreButton from "@/components/ShowMoreButton.vue";
 import ProductCard from "@/components/cards/ProductCard.vue";
@@ -14,6 +13,8 @@ import ComparisonGroupGreeting from "@/components/greetings/ComparisonGroupGreet
 import CaretUpFillIcon from "@/components/icons/CaretUpFillIcon.vue";
 import CaretDownFillIcon from "@/components/icons/CaretDownFillIcon.vue";
 import {createTitle} from "@/services/text";
+import NutritionFacts from "@/components/NutritionFacts.vue";
+import ComparedProductsStatistic from "@/components/ComparedProductsStatistic.vue";
 
 
 const route = useRoute();
@@ -62,57 +63,6 @@ async function removeProduct(productToRemove) {
   removedProductsCount++;
 }
 
-const averages = reactive([]);
-
-async function pushAverages() {
-  averages.push(
-      {
-        title: "Calories: ",
-        value: comparisonGroup.value.caloriesAvg,
-        units: "kcal",
-      },
-      {
-        title: "Protein: ",
-        value: comparisonGroup.value.proteinAvg,
-        units: "g.",
-      },
-      {
-        title: "Fat: ",
-        value: comparisonGroup.value.fatAvg,
-        units: "g.",
-      },
-      {
-        title: "Carbs: ",
-        value: comparisonGroup.value.carbsAvg,
-        units: "g.",
-      },
-  )
-  averages.forEach(obj => obj.value = obj.value.toFixed(PRODUCT_NUTRITION_ROUNDING));
-}
-
-const statistics = reactive([]);
-
-async function pushStatistics() {
-  statistics.push(
-      {
-        title: "Compared products: ",
-        value: comparisonGroup.value.productsCount,
-      },
-      {
-        title: "Unique categories: ",
-        value: comparisonGroup.value.uniqueCategoriesCount,
-      },
-      {
-        title: "Last product added: ",
-        value: moment(comparisonGroup.value.lastAddedProductDatetime).fromNow(),
-      },
-      {
-        title: "Comparison group created: ",
-        value: moment(comparisonGroup.value.createdAt).fromNow(),
-      },
-  )
-}
-
 function getTags(productSlug) {
   const tagData = {
     maxCalorieProductSlug: {text: "Max calorie", iconComponent: CaretUpFillIcon, classes: "tag-warning"},
@@ -141,8 +91,6 @@ onMounted(async () => {
       .then(async () => {
         document.title = createTitle(comparisonGroup.value.name);
         if (comparisonGroup.value.productsCount > 0) {
-          await pushStatistics();
-          await pushAverages();
           await updateProducts();
         }
       });
@@ -155,34 +103,20 @@ onMounted(async () => {
     <template v-if="!isNoProducts">
       <div class="row text-center component-indentation-bottom">
         <div class="col-xl-6 mb-3 mb-xl-0 mb-xxl-0">
-          <component-wrapper>
-            <h1 class="text-main">Averages</h1>
-            <ul class="list-group list-group-flush">
-              <li
-                  v-for="(item, index) in averages"
-                  :key="index"
-                  class="list-group-item"
-              >
-                <span class="fw-semibold fs-5">{{ item.title }}</span>
-                <span class="text-main-light fs-5">{{ item.value }} {{ item.units }}</span>
-              </li>
-            </ul>
-          </component-wrapper>
+          <nutrition-facts
+              title="Averages"
+              :calories="comparisonGroup.caloriesAvg"
+              :protein="comparisonGroup.proteinAvg"
+              :fat="comparisonGroup.fatAvg"
+              :carbs="comparisonGroup.carbsAvg"
+          />
         </div>
         <div class="col-xl-6">
-          <component-wrapper>
-            <h1 class="text-main">Statistics</h1>
-            <ul class="list-group list-group-flush">
-              <li
-                  v-for="(item, index) in statistics"
-                  :key="index"
-                  class="list-group-item"
-              >
-                <span class="fw-semibold fs-5">{{ item.title }}&nbsp;</span>
-                <span class="text-main-light fs-5">{{ item.value }}</span>
-              </li>
-            </ul>
-          </component-wrapper>
+          <compared-products-statistic
+              :comparison-group-created-at="comparisonGroup.createdAt"
+              :last-product-added-at="comparisonGroup.lastAddedProductDatetime"
+              :unique-categories-count="comparisonGroup.uniqueCategoriesCount"
+              :compared-products-count="comparisonGroup.productsCount"/>
         </div>
       </div>
       <div class="row">

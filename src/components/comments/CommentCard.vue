@@ -49,7 +49,7 @@ const isRepliesOpenedAtLeastOnce = ref(false);
 const isAddReplyFormShown = ref(false);
 const showRepliesButton = !props.comment.parent;
 
-const parentCommentAuthorPrefix = props.comment.parent && props.comment.parent.parent_id !== null
+const parentCommentAuthorPrefix = props.comment.parent && props.comment.parent.parentId !== null
     ? `@${props.comment.parent.author.slug}`
     : "";
 const humanizedCreatedAt = moment(props.comment.createdAt).fromNow();

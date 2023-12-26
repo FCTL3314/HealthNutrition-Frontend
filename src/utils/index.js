@@ -42,7 +42,7 @@ export function getImageFullPath(url) {
 }
 
 export function getUserImage(user) {
-    return user.profile?.image || "/src/assets/images/default-user.png";
+    return user?.profile?.image || "/src/assets/images/default-user.png";
 }
 
 export async function replaceURLParams(router, route, params, savePosition = true) {

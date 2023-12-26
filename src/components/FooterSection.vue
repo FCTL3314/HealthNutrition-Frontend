@@ -12,8 +12,8 @@ const currentDate = new Date()
         id="footer"
         class="container text-center text-white"
     >
-      <h3>About</h3>
-      <p>
+      <h3 class="font-big">About</h3>
+      <p class="font-small">
         The project is designed for educational purposes. The product information displayed may not precisely reflect
         their real-world values or compositions. The details provided are for learning purposes and might not entirely
         align with practical applications. The nutritional value of each product is calculated per 100 grams.

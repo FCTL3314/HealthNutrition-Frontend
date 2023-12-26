@@ -38,6 +38,7 @@ const user = computed(() => store.getters["auth/user"]);
 
 const isCommentsLoading = ref(false);
 const hasMoreComments = ref(false);
+const isShowMoreCommentsBtnShown = computed(() => hasMoreComments.value && !isCommentsLoading.value);
 
 const emits = defineEmits(["commentsLoaded"]);
 
@@ -69,7 +70,9 @@ onMounted(async () => {
 </script>
 
 <template>
-  <component-wrapper :class="[{'mb-3': !isRepliesSection}, {'pb-0': isRepliesSection}]" :shadow="!isRepliesSection">
+  <component-wrapper
+      :class="[{'mb-3': !isRepliesSection && isShowMoreCommentsBtnShown}, {'pb-0': isRepliesSection}]"
+      :shadow="!isRepliesSection">
     <div id="comments-wrp" class="container overflow-scroll">
       <comment-card
           v-for="comment in comments"
@@ -90,7 +93,7 @@ onMounted(async () => {
   </component-wrapper>
   <component-wrapper :padding="0">
     <show-more-button
-        v-show="hasMoreComments && !isCommentsLoading"
+        v-show="isShowMoreCommentsBtnShown"
         pagination-type="pageNumber"
         @show-more-button-click="loadComments"
     />

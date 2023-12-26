@@ -5,16 +5,16 @@ export const FRONTEND_REPOSITORY_URL = "https://github.com/FCTL3314/HealthNutrit
 export const BACKEND_REPOSITORY_URL = "https://github.com/FCTL3314/HealthNutrition-Backend";
 export const BACKEND_ADMIN_URL = "http://127.0.0.1:8000/admin/";
 
-export const ALLOWED_IMAGE_EXTENSIONS = [
+export const ALLOWED_USER_IMAGE_EXTENSIONS = [
     "image/png",
     "image/jpeg",
     "image/gif",
     "image/webp",
     "image/heic",
 ];
-export const COMMENTS_ALLOWED_CONTENT_TYPES = ["product", "store"];
+export const COMMENTS_ALLOWED_CONTENT_TYPES = ["product"];
 
-export const PRODUCT_NUTRITION_ROUNDING = 2;
+export const NUTRITION_FACTS_ROUNDING = 2;
 export const EMAIL_VERIFICATION_CODE_LENGTH = 8;
 export const PRODUCT_HEALTHFULNESS_REFERENCE = 900;
 export const MIN_USER_BODY_WEIGHT_KG = 15.0;

@@ -62,9 +62,9 @@ const productsComparisonRoute = {
             :to="productsComparisonRoute"
         >
           <span class="link-main font-standard">
-            {{ comparisonGroup.name }} ({{ comparisonGroup.productsCount || 0 }})&nbsp;
+            {{ comparisonGroup.name }} ({{ comparisonGroup.productsCount || 0 }})
           </span>
-          <span class="font-small text-secondary">Created {{ humanizedCreatedAt }}</span>
+          <span class="font-small text-secondary">&nbsp;Created {{ humanizedCreatedAt }}</span>
         </router-link>
       </div>
       <div class="centered p-2">

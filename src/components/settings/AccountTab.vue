@@ -5,7 +5,7 @@ import {useVuelidate} from "@vuelidate/core";
 import {maxLength, maxValue, minLength, minValue} from "@vuelidate/validators";
 import FormErrorsFeedback from "@/components/forms/FormErrorsFeedback.vue";
 import api from "@/services/api";
-import {ALLOWED_IMAGE_EXTENSIONS, MAX_USER_BODY_WEIGHT_KG, MIN_USER_BODY_WEIGHT_KG} from "@/constants";
+import {ALLOWED_USER_IMAGE_EXTENSIONS, MAX_USER_BODY_WEIGHT_KG, MIN_USER_BODY_WEIGHT_KG} from "@/constants";
 import BaseTab from "@/components/settings/BaseTab.vue";
 import {updateLocalUser} from "@/services/userUpdate";
 import {usernameValidators} from "@/validators/vuelidate";
@@ -148,7 +148,7 @@ async function updateUser() {
       <div class="input-group">
         <input
             id="image"
-            :accept="ALLOWED_IMAGE_EXTENSIONS.join(', ')"
+            :accept="ALLOWED_USER_IMAGE_EXTENSIONS.join(', ')"
             @change="handleImageFieldChange"
             class="form-control common-rounding shadow-none"
             type="file"

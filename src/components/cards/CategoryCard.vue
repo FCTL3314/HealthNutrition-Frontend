@@ -1,6 +1,6 @@
 <script setup>
 import CircleFillIcon from "@/components/icons/CircleFillIcon.vue";
-import {PRODUCT_NUTRITION_ROUNDING} from "@/constants";
+import {NUTRITION_FACTS_ROUNDING} from "@/constants";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
 import {computed} from "vue";
 
@@ -103,7 +103,7 @@ const productsRoute = {name: 'products', params: {categorySlug: props.category.s
         <circle-fill-icon/>
         &nbsp;
         <span class="fw-semibold">
-          {{ item.name }}: {{ item.value.toFixed(PRODUCT_NUTRITION_ROUNDING) }} {{ item.units }}
+          {{ item.name }}: {{ item.value.toFixed(NUTRITION_FACTS_ROUNDING) }} {{ item.units }}
         </span>
       </li>
     </ul>
