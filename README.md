@@ -131,6 +131,7 @@ Together, the backend and frontend collaborate to create a **comprehensive nutri
 <details><summary><h1>🏗️ Build deploy</h1></summary>
 
 1. #### Build the project: `npm run build`
-2. #### Publish built project to the gh-pages branch: `gh-pages -d dist`
+2. #### Duplicate index.html file of the dist directory and rename it to the 404.html
+3. #### Publish built project to the gh-pages branch: `gh-pages -d dist`
 
 </details>
