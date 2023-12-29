@@ -127,3 +127,10 @@ Together, the backend and frontend collaborate to create a **comprehensive nutri
 
 > #### Lint with ESLint: `npm run lint`
 </details>
+
+<details><summary><h1>🏗️ Build deploy</h1></summary>
+
+1. #### Build the project: `npm run build`
+2. #### Publish built project to the gh-pages branch: `gh-pages -d dist`
+
+</details>
