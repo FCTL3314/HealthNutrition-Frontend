@@ -1,13 +1,10 @@
-import api from "@/services/api";
 import {authStorage} from "@/services/auth";
 
 
 const auth = {
     namespaced: true,
     state: {
-        user: authStorage().getItem("accessToken")
-            ? (await api.users.me(authStorage().getItem("accessToken"))).data
-            : null,
+        user: null,
         accessToken: authStorage().getItem("accessToken") || "",
         refreshToken: authStorage().getItem("refreshToken") || "",
     },
@@ -30,10 +27,10 @@ const auth = {
             state.user = user;
         },
         updateUser(state, updatedUser) {
-            state.user = {...state.user, ...updatedUser}  ;
+            state.user = {...state.user, ...updatedUser};
         },
         updateProfile(state, updatedProfile) {
-            state.user.profile = {...state.user.profile, ...updatedProfile}  ;
+            state.user.profile = {...state.user.profile, ...updatedProfile};
         },
         setEmail(state, newEmail) {
             state.user.email = newEmail;

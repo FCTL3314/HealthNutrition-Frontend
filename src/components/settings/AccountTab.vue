@@ -7,7 +7,7 @@ import FormErrorsFeedback from "@/components/forms/FormErrorsFeedback.vue";
 import api from "@/services/api";
 import {ALLOWED_USER_IMAGE_EXTENSIONS, MAX_USER_BODY_WEIGHT_KG, MIN_USER_BODY_WEIGHT_KG} from "@/constants";
 import BaseTab from "@/components/settings/BaseTab.vue";
-import {updateLocalUser} from "@/services/userUpdate";
+import {updateLocalUser} from "@/services/user";
 import {usernameValidators} from "@/validators/vuelidate";
 import toaster from "@/plugins/toaster";
 import {getVuelidateFieldValidationClass} from "@/services/validation";

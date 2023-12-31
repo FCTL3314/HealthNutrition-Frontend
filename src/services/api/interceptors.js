@@ -1,8 +1,6 @@
 import {authStorage, logout} from "@/services/auth";
-import api from "@/services/api/index";
 import instance from "@/services/api/instance";
-import {isJWTTokenExpired} from "@/utils";
-import store from "@/store";
+import {updateAccessToken} from "@/services/user";
 
 
 const setup = () => {
@@ -27,20 +25,10 @@ const setup = () => {
             if (error.response.status === 401 && !originalConfig._retry) {
                 error.config._retry = true;
 
-                const refreshToken = authStorage().getItem("refreshToken");
+                const isAccessTokenUpdated = await updateAccessToken();
 
-                if (refreshToken && !isJWTTokenExpired(refreshToken)) {
-                    try {
-                        const _response = await api.users.refreshToken({refresh: refreshToken});
-                        const accessToken = _response.data.access;
-
-                        store.commit("auth/setAccessToken", accessToken);
-                        authStorage().setItem("accessToken", accessToken);
-
-                        return instance(originalConfig);
-                    } catch (_error) {
-                        return Promise.reject(_error);
-                    }
+                if (isAccessTokenUpdated) {
+                    return instance(originalConfig);
                 } else {
                     await logout();
                 }
