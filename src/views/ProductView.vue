@@ -27,7 +27,7 @@ const commentsCount = ref(0);
 
 async function loadProduct() {
   try {
-    return (await api.products.product(route.params.productSlug)).data;
+    return (await api.products.product(route.params.productSlug, user.value.profile.bodyWeight)).data;
   } catch (error) {
     if (error.response.status === 404) {
       isProductNotFound.value = true;

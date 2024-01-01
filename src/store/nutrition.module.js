@@ -1,5 +1,6 @@
 import {getLocalStorageBoolean} from "@/services/parsers";
 
+
 const nutrition = {
     namespaced: true,
     state: {

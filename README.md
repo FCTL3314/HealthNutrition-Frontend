@@ -122,16 +122,18 @@ Together, the backend and frontend collaborate to create a **comprehensive nutri
 <details><summary><h1>💽 Local installation</h1></summary>
 
 1. #### Clone or download the repository.
-2. #### Install dependencies: `npm install`
-3. #### Run the development server: `npm run dev`
+2. #### Create an **.env** file or rename **.env.dist** in **.env** and populate it with all variables from **.env.dist** file.
+3. #### Install dependencies: `npm install`
+4. #### Run the development server: `npm run dev`
 
-> #### Lint with ESLint: `npm run lint`
 </details>
 
 <details><summary><h1>🏗️ Build deploy</h1></summary>
 
-1. #### Build the project: `npm run build`
-2. #### Duplicate index.html file of the dist directory and rename it to the 404.html
-3. #### Publish built project to the gh-pages branch: `gh-pages -d dist`
+1. #### Complete the first 3 steps of the 💽 Local installation section
+2. #### Build the project: `npm run build`.
+3. #### Duplicate index.html file of the dist directory and rename it to the 404.html
+   > This trick is needed for vue-router to work.
+4. #### Publish built project to the gh-pages branch: `gh-pages -d dist`
 
 </details>
