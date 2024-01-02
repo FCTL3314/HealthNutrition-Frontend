@@ -64,8 +64,8 @@ It offers a *visually appealing* and *intuitive* UI to enhance the user experien
 
 Together, the backend and frontend collaborate to create a **comprehensive nutritional value comparison* solution, empowering users to **explore the nutritional content** of **various food products** and **make health-conscious dietary decisions**. This integrated system facilitates users in comparing nutritional values seamlessly, ensuring they can make **informed choices** for their **dietary needs** across a diverse range of food items.
 
-> #### The project was created for educational purposes, any matches with real brands are accidental.
-> #### Backend part: https://github.com/FCTL3314/StoreTracker-Backend
+> #### The project was created for educational purposes, any matches with real values are accidental.
+#### Backend part: https://github.com/FCTL3314/StoreTracker-Backend
 
 </details>
 
