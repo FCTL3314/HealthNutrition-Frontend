@@ -1,6 +1,6 @@
 <script setup>
 import {onMounted, ref} from "vue";
-import {ANIMATION_DELAY, PRODUCT_HEALTHFULNESS_REFERENCE, NUTRITION_FACTS_ROUNDING} from "@/constants";
+import {ANIMATION_DELAY, NUTRITION_FACTS_ROUNDING, PRODUCT_HEALTHFULNESS_REFERENCE} from "@/constants";
 import CircleFillIcon from "@/components/icons/CircleFillIcon.vue";
 import {useStore} from "vuex";
 import ComponentWrapper from "@/components/ComponentWrapper.vue";
@@ -10,6 +10,8 @@ import TheTag from "@/components/TheTag.vue";
 import api from "@/services/api";
 import CheckIcon from "@/components/icons/CheckIcon.vue";
 import LoadingSpinner from "@/components/loading/LoadingSpinner.vue";
+import router from "@/router";
+import toaster from "@/plugins/toaster";
 
 
 const props = defineProps({
@@ -47,12 +49,23 @@ const props = defineProps({
 
 const store = useStore();
 
+const user = store.getters["auth/user"];
+
 const emits = defineEmits(["saveButtonClick", "removeButtonClick"])
 
 const isComparedProductRemoving = ref(false);
 const isComparedProductRemoved = ref(false);
 
-const onSaveButtonClick = () => emits("saveButtonClick", props.product.id);
+const logInRoute = {name: "logIn"};
+
+async function onSaveButtonClick() {
+  if (!user) {
+    await router.push(logInRoute);
+    toaster.error("Please log in so you can save products.");
+    return;
+  }
+  emits("saveButtonClick", props.product.id);
+}
 
 const cardComponent = ref(null);
 
@@ -239,7 +252,7 @@ onMounted(() => {
             @click="onSaveButtonClick"
             class="btn btn-outline-primary centered-vertically justify-content-center common-rounding w-100 m-0"
             data-bs-toggle="modal"
-            data-bs-target="#saveProductModal"
+            :data-bs-target="user ? '#saveProductModal' : ''"
         >
           <plus-icon class="me-1" :width="24" :height="24"/>
           Save

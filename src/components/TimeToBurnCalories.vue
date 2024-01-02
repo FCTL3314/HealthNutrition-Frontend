@@ -58,7 +58,7 @@ const loginRoute = {name: "logIn"};
       </li>
       <li class="list-group-item font-small">
         <span v-if="user">
-          The values are calculated based on your weight ({{ user.profile.bodyWeight }} kg).
+          The values are calculated based on your weight (<b>{{ user.profile.bodyWeight }} kg</b>).
         </span>
         <template v-else>
           <span>Values estimated based on person weighing 70 kg.</span>

@@ -198,13 +198,11 @@ router.beforeEach((to, from, next) => {
         return;
     }
     if (isAuthenticatedOnlyRedirectRequired(to, user)) {
-        console.log("Redirecting to the log in page...");
         next({name: "logIn"});
         toaster.error("Please log in to access this page.");
         return;
     }
     if (isGuestsOnlyRedirectRequired(to, user)) {
-        console.log("Redirecting to the user's profile page...");
         next({name: "profile", params: {userSlug: user.slug}});
         return;
     }
