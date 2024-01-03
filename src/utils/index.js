@@ -1,4 +1,5 @@
 import {BASE_BACKEND_URL} from "@/constants";
+import DEFAULT_USER_IMAGE from "@/assets/images/default-user.png"
 
 
 export function scrollToTop(behavior = "smooth") {
@@ -42,7 +43,7 @@ export function getImageFullPath(url) {
 }
 
 export function getUserImage(user) {
-    return user?.profile?.image || "/src/assets/images/default-user.png";
+    return user?.profile?.image || DEFAULT_USER_IMAGE;
 }
 
 export async function replaceURLParams(router, route, params, savePosition = true) {
