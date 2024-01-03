@@ -25,11 +25,11 @@ const props = defineProps({
 const comparedProductsStatistic = [
   {
     name: "Compared products",
-    value: props.uniqueCategoriesCount,
+    value: props.comparedProductsCount,
   },
   {
     name: "Unique categories",
-    value: props.comparedProductsCount,
+    value: props.uniqueCategoriesCount,
   },
   {
     name: "Last product added",
